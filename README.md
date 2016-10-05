@@ -1,4 +1,4 @@
-# hotelinformationsystem
+# online-shop-system
 
 Bitte nur die Pakete model und viewClient committen!
 
