@@ -10,16 +10,16 @@ import model.visitor.*;
 public class Server extends PersistentObject implements PersistentServer{
     
     /** Throws persistence exception if the object with the given id does not exist. */
-    public static Server4Public getById(long objectId) throws PersistenceException{
+    public static PersistentServer getById(long objectId) throws PersistenceException{
         long classId = ConnectionHandler.getTheConnectionHandler().theServerFacade.getClass(objectId);
-        return (Server4Public)PersistentProxi.createProxi(objectId, classId);
+        return (PersistentServer)PersistentProxi.createProxi(objectId, classId);
     }
     
-    public static Server4Public createServer(String password,String user,long hackCount,java.sql.Timestamp hackDelay) throws PersistenceException{
+    public static PersistentServer createServer(String password,String user,long hackCount,java.sql.Timestamp hackDelay) throws PersistenceException{
         return createServer(password,user,hackCount,hackDelay,false);
     }
     
-    public static Server4Public createServer(String password,String user,long hackCount,java.sql.Timestamp hackDelay,boolean delayed$Persistence) throws PersistenceException {
+    public static PersistentServer createServer(String password,String user,long hackCount,java.sql.Timestamp hackDelay,boolean delayed$Persistence) throws PersistenceException {
         if (password == null) throw new PersistenceException("Null not allowed for persistent strings, since null = \"\" in Oracle!", 0);
         if (user == null) throw new PersistenceException("Null not allowed for persistent strings, since null = \"\" in Oracle!", 0);
         PersistentServer result = null;
@@ -41,7 +41,7 @@ public class Server extends PersistentObject implements PersistentServer{
         return result;
     }
     
-    public static Server4Public createServer(String password,String user,long hackCount,java.sql.Timestamp hackDelay,boolean delayed$Persistence,Server4Public This) throws PersistenceException {
+    public static PersistentServer createServer(String password,String user,long hackCount,java.sql.Timestamp hackDelay,boolean delayed$Persistence,PersistentServer This) throws PersistenceException {
         if (password == null) throw new PersistenceException("Null not allowed for persistent strings, since null = \"\" in Oracle!", 0);
         if (user == null) throw new PersistenceException("Null not allowed for persistent strings, since null = \"\" in Oracle!", 0);
         PersistentServer result = null;
@@ -67,6 +67,15 @@ public class Server extends PersistentObject implements PersistentServer{
     java.util.HashMap<String,Object> result = null;
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
+            AbstractPersistentRoot service = (AbstractPersistentRoot)this.getService();
+            if (service != null) {
+                result.put("service", service.createProxiInformation(false, essentialLevel <= 1));
+                if(depth > 1) {
+                    service.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && service.hasEssentialFields())service.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
             result.put("errors", this.getErrors().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, true));
             result.put("user", this.getUser());
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
@@ -82,7 +91,8 @@ public class Server extends PersistentObject implements PersistentServer{
     
     public Server provideCopy() throws PersistenceException{
         Server result = this;
-        result = new Server(this.This, 
+        result = new Server(this.service, 
+                            this.This, 
                             this.password, 
                             this.user, 
                             this.hackCount, 
@@ -101,6 +111,7 @@ public class Server extends PersistentObject implements PersistentServer{
     protected model.UserException userException = null;
     protected boolean changed = false;
     
+    protected PersistentService service;
     protected PersistentServer This;
     protected Server_ErrorsProxi errors;
     protected String password;
@@ -108,9 +119,10 @@ public class Server extends PersistentObject implements PersistentServer{
     protected long hackCount;
     protected java.sql.Timestamp hackDelay;
     
-    public Server(PersistentServer This,String password,String user,long hackCount,java.sql.Timestamp hackDelay,long id) throws PersistenceException {
+    public Server(PersistentService service,PersistentServer This,String password,String user,long hackCount,java.sql.Timestamp hackDelay,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
+        this.service = service;
         if (This != null && !(this.isTheSameAs(This))) this.This = This;
         this.errors = new Server_ErrorsProxi(this);
         this.password = password;
@@ -120,7 +132,7 @@ public class Server extends PersistentObject implements PersistentServer{
     }
     
     static public long getTypeId() {
-        return -102;
+        return -104;
     }
     
     public long getClassId() {
@@ -129,9 +141,13 @@ public class Server extends PersistentObject implements PersistentServer{
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == -102) ConnectionHandler.getTheConnectionHandler().theServerFacade
+        if (this.getClassId() == -104) ConnectionHandler.getTheConnectionHandler().theServerFacade
             .newServer(password,user,hackCount,hackDelay,this.getId());
         super.store();
+        if(this.getService() != null){
+            this.getService().store();
+            ConnectionHandler.getTheConnectionHandler().theServerFacade.serviceSet(this.getId(), getService());
+        }
         if(!this.isTheSameAs(this.getThis())){
             this.getThis().store();
             ConnectionHandler.getTheConnectionHandler().theServerFacade.ThisSet(this.getId(), getThis());
@@ -139,6 +155,20 @@ public class Server extends PersistentObject implements PersistentServer{
         
     }
     
+    public PersistentService getService() throws PersistenceException {
+        return this.service;
+    }
+    public void setService(PersistentService newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.isTheSameAs(this.service)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.service = (PersistentService)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theServerFacade.serviceSet(this.getId(), newValue);
+        }
+    }
     protected void setThis(PersistentServer newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
         if (newValue.isTheSameAs(this)){
@@ -232,6 +262,7 @@ public class Server extends PersistentObject implements PersistentServer{
          return visitor.handleServer(this);
     }
     public int getLeafInfo() throws PersistenceException{
+        if (this.getService() != null) return 1;
         return 0;
     }
     
@@ -311,8 +342,16 @@ public class Server extends PersistentObject implements PersistentServer{
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
-        
+    	if (getThis().getUser().equals(common.RPCConstantsAndServices.AdministratorName)){
+        	getThis().setService(ShopkeeperService.createShopkeeperService());
+        	return;
+        }
+        if (getThis().getUser().startsWith(common.RPCConstantsAndServices.Public) &&
+        		getThis().getPassword().equals("")){
+        	getThis().setService(RegisterService.createRegisterService());
+        	return;
+        }
+    	getThis().setService(CustomerService.createCustomerService());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{

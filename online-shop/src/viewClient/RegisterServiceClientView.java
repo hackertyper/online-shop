@@ -5,9 +5,7 @@ import view.objects.ViewRoot;
 import view.objects.ViewObjectInTree;
 
 import view.visitor.AnythingStandardVisitor;
-import view.visitor.ServiceVisitor;
 
-import java.awt.BorderLayout;
 import java.util.Optional;
 
 import javafx.application.Platform;
@@ -40,30 +38,30 @@ import com.sun.javafx.geom.Point2D;
 import javax.swing.tree.TreeModel;
 
 
-public class ServerClientView extends BorderPane implements ExceptionAndEventHandler{
+public class RegisterServiceClientView extends BorderPane implements ExceptionAndEventHandler{
 
 	private ConnectionMaster 		 connection;
 	private ExceptionAndEventHandler parent;	
-	private ServerView 		 		 service;
+	private RegisterServiceView 		 		 service;
 
 	/**
 	 * This is the default constructor
 	 */
-	public ServerClientView( ExceptionAndEventHandler parent, ServerView service) {
+	public RegisterServiceClientView( ExceptionAndEventHandler parent, RegisterServiceView service) {
 		super();
 		this.parent = parent;
 		this.service = service;
 		this.initialize();
 	}
 	@SuppressWarnings("unused")
-	private ServerView getService(){
+	private RegisterServiceView getService(){
 		return this.service;
 	}
 	private void initialize() {
-        //this.setCenter( this.getMainSplitPane());
-        //if( !WithStaticOperations && this.getMainToolBar().getItems().size() > 0){
-        //	this.setTop( this.getMainToolBar() );
-        //}
+        this.setCenter( this.getMainSplitPane());
+        if( !WithStaticOperations && this.getMainToolBar().getItems().size() > 0){
+        	this.setTop( this.getMainToolBar() );
+        }
 	}
 	private ToolBar mainToolBar = null;
 	private ToolBar getMainToolBar() {
@@ -202,7 +200,7 @@ public class ServerClientView extends BorderPane implements ExceptionAndEventHan
 	private DetailPanel currentDetails = null;
 	protected void setDetailsTable( Anything object) {
 		this.getTitledDetailsPane().setVisible( false );
-		if (object == null && this.getConnection() != null) object = this.getConnection().getServerView();
+		if (object == null && this.getConnection() != null) object = this.getConnection().getRegisterServiceView();
 		if (object == null){
 			this.currentDetails = getNoDetailsPanel();
 		}else{
@@ -265,8 +263,8 @@ public class ServerClientView extends BorderPane implements ExceptionAndEventHan
 	public void setConnection(ConnectionMaster connection){
 		this.connection = connection;
 	}
-	public ServerConnection getConnection(){
-        	return (ServerConnection)this.connection;
+	public RegisterServiceConnection getConnection(){
+        	return (RegisterServiceConnection)this.connection;
 	}
 	/** Is called by the refresher thread if the server object has changed
 	**/
@@ -275,7 +273,7 @@ public class ServerClientView extends BorderPane implements ExceptionAndEventHan
 			public void run(){
 				try {
 					getNavigationTree().refreshTree();
-					java.util.Vector<?> errors = getConnection().getServerView().getErrors();
+					java.util.Vector<?> errors = getConnection().getRegisterServiceView().getErrors();
 					if (errors.size() >0 )setErrors( new ListRoot(errors));
 					else setNoErrors();
 				} catch (ModelException e) {
@@ -288,33 +286,14 @@ public class ServerClientView extends BorderPane implements ExceptionAndEventHan
 	/** Is called only once after the connection has been established
 	**/
 	public void initializeConnection(){
-		try {
-			this.getService().getService().accept(new ServiceVisitor() {
-				@Override
-				public void handleShopkeeperService(ShopkeeperServiceView shopkeeperService) throws ModelException {
-					ShopkeeperServiceClientView view = new ShopkeeperServiceClientView(ServerClientView.this, shopkeeperService);
-					shopkeeperService.connectShopkeeperService(ServerClientView.this.getConnection(), view);
-					ServerClientView.this.setCenter(view);
-				}
-				
-				@Override
-				public void handleRegisterService(RegisterServiceView registerService) throws ModelException {
-					RegisterServiceClientView view = new RegisterServiceClientView(ServerClientView.this, registerService);
-					registerService.connectRegisterService(ServerClientView.this.getConnection(), view);					
-					ServerClientView.this.setCenter(view);
-				}
-				
-				@Override
-				public void handleCustomerService(CustomerServiceView customerService) throws ModelException {
-					CustomerServiceClientView view = new CustomerServiceClientView(ServerClientView.this, customerService);
-					customerService.connectCustomerService(ServerClientView.this.getConnection(), view);
-					ServerClientView.this.setCenter(view);
-				}
-			});
-			getConnection().refresherStop();
-		} catch (ModelException e) {
-			this.handleException(e);
-		}
+		Platform.runLater( new  Runnable() {
+			public void run() {
+				getNavigationTree().setModel((TreeModel) getConnection().getRegisterServiceView());	
+				getNavigationTree().getRoot().setExpanded(true);
+				getNavigationTree().getSelectionModel().select( getNavigationTree().getRoot());
+			}
+		});
+		//TODO adjust implementation: initializeConnection
 	}
 	public void handleException(ModelException exception) {
 		this.parent.handleException(exception);
@@ -332,24 +311,50 @@ public class ServerClientView extends BorderPane implements ExceptionAndEventHan
 
 
     interface MenuItemVisitor{
-        
+        ImageView handle(RegisterPRMTRStringPRMTRStringPRMTRMenuItem menuItem);
     }
-    private abstract class ServerMenuItem extends MenuItem{
-        private ServerMenuItem(){
+    private abstract class RegisterServiceMenuItem extends MenuItem{
+        private RegisterServiceMenuItem(){
             this.setGraphic(getIconForMenuItem(this));
         }
         abstract protected ImageView accept(MenuItemVisitor visitor);
     }
+    private class RegisterPRMTRStringPRMTRStringPRMTRMenuItem extends RegisterServiceMenuItem{
+        protected ImageView accept(MenuItemVisitor visitor){
+            return visitor.handle(this);
+        }
+    }
     private java.util.Vector<javafx.scene.control.Button> getToolButtonsForStaticOperations() {
         java.util.Vector<javafx.scene.control.Button> result = new java.util.Vector<javafx.scene.control.Button>();
+        javafx.scene.control.Button currentButton = null;
+        currentButton = new javafx.scene.control.Button("register ... ");
+        currentButton.setGraphic(new RegisterPRMTRStringPRMTRStringPRMTRMenuItem().getGraphic());
+        currentButton.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle(javafx.event.ActionEvent e) {
+                final RegisterServiceRegisterStringStringMssgWizard wizard = new RegisterServiceRegisterStringStringMssgWizard("register");
+                wizard.setWidth(getNavigationPanel().getWidth());
+                wizard.showAndWait();
+            }
+        });
+        result.add(currentButton);
         return result;
     }
     private ContextMenu getContextMenu(final ViewRoot selected, final boolean withStaticOperations, final Point2D menuPos) {
         final ContextMenu result = new ContextMenu();
         MenuItem item = null;
+        item = new RegisterPRMTRStringPRMTRStringPRMTRMenuItem();
+        item.setText("(S) register ... ");
+        item.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle(javafx.event.ActionEvent e) {
+                final RegisterServiceRegisterStringStringMssgWizard wizard = new RegisterServiceRegisterStringStringMssgWizard("register");
+                wizard.setWidth(getNavigationPanel().getWidth());
+                wizard.showAndWait();
+            }
+        });
+        if (withStaticOperations) result.getItems().add(item);
         if (selected != null){
             try {
-                this.setPreCalculatedFilters(this.getConnection().server_Menu_Filter((Anything)selected));
+                this.setPreCalculatedFilters(this.getConnection().registerService_Menu_Filter((Anything)selected));
             } catch (ModelException me){
                 this.handleException(me);
                 return result;
@@ -367,9 +372,49 @@ public class ServerClientView extends BorderPane implements ExceptionAndEventHan
         this.preCalculatedFilters = switchOff;
     }
     
+	class RegisterServiceRegisterStringStringMssgWizard extends Wizard {
+
+		protected RegisterServiceRegisterStringStringMssgWizard(String operationName){
+			super(RegisterServiceClientView.this);
+			getOkButton().setText(operationName);
+			getOkButton().setGraphic(new RegisterPRMTRStringPRMTRStringPRMTRMenuItem ().getGraphic());
+		}
+		protected void initialize(){
+			this.helpFileName = "RegisterServiceRegisterStringStringMssgWizard.help";
+			super.initialize();		
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().register(((StringSelectionPanel)getParametersPanel().getChildren().get(0)).getResult(),
+									((PasswordSelectionPanel)getParametersPanel().getChildren().get(1)).getResult());
+				getConnection().setEagerRefresh();
+				this.close();	
+			} catch(ModelException me){
+				handleException(me);
+				this.close();
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		protected boolean isModifying () {
+			return false;
+		}
+		protected void addParameters(){
+			getParametersPanel().getChildren().add(new StringSelectionPanel("accountName", this));
+			getParametersPanel().getChildren().add(new PasswordSelectionPanel("password", this));		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+	}
+
 	/* Menu and wizard section end */
 	
-	private ImageView getIconForMenuItem(ServerMenuItem menuItem){
+	private ImageView getIconForMenuItem(RegisterServiceMenuItem menuItem){
 		return new ImageView(new javafx.scene.image.Image("/viewResources/default.gif")); //TODO Pimp-up your menu items!
 	}
 	

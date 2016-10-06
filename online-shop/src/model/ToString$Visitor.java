@@ -29,7 +29,22 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 		result = anything.getClassId() + ";" + anything.getId();
 	}
 	@Override
-	public void handleServer(Server4Public server) throws PersistenceException {
+	public void handleRegisterService(PersistentRegisterService registerService) throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleCustomerService(PersistentCustomerService customerService) throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleServer(PersistentServer server) throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleShopkeeperService(PersistentShopkeeperService shopkeeperService) throws PersistenceException {
 		// TODO Auto-generated method stub
 		
 	}
