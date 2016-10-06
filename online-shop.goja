@@ -1,7 +1,15 @@
 model online-shop {
-
+//Services
 server Server {
+	Service service;
 }
-
+abstract server Service {}
+server ShopkeeperService extends Service {
+}
+server CustomerService extends Service {
+}
+server RegisterService extends Service {
+	void register(String accountName, String password PASSWORD);
+}
 }
 
