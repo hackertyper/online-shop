@@ -9,7 +9,8 @@ server ShopkeeperService extends Service {
 server CustomerService extends Service {
 }
 server RegisterService extends Service {
-	void register(String accountName, String password PASSWORD);
+	void register(String accountName, String password PASSWORD) throws DoubleUsername;
 }
+exception DoubleUsername{}
 }
 

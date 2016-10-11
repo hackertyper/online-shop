@@ -2,6 +2,11 @@
 package model;
 
 import persistence.*;
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Iterator;
+
 import model.visitor.*;
 
 
@@ -194,8 +199,12 @@ public class RegisterService extends model.Service implements PersistentRegister
     }
     public void register(final String accountName, final String password) 
 				throws PersistenceException{
-        //TODO: implement method: register
-        
+    	Iterator<PersistentServer> servers = Server.getServerByUser(accountName).iterator();
+    	if(servers.hasNext()) {
+    		throw new DoubleUsername("AccountName " + accountName + " is already in use!"); 
+    	} else {
+    		Server.createServer(password, accountName, 0, Timestamp.valueOf(LocalDateTime.now()));
+    	}
     }
     
     
