@@ -3,14 +3,147 @@ model online-shop {
 server Server {
 	Service service;
 }
-abstract server Service {}
+//Services
+abstract server Service {
+	server-only Integer lowerLimitPreset;
+	server-only Integer balancePreset;
+}
 server ShopkeeperService extends Service {
+	skip-view one-to-one (server-only myServer) Shopkeeper manager;
+	//Preset account settings
+	void presetLowerLimit@@Kundenkonto:Unteres_Limit_setzen(Integer amount);
+	void presetBalance@@Kundenkonto:Startkapital_setzen(Integer amount);
+	//data manipulating methods
+	void changePrice@@Artikelpreis_ändern(Article article, Integer newPrice);
+	void changeProductGroup@@Produktgruppe_wechseln(Article article, ProductGroup newPG);
+	void changeDescription@@Beschreibung_ändern(Item item, String newDescription);
+	void changeManufacturerDelivery@@Herstellerlieferzeit_ändern(Integer newManuDelivery);
+	void startSelling@@Verkauf_starten(NewlyAdded article);
 }
 server CustomerService extends Service {
+	skip-view one-to-one (server-only myServer) Customer manager;
+	//Kontoview
+	void deposit@@Geld_einzahlen(Integer amount);
+	void withdraw@@Geld_abheben(Integer amount) throws InsufficientFunds;
+	//Shopview
+	void findArticle@@Artikel_suchen(String description);
+	void addToCart@@Zum_Einkaufswagen_hinzufügen(Article article, Integer amount);
+	void removeFCart@@Löschen(QuantifiedArticles article, Cart cart);
+	//Einkaufswagenview
+	void checkOut@@Zur_Kasse_gehen();
+	void order@@Bestellen();
+	//Lieferungenview
+	void acceptDelivery(CustomerOrder customerOrder);
 }
 server RegisterService extends Service {
-	void register(String accountName, String password PASSWORD) throws DoubleUsername;
+	void register@@Registrieren(String accountName, String password PASSWORD) throws DoubleUsername;
+}
+//Customer classes
+class Customer {
+	one-to-one (no-view manager) Account myAccount;
+	one-to-one (no-view manager) Cart myCart;
+	Item ** itemRange;
+	active void deposit(Integer amount);
+	active void withdraw(Integer amount) throws InsufficientFunds;
+	active void findArticle(String description);
+	active void addToCart(Article article, Integer amount);
+	active void checkOut() throws InsufficientStock;
+	active void order();
+	active void pay(Integer sum);
+}
+class Account {
+	prior Integer lowerLimit;
+	prior Integer balance;
+	void deposit(Integer amount);
+	void withdraw(Integer amount)throws InsufficientFunds;
+	void pay(Integer sum);
+}
+class Cart {
+	Integer currentSum;
+	QuantifiedArticles ** articleList;
+	void addArticle(QuantifiedArticles article);
+	void removeArticle(QuantifiedArticles article);
+	void checkOut() throws InsufficientStock;
+	void order();
+}
+//Shopkeeper classes
+class Shopkeeper {
+	Item ** itemRange;
+}
+//Article classes
+abstract class Item {
+	indexed String description;
+	active void changeDescription(String newDescription);
+}
+class ProductGroup extends Item {
+	Item ** itemList;
+	void addItem(Item item);
+}
+class Article extends Item{
+	//Attributes
+	prior Manufacturer manufacturer;
+	skip-view one-to-one (server-only myArticle) ArticleState state;
+	prior Integer price;
+	prior Integer minStock;
+	prior Integer maxStock;
+	prior Integer manuDelivery;
+	Integer stock;
+	// Methods
+	active void changePrice(Integer newPrice);
+	active void changeManuDelivery(Integer newManuDelivery);
+	active void changeProductGroup##chngePG(ProductGroup newPG);
+	void reserve(Integer amount) throws InsufficientStock;
+	void pack(Integer amount);
+	void addToCart(Integer amount, Cart cart);
+}
+class Manufacturer {
+	String name;
+}
+interface ArticleState {}
+class NewlyAdded implements ArticleState{
+	active void startSelling();
+}
+class OfferedFSale implements ArticleState {
+	void addToCart(Integer amount, Cart cart);
+	void reorder(Integer amount, Integer manuDelivery);
+}
+class RemovedFSale implements ArticleState {
+	void addToCart(Integer amount, Cart cart);
+}
+class QuantifiedArticles {
+	prior Article article;
+	prior Integer amount;
+	void reserve() throws InsufficientStock;
+	void pack();
+	void removeFCart(Cart cart);
+}
+//Order classes
+abstract class Delivery{
+	prior Integer remainingTimeToDelivery##rmngTmDlvr;
+	abstract void send();
+	abstract void deliver();
+}
+class ShopKeeperOrder extends Delivery {
+	prior Article article;
+	prior Integer amount;	
+}
+class CustomerOrder extends Delivery {
+	QuantifiedArticles ** articleList;
+	skip-view one-to-one (server-only customerOrder) CustomerOrderState myState;
+	void retoure();
+	void acceptDelivery();
+}
+class Retoure extends Delivery {
+	QuantifiedArticles ** articleList;
+}
+interface CustomerOrderState##csOrdStt {}
+class SendOrder implements CustomerOrderState{}
+class ArrivedOrder implements CustomerOrderState {
+	Integer timtToAccept;
+	void acceptDelivery();
+	void retoure(QuantifiedArticles ** list);
 }
 exception DoubleUsername{}
+exception InsufficientFunds{}
+exception InsufficientStock{}
 }
-
