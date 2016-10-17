@@ -202,58 +202,47 @@ public class CustomerService extends model.Service implements PersistentCustomer
     
     public void acceptDelivery(final PersistentCustomerOrder customerOrder) 
 				throws PersistenceException{
-        //TODO: implement method: acceptDelivery
-        
+    	customerOrder.acceptDelivery();
     }
     public void addToCart(final PersistentArticle article, final long amount) 
 				throws PersistenceException{
-        //TODO: implement method: addToCart
-        
+    	getThis().getManager().addToCart(article, amount, getThis());
     }
     public void checkOut() 
 				throws PersistenceException{
-        //TODO: implement method: checkOut
-        
+    	getThis().getManager().checkOut(getThis());
     }
     public void connected(final String user) 
 				throws PersistenceException{
-        //TODO: implement method: connected
-        
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void deposit(final long amount) 
 				throws PersistenceException{
-        //TODO: implement method: deposit
-        
+    	getThis().getManager().deposit(amount, getThis());
     }
     public void disconnected() 
 				throws PersistenceException{
-        //TODO: implement method: disconnected
-        
     }
     public void findArticle(final String description) 
 				throws PersistenceException{
-        //TODO: implement method: findArticle
-        
+    	getThis().getManager().findArticle(description, getThis());
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
         super.initializeOnCreation();
-		//TODO: implement method: initializeOnCreation
+        PersistentCustomer customer = Customer.createCustomer();
+        customer.setMyAccount(Account.createAccount(super.getLowerLimitPreset(), super.getBalancePreset()));
+		getThis().setManager(customer);
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         super.initializeOnInstantiation();
-		//TODO: implement method: initializeOnInstantiation
     }
     public void order() 
 				throws PersistenceException{
-        //TODO: implement method: order
-        
+    	getThis().getManager().order(getThis());
     }
     public void removeFCart(final PersistentQuantifiedArticles article, final PersistentCart cart) 
 				throws PersistenceException{
@@ -262,8 +251,7 @@ public class CustomerService extends model.Service implements PersistentCustomer
     }
     public void withdraw(final long amount) 
 				throws model.InsufficientFunds, PersistenceException{
-        //TODO: implement method: withdraw
-        
+    	getThis().getManager().withdraw(amount, getThis());
     }
     
     

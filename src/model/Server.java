@@ -342,8 +342,16 @@ public class Server extends PersistentObject implements PersistentServer{
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
-        
+    	if (getThis().getUser().equals(common.RPCConstantsAndServices.AdministratorName)){
+        	getThis().setService(ShopkeeperService.createShopkeeperService());
+        	return;
+        }
+        if (getThis().getUser().startsWith(common.RPCConstantsAndServices.Public) &&
+        		getThis().getPassword().equals("")){
+        	getThis().setService(RegisterService.createRegisterService());
+        	return;
+        }
+    	getThis().setService(CustomerService.createCustomerService());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{

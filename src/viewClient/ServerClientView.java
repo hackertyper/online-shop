@@ -5,6 +5,7 @@ import view.objects.ViewRoot;
 import view.objects.ViewObjectInTree;
 
 import view.visitor.AnythingStandardVisitor;
+import view.visitor.ServiceVisitor;
 
 import java.util.Optional;
 
@@ -58,10 +59,10 @@ public class ServerClientView extends BorderPane implements ExceptionAndEventHan
 		return this.service;
 	}
 	private void initialize() {
-        this.setCenter( this.getMainSplitPane());
-        if( !WithStaticOperations && this.getMainToolBar().getItems().size() > 0){
-        	this.setTop( this.getMainToolBar() );
-        }
+        //this.setCenter( this.getMainSplitPane());
+        //if( !WithStaticOperations && this.getMainToolBar().getItems().size() > 0){
+        //	this.setTop( this.getMainToolBar() );
+        //}
 	}
 	private ToolBar mainToolBar = null;
 	private ToolBar getMainToolBar() {
@@ -286,14 +287,33 @@ public class ServerClientView extends BorderPane implements ExceptionAndEventHan
 	/** Is called only once after the connection has been established
 	**/
 	public void initializeConnection(){
-		Platform.runLater( new  Runnable() {
-			public void run() {
-				getNavigationTree().setModel((TreeModel) getConnection().getServerView());	
-				getNavigationTree().getRoot().setExpanded(true);
-				getNavigationTree().getSelectionModel().select( getNavigationTree().getRoot());
-			}
-		});
-		//TODO adjust implementation: initializeConnection
+		try {
+			this.getService().getService().accept(new ServiceVisitor() {
+				@Override
+				public void handleShopkeeperService(ShopkeeperServiceView shopkeeperService) throws ModelException {
+					ShopkeeperServiceClientView view = new ShopkeeperServiceClientView(ServerClientView.this, shopkeeperService);
+					shopkeeperService.connectShopkeeperService(ServerClientView.this.getConnection(), view);
+					ServerClientView.this.setCenter(view);
+				}
+				
+				@Override
+				public void handleRegisterService(RegisterServiceView registerService) throws ModelException {
+					RegisterServiceClientView view = new RegisterServiceClientView(ServerClientView.this, registerService);
+					registerService.connectRegisterService(ServerClientView.this.getConnection(), view);					
+					ServerClientView.this.setCenter(view);
+				}
+				
+				@Override
+				public void handleCustomerService(CustomerServiceView customerService) throws ModelException {
+					CustomerServiceClientView view = new CustomerServiceClientView(ServerClientView.this, customerService);
+					customerService.connectCustomerService(ServerClientView.this.getConnection(), view);
+					ServerClientView.this.setCenter(view);
+				}
+			});
+			getConnection().refresherStop();
+		} catch (ModelException e) {
+			this.handleException(e);
+		}
 	}
 	public void handleException(ModelException exception) {
 		this.parent.handleException(exception);

@@ -2,6 +2,11 @@
 package model;
 
 import persistence.*;
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Iterator;
+
 import model.visitor.*;
 
 
@@ -171,33 +176,29 @@ public class RegisterService extends model.Service implements PersistentRegister
     
     public void connected(final String user) 
 				throws PersistenceException{
-        //TODO: implement method: connected
-        
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void disconnected() 
 				throws PersistenceException{
-        //TODO: implement method: disconnected
-        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
         super.initializeOnCreation();
-		//TODO: implement method: initializeOnCreation
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         super.initializeOnInstantiation();
-		//TODO: implement method: initializeOnInstantiation
     }
     public void register(final String accountName, final String password) 
 				throws model.DoubleUsername, PersistenceException{
-        //TODO: implement method: register
-        
+    	Iterator<PersistentServer> servers = Server.getServerByUser(accountName).iterator();
+    	if(servers.hasNext()) {
+    		throw new DoubleUsername("AccountName " + accountName + " is already in use!"); 
+    	} else {
+    		Server.createServer(password, accountName, 0, Timestamp.valueOf(LocalDateTime.now()));
+    	}
     }
     
     

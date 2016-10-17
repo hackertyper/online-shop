@@ -222,18 +222,12 @@ public class ShopkeeperService extends model.Service implements PersistentShopke
     }
     public void connected(final String user) 
 				throws PersistenceException{
-        //TODO: implement method: connected
-        
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void disconnected() 
 				throws PersistenceException{
-        //TODO: implement method: disconnected
-        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
@@ -248,12 +242,12 @@ public class ShopkeeperService extends model.Service implements PersistentShopke
     public void presetBalance(final long amount) 
 				throws PersistenceException{
         //TODO: implement method: presetBalance
-        
+    	super.setBalancePreset(1000);
     }
     public void presetLowerLimit(final long amount) 
 				throws PersistenceException{
         //TODO: implement method: presetLowerLimit
-        
+    	super.setLowerLimitPreset(100);
     }
     public void startSelling(final PersistentNewlyAdded article) 
 				throws PersistenceException{

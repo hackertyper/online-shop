@@ -291,23 +291,18 @@ public class Customer extends PersistentObject implements PersistentCustomer{
     
     public void addToCart(final PersistentArticle article, final long amount) 
 				throws PersistenceException{
-        //TODO: implement method: addToCart
-        
+    	article.addToCart(amount, getMyCart());
     }
     public void checkOut() 
 				throws model.InsufficientStock, PersistenceException{
-        //TODO: implement method: checkOut
-        
+    	getThis().getMyCart().checkOut();
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void deposit(final long amount) 
 				throws PersistenceException{
-        //TODO: implement method: deposit
-        
+    	getThis().getMyAccount().deposit(amount);
     }
     public void findArticle(final String description) 
 				throws PersistenceException{
@@ -316,28 +311,22 @@ public class Customer extends PersistentObject implements PersistentCustomer{
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
-        
+    	getThis().setMyCart(Cart.createCart());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnInstantiation
-        
     }
     public void order() 
 				throws PersistenceException{
-        //TODO: implement method: order
-        
+    	getThis().getMyCart().order();
     }
     public void pay(final long sum) 
 				throws PersistenceException{
-        //TODO: implement method: pay
-        
+    	getThis().getMyAccount().pay(sum);
     }
     public void withdraw(final long amount) 
 				throws model.InsufficientFunds, PersistenceException{
-        //TODO: implement method: withdraw
-        
+    	getThis().getMyAccount().withdraw(amount);
     }
     
     
