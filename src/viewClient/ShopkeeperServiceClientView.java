@@ -311,7 +311,13 @@ public class ShopkeeperServiceClientView extends BorderPane implements Exception
 
 
     interface MenuItemVisitor{
-        
+        ImageView handle(ChangePricePRMTRArticlePRMTRIntegerPRMTRMenuItem menuItem);
+        ImageView handle(ChangeDescriptionPRMTRItemPRMTRStringPRMTRMenuItem menuItem);
+        ImageView handle(ChangeManufacturerDeliveryPRMTRIntegerPRMTRMenuItem menuItem);
+        ImageView handle(PresetBalancePRMTRIntegerPRMTRMenuItem menuItem);
+        ImageView handle(PresetLowerLimitPRMTRIntegerPRMTRMenuItem menuItem);
+        ImageView handle(ChangeProductGroupPRMTRArticlePRMTRProductGroupPRMTRMenuItem menuItem);
+        ImageView handle(StartSellingPRMTRNewlyAddedPRMTRMenuItem menuItem);
     }
     private abstract class ShopkeeperServiceMenuItem extends MenuItem{
         private ShopkeeperServiceMenuItem(){
@@ -319,19 +325,175 @@ public class ShopkeeperServiceClientView extends BorderPane implements Exception
         }
         abstract protected ImageView accept(MenuItemVisitor visitor);
     }
+    private class ChangePricePRMTRArticlePRMTRIntegerPRMTRMenuItem extends ShopkeeperServiceMenuItem{
+        protected ImageView accept(MenuItemVisitor visitor){
+            return visitor.handle(this);
+        }
+    }
+    private class ChangeDescriptionPRMTRItemPRMTRStringPRMTRMenuItem extends ShopkeeperServiceMenuItem{
+        protected ImageView accept(MenuItemVisitor visitor){
+            return visitor.handle(this);
+        }
+    }
+    private class ChangeManufacturerDeliveryPRMTRIntegerPRMTRMenuItem extends ShopkeeperServiceMenuItem{
+        protected ImageView accept(MenuItemVisitor visitor){
+            return visitor.handle(this);
+        }
+    }
+    private class PresetBalancePRMTRIntegerPRMTRMenuItem extends ShopkeeperServiceMenuItem{
+        protected ImageView accept(MenuItemVisitor visitor){
+            return visitor.handle(this);
+        }
+    }
+    private class PresetLowerLimitPRMTRIntegerPRMTRMenuItem extends ShopkeeperServiceMenuItem{
+        protected ImageView accept(MenuItemVisitor visitor){
+            return visitor.handle(this);
+        }
+    }
+    private class ChangeProductGroupPRMTRArticlePRMTRProductGroupPRMTRMenuItem extends ShopkeeperServiceMenuItem{
+        protected ImageView accept(MenuItemVisitor visitor){
+            return visitor.handle(this);
+        }
+    }
+    private class StartSellingPRMTRNewlyAddedPRMTRMenuItem extends ShopkeeperServiceMenuItem{
+        protected ImageView accept(MenuItemVisitor visitor){
+            return visitor.handle(this);
+        }
+    }
     private java.util.Vector<javafx.scene.control.Button> getToolButtonsForStaticOperations() {
         java.util.Vector<javafx.scene.control.Button> result = new java.util.Vector<javafx.scene.control.Button>();
+        javafx.scene.control.Button currentButton = null;
+        currentButton = new javafx.scene.control.Button("Herstellerlieferzeit ändern ... ");
+        currentButton.setGraphic(new ChangeManufacturerDeliveryPRMTRIntegerPRMTRMenuItem().getGraphic());
+        currentButton.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle(javafx.event.ActionEvent e) {
+                final ShopkeeperServiceChangeManufacturerDeliveryIntegerMssgWizard wizard = new ShopkeeperServiceChangeManufacturerDeliveryIntegerMssgWizard("Herstellerlieferzeit ändern");
+                wizard.setWidth(getNavigationPanel().getWidth());
+                wizard.showAndWait();
+            }
+        });
+        result.add(currentButton);
+        currentButton = new javafx.scene.control.Button("Kundenkonto:Startkapital setzen ... ");
+        currentButton.setGraphic(new PresetBalancePRMTRIntegerPRMTRMenuItem().getGraphic());
+        currentButton.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle(javafx.event.ActionEvent e) {
+                final ShopkeeperServicePresetBalanceIntegerMssgWizard wizard = new ShopkeeperServicePresetBalanceIntegerMssgWizard("Kundenkonto:Startkapital setzen");
+                wizard.setWidth(getNavigationPanel().getWidth());
+                wizard.showAndWait();
+            }
+        });
+        result.add(currentButton);
+        currentButton = new javafx.scene.control.Button("Kundenkonto:Unteres Limit setzen ... ");
+        currentButton.setGraphic(new PresetLowerLimitPRMTRIntegerPRMTRMenuItem().getGraphic());
+        currentButton.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle(javafx.event.ActionEvent e) {
+                final ShopkeeperServicePresetLowerLimitIntegerMssgWizard wizard = new ShopkeeperServicePresetLowerLimitIntegerMssgWizard("Kundenkonto:Unteres Limit setzen");
+                wizard.setWidth(getNavigationPanel().getWidth());
+                wizard.showAndWait();
+            }
+        });
+        result.add(currentButton);
         return result;
     }
     private ContextMenu getContextMenu(final ViewRoot selected, final boolean withStaticOperations, final Point2D menuPos) {
         final ContextMenu result = new ContextMenu();
         MenuItem item = null;
+        item = new ChangeManufacturerDeliveryPRMTRIntegerPRMTRMenuItem();
+        item.setText("(S) Herstellerlieferzeit ändern ... ");
+        item.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle(javafx.event.ActionEvent e) {
+                final ShopkeeperServiceChangeManufacturerDeliveryIntegerMssgWizard wizard = new ShopkeeperServiceChangeManufacturerDeliveryIntegerMssgWizard("Herstellerlieferzeit ändern");
+                wizard.setWidth(getNavigationPanel().getWidth());
+                wizard.showAndWait();
+            }
+        });
+        if (withStaticOperations) result.getItems().add(item);
+        item = new PresetBalancePRMTRIntegerPRMTRMenuItem();
+        item.setText("(S) Kundenkonto:Startkapital setzen ... ");
+        item.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle(javafx.event.ActionEvent e) {
+                final ShopkeeperServicePresetBalanceIntegerMssgWizard wizard = new ShopkeeperServicePresetBalanceIntegerMssgWizard("Kundenkonto:Startkapital setzen");
+                wizard.setWidth(getNavigationPanel().getWidth());
+                wizard.showAndWait();
+            }
+        });
+        if (withStaticOperations) result.getItems().add(item);
+        item = new PresetLowerLimitPRMTRIntegerPRMTRMenuItem();
+        item.setText("(S) Kundenkonto:Unteres Limit setzen ... ");
+        item.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle(javafx.event.ActionEvent e) {
+                final ShopkeeperServicePresetLowerLimitIntegerMssgWizard wizard = new ShopkeeperServicePresetLowerLimitIntegerMssgWizard("Kundenkonto:Unteres Limit setzen");
+                wizard.setWidth(getNavigationPanel().getWidth());
+                wizard.showAndWait();
+            }
+        });
+        if (withStaticOperations) result.getItems().add(item);
         if (selected != null){
             try {
                 this.setPreCalculatedFilters(this.getConnection().shopkeeperService_Menu_Filter((Anything)selected));
             } catch (ModelException me){
                 this.handleException(me);
                 return result;
+            }
+            if (selected instanceof ItemView){
+                item = new ChangeDescriptionPRMTRItemPRMTRStringPRMTRMenuItem();
+                item.setText("Beschreibung ändern ... ");
+                item.setOnAction(new EventHandler<ActionEvent>(){
+                    public void handle(javafx.event.ActionEvent e) {
+                        final ShopkeeperServiceChangeDescriptionItemStringMssgWizard wizard = new ShopkeeperServiceChangeDescriptionItemStringMssgWizard("Beschreibung ändern");
+                        wizard.setFirstArgument((ItemView)selected);
+                        wizard.setWidth(getNavigationPanel().getWidth());
+                        wizard.showAndWait();
+                    }
+                });
+                result.getItems().add(item);
+            }
+            if (selected instanceof ArticleView){
+                item = new ChangePricePRMTRArticlePRMTRIntegerPRMTRMenuItem();
+                item.setText("Artikelpreis ändern ... ");
+                item.setOnAction(new EventHandler<ActionEvent>(){
+                    public void handle(javafx.event.ActionEvent e) {
+                        final ShopkeeperServiceChangePriceArticleIntegerMssgWizard wizard = new ShopkeeperServiceChangePriceArticleIntegerMssgWizard("Artikelpreis ändern");
+                        wizard.setFirstArgument((ArticleView)selected);
+                        wizard.setWidth(getNavigationPanel().getWidth());
+                        wizard.showAndWait();
+                    }
+                });
+                result.getItems().add(item);
+                item = new ChangeProductGroupPRMTRArticlePRMTRProductGroupPRMTRMenuItem();
+                item.setText("Produktgruppe wechseln ... ");
+                item.setOnAction(new EventHandler<ActionEvent>(){
+                    public void handle(javafx.event.ActionEvent e) {
+                        final ShopkeeperServiceChangeProductGroupArticleProductGroupMssgWizard wizard = new ShopkeeperServiceChangeProductGroupArticleProductGroupMssgWizard("Produktgruppe wechseln");
+                        wizard.setFirstArgument((ArticleView)selected);
+                        wizard.setWidth(getNavigationPanel().getWidth());
+                        wizard.showAndWait();
+                    }
+                });
+                result.getItems().add(item);
+            }
+            if (selected instanceof NewlyAddedView){
+                item = new StartSellingPRMTRNewlyAddedPRMTRMenuItem();
+                item.setText("Verkauf starten");
+                item.setOnAction(new EventHandler<ActionEvent>(){
+                    public void handle(javafx.event.ActionEvent e) {
+                        Alert confirm = new Alert(AlertType.CONFIRMATION);
+                        confirm.setTitle(GUIConstants.ConfirmButtonText);
+                        confirm.setHeaderText(null);
+                        confirm.setContentText("Verkauf starten" + GUIConstants.ConfirmQuestionMark);
+                        Optional<ButtonType> buttonResult = confirm.showAndWait();
+                        if (buttonResult.get() == ButtonType.OK) {
+                            try {
+                                getConnection().startSelling((NewlyAddedView)selected);
+                                getConnection().setEagerRefresh();
+                                
+                            }catch(ModelException me){
+                                handleException(me);
+                            }
+                        }
+                    }
+                });
+                result.getItems().add(item);
             }
             
         }
@@ -346,6 +508,263 @@ public class ShopkeeperServiceClientView extends BorderPane implements Exception
         this.preCalculatedFilters = switchOff;
     }
     
+	class ShopkeeperServiceChangeDescriptionItemStringMssgWizard extends Wizard {
+
+		protected ShopkeeperServiceChangeDescriptionItemStringMssgWizard(String operationName){
+			super(ShopkeeperServiceClientView.this);
+			getOkButton().setText(operationName);
+			getOkButton().setGraphic(new ChangeDescriptionPRMTRItemPRMTRStringPRMTRMenuItem ().getGraphic());
+		}
+		protected void initialize(){
+			this.helpFileName = "ShopkeeperServiceChangeDescriptionItemStringMssgWizard.help";
+			super.initialize();		
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().changeDescription(firstArgument, ((StringSelectionPanel)getParametersPanel().getChildren().get(0)).getResult());
+				getConnection().setEagerRefresh();
+				this.close();	
+			} catch(ModelException me){
+				handleException(me);
+				this.close();
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		protected boolean isModifying () {
+			return false;
+		}
+		protected void addParameters(){
+			getParametersPanel().getChildren().add(new StringSelectionPanel("newDescription", this));		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+		private ItemView firstArgument; 
+	
+		public void setFirstArgument(ItemView firstArgument){
+			this.firstArgument = firstArgument;
+			this.setTitle(this.firstArgument.toString());
+			this.check();
+		}
+		
+		
+	}
+
+	class ShopkeeperServiceChangeManufacturerDeliveryIntegerMssgWizard extends Wizard {
+
+		protected ShopkeeperServiceChangeManufacturerDeliveryIntegerMssgWizard(String operationName){
+			super(ShopkeeperServiceClientView.this);
+			getOkButton().setText(operationName);
+			getOkButton().setGraphic(new ChangeManufacturerDeliveryPRMTRIntegerPRMTRMenuItem ().getGraphic());
+		}
+		protected void initialize(){
+			this.helpFileName = "ShopkeeperServiceChangeManufacturerDeliveryIntegerMssgWizard.help";
+			super.initialize();		
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().changeManufacturerDelivery(((IntegerSelectionPanel)getParametersPanel().getChildren().get(0)).getResult().longValue());
+				getConnection().setEagerRefresh();
+				this.close();	
+			} catch(ModelException me){
+				handleException(me);
+				this.close();
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		protected boolean isModifying () {
+			return false;
+		}
+		protected void addParameters(){
+			getParametersPanel().getChildren().add(new IntegerSelectionPanel("newManuDelivery", this));		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+	}
+
+	class ShopkeeperServiceChangePriceArticleIntegerMssgWizard extends Wizard {
+
+		protected ShopkeeperServiceChangePriceArticleIntegerMssgWizard(String operationName){
+			super(ShopkeeperServiceClientView.this);
+			getOkButton().setText(operationName);
+			getOkButton().setGraphic(new ChangePricePRMTRArticlePRMTRIntegerPRMTRMenuItem ().getGraphic());
+		}
+		protected void initialize(){
+			this.helpFileName = "ShopkeeperServiceChangePriceArticleIntegerMssgWizard.help";
+			super.initialize();		
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().changePrice(firstArgument, ((IntegerSelectionPanel)getParametersPanel().getChildren().get(0)).getResult().longValue());
+				getConnection().setEagerRefresh();
+				this.close();	
+			} catch(ModelException me){
+				handleException(me);
+				this.close();
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		protected boolean isModifying () {
+			return false;
+		}
+		protected void addParameters(){
+			getParametersPanel().getChildren().add(new IntegerSelectionPanel("newPrice", this));		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+		private ArticleView firstArgument; 
+	
+		public void setFirstArgument(ArticleView firstArgument){
+			this.firstArgument = firstArgument;
+			this.setTitle(this.firstArgument.toString());
+			this.check();
+		}
+		
+		
+	}
+
+	class ShopkeeperServiceChangeProductGroupArticleProductGroupMssgWizard extends Wizard {
+
+		protected ShopkeeperServiceChangeProductGroupArticleProductGroupMssgWizard(String operationName){
+			super(ShopkeeperServiceClientView.this);
+			getOkButton().setText(operationName);
+			getOkButton().setGraphic(new ChangeProductGroupPRMTRArticlePRMTRProductGroupPRMTRMenuItem ().getGraphic());
+		}
+		protected void initialize(){
+			this.helpFileName = "ShopkeeperServiceChangeProductGroupArticleProductGroupMssgWizard.help";
+			super.initialize();		
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().changeProductGroup(firstArgument, (ProductGroupView)((ObjectSelectionPanel)getParametersPanel().getChildren().get(0)).getResult());
+				getConnection().setEagerRefresh();
+				this.close();	
+			} catch(ModelException me){
+				handleException(me);
+				this.close();
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		protected boolean isModifying () {
+			return false;
+		}
+		protected void addParameters(){
+			final ObjectSelectionPanel panel1 = new ObjectSelectionPanel("newPG", "view.ProductGroupView", null, this);
+			getParametersPanel().getChildren().add(panel1);
+			panel1.setBrowserRoot((ViewRoot) getConnection().getShopkeeperServiceView());		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+		private ArticleView firstArgument; 
+	
+		public void setFirstArgument(ArticleView firstArgument){
+			this.firstArgument = firstArgument;
+			this.setTitle(this.firstArgument.toString());
+			this.check();
+		}
+		
+		
+	}
+
+	class ShopkeeperServicePresetBalanceIntegerMssgWizard extends Wizard {
+
+		protected ShopkeeperServicePresetBalanceIntegerMssgWizard(String operationName){
+			super(ShopkeeperServiceClientView.this);
+			getOkButton().setText(operationName);
+			getOkButton().setGraphic(new PresetBalancePRMTRIntegerPRMTRMenuItem ().getGraphic());
+		}
+		protected void initialize(){
+			this.helpFileName = "ShopkeeperServicePresetBalanceIntegerMssgWizard.help";
+			super.initialize();		
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().presetBalance(((IntegerSelectionPanel)getParametersPanel().getChildren().get(0)).getResult().longValue());
+				getConnection().setEagerRefresh();
+				this.close();	
+			} catch(ModelException me){
+				handleException(me);
+				this.close();
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		protected boolean isModifying () {
+			return false;
+		}
+		protected void addParameters(){
+			getParametersPanel().getChildren().add(new IntegerSelectionPanel("amount", this));		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+	}
+
+	class ShopkeeperServicePresetLowerLimitIntegerMssgWizard extends Wizard {
+
+		protected ShopkeeperServicePresetLowerLimitIntegerMssgWizard(String operationName){
+			super(ShopkeeperServiceClientView.this);
+			getOkButton().setText(operationName);
+			getOkButton().setGraphic(new PresetLowerLimitPRMTRIntegerPRMTRMenuItem ().getGraphic());
+		}
+		protected void initialize(){
+			this.helpFileName = "ShopkeeperServicePresetLowerLimitIntegerMssgWizard.help";
+			super.initialize();		
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().presetLowerLimit(((IntegerSelectionPanel)getParametersPanel().getChildren().get(0)).getResult().longValue());
+				getConnection().setEagerRefresh();
+				this.close();	
+			} catch(ModelException me){
+				handleException(me);
+				this.close();
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		protected boolean isModifying () {
+			return false;
+		}
+		protected void addParameters(){
+			getParametersPanel().getChildren().add(new IntegerSelectionPanel("amount", this));		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+	}
+
 	/* Menu and wizard section end */
 	
 	private ImageView getIconForMenuItem(ShopkeeperServiceMenuItem menuItem){

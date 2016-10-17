@@ -327,11 +327,11 @@ public class RegisterServiceClientView extends BorderPane implements ExceptionAn
     private java.util.Vector<javafx.scene.control.Button> getToolButtonsForStaticOperations() {
         java.util.Vector<javafx.scene.control.Button> result = new java.util.Vector<javafx.scene.control.Button>();
         javafx.scene.control.Button currentButton = null;
-        currentButton = new javafx.scene.control.Button("register ... ");
+        currentButton = new javafx.scene.control.Button("Registrieren ... ");
         currentButton.setGraphic(new RegisterPRMTRStringPRMTRStringPRMTRMenuItem().getGraphic());
         currentButton.setOnAction(new EventHandler<ActionEvent>(){
             public void handle(javafx.event.ActionEvent e) {
-                final RegisterServiceRegisterStringStringMssgWizard wizard = new RegisterServiceRegisterStringStringMssgWizard("register");
+                final RegisterServiceRegisterStringStringMssgWizard wizard = new RegisterServiceRegisterStringStringMssgWizard("Registrieren");
                 wizard.setWidth(getNavigationPanel().getWidth());
                 wizard.showAndWait();
             }
@@ -343,10 +343,10 @@ public class RegisterServiceClientView extends BorderPane implements ExceptionAn
         final ContextMenu result = new ContextMenu();
         MenuItem item = null;
         item = new RegisterPRMTRStringPRMTRStringPRMTRMenuItem();
-        item.setText("(S) register ... ");
+        item.setText("(S) Registrieren ... ");
         item.setOnAction(new EventHandler<ActionEvent>(){
             public void handle(javafx.event.ActionEvent e) {
-                final RegisterServiceRegisterStringStringMssgWizard wizard = new RegisterServiceRegisterStringStringMssgWizard("register");
+                final RegisterServiceRegisterStringStringMssgWizard wizard = new RegisterServiceRegisterStringStringMssgWizard("Registrieren");
                 wizard.setWidth(getNavigationPanel().getWidth());
                 wizard.showAndWait();
             }
@@ -393,6 +393,9 @@ public class RegisterServiceClientView extends BorderPane implements ExceptionAn
 			} catch(ModelException me){
 				handleException(me);
 				this.close();
+			}
+			catch(DoubleUsername e) {
+				getStatusBar().setText(e.getMessage());
 			}
 			
 		}

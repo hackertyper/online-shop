@@ -11,16 +11,16 @@ import model.visitor.*;
 public class CommandExecuter extends PersistentObject implements PersistentCommandExecuter{
     
     /** Throws persistence exception if the object with the given id does not exist. */
-    public static CommandExecuter4Public getById(long objectId) throws PersistenceException{
+    public static PersistentCommandExecuter getById(long objectId) throws PersistenceException{
         long classId = ConnectionHandler.getTheConnectionHandler().theCommandExecuterFacade.getClass(objectId);
-        return (CommandExecuter4Public)PersistentProxi.createProxi(objectId, classId);
+        return (PersistentCommandExecuter)PersistentProxi.createProxi(objectId, classId);
     }
     
-    public static CommandExecuter4Public createCommandExecuter() throws PersistenceException{
+    public static PersistentCommandExecuter createCommandExecuter() throws PersistenceException{
         return createCommandExecuter(false);
     }
     
-    public static CommandExecuter4Public createCommandExecuter(boolean delayed$Persistence) throws PersistenceException {
+    public static PersistentCommandExecuter createCommandExecuter(boolean delayed$Persistence) throws PersistenceException {
         PersistentCommandExecuter result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theCommandExecuterFacade
@@ -36,7 +36,7 @@ public class CommandExecuter extends PersistentObject implements PersistentComma
         return result;
     }
     
-    public static CommandExecuter4Public createCommandExecuter(boolean delayed$Persistence,CommandExecuter4Public This) throws PersistenceException {
+    public static PersistentCommandExecuter createCommandExecuter(boolean delayed$Persistence,PersistentCommandExecuter This) throws PersistenceException {
         PersistentCommandExecuter result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theCommandExecuterFacade
@@ -74,7 +74,7 @@ public class CommandExecuter extends PersistentObject implements PersistentComma
     }
     
     static public long getTypeId() {
-        return -105;
+        return -139;
     }
     
     public long getClassId() {
@@ -83,7 +83,7 @@ public class CommandExecuter extends PersistentObject implements PersistentComma
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == -105) ConnectionHandler.getTheConnectionHandler().theCommandExecuterFacade
+        if (this.getClassId() == -139) ConnectionHandler.getTheConnectionHandler().theCommandExecuterFacade
             .newCommandExecuter(this.getId());
         super.store();
         this.getCommands().store();

@@ -34,18 +34,22 @@ public abstract class Service extends PersistentObject implements PersistentServ
     protected model.UserException userException = null;
     protected boolean changed = false;
     
+    protected long lowerLimitPreset;
+    protected long balancePreset;
     protected PersistentService This;
     protected Service_ErrorsProxi errors;
     
-    public Service(PersistentService This,long id) throws PersistenceException {
+    public Service(long lowerLimitPreset,long balancePreset,PersistentService This,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
+        this.lowerLimitPreset = lowerLimitPreset;
+        this.balancePreset = balancePreset;
         if (This != null && !(this.isTheSameAs(This))) this.This = This;
         this.errors = new Service_ErrorsProxi(this);        
     }
     
     static public long getTypeId() {
-        return -107;
+        return -129;
     }
     
     public long getClassId() {
@@ -62,6 +66,20 @@ public abstract class Service extends PersistentObject implements PersistentServ
         
     }
     
+    public long getLowerLimitPreset() throws PersistenceException {
+        return this.lowerLimitPreset;
+    }
+    public void setLowerLimitPreset(long newValue) throws PersistenceException {
+        if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theServiceFacade.lowerLimitPresetSet(this.getId(), newValue);
+        this.lowerLimitPreset = newValue;
+    }
+    public long getBalancePreset() throws PersistenceException {
+        return this.balancePreset;
+    }
+    public void setBalancePreset(long newValue) throws PersistenceException {
+        if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theServiceFacade.balancePresetSet(this.getId(), newValue);
+        this.balancePreset = newValue;
+    }
     protected void setThis(PersistentService newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
         if (newValue.isTheSameAs(this)){
@@ -118,14 +136,14 @@ public abstract class Service extends PersistentObject implements PersistentServ
     // Start of section that contains overridden operations only.
     
     public void handleException(final Command command, final PersistenceException exception) 
-			throws PersistenceException{
-		new Thread(new Runnable(){
+				throws PersistenceException{
+	    new Thread(new Runnable(){
 			public /*INTERNAL*/ void run() {
 				//Handle exception!
 			}
 		}).start();
 	}
-	public void handleResult(final Command command) 
+    public void handleResult(final Command command) 
 				throws PersistenceException{
 	    new Thread(new Runnable(){
 			public void  /*INTERNAL*/  run() {
@@ -146,13 +164,12 @@ public abstract class Service extends PersistentObject implements PersistentServ
 			}
 		}).start();
 	}
-	public boolean hasChanged() 
+    public boolean hasChanged() 
 				throws PersistenceException{
 	    boolean result = this.changed;
 		this.changed = false;
 		return result;
 	}
-    
 
     /* Start of protected part that is not overridden by persistence generator */
     

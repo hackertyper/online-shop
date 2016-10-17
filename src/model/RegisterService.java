@@ -2,11 +2,6 @@
 package model;
 
 import persistence.*;
-
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.Iterator;
-
 import model.visitor.*;
 
 
@@ -23,11 +18,11 @@ public class RegisterService extends model.Service implements PersistentRegister
         PersistentRegisterService result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theRegisterServiceFacade
-                .newDelayedRegisterService();
+                .newDelayedRegisterService(0,0);
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theRegisterServiceFacade
-                .newRegisterService(-1);
+                .newRegisterService(0,0,-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         result.initialize(result, final$$Fields);
@@ -39,11 +34,11 @@ public class RegisterService extends model.Service implements PersistentRegister
         PersistentRegisterService result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theRegisterServiceFacade
-                .newDelayedRegisterService();
+                .newDelayedRegisterService(0,0);
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theRegisterServiceFacade
-                .newRegisterService(-1);
+                .newRegisterService(0,0,-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         result.initialize(This, final$$Fields);
@@ -63,7 +58,9 @@ public class RegisterService extends model.Service implements PersistentRegister
     
     public RegisterService provideCopy() throws PersistenceException{
         RegisterService result = this;
-        result = new RegisterService(this.This, 
+        result = new RegisterService(this.lowerLimitPreset, 
+                                     this.balancePreset, 
+                                     this.This, 
                                      this.getId());
         result.errors = this.errors.copy(result);
         result.errors = this.errors.copy(result);
@@ -75,13 +72,13 @@ public class RegisterService extends model.Service implements PersistentRegister
         return false;
     }
     
-    public RegisterService(PersistentService This,long id) throws PersistenceException {
+    public RegisterService(long lowerLimitPreset,long balancePreset,PersistentService This,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((PersistentService)This,id);        
+        super((long)lowerLimitPreset,(long)balancePreset,(PersistentService)This,id);        
     }
     
     static public long getTypeId() {
-        return -101;
+        return -115;
     }
     
     public long getClassId() {
@@ -90,8 +87,8 @@ public class RegisterService extends model.Service implements PersistentRegister
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == -101) ConnectionHandler.getTheConnectionHandler().theRegisterServiceFacade
-            .newRegisterService(this.getId());
+        if (this.getClassId() == -115) ConnectionHandler.getTheConnectionHandler().theRegisterServiceFacade
+            .newRegisterService(lowerLimitPreset,balancePreset,this.getId());
         super.store();
         
     }
@@ -198,13 +195,9 @@ public class RegisterService extends model.Service implements PersistentRegister
 		//TODO: implement method: initializeOnInstantiation
     }
     public void register(final String accountName, final String password) 
-				throws PersistenceException{
-    	Iterator<PersistentServer> servers = Server.getServerByUser(accountName).iterator();
-    	if(servers.hasNext()) {
-    		throw new DoubleUsername("AccountName " + accountName + " is already in use!"); 
-    	} else {
-    		Server.createServer(password, accountName, 0, Timestamp.valueOf(LocalDateTime.now()));
-    	}
+				throws model.DoubleUsername, PersistenceException{
+        //TODO: implement method: register
+        
     }
     
     

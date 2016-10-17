@@ -3,8 +3,8 @@ package model.visitor;
 
 import persistence.*;
 
-public interface InvokerVisitor {
+public interface InvokerVisitor extends ServiceVisitor{
     
-    public void handleServer(Server4Public server) throws PersistenceException;
+    public void handleServer(PersistentServer server) throws PersistenceException;
     
 }

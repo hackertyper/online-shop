@@ -18,11 +18,11 @@ public class ShopkeeperService extends model.Service implements PersistentShopke
         PersistentShopkeeperService result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theShopkeeperServiceFacade
-                .newDelayedShopkeeperService();
+                .newDelayedShopkeeperService(0,0);
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theShopkeeperServiceFacade
-                .newShopkeeperService(-1);
+                .newShopkeeperService(0,0,-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         result.initialize(result, final$$Fields);
@@ -34,11 +34,11 @@ public class ShopkeeperService extends model.Service implements PersistentShopke
         PersistentShopkeeperService result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theShopkeeperServiceFacade
-                .newDelayedShopkeeperService();
+                .newDelayedShopkeeperService(0,0);
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theShopkeeperServiceFacade
-                .newShopkeeperService(-1);
+                .newShopkeeperService(0,0,-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         result.initialize(This, final$$Fields);
@@ -50,6 +50,15 @@ public class ShopkeeperService extends model.Service implements PersistentShopke
     java.util.HashMap<String,Object> result = null;
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
+            AbstractPersistentRoot manager = (AbstractPersistentRoot)this.getManager();
+            if (manager != null) {
+                result.put("manager", manager.createProxiInformation(false, essentialLevel <= 1));
+                if(depth > 1) {
+                    manager.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && manager.hasEssentialFields())manager.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
         }
@@ -58,7 +67,10 @@ public class ShopkeeperService extends model.Service implements PersistentShopke
     
     public ShopkeeperService provideCopy() throws PersistenceException{
         ShopkeeperService result = this;
-        result = new ShopkeeperService(this.This, 
+        result = new ShopkeeperService(this.lowerLimitPreset, 
+                                       this.balancePreset, 
+                                       this.This, 
+                                       this.manager, 
                                        this.getId());
         result.errors = this.errors.copy(result);
         result.errors = this.errors.copy(result);
@@ -69,14 +81,16 @@ public class ShopkeeperService extends model.Service implements PersistentShopke
     public boolean hasEssentialFields() throws PersistenceException{
         return false;
     }
+    protected PersistentShopkeeper manager;
     
-    public ShopkeeperService(PersistentService This,long id) throws PersistenceException {
+    public ShopkeeperService(long lowerLimitPreset,long balancePreset,PersistentService This,PersistentShopkeeper manager,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((PersistentService)This,id);        
+        super((long)lowerLimitPreset,(long)balancePreset,(PersistentService)This,id);
+        this.manager = manager;        
     }
     
     static public long getTypeId() {
-        return -105;
+        return -133;
     }
     
     public long getClassId() {
@@ -85,12 +99,30 @@ public class ShopkeeperService extends model.Service implements PersistentShopke
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == -105) ConnectionHandler.getTheConnectionHandler().theShopkeeperServiceFacade
-            .newShopkeeperService(this.getId());
+        if (this.getClassId() == -133) ConnectionHandler.getTheConnectionHandler().theShopkeeperServiceFacade
+            .newShopkeeperService(lowerLimitPreset,balancePreset,this.getId());
         super.store();
+        if(this.getManager() != null){
+            this.getManager().store();
+            ConnectionHandler.getTheConnectionHandler().theShopkeeperServiceFacade.managerSet(this.getId(), getManager());
+        }
         
     }
     
+    public PersistentShopkeeper getManager() throws PersistenceException {
+        return this.manager;
+    }
+    public void setManager(PersistentShopkeeper newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.isTheSameAs(this.manager)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.manager = (PersistentShopkeeper)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theShopkeeperServiceFacade.managerSet(this.getId(), newValue);
+        }
+    }
     public PersistentShopkeeperService getThis() throws PersistenceException {
         if(this.This == null){
             PersistentShopkeeperService result = (PersistentShopkeeperService)PersistentProxi.createProxi(this.getId(),this.getClassId());
@@ -148,6 +180,7 @@ public class ShopkeeperService extends model.Service implements PersistentShopke
          return visitor.handleShopkeeperService(this);
     }
     public int getLeafInfo() throws PersistenceException{
+        if (this.getManager() != null && this.getManager().getTheObject().getLeafInfo() != 0) return 1;
         return 0;
     }
     
@@ -167,6 +200,26 @@ public class ShopkeeperService extends model.Service implements PersistentShopke
     
     // Start of section that contains operations that must be implemented.
     
+    public void changeDescription(final PersistentItem item, final String newDescription) 
+				throws PersistenceException{
+        //TODO: implement method: changeDescription
+        
+    }
+    public void changeManufacturerDelivery(final long newManuDelivery) 
+				throws PersistenceException{
+        //TODO: implement method: changeManufacturerDelivery
+        
+    }
+    public void changePrice(final PersistentArticle article, final long newPrice) 
+				throws PersistenceException{
+        //TODO: implement method: changePrice
+        
+    }
+    public void changeProductGroup(final PersistentArticle article, final PersistentProductGroup newPG) 
+				throws PersistenceException{
+        //TODO: implement method: changeProductGroup
+        
+    }
     public void connected(final String user) 
 				throws PersistenceException{
         //TODO: implement method: connected
@@ -191,6 +244,21 @@ public class ShopkeeperService extends model.Service implements PersistentShopke
 				throws PersistenceException{
         super.initializeOnInstantiation();
 		//TODO: implement method: initializeOnInstantiation
+    }
+    public void presetBalance(final long amount) 
+				throws PersistenceException{
+        //TODO: implement method: presetBalance
+        
+    }
+    public void presetLowerLimit(final long amount) 
+				throws PersistenceException{
+        //TODO: implement method: presetLowerLimit
+        
+    }
+    public void startSelling(final PersistentNewlyAdded article) 
+				throws PersistenceException{
+        //TODO: implement method: startSelling
+        
     }
     
     

@@ -10,16 +10,16 @@ import model.visitor.*;
 public class CommonDate extends PersistentObject implements PersistentCommonDate{
     
     /** Throws persistence exception if the object with the given id does not exist. */
-    public static CommonDate4Public getById(long objectId) throws PersistenceException{
+    public static PersistentCommonDate getById(long objectId) throws PersistenceException{
         long classId = ConnectionHandler.getTheConnectionHandler().theCommonDateFacade.getClass(objectId);
-        return (CommonDate4Public)PersistentProxi.createProxi(objectId, classId);
+        return (PersistentCommonDate)PersistentProxi.createProxi(objectId, classId);
     }
     
-    public static CommonDate4Public createCommonDate(java.sql.Date createDate,java.sql.Date commitDate) throws PersistenceException{
+    public static PersistentCommonDate createCommonDate(java.sql.Date createDate,java.sql.Date commitDate) throws PersistenceException{
         return createCommonDate(createDate,commitDate,false);
     }
     
-    public static CommonDate4Public createCommonDate(java.sql.Date createDate,java.sql.Date commitDate,boolean delayed$Persistence) throws PersistenceException {
+    public static PersistentCommonDate createCommonDate(java.sql.Date createDate,java.sql.Date commitDate,boolean delayed$Persistence) throws PersistenceException {
         PersistentCommonDate result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theCommonDateFacade
@@ -32,7 +32,7 @@ public class CommonDate extends PersistentObject implements PersistentCommonDate
         return result;
     }
     
-    public static CommonDate4Public createCommonDate(java.sql.Date createDate,java.sql.Date commitDate,boolean delayed$Persistence,CommonDate4Public This) throws PersistenceException {
+    public static PersistentCommonDate createCommonDate(java.sql.Date createDate,java.sql.Date commitDate,boolean delayed$Persistence,PersistentCommonDate This) throws PersistenceException {
         PersistentCommonDate result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theCommonDateFacade
@@ -59,7 +59,7 @@ public class CommonDate extends PersistentObject implements PersistentCommonDate
     }
     
     static public long getTypeId() {
-        return 104;
+        return 138;
     }
     
     public long getClassId() {
@@ -68,7 +68,7 @@ public class CommonDate extends PersistentObject implements PersistentCommonDate
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 104) ConnectionHandler.getTheConnectionHandler().theCommonDateFacade
+        if (this.getClassId() == 138) ConnectionHandler.getTheConnectionHandler().theCommonDateFacade
             .newCommonDate(createDate,commitDate,this.getId());
         super.store();
         
@@ -89,6 +89,18 @@ public class CommonDate extends PersistentObject implements PersistentCommonDate
         this.commitDate = newValue;
     }
     
+    public void accept(CommonDateVisitor visitor) throws PersistenceException {
+        visitor.handleCommonDate(this);
+    }
+    public <R> R accept(CommonDateReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleCommonDate(this);
+    }
+    public <E extends model.UserException>  void accept(CommonDateExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleCommonDate(this);
+    }
+    public <R, E extends model.UserException> R accept(CommonDateReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleCommonDate(this);
+    }
     public void accept(AnythingVisitor visitor) throws PersistenceException {
         visitor.handleCommonDate(this);
     }

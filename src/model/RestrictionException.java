@@ -29,7 +29,7 @@ public class RestrictionException extends model.UserException{
     }
     
     static public long getTypeId() {
-        return -120;
+        return -182;
     }
     
     public long getClassId() {

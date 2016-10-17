@@ -29,7 +29,12 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 		result = anything.getClassId() + ";" + anything.getId();
 	}
 	@Override
-	public void handleRegisterService(PersistentRegisterService registerService) throws PersistenceException {
+	public void handleAccount(PersistentAccount account) throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleProductGroup(PersistentProductGroup productGroup) throws PersistenceException {
 		// TODO Auto-generated method stub
 		
 	}
@@ -44,7 +49,82 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 		
 	}
 	@Override
+	public void handleCustomer(PersistentCustomer customer) throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleShopkeeper(PersistentShopkeeper shopkeeper) throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleOfferedFSale(PersistentOfferedFSale offeredFSale) throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleArticle(PersistentArticle article) throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleCustomerOrder(PersistentCustomerOrder customerOrder) throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleRegisterService(PersistentRegisterService registerService) throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleManufacturer(PersistentManufacturer manufacturer) throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleNewlyAdded(PersistentNewlyAdded newlyAdded) throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleCart(PersistentCart cart) throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleQuantifiedArticles(PersistentQuantifiedArticles quantifiedArticles) throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleShopKeeperOrder(PersistentShopKeeperOrder shopKeeperOrder) throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleRemovedFSale(PersistentRemovedFSale removedFSale) throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
 	public void handleShopkeeperService(PersistentShopkeeperService shopkeeperService) throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleRetoure(PersistentRetoure retoure) throws PersistenceException {
 		// TODO Auto-generated method stub
 		
 	}

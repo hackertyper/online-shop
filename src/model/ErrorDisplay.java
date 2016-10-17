@@ -10,16 +10,16 @@ import model.visitor.*;
 public class ErrorDisplay extends PersistentObject implements PersistentErrorDisplay{
     
     /** Throws persistence exception if the object with the given id does not exist. */
-    public static ErrorDisplay4Public getById(long objectId) throws PersistenceException{
+    public static PersistentErrorDisplay getById(long objectId) throws PersistenceException{
         long classId = ConnectionHandler.getTheConnectionHandler().theErrorDisplayFacade.getClass(objectId);
-        return (ErrorDisplay4Public)PersistentProxi.createProxi(objectId, classId);
+        return (PersistentErrorDisplay)PersistentProxi.createProxi(objectId, classId);
     }
     
-    public static ErrorDisplay4Public createErrorDisplay(String message) throws PersistenceException{
+    public static PersistentErrorDisplay createErrorDisplay(String message) throws PersistenceException{
         return createErrorDisplay(message,false);
     }
     
-    public static ErrorDisplay4Public createErrorDisplay(String message,boolean delayed$Persistence) throws PersistenceException {
+    public static PersistentErrorDisplay createErrorDisplay(String message,boolean delayed$Persistence) throws PersistenceException {
         PersistentErrorDisplay result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theErrorDisplayFacade
@@ -36,7 +36,7 @@ public class ErrorDisplay extends PersistentObject implements PersistentErrorDis
         return result;
     }
     
-    public static ErrorDisplay4Public createErrorDisplay(String message,boolean delayed$Persistence,ErrorDisplay4Public This) throws PersistenceException {
+    public static PersistentErrorDisplay createErrorDisplay(String message,boolean delayed$Persistence,PersistentErrorDisplay This) throws PersistenceException {
         PersistentErrorDisplay result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theErrorDisplayFacade
@@ -85,7 +85,7 @@ public class ErrorDisplay extends PersistentObject implements PersistentErrorDis
     }
     
     static public long getTypeId() {
-        return -103;
+        return -108;
     }
     
     public long getClassId() {
@@ -94,7 +94,7 @@ public class ErrorDisplay extends PersistentObject implements PersistentErrorDis
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == -103) ConnectionHandler.getTheConnectionHandler().theErrorDisplayFacade
+        if (this.getClassId() == -108) ConnectionHandler.getTheConnectionHandler().theErrorDisplayFacade
             .newErrorDisplay(this.getId());
         super.store();
         
