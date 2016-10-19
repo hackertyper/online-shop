@@ -192,8 +192,29 @@ public class Cart extends PersistentObject implements PersistentCart{
     
     public void addArticle(final PersistentQuantifiedArticles article) 
 				throws PersistenceException{
-        //TODO: implement method: addArticle
-        
+    	PersistentQuantifiedArticles oldEntry = getThis().getArticleList().findFirst(new Predcate<PersistentQuantifiedArticles>() {
+			@Override
+			public boolean test(PersistentQuantifiedArticles argument) throws PersistenceException {
+				return argument.getArticle().equals(article.getArticle());
+			}
+		});
+    	if(oldEntry == null) {
+    		getThis().getArticleList().add(article);
+    	} else {
+    		oldEntry.setAmount(oldEntry.getAmount() + article.getAmount());
+    	}
+        getThis().setCurrentSum(getThis().getArticleList().aggregate(new Aggregtion<PersistentQuantifiedArticles, Long>() {
+
+			@Override
+			public Long neutral() throws PersistenceException {
+				return (long) 0;
+			}
+
+			@Override
+			public Long compose(Long result, PersistentQuantifiedArticles argument) throws PersistenceException {
+				return result + (argument.getAmount() * argument.getArticle().getPrice());
+			}
+		}));
     }
     public void checkOut() 
 				throws model.InsufficientStock, PersistenceException{
@@ -202,8 +223,6 @@ public class Cart extends PersistentObject implements PersistentCart{
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
@@ -218,12 +237,17 @@ public class Cart extends PersistentObject implements PersistentCart{
     public void order() 
 				throws PersistenceException{
         //TODO: implement method: order
-        
+        getThis().getManager().pay(getThis().getCurrentSum());
     }
     public void removeArticle(final PersistentQuantifiedArticles article) 
 				throws PersistenceException{
-        //TODO: implement method: removeArticle
-        
+        getThis().getArticleList().removeFirstSuccess(new Predcate<PersistentQuantifiedArticles>() {
+    		@Override
+    		public boolean test(PersistentQuantifiedArticles argument) throws PersistenceException {
+    			return argument.getArticle().equals(article.getArticle());
+    		}
+    	});
+        getThis().setCurrentSum(getThis().getCurrentSum() - (article.getAmount() * article.getArticle().getPrice()));
     }
     
     

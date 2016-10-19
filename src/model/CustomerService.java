@@ -246,8 +246,7 @@ public class CustomerService extends model.Service implements PersistentCustomer
     }
     public void removeFCart(final PersistentQuantifiedArticles article, final PersistentCart cart) 
 				throws PersistenceException{
-        //TODO: implement method: removeFCart
-        
+        cart.removeArticle(article);
     }
     public void withdraw(final long amount) 
 				throws model.InsufficientFunds, PersistenceException{

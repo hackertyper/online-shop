@@ -296,8 +296,7 @@ public class Article extends model.Item implements PersistentArticle{
     
     public void addToCart(final long amount, final PersistentCart cart) 
 				throws PersistenceException{
-        //TODO: implement method: addToCart
-        
+        cart.addArticle(QuantifiedArticles.createQuantifiedArticles(getThis(), amount));
     }
     public void changeManuDelivery(final long newManuDelivery) 
 				throws PersistenceException{
@@ -316,18 +315,14 @@ public class Article extends model.Item implements PersistentArticle{
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
         super.initializeOnCreation();
-		//TODO: implement method: initializeOnCreation
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         super.initializeOnInstantiation();
-		//TODO: implement method: initializeOnInstantiation
     }
     public void pack(final long amount) 
 				throws PersistenceException{
