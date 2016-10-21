@@ -61,7 +61,7 @@ public class OfferedFSaleICProxi extends PersistentInCacheProxiOptimistic implem
         ((PersistentOfferedFSale)this.getTheObject()).initialize(This, final$$Fields);
     }
     public void addToCart(final long amount, final PersistentCart cart) 
-				throws PersistenceException{
+				throws model.InsufficientStock, PersistenceException{
         ((PersistentOfferedFSale)this.getTheObject()).addToCart(amount, cart);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 

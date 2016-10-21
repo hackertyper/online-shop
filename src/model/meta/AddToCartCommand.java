@@ -231,8 +231,12 @@ public class AddToCartCommand extends PersistentObject implements PersistentAddT
     }
     public void execute() 
 				throws PersistenceException{
-        this.commandReceiver.addToCart(this.getArticle(), this.getAmount());
-		
+        try{
+			this.commandReceiver.addToCart(this.getArticle(), this.getAmount());
+		}
+		catch(model.InsufficientStock e){
+			this.commandException = e;
+		}
     }
     public Invoker fetchInvoker() 
 				throws PersistenceException{

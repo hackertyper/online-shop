@@ -201,6 +201,9 @@ public class Account extends PersistentObject implements PersistentAccount{
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }
+    /**
+     * Deposits an amount of money on the own account. Adds the amount to the accounts balance.
+     */
     public void deposit(final long amount) 
 				throws PersistenceException{
     	getThis().setBalance(getThis().getBalance() + amount);
@@ -211,15 +214,29 @@ public class Account extends PersistentObject implements PersistentAccount{
     public void initializeOnInstantiation() 
 				throws PersistenceException{
     }
+    /**
+     * Pays the sum of an order from the account balance.
+     * Throws an exception if the balance is lower than the sum or would fall below the lower limit.
+     */
     public void pay(final long sum) 
 				throws PersistenceException{
-        //TODO: implement method: pay
-        
+        if(sum > getThis().getBalance()) {
+        	// TODO: EXception
+        }
+        else if(getThis().getBalance() - sum < getThis().getLowerLimit()) {
+        	// TODO: EXception
+        } else {
+        	getThis().setBalance(getThis().getBalance() - sum);
+        }
     }
+    /**
+     * Withdraws an amount of money from the own account.
+     * Throws an exception if the balance is lower than the amount or would fall below the lower limit.
+     */
     public void withdraw(final long amount) 
 				throws model.InsufficientFunds, PersistenceException{
     	if(amount > getBalance() || getThis().getBalance() - amount < getLowerLimit())
-    		throw new InsufficientFunds("Not enough money on account!");
+    		throw new InsufficientFunds(serverConstants.ErrorMessages.InsufficientFunds);
         getThis().setBalance(getThis().getBalance() - amount);
     }
     

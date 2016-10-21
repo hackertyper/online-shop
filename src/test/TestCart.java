@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import model.Article;
 import model.Cart;
+import model.InsufficientStock;
 import model.Manufacturer;
 import model.QuantifiedArticles;
 import persistence.PersistenceException;
@@ -31,7 +32,7 @@ public class TestCart {
 		TestSupport.prepareSingletons();
 		TestSupport.prepareDatabase();
 		cart = Cart.createCart();
-		m1 = Manufacturer.createManufacturer();
+		m1 = Manufacturer.createManufacturer("M1");
 		a1 = Article.createArticle(m1, 100, 10, 150, 0);
 		a1.setStock(100);
 		a2 = Article.createArticle(m1, 20, 5, 60, 0);
@@ -41,7 +42,7 @@ public class TestCart {
 	}
 	
 	@Test
-	public void testAddToCart() throws PersistenceException {
+	public void testAddToCart() throws PersistenceException, InsufficientStock {
 		a1.addToCart(10, cart);
 		assertEquals(1000, cart.getCurrentSum());
 		a2.addToCart(5, cart);
@@ -63,7 +64,7 @@ public class TestCart {
 	}
 	
 	@Test
-	public void testRemoveFCart() throws PersistenceException {
+	public void testRemoveFCart() throws PersistenceException, InsufficientStock {
 		a1.addToCart(10, cart);
 		a2.addToCart(5, cart);
 		a3.addToCart(22, cart);
@@ -82,5 +83,15 @@ public class TestCart {
 			PersistentQuantifiedArticles next = cartIterator.next();
 			assertEquals(expected.get(next.getArticle()).getAmount(), next.getAmount());
 		}
+	}
+	
+	@Test
+	public void testAddToCartStockLessAmount() throws PersistenceException {
+		try {
+			a1.addToCart(100, cart);
+		} catch (InsufficientStock e) {
+			assertEquals("", e.getMessage());
+		}
+		
 	}
 }

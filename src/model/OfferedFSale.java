@@ -55,6 +55,15 @@ public class OfferedFSale extends PersistentObject implements PersistentOfferedF
     java.util.HashMap<String,Object> result = null;
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
+            AbstractPersistentRoot myArticle = (AbstractPersistentRoot)this.getMyArticle();
+            if (myArticle != null) {
+                result.put("myArticle", myArticle.createProxiInformation(false, essentialLevel <= 1));
+                if(depth > 1) {
+                    myArticle.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && myArticle.hasEssentialFields())myArticle.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
         }
@@ -174,24 +183,18 @@ public class OfferedFSale extends PersistentObject implements PersistentOfferedF
     // Start of section that contains operations that must be implemented.
     
     public void addToCart(final long amount, final PersistentCart cart) 
-				throws PersistenceException{
+				throws model.InsufficientStock, PersistenceException{
         //TODO: implement method: addToCart
         
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
-        
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnInstantiation
-        
     }
     public void reorder(final long amount, final long manuDelivery) 
 				throws PersistenceException{

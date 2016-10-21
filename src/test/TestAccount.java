@@ -46,7 +46,7 @@ public class TestAccount {
 		try {
 			acc.withdraw(1500);
 		} catch (InsufficientFunds e) {
-			assertEquals("Not enough money on account!", e.getMessage());
+			assertEquals(serverConstants.ErrorMessages.InsufficientFunds, e.getMessage());
 		}
 	}
 	
@@ -56,7 +56,7 @@ public class TestAccount {
 		try {
 			acc.withdraw(950);
 		} catch (InsufficientFunds e) {
-			assertEquals("Not enough money on account!", e.getMessage());
+			assertEquals(serverConstants.ErrorMessages.InsufficientFunds, e.getMessage());
 		}
 	}
 

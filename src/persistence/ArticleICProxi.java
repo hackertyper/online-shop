@@ -115,7 +115,7 @@ public class ArticleICProxi extends ItemICProxi implements PersistentArticle{
         ((PersistentArticle)this.getTheObject()).initialize(This, final$$Fields);
     }
     public void addToCart(final long amount, final PersistentCart cart) 
-				throws PersistenceException{
+				throws model.InsufficientStock, PersistenceException{
         ((PersistentArticle)this.getTheObject()).addToCart(amount, cart);
     }
     public void changeDescription(final String newDescription) 

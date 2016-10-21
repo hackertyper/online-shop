@@ -9,10 +9,12 @@ import view.visitor.*;
 
 public class RemovedFSale extends ViewObject implements RemovedFSaleView{
     
+    protected ArticleView myArticle;
     
-    public RemovedFSale(long id, long classId) {
+    public RemovedFSale(ArticleView myArticle,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
-        super(id, classId);        
+        super(id, classId);
+        this.myArticle = myArticle;        
     }
     
     static public long getTypeId() {
@@ -23,6 +25,9 @@ public class RemovedFSale extends ViewObject implements RemovedFSaleView{
         return getTypeId();
     }
     
+    public ArticleView getMyArticle()throws ModelException{
+        return this.myArticle;
+    }
     
     public void accept(AnythingVisitor visitor) throws ModelException {
         visitor.handleRemovedFSale(this);
@@ -50,6 +55,10 @@ public class RemovedFSale extends ViewObject implements RemovedFSaleView{
     }
     
     public void resolveProxies(java.util.HashMap<String,Object> resultTable) throws ModelException {
+        ArticleView myArticle = this.getMyArticle();
+        if (myArticle != null) {
+            ((ViewProxi)myArticle).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(myArticle.getClassId(), myArticle.getId())));
+        }
         
     }
     public void sortSetValuedFields() throws ModelException {

@@ -88,7 +88,7 @@ public class CustomerProxi extends PersistentProxi implements PersistentCustomer
         ((PersistentCustomer)this.getTheObject()).withdraw(amount, invoker);
     }
     public void addToCart(final PersistentArticle article, final long amount) 
-				throws PersistenceException{
+				throws model.InsufficientStock, PersistenceException{
         ((PersistentCustomer)this.getTheObject()).addToCart(article, amount);
     }
     public void checkOut() 

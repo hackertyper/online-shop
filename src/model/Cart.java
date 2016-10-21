@@ -190,8 +190,12 @@ public class Cart extends PersistentObject implements PersistentCart{
     
     // Start of section that contains operations that must be implemented.
     
+    /**
+     * Adds an article to the cart and calculates the new current sum.
+     */
     public void addArticle(final PersistentQuantifiedArticles article) 
 				throws PersistenceException{
+    	// prevent double entries in article list
     	PersistentQuantifiedArticles oldEntry = getThis().getArticleList().findFirst(new Predcate<PersistentQuantifiedArticles>() {
 			@Override
 			public boolean test(PersistentQuantifiedArticles argument) throws PersistenceException {
@@ -203,6 +207,7 @@ public class Cart extends PersistentObject implements PersistentCart{
     	} else {
     		oldEntry.setAmount(oldEntry.getAmount() + article.getAmount());
     	}
+    	// calculate new current sum
         getThis().setCurrentSum(getThis().getArticleList().aggregate(new Aggregtion<PersistentQuantifiedArticles, Long>() {
 
 			@Override
@@ -218,26 +223,38 @@ public class Cart extends PersistentObject implements PersistentCart{
     }
     public void checkOut() 
 				throws model.InsufficientStock, PersistenceException{
-        //TODO: implement method: checkOut
-        
+        getThis().getArticleList().applyToAllException(new ProcdureException<PersistentQuantifiedArticles, InsufficientStock>() {
+			@Override
+			public void doItTo(PersistentQuantifiedArticles argument) throws PersistenceException, InsufficientStock {
+				argument.reserve();
+			}
+		});
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
-        
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnInstantiation
-        
     }
     public void order() 
 				throws PersistenceException{
-        //TODO: implement method: order
-        getThis().getManager().pay(getThis().getCurrentSum());
+    /*    getThis().getManager().pay(getThis().getCurrentSum());
+        PersistentCustomerOrder order = CustomerOrder.createCustomerOrder(0);
+        try {
+			order.getArticleList().add(getThis().getArticleList());
+		} catch (UserException e) {
+			throw new Error(e);
+		}
+        order.send();
+        getThis().getArticleList().filter(new Predcate<PersistentQuantifiedArticles>() {
+			@Override
+			public boolean test(PersistentQuantifiedArticles argument) throws PersistenceException {
+				return false;
+			}
+		});*/
     }
     public void removeArticle(final PersistentQuantifiedArticles article) 
 				throws PersistenceException{

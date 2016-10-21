@@ -295,7 +295,10 @@ public class Article extends model.Item implements PersistentArticle{
     // Start of section that contains operations that must be implemented.
     
     public void addToCart(final long amount, final PersistentCart cart) 
-				throws PersistenceException{
+				throws model.InsufficientStock, PersistenceException{
+    	if(amount > getThis().getStock()) {
+    		throw new InsufficientStock(serverConstants.ErrorMessages.InsufficientStock);
+    	}
         cart.addArticle(QuantifiedArticles.createQuantifiedArticles(getThis(), amount));
     }
     public void changeManuDelivery(final long newManuDelivery) 
@@ -331,8 +334,10 @@ public class Article extends model.Item implements PersistentArticle{
     }
     public void reserve(final long amount) 
 				throws model.InsufficientStock, PersistenceException{
-        //TODO: implement method: reserve
-        
+        if(amount > getThis().getStock() || getThis().getStock() - amount < getThis().getMinStock()) {
+        	throw new InsufficientStock(serverConstants.ErrorMessages.InsufficientStock);
+        }
+    	getThis().setStock(getThis().getStock() - amount);
     }
     
     

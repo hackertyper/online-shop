@@ -290,7 +290,7 @@ public class Customer extends PersistentObject implements PersistentCustomer{
     // Start of section that contains operations that must be implemented.
     
     public void addToCart(final PersistentArticle article, final long amount) 
-				throws PersistenceException{
+				throws model.InsufficientStock, PersistenceException{
     	article.addToCart(amount, getMyCart());
     }
     public void checkOut() 
@@ -306,12 +306,21 @@ public class Customer extends PersistentObject implements PersistentCustomer{
     }
     public void findArticle(final String description) 
 				throws PersistenceException{
-        //TODO: implement method: findArticle
-        
+    	/*getThis().getItemRange().filterException(new PredcateException<PersistentItem, NoSearchResult>() {
+			@Override
+			public boolean test(PersistentItem argument) throws PersistenceException, NoSearchResult {
+				return false;
+			}
+		});*/
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
     	getThis().setMyCart(Cart.createCart());
+    	PersistentArticle a1 = Article.createArticle(Manufacturer.createManufacturer("M1"), 100, 10, 200, 0);
+    	a1.setDescription("A1");
+    	a1.setState(OfferedFSale.createOfferedFSale());
+    	a1.setStock(200);
+    	getThis().getItemRange().add(a1);
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{

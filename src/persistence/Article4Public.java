@@ -24,7 +24,7 @@ public interface Article4Public extends Item4Public {
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
     public void addToCart(final long amount, final PersistentCart cart) 
-				throws PersistenceException;
+				throws model.InsufficientStock, PersistenceException;
     public void changeManuDelivery(final long newManuDelivery) 
 				throws PersistenceException;
     public void changePrice(final long newPrice) 

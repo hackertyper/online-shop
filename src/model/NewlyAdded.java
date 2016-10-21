@@ -55,6 +55,15 @@ public class NewlyAdded extends PersistentObject implements PersistentNewlyAdded
     java.util.HashMap<String,Object> result = null;
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
+            AbstractPersistentRoot myArticle = (AbstractPersistentRoot)this.getMyArticle();
+            if (myArticle != null) {
+                result.put("myArticle", myArticle.createProxiInformation(false, essentialLevel <= 1));
+                if(depth > 1) {
+                    myArticle.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && myArticle.hasEssentialFields())myArticle.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
         }

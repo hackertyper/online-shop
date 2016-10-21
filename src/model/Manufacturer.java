@@ -15,37 +15,41 @@ public class Manufacturer extends PersistentObject implements PersistentManufact
         return (PersistentManufacturer)PersistentProxi.createProxi(objectId, classId);
     }
     
-    public static PersistentManufacturer createManufacturer() throws PersistenceException{
-        return createManufacturer(false);
+    public static PersistentManufacturer createManufacturer(String name) throws PersistenceException{
+        return createManufacturer(name,false);
     }
     
-    public static PersistentManufacturer createManufacturer(boolean delayed$Persistence) throws PersistenceException {
+    public static PersistentManufacturer createManufacturer(String name,boolean delayed$Persistence) throws PersistenceException {
+        if (name == null) throw new PersistenceException("Null not allowed for persistent strings, since null = \"\" in Oracle!", 0);
         PersistentManufacturer result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theManufacturerFacade
-                .newDelayedManufacturer("");
+                .newDelayedManufacturer(name);
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theManufacturerFacade
-                .newManufacturer("",-1);
+                .newManufacturer(name,-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        final$$Fields.put("name", name);
         result.initialize(result, final$$Fields);
         result.initializeOnCreation();
         return result;
     }
     
-    public static PersistentManufacturer createManufacturer(boolean delayed$Persistence,PersistentManufacturer This) throws PersistenceException {
+    public static PersistentManufacturer createManufacturer(String name,boolean delayed$Persistence,PersistentManufacturer This) throws PersistenceException {
+        if (name == null) throw new PersistenceException("Null not allowed for persistent strings, since null = \"\" in Oracle!", 0);
         PersistentManufacturer result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theManufacturerFacade
-                .newDelayedManufacturer("");
+                .newDelayedManufacturer(name);
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theManufacturerFacade
-                .newManufacturer("",-1);
+                .newManufacturer(name,-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        final$$Fields.put("name", name);
         result.initialize(This, final$$Fields);
         result.initializeOnCreation();
         return result;
@@ -156,6 +160,7 @@ public class Manufacturer extends PersistentObject implements PersistentManufact
 				throws PersistenceException{
         this.setThis((PersistentManufacturer)This);
 		if(this.isTheSameAs(This)){
+			this.setName((String)final$$Fields.get("name"));
 		}
     }
     
