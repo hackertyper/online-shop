@@ -16,15 +16,15 @@ import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.SelectionModel;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TitledPane;
-import javafx.scene.control.ToolBar;
 import javafx.scene.control.TreeItem;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ContextMenuEvent;
@@ -42,7 +42,7 @@ public class CustomerServiceClientView extends BorderPane implements ExceptionAn
 
 	private ConnectionMaster 		 connection;
 	private ExceptionAndEventHandler parent;	
-	private CustomerServiceView 		 		 service;
+	private CustomerServiceView 	 service;
 
 	/**
 	 * This is the default constructor
@@ -58,20 +58,45 @@ public class CustomerServiceClientView extends BorderPane implements ExceptionAn
 		return this.service;
 	}
 	private void initialize() {
-        this.setCenter( this.getMainSplitPane());
-        if( !WithStaticOperations && this.getMainToolBar().getItems().size() > 0){
-        	this.setTop( this.getMainToolBar() );
-        }
+        this.setTop(getTabs());
 	}
-	private ToolBar mainToolBar = null;
-	private ToolBar getMainToolBar() {
-		if( this.mainToolBar == null){
-			this.mainToolBar = new ToolBar();
-			for( Button current : this.getToolButtonsForStaticOperations()) {
-				this.mainToolBar.getItems().add( current );
-			}
+	private TabPane tabs = null;
+	private TabPane getTabs() {
+		if(this.tabs == null) {
+			this.tabs = new TabPane();
+			this.tabs.getTabs().addAll(getTabShop(), getTabAccount(), getTabCart());
 		}
-		return this.mainToolBar;
+		return this.tabs;
+	}
+	private Tab tabShop = null;
+	private Tab getTabShop() {
+		if(this.tabShop == null) {
+			this.tabShop = new Tab();
+			this.tabShop.setText("Shop");
+			this.tabShop.setClosable(false);
+		    this.tabShop.setContent(new ShopServiceView(this));
+		}
+		return this.tabShop;
+	}
+	private Tab tabAccount = null;
+	private Tab getTabAccount() {
+		if(this.tabAccount == null) {
+			this.tabAccount = new Tab();
+			this.tabAccount.setText("Konto");
+			this.tabAccount.setClosable(false);
+		    this.tabAccount.setContent(new AccountServiceView(this));
+		}
+		return this.tabAccount;
+	}
+	private Tab tabCart = null;
+	private Tab getTabCart() {
+		if(this.tabCart == null) {
+			this.tabCart = new Tab();
+			this.tabCart.setText("Einkaufswagen");
+			this.tabCart.setClosable(false);
+		    this.tabCart.setContent(new CartServiceView(this));
+		}
+		return this.tabCart;
 	}
 	private SplitPane mainSplitPane = null;
 	private SplitPane getMainSplitPane() {
@@ -217,7 +242,7 @@ public class CustomerServiceClientView extends BorderPane implements ExceptionAn
 		this.currentDetails.prefWidthProperty().bind( this.getTitledDetailsPane().widthProperty() );
 	}
 
-	private DetailPanel getDetailView(final Anything anything) throws ModelException {
+	protected DetailPanel getDetailView(final Anything anything) throws ModelException {
 		class PanelDecider extends AnythingStandardVisitor {
 
 			private DetailPanel result;
@@ -304,7 +329,31 @@ public class CustomerServiceClientView extends BorderPane implements ExceptionAn
 	public void handleUserException(UserException exception) {
 		this.parent.handleUserException(exception);	
 	}	
-	
+	protected FindArticlePRMTRStringPRMTRMenuItem newFindArticlePRMTRStringPRMTRMenuItem() {
+		return new FindArticlePRMTRStringPRMTRMenuItem();
+	}
+	protected OrderPRMTRMenuItem newOrderPRMTRMenuItem() {
+		return new OrderPRMTRMenuItem();
+	}
+	protected WithdrawPRMTRIntegerPRMTRMenuItem newWithdrawPRMTRIntegerPRMTRMenuItem() {
+		return new WithdrawPRMTRIntegerPRMTRMenuItem();
+	}
+	protected DepositPRMTRIntegerPRMTRMenuItem newDepositPRMTRIntegerPRMTRMenuItem() {
+		return new DepositPRMTRIntegerPRMTRMenuItem();
+	}
+	protected RemoveFCartPRMTRQuantifiedArticlesPRMTRCartPRMTRMenuItem newRemoveFCartPRMTRQuantifiedArticlesPRMTRCartPRMTRMenuItem() {
+		return new RemoveFCartPRMTRQuantifiedArticlesPRMTRCartPRMTRMenuItem();
+	}
+	protected AddToCartPRMTRArticlePRMTRIntegerPRMTRMenuItem newAddToCartPRMTRArticlePRMTRIntegerPRMTRMenuItem() {
+		return new AddToCartPRMTRArticlePRMTRIntegerPRMTRMenuItem();
+	}
+	protected CheckOutPRMTRMenuItem newCheckOutPRMTRMenuItem() {
+		return new CheckOutPRMTRMenuItem();
+	}
+	protected AcceptDeliveryPRMTRCustomerOrderPRMTRMenuItem newAcceptDeliveryPRMTRCustomerOrderPRMTRMenuItem() {
+		return new AcceptDeliveryPRMTRCustomerOrderPRMTRMenuItem();
+	}
+		
 	/* Menu and wizard section start */
 
 	static boolean WithStaticOperations = false;

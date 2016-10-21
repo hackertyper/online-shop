@@ -14,6 +14,7 @@ public class GUIConstants {
 	static final String ErrorTitle = "Errors";
 	static final String HelpTitle = "Hilfe";
 	static final String NoTitle = "-----";
+	static final String ArticleListTitle = "Artikelliste";
 	
 	
     /***************************************************************************
