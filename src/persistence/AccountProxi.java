@@ -15,7 +15,7 @@ public class AccountProxi extends PersistentProxi implements PersistentAccount{
     
     
     public long getClassId() {
-        return 101;
+        return 130;
     }
     
     public long getLowerLimit() throws PersistenceException {

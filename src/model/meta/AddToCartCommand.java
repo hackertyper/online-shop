@@ -55,7 +55,7 @@ public class AddToCartCommand extends PersistentObject implements PersistentAddT
     }
     
     static public long getTypeId() {
-        return 135;
+        return 146;
     }
     
     public long getClassId() {
@@ -64,7 +64,7 @@ public class AddToCartCommand extends PersistentObject implements PersistentAddT
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 135) ConnectionHandler.getTheConnectionHandler().theAddToCartCommandFacade
+        if (this.getClassId() == 146) ConnectionHandler.getTheConnectionHandler().theAddToCartCommandFacade
             .newAddToCartCommand(amount,this.getId());
         super.store();
         if(this.getArticle() != null){
@@ -231,12 +231,8 @@ public class AddToCartCommand extends PersistentObject implements PersistentAddT
     }
     public void execute() 
 				throws PersistenceException{
-        try{
-			this.commandReceiver.addToCart(this.getArticle(), this.getAmount());
-		}
-		catch(model.InsufficientStock e){
-			this.commandException = e;
-		}
+        this.commandReceiver.addToCart(this.getArticle(), this.getAmount());
+		
     }
     public Invoker fetchInvoker() 
 				throws PersistenceException{

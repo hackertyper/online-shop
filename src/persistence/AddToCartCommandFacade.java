@@ -26,25 +26,25 @@ public class AddToCartCommandFacade{
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
     public PersistentAddToCartCommand newAddToCartCommand(long amount,long idCreateIfLessZero) throws PersistenceException {
-        if(idCreateIfLessZero > 0) return (PersistentAddToCartCommand)PersistentProxi.createProxi(idCreateIfLessZero, 135);
+        if(idCreateIfLessZero > 0) return (PersistentAddToCartCommand)PersistentProxi.createProxi(idCreateIfLessZero, 146);
         long id = ConnectionHandler.getTheConnectionHandler().theAddToCartCommandFacade.getNextId();
         AddToCartCommand result = new AddToCartCommand(null,amount,null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentAddToCartCommand)PersistentProxi.createProxi(id, 135);
+        return (PersistentAddToCartCommand)PersistentProxi.createProxi(id, 146);
     }
     
     public PersistentAddToCartCommand newDelayedAddToCartCommand(long amount) throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theAddToCartCommandFacade.getNextId();
         AddToCartCommand result = new AddToCartCommand(null,amount,null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentAddToCartCommand)PersistentProxi.createProxi(id, 135);
+        return (PersistentAddToCartCommand)PersistentProxi.createProxi(id, 146);
     }
     
     public AddToCartCommand getAddToCartCommand(long AddToCartCommandId) throws PersistenceException{
         return null; //All data is in the cache!
     }
     public long getClass(long objectId) throws PersistenceException{
-        if(Cache.getTheCache().contains(objectId, 135)) return 135;
+        if(Cache.getTheCache().contains(objectId, 146)) return 146;
         
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         

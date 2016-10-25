@@ -15,7 +15,7 @@ public class CustomerProxi extends PersistentProxi implements PersistentCustomer
     
     
     public long getClassId() {
-        return 106;
+        return 131;
     }
     
     public PersistentAccount getMyAccount() throws PersistenceException {
@@ -88,7 +88,7 @@ public class CustomerProxi extends PersistentProxi implements PersistentCustomer
         ((PersistentCustomer)this.getTheObject()).withdraw(amount, invoker);
     }
     public void addToCart(final PersistentArticle article, final long amount) 
-				throws model.InsufficientStock, PersistenceException{
+				throws PersistenceException{
         ((PersistentCustomer)this.getTheObject()).addToCart(article, amount);
     }
     public void checkOut() 

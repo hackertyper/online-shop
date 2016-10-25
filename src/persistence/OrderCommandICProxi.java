@@ -19,7 +19,7 @@ public class OrderCommandICProxi extends PersistentInCacheProxi implements Persi
     }
     
     public long getClassId() {
-        return 104;
+        return 143;
     }
     
     public Invoker getInvoker() throws PersistenceException {

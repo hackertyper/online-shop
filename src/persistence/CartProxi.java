@@ -15,7 +15,7 @@ public class CartProxi extends PersistentProxi implements PersistentCart{
     
     
     public long getClassId() {
-        return 123;
+        return 141;
     }
     
     public long getCurrentSum() throws PersistenceException {

@@ -19,7 +19,7 @@ public class ChangeDescriptionCommandICProxi extends PersistentInCacheProxi impl
     }
     
     public long getClassId() {
-        return 131;
+        return 160;
     }
     
     public String getNewDescription() throws PersistenceException {

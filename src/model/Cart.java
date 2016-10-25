@@ -98,7 +98,7 @@ public class Cart extends PersistentObject implements PersistentCart{
     }
     
     static public long getTypeId() {
-        return 123;
+        return 141;
     }
     
     public long getClassId() {
@@ -107,7 +107,7 @@ public class Cart extends PersistentObject implements PersistentCart{
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 123) ConnectionHandler.getTheConnectionHandler().theCartFacade
+        if (this.getClassId() == 141) ConnectionHandler.getTheConnectionHandler().theCartFacade
             .newCart(currentSum,this.getId());
         super.store();
         this.getArticleList().store();
@@ -190,12 +190,8 @@ public class Cart extends PersistentObject implements PersistentCart{
     
     // Start of section that contains operations that must be implemented.
     
-    /**
-     * Adds an article to the cart and calculates the new current sum.
-     */
     public void addArticle(final PersistentQuantifiedArticles article) 
 				throws PersistenceException{
-    	// prevent double entries in article list
     	PersistentQuantifiedArticles oldEntry = getThis().getArticleList().findFirst(new Predcate<PersistentQuantifiedArticles>() {
 			@Override
 			public boolean test(PersistentQuantifiedArticles argument) throws PersistenceException {
@@ -207,7 +203,6 @@ public class Cart extends PersistentObject implements PersistentCart{
     	} else {
     		oldEntry.setAmount(oldEntry.getAmount() + article.getAmount());
     	}
-    	// calculate new current sum
         getThis().setCurrentSum(getThis().getArticleList().aggregate(new Aggregtion<PersistentQuantifiedArticles, Long>() {
 
 			@Override
@@ -224,6 +219,7 @@ public class Cart extends PersistentObject implements PersistentCart{
     public void checkOut() 
 				throws model.InsufficientStock, PersistenceException{
         getThis().getArticleList().applyToAllException(new ProcdureException<PersistentQuantifiedArticles, InsufficientStock>() {
+
 			@Override
 			public void doItTo(PersistentQuantifiedArticles argument) throws PersistenceException, InsufficientStock {
 				argument.reserve();
@@ -235,36 +231,28 @@ public class Cart extends PersistentObject implements PersistentCart{
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
+        //TODO: implement method: initializeOnCreation
+        
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
+        //TODO: implement method: initializeOnInstantiation
+        
     }
     public void order() 
 				throws PersistenceException{
-    /*    getThis().getManager().pay(getThis().getCurrentSum());
-        PersistentCustomerOrder order = CustomerOrder.createCustomerOrder(0);
-        try {
-			order.getArticleList().add(getThis().getArticleList());
-		} catch (UserException e) {
-			throw new Error(e);
-		}
-        order.send();
-        getThis().getArticleList().filter(new Predcate<PersistentQuantifiedArticles>() {
+        getThis().getManager().pay(getThis().getCurrentSum());
+        getThis().getArticleList().applyToAll(new Procdure<PersistentQuantifiedArticles>() {
 			@Override
-			public boolean test(PersistentQuantifiedArticles argument) throws PersistenceException {
-				return false;
+			public void doItTo(PersistentQuantifiedArticles argument) throws PersistenceException {
+				argument.pack();
 			}
-		});*/
+		});
     }
     public void removeArticle(final PersistentQuantifiedArticles article) 
 				throws PersistenceException{
-        getThis().getArticleList().removeFirstSuccess(new Predcate<PersistentQuantifiedArticles>() {
-    		@Override
-    		public boolean test(PersistentQuantifiedArticles argument) throws PersistenceException {
-    			return argument.getArticle().equals(article.getArticle());
-    		}
-    	});
-        getThis().setCurrentSum(getThis().getCurrentSum() - (article.getAmount() * article.getArticle().getPrice()));
+        getThis().getArticleList().removeFirst(article);
+        getThis().setCurrentSum(getThis().getCurrentSum() - article.getArticle().getPrice());
     }
     
     

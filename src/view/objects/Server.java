@@ -23,7 +23,7 @@ public class Server extends ViewObject implements ServerView{
     }
     
     static public long getTypeId() {
-        return -105;
+        return -104;
     }
     
     public long getClassId() {

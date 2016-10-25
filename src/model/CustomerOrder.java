@@ -2,14 +2,6 @@
 package model;
 
 import persistence.*;
-import view.ModelException;
-import viewClient.GUIConstants;
-
-import java.util.Optional;
-
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Alert.AlertType;
 import model.visitor.*;
 
 
@@ -101,7 +93,7 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
     }
     
     static public long getTypeId() {
-        return 111;
+        return 171;
     }
     
     public long getClassId() {
@@ -110,7 +102,7 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 111) ConnectionHandler.getTheConnectionHandler().theCustomerOrderFacade
+        if (this.getClassId() == 171) ConnectionHandler.getTheConnectionHandler().theCustomerOrderFacade
             .newCustomerOrder(remainingTimeToDelivery,this.getId());
         super.store();
         this.getArticleList().store();
@@ -195,27 +187,23 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
+        //TODO: implement method: copyingPrivateUserAttributes
+        
     }
     public void deliver() 
 				throws PersistenceException{
-        Alert arrival = new Alert(AlertType.CONFIRMATION);
-        arrival.setTitle("Lieferung annehmen");
-        arrival.setHeaderText(null);
-        arrival.setContentText("Lieferung annehmen?");
-        Optional<ButtonType> buttonResult = arrival.showAndWait();
-        if (buttonResult.get() == ButtonType.OK) {
-        	getThis().acceptDelivery();
-        } else {
-        	getThis().retoure();
-        }
+        //TODO: implement method: deliver
+        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
         super.initializeOnCreation();
+		//TODO: implement method: initializeOnCreation
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         super.initializeOnInstantiation();
+		//TODO: implement method: initializeOnInstantiation
     }
     public void retoure() 
 				throws PersistenceException{

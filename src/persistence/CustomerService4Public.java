@@ -6,6 +6,10 @@ import model.visitor.*;
 public interface CustomerService4Public extends Service4Public {
     
     
+    public void accept(CustomerServiceVisitor visitor) throws PersistenceException;
+    public <R> R accept(CustomerServiceReturnVisitor<R>  visitor) throws PersistenceException;
+    public <E extends model.UserException>  void accept(CustomerServiceExceptionVisitor<E> visitor) throws PersistenceException, E;
+    public <R, E extends model.UserException> R accept(CustomerServiceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     public void accept(ServiceVisitor visitor) throws PersistenceException;
     public <R> R accept(ServiceReturnVisitor<R>  visitor) throws PersistenceException;
     public <E extends model.UserException>  void accept(ServiceExceptionVisitor<E> visitor) throws PersistenceException, E;
@@ -29,26 +33,12 @@ public interface CustomerService4Public extends Service4Public {
 				throws PersistenceException;
     public void acceptDelivery(final PersistentCustomerOrder customerOrder) 
 				throws PersistenceException;
-    public void addToCart(final PersistentArticle article, final long amount) 
-				throws PersistenceException;
-    public void checkOut() 
-				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
-				throws PersistenceException;
-    public void deposit(final long amount) 
-				throws PersistenceException;
-    public void findArticle(final String description) 
 				throws PersistenceException;
     public void initializeOnCreation() 
 				throws PersistenceException;
     public void initializeOnInstantiation() 
 				throws PersistenceException;
-    public void order() 
-				throws PersistenceException;
-    public void removeFCart(final PersistentQuantifiedArticles article, final PersistentCart cart) 
-				throws PersistenceException;
-    public void withdraw(final long amount) 
-				throws model.InsufficientFunds, PersistenceException;
 
 }
 

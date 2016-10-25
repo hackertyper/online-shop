@@ -39,25 +39,27 @@ public class CustomerProxi extends ViewProxi implements CustomerView{
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
         int index = originalIndex;
-        if(index == 0 && this.getMyAccount() != null) return new MyAccountCustomerWrapper(this, originalIndex, (ViewRoot)this.getMyAccount());
-        if(this.getMyAccount() != null) index = index - 1;
-        if(index == 0 && this.getMyCart() != null) return new MyCartCustomerWrapper(this, originalIndex, (ViewRoot)this.getMyCart());
-        if(this.getMyCart() != null) index = index - 1;
+        if(this.getMyAccount() != null && index < this.getMyAccount().getTheObject().getChildCount())
+            return this.getMyAccount().getTheObject().getChild(index);
+        if(this.getMyAccount() != null) index = index - this.getMyAccount().getTheObject().getChildCount();
+        if(this.getMyCart() != null && index < this.getMyCart().getTheObject().getChildCount())
+            return this.getMyCart().getTheObject().getChild(index);
+        if(this.getMyCart() != null) index = index - this.getMyCart().getTheObject().getChildCount();
         if(index < this.getItemRange().size()) return new ItemRangeCustomerWrapper(this, originalIndex, (ViewRoot)this.getItemRange().get(index));
         index = index - this.getItemRange().size();
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getMyAccount() == null ? 0 : 1)
-            + (this.getMyCart() == null ? 0 : 1)
+            + (this.getMyAccount() == null ? 0 : this.getMyAccount().getTheObject().getChildCount())
+            + (this.getMyCart() == null ? 0 : this.getMyCart().getTheObject().getChildCount())
             + (this.getItemRange().size());
     }
     public boolean isLeaf() throws ModelException {
         if (this.object == null) return this.getLeafInfo() == 0;
         return true 
-            && (this.getMyAccount() == null ? true : false)
-            && (this.getMyCart() == null ? true : false)
+            && (this.getMyAccount() == null ? true : this.getMyAccount().getTheObject().isLeaf())
+            && (this.getMyCart() == null ? true : this.getMyCart().getTheObject().isLeaf())
             && (this.getItemRange().size() == 0);
     }
     public int getIndexOfChild(Object child) throws ModelException {

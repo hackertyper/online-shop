@@ -26,25 +26,25 @@ public class ArrivedOrderFacade{
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
     public PersistentArrivedOrder newArrivedOrder(long timtToAccept,long idCreateIfLessZero) throws PersistenceException {
-        if(idCreateIfLessZero > 0) return (PersistentArrivedOrder)PersistentProxi.createProxi(idCreateIfLessZero, 112);
+        if(idCreateIfLessZero > 0) return (PersistentArrivedOrder)PersistentProxi.createProxi(idCreateIfLessZero, 172);
         long id = ConnectionHandler.getTheConnectionHandler().theArrivedOrderFacade.getNextId();
         ArrivedOrder result = new ArrivedOrder(timtToAccept,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentArrivedOrder)PersistentProxi.createProxi(id, 112);
+        return (PersistentArrivedOrder)PersistentProxi.createProxi(id, 172);
     }
     
     public PersistentArrivedOrder newDelayedArrivedOrder(long timtToAccept) throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theArrivedOrderFacade.getNextId();
         ArrivedOrder result = new ArrivedOrder(timtToAccept,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentArrivedOrder)PersistentProxi.createProxi(id, 112);
+        return (PersistentArrivedOrder)PersistentProxi.createProxi(id, 172);
     }
     
     public ArrivedOrder getArrivedOrder(long ArrivedOrderId) throws PersistenceException{
         return null; //All data is in the cache!
     }
     public long getClass(long objectId) throws PersistenceException{
-        if(Cache.getTheCache().contains(objectId, 112)) return 112;
+        if(Cache.getTheCache().contains(objectId, 172)) return 172;
         
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         

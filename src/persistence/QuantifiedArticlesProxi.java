@@ -15,7 +15,7 @@ public class QuantifiedArticlesProxi extends PersistentProxi implements Persiste
     
     
     public long getClassId() {
-        return 124;
+        return 156;
     }
     
     public PersistentArticle getArticle() throws PersistenceException {

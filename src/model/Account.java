@@ -15,41 +15,37 @@ public class Account extends PersistentObject implements PersistentAccount{
         return (PersistentAccount)PersistentProxi.createProxi(objectId, classId);
     }
     
-    public static PersistentAccount createAccount(long lowerLimit,long balance) throws PersistenceException{
-        return createAccount(lowerLimit,balance,false);
+    public static PersistentAccount createAccount() throws PersistenceException{
+        return createAccount(false);
     }
     
-    public static PersistentAccount createAccount(long lowerLimit,long balance,boolean delayed$Persistence) throws PersistenceException {
+    public static PersistentAccount createAccount(boolean delayed$Persistence) throws PersistenceException {
         PersistentAccount result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theAccountFacade
-                .newDelayedAccount(lowerLimit,balance);
+                .newDelayedAccount(0,0);
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theAccountFacade
-                .newAccount(lowerLimit,balance,-1);
+                .newAccount(0,0,-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
-        final$$Fields.put("lowerLimit", lowerLimit);
-        final$$Fields.put("balance", balance);
         result.initialize(result, final$$Fields);
         result.initializeOnCreation();
         return result;
     }
     
-    public static PersistentAccount createAccount(long lowerLimit,long balance,boolean delayed$Persistence,PersistentAccount This) throws PersistenceException {
+    public static PersistentAccount createAccount(boolean delayed$Persistence,PersistentAccount This) throws PersistenceException {
         PersistentAccount result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theAccountFacade
-                .newDelayedAccount(lowerLimit,balance);
+                .newDelayedAccount(0,0);
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theAccountFacade
-                .newAccount(lowerLimit,balance,-1);
+                .newAccount(0,0,-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
-        final$$Fields.put("lowerLimit", lowerLimit);
-        final$$Fields.put("balance", balance);
         result.initialize(This, final$$Fields);
         result.initializeOnCreation();
         return result;
@@ -102,7 +98,7 @@ public class Account extends PersistentObject implements PersistentAccount{
     }
     
     static public long getTypeId() {
-        return 101;
+        return 130;
     }
     
     public long getClassId() {
@@ -111,7 +107,7 @@ public class Account extends PersistentObject implements PersistentAccount{
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 101) ConnectionHandler.getTheConnectionHandler().theAccountFacade
+        if (this.getClassId() == 130) ConnectionHandler.getTheConnectionHandler().theAccountFacade
             .newAccount(lowerLimit,balance,this.getId());
         super.store();
         if(!this.isTheSameAs(this.getThis())){
@@ -190,8 +186,6 @@ public class Account extends PersistentObject implements PersistentAccount{
 				throws PersistenceException{
         this.setThis((PersistentAccount)This);
 		if(this.isTheSameAs(This)){
-			this.setLowerLimit((Long)final$$Fields.get("lowerLimit"));
-			this.setBalance((Long)final$$Fields.get("balance"));
 		}
     }
     
@@ -201,12 +195,9 @@ public class Account extends PersistentObject implements PersistentAccount{
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }
-    /**
-     * Deposits an amount of money on the own account. Adds the amount to the accounts balance.
-     */
     public void deposit(final long amount) 
 				throws PersistenceException{
-    	getThis().setBalance(getThis().getBalance() + amount);
+        getThis().setBalance(getThis().getBalance() + amount);
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
@@ -214,29 +205,15 @@ public class Account extends PersistentObject implements PersistentAccount{
     public void initializeOnInstantiation() 
 				throws PersistenceException{
     }
-    /**
-     * Pays the sum of an order from the account balance.
-     * Throws an exception if the balance is lower than the sum or would fall below the lower limit.
-     */
     public void pay(final long sum) 
 				throws PersistenceException{
-        if(sum > getThis().getBalance()) {
-        	// TODO: EXception
-        }
-        else if(getThis().getBalance() - sum < getThis().getLowerLimit()) {
-        	// TODO: EXception
-        } else {
-        	getThis().setBalance(getThis().getBalance() - sum);
-        }
+        //TODO: implement method: pay
+        
     }
-    /**
-     * Withdraws an amount of money from the own account.
-     * Throws an exception if the balance is lower than the amount or would fall below the lower limit.
-     */
     public void withdraw(final long amount) 
 				throws model.InsufficientFunds, PersistenceException{
     	if(amount > getBalance() || getThis().getBalance() - amount < getLowerLimit())
-    		throw new InsufficientFunds(serverConstants.ErrorMessages.InsufficientFunds);
+    		throw new InsufficientFunds("Not enough money on account!");
         getThis().setBalance(getThis().getBalance() - amount);
     }
     

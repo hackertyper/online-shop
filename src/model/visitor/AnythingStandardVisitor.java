@@ -56,6 +56,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleWithdrawCommand(PersistentWithdrawCommand withdrawCommand) throws PersistenceException{
         this.standardHandling(withdrawCommand);
     }
+    public void handleShopService(PersistentShopService shopService) throws PersistenceException{
+        this.standardHandling(shopService);
+    }
     public void handleManufacturer(PersistentManufacturer manufacturer) throws PersistenceException{
         this.standardHandling(manufacturer);
     }
@@ -101,11 +104,17 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleRetoure(PersistentRetoure retoure) throws PersistenceException{
         this.standardHandling(retoure);
     }
+    public void handleCartService(PersistentCartService cartService) throws PersistenceException{
+        this.standardHandling(cartService);
+    }
     public void handleAddToCartCommand(PersistentAddToCartCommand addToCartCommand) throws PersistenceException{
         this.standardHandling(addToCartCommand);
     }
     public void handleCheckOutCommand(PersistentCheckOutCommand checkOutCommand) throws PersistenceException{
         this.standardHandling(checkOutCommand);
+    }
+    public void handleAccountService(PersistentAccountService accountService) throws PersistenceException{
+        this.standardHandling(accountService);
     }
     public void handleCommonDate(PersistentCommonDate commonDate) throws PersistenceException{
         this.standardHandling(commonDate);

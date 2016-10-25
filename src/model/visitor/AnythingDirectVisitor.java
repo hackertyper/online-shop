@@ -30,6 +30,15 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleShopkeeperService(PersistentShopkeeperService shopkeeperService) throws PersistenceException{
         this.handleService(shopkeeperService);
     }
+    public void handleShopService(PersistentShopService shopService) throws PersistenceException{
+        this.handleService(shopService);
+    }
+    public void handleCartService(PersistentCartService cartService) throws PersistenceException{
+        this.handleService(cartService);
+    }
+    public void handleAccountService(PersistentAccountService accountService) throws PersistenceException{
+        this.handleService(accountService);
+    }
     public abstract void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException;
     
     public abstract void handleCommandCoordinator(PersistentCommandCoordinator commandCoordinator) throws PersistenceException;

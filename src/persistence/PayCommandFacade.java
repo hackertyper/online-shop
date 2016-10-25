@@ -26,25 +26,25 @@ public class PayCommandFacade{
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
     public PersistentPayCommand newPayCommand(long sum,long idCreateIfLessZero) throws PersistenceException {
-        if(idCreateIfLessZero > 0) return (PersistentPayCommand)PersistentProxi.createProxi(idCreateIfLessZero, 114);
+        if(idCreateIfLessZero > 0) return (PersistentPayCommand)PersistentProxi.createProxi(idCreateIfLessZero, 140);
         long id = ConnectionHandler.getTheConnectionHandler().thePayCommandFacade.getNextId();
         PayCommand result = new PayCommand(sum,null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentPayCommand)PersistentProxi.createProxi(id, 114);
+        return (PersistentPayCommand)PersistentProxi.createProxi(id, 140);
     }
     
     public PersistentPayCommand newDelayedPayCommand(long sum) throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().thePayCommandFacade.getNextId();
         PayCommand result = new PayCommand(sum,null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentPayCommand)PersistentProxi.createProxi(id, 114);
+        return (PersistentPayCommand)PersistentProxi.createProxi(id, 140);
     }
     
     public PayCommand getPayCommand(long PayCommandId) throws PersistenceException{
         return null; //All data is in the cache!
     }
     public long getClass(long objectId) throws PersistenceException{
-        if(Cache.getTheCache().contains(objectId, 114)) return 114;
+        if(Cache.getTheCache().contains(objectId, 140)) return 140;
         
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         

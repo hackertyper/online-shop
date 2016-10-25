@@ -129,7 +129,7 @@ public class Article extends model.Item implements PersistentArticle{
     }
     
     static public long getTypeId() {
-        return 109;
+        return 144;
     }
     
     public long getClassId() {
@@ -138,7 +138,7 @@ public class Article extends model.Item implements PersistentArticle{
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 109) ConnectionHandler.getTheConnectionHandler().theArticleFacade
+        if (this.getClassId() == 144) ConnectionHandler.getTheConnectionHandler().theArticleFacade
             .newArticle(description,price,minStock,maxStock,manuDelivery,stock,this.getId());
         super.store();
         if(this.getManufacturer() != null){
@@ -295,10 +295,7 @@ public class Article extends model.Item implements PersistentArticle{
     // Start of section that contains operations that must be implemented.
     
     public void addToCart(final long amount, final PersistentCart cart) 
-				throws model.InsufficientStock, PersistenceException{
-    	if(amount > getThis().getStock()) {
-    		throw new InsufficientStock(serverConstants.ErrorMessages.InsufficientStock);
-    	}
+				throws PersistenceException{
         cart.addArticle(QuantifiedArticles.createQuantifiedArticles(getThis(), amount));
     }
     public void changeManuDelivery(final long newManuDelivery) 
@@ -318,25 +315,41 @@ public class Article extends model.Item implements PersistentArticle{
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
+        //TODO: implement method: copyingPrivateUserAttributes
+        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
         super.initializeOnCreation();
+        getThis().setState(NewlyAdded.createNewlyAdded());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         super.initializeOnInstantiation();
+		//TODO: implement method: initializeOnInstantiation
     }
     public void pack(final long amount) 
 				throws PersistenceException{
-        //TODO: implement method: pack
-        
+        if(getThis().getStock() < getThis().getMinStock()) {
+        	getThis().getState().accept(new ArticleStateVisitor() {
+				@Override
+				public void handleNewlyAdded(PersistentNewlyAdded newlyAdded) throws PersistenceException {}
+
+				@Override
+				public void handleOfferedFSale(PersistentOfferedFSale offeredFSale) throws PersistenceException {
+					offeredFSale.reorder(getThis().getMaxStock()-getThis().getStock(), getThis().getManuDelivery());
+				}
+
+				@Override
+				public void handleRemovedFSale(PersistentRemovedFSale removedFSale) throws PersistenceException {}
+			});
+        }
     }
     public void reserve(final long amount) 
 				throws model.InsufficientStock, PersistenceException{
-        if(amount > getThis().getStock() || getThis().getStock() - amount < getThis().getMinStock()) {
-        	throw new InsufficientStock(serverConstants.ErrorMessages.InsufficientStock);
-        }
+    	if(amount > getThis().getStock()) {
+    		throw new InsufficientStock("Not enough articles in stock to process order");
+    	}
     	getThis().setStock(getThis().getStock() - amount);
     }
     
@@ -345,8 +358,7 @@ public class Article extends model.Item implements PersistentArticle{
     
     public void changeDescription(final String newDescription) 
 				throws PersistenceException{
-		// TODO Auto-generated method stub
-		
+		getThis().setDescription(newDescription);
 	}
 
     /* Start of protected part that is not overridden by persistence generator */

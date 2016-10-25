@@ -15,7 +15,7 @@ public class OfferedFSaleProxi extends PersistentProxi implements PersistentOffe
     
     
     public long getClassId() {
-        return 110;
+        return 152;
     }
     
     public PersistentOfferedFSale getThis() throws PersistenceException {
@@ -57,7 +57,7 @@ public class OfferedFSaleProxi extends PersistentProxi implements PersistentOffe
         ((PersistentOfferedFSale)this.getTheObject()).initialize(This, final$$Fields);
     }
     public void addToCart(final long amount, final PersistentCart cart) 
-				throws model.InsufficientStock, PersistenceException{
+				throws PersistenceException{
         ((PersistentOfferedFSale)this.getTheObject()).addToCart(amount, cart);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 

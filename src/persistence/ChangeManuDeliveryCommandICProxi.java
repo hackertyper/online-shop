@@ -19,7 +19,7 @@ public class ChangeManuDeliveryCommandICProxi extends PersistentInCacheProxi imp
     }
     
     public long getClassId() {
-        return 121;
+        return 155;
     }
     
     public long getNewManuDelivery() throws PersistenceException {

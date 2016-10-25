@@ -18,5 +18,14 @@ public abstract class RemoteDirectVisitor implements RemoteVisitor {
     public void handleShopkeeperService(ShopkeeperServiceView shopkeeperService) throws ModelException{
         this.handleService(shopkeeperService);
     }
+    public void handleShopService(ShopServiceView shopService) throws ModelException{
+        this.handleService(shopService);
+    }
+    public void handleCartService(CartServiceView cartService) throws ModelException{
+        this.handleService(cartService);
+    }
+    public void handleAccountService(AccountServiceView accountService) throws ModelException{
+        this.handleService(accountService);
+    }
     
 }

@@ -15,7 +15,7 @@ public class AddToCartCommandProxi extends PersistentProxi implements Persistent
     
     
     public long getClassId() {
-        return 135;
+        return 146;
     }
     
     public PersistentArticle getArticle() throws PersistenceException {

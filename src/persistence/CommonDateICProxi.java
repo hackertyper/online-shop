@@ -19,7 +19,7 @@ public class CommonDateICProxi extends PersistentInCacheProxi implements Persist
     }
     
     public long getClassId() {
-        return 138;
+        return 108;
     }
     
     public java.sql.Date getCreateDate() throws PersistenceException {

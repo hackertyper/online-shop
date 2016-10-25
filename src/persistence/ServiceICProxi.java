@@ -12,18 +12,6 @@ public abstract class ServiceICProxi extends PersistentInCacheProxiOptimistic im
     }
     
     
-    public long getLowerLimitPreset() throws PersistenceException {
-        return ((PersistentService)this.getTheObject()).getLowerLimitPreset();
-    }
-    public void setLowerLimitPreset(long newValue) throws PersistenceException {
-        ((PersistentService)this.getTheObject()).setLowerLimitPreset(newValue);
-    }
-    public long getBalancePreset() throws PersistenceException {
-        return ((PersistentService)this.getTheObject()).getBalancePreset();
-    }
-    public void setBalancePreset(long newValue) throws PersistenceException {
-        ((PersistentService)this.getTheObject()).setBalancePreset(newValue);
-    }
     public Service_ErrorsProxi getErrors() throws PersistenceException {
         return ((PersistentService)this.getTheObject()).getErrors();
     }

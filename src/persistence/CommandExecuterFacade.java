@@ -26,25 +26,25 @@ public class CommandExecuterFacade{
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
     public PersistentCommandExecuter newCommandExecuter(long idCreateIfLessZero) throws PersistenceException {
-        if(idCreateIfLessZero > 0) return (PersistentCommandExecuter)PersistentProxi.createProxi(idCreateIfLessZero, -139);
+        if(idCreateIfLessZero > 0) return (PersistentCommandExecuter)PersistentProxi.createProxi(idCreateIfLessZero, -109);
         long id = ConnectionHandler.getTheConnectionHandler().theCommandExecuterFacade.getNextId();
         CommandExecuter result = new CommandExecuter(id);
         Cache.getTheCache().put(result);
-        return (PersistentCommandExecuter)PersistentProxi.createProxi(id, -139);
+        return (PersistentCommandExecuter)PersistentProxi.createProxi(id, -109);
     }
     
     public PersistentCommandExecuter newDelayedCommandExecuter() throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theCommandExecuterFacade.getNextId();
         CommandExecuter result = new CommandExecuter(id);
         Cache.getTheCache().put(result);
-        return (PersistentCommandExecuter)PersistentProxi.createProxi(id, -139);
+        return (PersistentCommandExecuter)PersistentProxi.createProxi(id, -109);
     }
     
     public CommandExecuter getCommandExecuter(long CommandExecuterId) throws PersistenceException{
         return null; //All data is in the cache!
     }
     public long getClass(long objectId) throws PersistenceException{
-        if(Cache.getTheCache().contains(objectId, -139)) return -139;
+        if(Cache.getTheCache().contains(objectId, -109)) return -109;
         
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         

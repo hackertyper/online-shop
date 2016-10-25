@@ -19,7 +19,7 @@ public class NewlyAddedICProxi extends PersistentInCacheProxiOptimistic implemen
     }
     
     public long getClassId() {
-        return 120;
+        return 154;
     }
     
     public PersistentNewlyAdded getThis() throws PersistenceException {

@@ -19,7 +19,7 @@ public class CustomerOrderICProxi extends DeliveryICProxi implements PersistentC
     }
     
     public long getClassId() {
-        return 111;
+        return 171;
     }
     
     public CustomerOrder_ArticleListProxi getArticleList() throws PersistenceException {

@@ -5,7 +5,7 @@ import view.objects.ViewRoot;
 import view.objects.ViewObjectInTree;
 
 import view.visitor.AnythingStandardVisitor;
-
+import view.visitor.CustomerServiceVisitor;
 import java.util.Optional;
 
 import javafx.application.Platform;
@@ -42,7 +42,7 @@ public class CustomerServiceClientView extends BorderPane implements ExceptionAn
 
 	private ConnectionMaster 		 connection;
 	private ExceptionAndEventHandler parent;	
-	private CustomerServiceView 	 service;
+	private CustomerServiceView 		 		 service;
 
 	/**
 	 * This is the default constructor
@@ -56,9 +56,6 @@ public class CustomerServiceClientView extends BorderPane implements ExceptionAn
 	@SuppressWarnings("unused")
 	private CustomerServiceView getService(){
 		return this.service;
-	}
-	private void initialize() {
-        this.setTop(getTabs());
 	}
 	private TabPane tabs = null;
 	private TabPane getTabs() {
@@ -74,7 +71,6 @@ public class CustomerServiceClientView extends BorderPane implements ExceptionAn
 			this.tabShop = new Tab();
 			this.tabShop.setText("Shop");
 			this.tabShop.setClosable(false);
-		    this.tabShop.setContent(new ShopServiceView(this));
 		}
 		return this.tabShop;
 	}
@@ -84,7 +80,6 @@ public class CustomerServiceClientView extends BorderPane implements ExceptionAn
 			this.tabAccount = new Tab();
 			this.tabAccount.setText("Konto");
 			this.tabAccount.setClosable(false);
-		    this.tabAccount.setContent(new AccountServiceView(this));
 		}
 		return this.tabAccount;
 	}
@@ -94,21 +89,11 @@ public class CustomerServiceClientView extends BorderPane implements ExceptionAn
 			this.tabCart = new Tab();
 			this.tabCart.setText("Einkaufswagen");
 			this.tabCart.setClosable(false);
-		    this.tabCart.setContent(new CartServiceView(this));
 		}
 		return this.tabCart;
 	}
-	private SplitPane mainSplitPane = null;
-	private SplitPane getMainSplitPane() {
-		if( this.mainSplitPane == null) {
-			this.mainSplitPane = new SplitPane();
-			this.mainSplitPane.setOrientation( Orientation.HORIZONTAL);
-			this.mainSplitPane.getItems().addAll( this.getNavigationSplitPane(), this.getTitledDetailsPane() );	
-			this.mainSplitPane.setDividerPosition( 0, 0.5);
-			this.mainSplitPane.prefHeightProperty().bind( this.heightProperty());
-			this.mainSplitPane.prefWidthProperty().bind( this.widthProperty());
-		}
-		return this.mainSplitPane;
+	private void initialize() {
+        this.setCenter( this.getTabs());
 	}
 	private SplitPane navigationSplitPane = null;
 	private SplitPane getNavigationSplitPane(){
@@ -116,7 +101,6 @@ public class CustomerServiceClientView extends BorderPane implements ExceptionAn
 			this.navigationSplitPane = new SplitPane();
 			this.navigationSplitPane.setOrientation( Orientation.VERTICAL);
 			this.navigationSplitPane.getItems().addAll( this.getNavigationPanel(), this.getErrorPanel());
-			this.navigationSplitPane.prefHeightProperty().bind( this.getMainSplitPane().heightProperty());
 			this.navigationSplitPane.setDividerPosition( 0, 1.0);
 			this.navigationSplitPane.heightProperty().addListener(new ChangeListener<Number>() {
 				public void changed(
@@ -178,8 +162,7 @@ public class CustomerServiceClientView extends BorderPane implements ExceptionAn
 		if( this.titledDetailsPane == null ){
 			this.titledDetailsPane = new TitledPane();
 			this.titledDetailsPane.setText( GUIConstants.DetailsTitle);
-			this.titledDetailsPane.setCollapsible(false);			
-			this.titledDetailsPane.prefHeightProperty().bind(this.getMainSplitPane().heightProperty());
+			this.titledDetailsPane.setCollapsible(false);
 		}
 		return this.titledDetailsPane;		
 	}	
@@ -242,7 +225,7 @@ public class CustomerServiceClientView extends BorderPane implements ExceptionAn
 		this.currentDetails.prefWidthProperty().bind( this.getTitledDetailsPane().widthProperty() );
 	}
 
-	protected DetailPanel getDetailView(final Anything anything) throws ModelException {
+	private DetailPanel getDetailView(final Anything anything) throws ModelException {
 		class PanelDecider extends AnythingStandardVisitor {
 
 			private DetailPanel result;
@@ -311,14 +294,37 @@ public class CustomerServiceClientView extends BorderPane implements ExceptionAn
 	/** Is called only once after the connection has been established
 	**/
 	public void initializeConnection(){
-		Platform.runLater( new  Runnable() {
-			public void run() {
-				getNavigationTree().setModel((TreeModel) getConnection().getCustomerServiceView());	
-				getNavigationTree().getRoot().setExpanded(true);
-				getNavigationTree().getSelectionModel().select( getNavigationTree().getRoot());
+		try {
+			java.util.Iterator<CustomerServiceView> services = this.getService().getServices().iterator();
+			while (services.hasNext()) {
+				services.next().accept(new CustomerServiceVisitor() {
+					@Override
+					public void handleAccountService(AccountServiceView accountService) throws ModelException {
+						AccountServiceClientView view = new AccountServiceClientView(CustomerServiceClientView.this, accountService);
+						accountService.connectAccountService(CustomerServiceClientView.this.getConnection(), view);
+						CustomerServiceClientView.this.getTabAccount().setContent(view);
+					}
+					@Override
+					public void handleCartService(CartServiceView cartService) throws ModelException {
+						CartServiceClientView view = new CartServiceClientView(CustomerServiceClientView.this, cartService);
+						cartService.connectCartService(CustomerServiceClientView.this.getConnection(), view);
+						CustomerServiceClientView.this.getTabCart().setContent(view);
+					}
+					@Override
+					public void handleShopService(ShopServiceView shopService) throws ModelException {
+						ShopServiceClientView view = new ShopServiceClientView(CustomerServiceClientView.this, shopService);
+						shopService.connectShopService(CustomerServiceClientView.this.getConnection(), view);
+						CustomerServiceClientView.this.getTabShop().setContent(view);
+					}
+					@Override
+					public void handleCustomerService(CustomerServiceView customerService) throws ModelException {}
+				});
+				
 			}
-		});
-		//TODO adjust implementation: initializeConnection
+			getConnection().refresherStop();
+		} catch (ModelException e) {
+			this.handleException(e);
+		}
 	}
 	public void handleException(ModelException exception) {
 		this.parent.handleException(exception);
@@ -329,44 +335,13 @@ public class CustomerServiceClientView extends BorderPane implements ExceptionAn
 	public void handleUserException(UserException exception) {
 		this.parent.handleUserException(exception);	
 	}	
-	protected FindArticlePRMTRStringPRMTRMenuItem newFindArticlePRMTRStringPRMTRMenuItem() {
-		return new FindArticlePRMTRStringPRMTRMenuItem();
-	}
-	protected OrderPRMTRMenuItem newOrderPRMTRMenuItem() {
-		return new OrderPRMTRMenuItem();
-	}
-	protected WithdrawPRMTRIntegerPRMTRMenuItem newWithdrawPRMTRIntegerPRMTRMenuItem() {
-		return new WithdrawPRMTRIntegerPRMTRMenuItem();
-	}
-	protected DepositPRMTRIntegerPRMTRMenuItem newDepositPRMTRIntegerPRMTRMenuItem() {
-		return new DepositPRMTRIntegerPRMTRMenuItem();
-	}
-	protected RemoveFCartPRMTRQuantifiedArticlesPRMTRCartPRMTRMenuItem newRemoveFCartPRMTRQuantifiedArticlesPRMTRCartPRMTRMenuItem() {
-		return new RemoveFCartPRMTRQuantifiedArticlesPRMTRCartPRMTRMenuItem();
-	}
-	protected AddToCartPRMTRArticlePRMTRIntegerPRMTRMenuItem newAddToCartPRMTRArticlePRMTRIntegerPRMTRMenuItem() {
-		return new AddToCartPRMTRArticlePRMTRIntegerPRMTRMenuItem();
-	}
-	protected CheckOutPRMTRMenuItem newCheckOutPRMTRMenuItem() {
-		return new CheckOutPRMTRMenuItem();
-	}
-	protected AcceptDeliveryPRMTRCustomerOrderPRMTRMenuItem newAcceptDeliveryPRMTRCustomerOrderPRMTRMenuItem() {
-		return new AcceptDeliveryPRMTRCustomerOrderPRMTRMenuItem();
-	}
-		
+	
 	/* Menu and wizard section start */
 
 	static boolean WithStaticOperations = false;
 
 
     interface MenuItemVisitor{
-        ImageView handle(FindArticlePRMTRStringPRMTRMenuItem menuItem);
-        ImageView handle(OrderPRMTRMenuItem menuItem);
-        ImageView handle(WithdrawPRMTRIntegerPRMTRMenuItem menuItem);
-        ImageView handle(DepositPRMTRIntegerPRMTRMenuItem menuItem);
-        ImageView handle(RemoveFCartPRMTRQuantifiedArticlesPRMTRCartPRMTRMenuItem menuItem);
-        ImageView handle(AddToCartPRMTRArticlePRMTRIntegerPRMTRMenuItem menuItem);
-        ImageView handle(CheckOutPRMTRMenuItem menuItem);
         ImageView handle(AcceptDeliveryPRMTRCustomerOrderPRMTRMenuItem menuItem);
     }
     private abstract class CustomerServiceMenuItem extends MenuItem{
@@ -375,41 +350,6 @@ public class CustomerServiceClientView extends BorderPane implements ExceptionAn
         }
         abstract protected ImageView accept(MenuItemVisitor visitor);
     }
-    private class FindArticlePRMTRStringPRMTRMenuItem extends CustomerServiceMenuItem{
-        protected ImageView accept(MenuItemVisitor visitor){
-            return visitor.handle(this);
-        }
-    }
-    private class OrderPRMTRMenuItem extends CustomerServiceMenuItem{
-        protected ImageView accept(MenuItemVisitor visitor){
-            return visitor.handle(this);
-        }
-    }
-    private class WithdrawPRMTRIntegerPRMTRMenuItem extends CustomerServiceMenuItem{
-        protected ImageView accept(MenuItemVisitor visitor){
-            return visitor.handle(this);
-        }
-    }
-    private class DepositPRMTRIntegerPRMTRMenuItem extends CustomerServiceMenuItem{
-        protected ImageView accept(MenuItemVisitor visitor){
-            return visitor.handle(this);
-        }
-    }
-    private class RemoveFCartPRMTRQuantifiedArticlesPRMTRCartPRMTRMenuItem extends CustomerServiceMenuItem{
-        protected ImageView accept(MenuItemVisitor visitor){
-            return visitor.handle(this);
-        }
-    }
-    private class AddToCartPRMTRArticlePRMTRIntegerPRMTRMenuItem extends CustomerServiceMenuItem{
-        protected ImageView accept(MenuItemVisitor visitor){
-            return visitor.handle(this);
-        }
-    }
-    private class CheckOutPRMTRMenuItem extends CustomerServiceMenuItem{
-        protected ImageView accept(MenuItemVisitor visitor){
-            return visitor.handle(this);
-        }
-    }
     private class AcceptDeliveryPRMTRCustomerOrderPRMTRMenuItem extends CustomerServiceMenuItem{
         protected ImageView accept(MenuItemVisitor visitor){
             return visitor.handle(this);
@@ -417,175 +357,17 @@ public class CustomerServiceClientView extends BorderPane implements ExceptionAn
     }
     private java.util.Vector<javafx.scene.control.Button> getToolButtonsForStaticOperations() {
         java.util.Vector<javafx.scene.control.Button> result = new java.util.Vector<javafx.scene.control.Button>();
-        javafx.scene.control.Button currentButton = null;
-        currentButton = new javafx.scene.control.Button("Artikel suchen ... ");
-        currentButton.setGraphic(new FindArticlePRMTRStringPRMTRMenuItem().getGraphic());
-        currentButton.setOnAction(new EventHandler<ActionEvent>(){
-            public void handle(javafx.event.ActionEvent e) {
-                final CustomerServiceFindArticleStringMssgWizard wizard = new CustomerServiceFindArticleStringMssgWizard("Artikel suchen");
-                wizard.setWidth(getNavigationPanel().getWidth());
-                wizard.showAndWait();
-            }
-        });
-        result.add(currentButton);
-        currentButton = new javafx.scene.control.Button("Bestellen");
-        currentButton.setGraphic(new OrderPRMTRMenuItem().getGraphic());
-        currentButton.setOnAction(new EventHandler<ActionEvent>(){
-            public void handle(javafx.event.ActionEvent e) {
-                Alert confirm = new Alert(AlertType.CONFIRMATION);
-                confirm.setTitle(GUIConstants.ConfirmButtonText);
-                confirm.setHeaderText(null);
-                confirm.setContentText("Bestellen" + GUIConstants.ConfirmQuestionMark);
-                Optional<ButtonType> buttonResult = confirm.showAndWait();
-                if (buttonResult.get() == ButtonType.OK) {
-                    try {
-                        getConnection().order();
-                        getConnection().setEagerRefresh();
-                        
-                    }catch(ModelException me){
-                        handleException(me);
-                    }
-                }
-            }
-        });
-        result.add(currentButton);
-        currentButton = new javafx.scene.control.Button("Geld abheben ... ");
-        currentButton.setGraphic(new WithdrawPRMTRIntegerPRMTRMenuItem().getGraphic());
-        currentButton.setOnAction(new EventHandler<ActionEvent>(){
-            public void handle(javafx.event.ActionEvent e) {
-                final CustomerServiceWithdrawIntegerMssgWizard wizard = new CustomerServiceWithdrawIntegerMssgWizard("Geld abheben");
-                wizard.setWidth(getNavigationPanel().getWidth());
-                wizard.showAndWait();
-            }
-        });
-        result.add(currentButton);
-        currentButton = new javafx.scene.control.Button("Geld einzahlen ... ");
-        currentButton.setGraphic(new DepositPRMTRIntegerPRMTRMenuItem().getGraphic());
-        currentButton.setOnAction(new EventHandler<ActionEvent>(){
-            public void handle(javafx.event.ActionEvent e) {
-                final CustomerServiceDepositIntegerMssgWizard wizard = new CustomerServiceDepositIntegerMssgWizard("Geld einzahlen");
-                wizard.setWidth(getNavigationPanel().getWidth());
-                wizard.showAndWait();
-            }
-        });
-        result.add(currentButton);
-        currentButton = new javafx.scene.control.Button("Zur Kasse gehen");
-        currentButton.setGraphic(new CheckOutPRMTRMenuItem().getGraphic());
-        currentButton.setOnAction(new EventHandler<ActionEvent>(){
-            public void handle(javafx.event.ActionEvent e) {
-                Alert confirm = new Alert(AlertType.CONFIRMATION);
-                confirm.setTitle(GUIConstants.ConfirmButtonText);
-                confirm.setHeaderText(null);
-                confirm.setContentText("Zur Kasse gehen" + GUIConstants.ConfirmQuestionMark);
-                Optional<ButtonType> buttonResult = confirm.showAndWait();
-                if (buttonResult.get() == ButtonType.OK) {
-                    try {
-                        getConnection().checkOut();
-                        getConnection().setEagerRefresh();
-                        
-                    }catch(ModelException me){
-                        handleException(me);
-                    }
-                }
-            }
-        });
-        result.add(currentButton);
         return result;
     }
     private ContextMenu getContextMenu(final ViewRoot selected, final boolean withStaticOperations, final Point2D menuPos) {
         final ContextMenu result = new ContextMenu();
         MenuItem item = null;
-        item = new FindArticlePRMTRStringPRMTRMenuItem();
-        item.setText("(S) Artikel suchen ... ");
-        item.setOnAction(new EventHandler<ActionEvent>(){
-            public void handle(javafx.event.ActionEvent e) {
-                final CustomerServiceFindArticleStringMssgWizard wizard = new CustomerServiceFindArticleStringMssgWizard("Artikel suchen");
-                wizard.setWidth(getNavigationPanel().getWidth());
-                wizard.showAndWait();
-            }
-        });
-        if (withStaticOperations) result.getItems().add(item);
-        item = new OrderPRMTRMenuItem();
-        item.setText("(S) Bestellen");
-        item.setOnAction(new EventHandler<ActionEvent>(){
-            public void handle(javafx.event.ActionEvent e) {
-                Alert confirm = new Alert(AlertType.CONFIRMATION);
-                confirm.setTitle(GUIConstants.ConfirmButtonText);
-                confirm.setHeaderText(null);
-                confirm.setContentText("Bestellen" + GUIConstants.ConfirmQuestionMark);
-                Optional<ButtonType> buttonResult = confirm.showAndWait();
-                if (buttonResult.get() == ButtonType.OK) {
-                    try {
-                        getConnection().order();
-                        getConnection().setEagerRefresh();
-                        
-                    }catch(ModelException me){
-                        handleException(me);
-                    }
-                }
-            }
-        });
-        if (withStaticOperations) result.getItems().add(item);
-        item = new WithdrawPRMTRIntegerPRMTRMenuItem();
-        item.setText("(S) Geld abheben ... ");
-        item.setOnAction(new EventHandler<ActionEvent>(){
-            public void handle(javafx.event.ActionEvent e) {
-                final CustomerServiceWithdrawIntegerMssgWizard wizard = new CustomerServiceWithdrawIntegerMssgWizard("Geld abheben");
-                wizard.setWidth(getNavigationPanel().getWidth());
-                wizard.showAndWait();
-            }
-        });
-        if (withStaticOperations) result.getItems().add(item);
-        item = new DepositPRMTRIntegerPRMTRMenuItem();
-        item.setText("(S) Geld einzahlen ... ");
-        item.setOnAction(new EventHandler<ActionEvent>(){
-            public void handle(javafx.event.ActionEvent e) {
-                final CustomerServiceDepositIntegerMssgWizard wizard = new CustomerServiceDepositIntegerMssgWizard("Geld einzahlen");
-                wizard.setWidth(getNavigationPanel().getWidth());
-                wizard.showAndWait();
-            }
-        });
-        if (withStaticOperations) result.getItems().add(item);
-        item = new CheckOutPRMTRMenuItem();
-        item.setText("(S) Zur Kasse gehen");
-        item.setOnAction(new EventHandler<ActionEvent>(){
-            public void handle(javafx.event.ActionEvent e) {
-                Alert confirm = new Alert(AlertType.CONFIRMATION);
-                confirm.setTitle(GUIConstants.ConfirmButtonText);
-                confirm.setHeaderText(null);
-                confirm.setContentText("Zur Kasse gehen" + GUIConstants.ConfirmQuestionMark);
-                Optional<ButtonType> buttonResult = confirm.showAndWait();
-                if (buttonResult.get() == ButtonType.OK) {
-                    try {
-                        getConnection().checkOut();
-                        getConnection().setEagerRefresh();
-                        
-                    }catch(ModelException me){
-                        handleException(me);
-                    }
-                }
-            }
-        });
-        if (withStaticOperations) result.getItems().add(item);
         if (selected != null){
             try {
                 this.setPreCalculatedFilters(this.getConnection().customerService_Menu_Filter((Anything)selected));
             } catch (ModelException me){
                 this.handleException(me);
                 return result;
-            }
-            if (selected instanceof ArticleView){
-                item = new AddToCartPRMTRArticlePRMTRIntegerPRMTRMenuItem();
-                item.setText("Zum Einkaufswagen hinzufügen ... ");
-                item.setOnAction(new EventHandler<ActionEvent>(){
-                    public void handle(javafx.event.ActionEvent e) {
-                        final CustomerServiceAddToCartArticleIntegerMssgWizard wizard = new CustomerServiceAddToCartArticleIntegerMssgWizard("Zum Einkaufswagen hinzufügen");
-                        wizard.setFirstArgument((ArticleView)selected);
-                        wizard.setWidth(getNavigationPanel().getWidth());
-                        wizard.showAndWait();
-                    }
-                });
-                result.getItems().add(item);
             }
             if (selected instanceof CustomerOrderView){
                 item = new AcceptDeliveryPRMTRCustomerOrderPRMTRMenuItem();
@@ -610,19 +392,6 @@ public class CustomerServiceClientView extends BorderPane implements ExceptionAn
                 });
                 result.getItems().add(item);
             }
-            if (selected instanceof QuantifiedArticlesView){
-                item = new RemoveFCartPRMTRQuantifiedArticlesPRMTRCartPRMTRMenuItem();
-                item.setText("Löschen ... ");
-                item.setOnAction(new EventHandler<ActionEvent>(){
-                    public void handle(javafx.event.ActionEvent e) {
-                        final CustomerServiceRemoveFCartQuantifiedArticlesCartMssgWizard wizard = new CustomerServiceRemoveFCartQuantifiedArticlesCartMssgWizard("Löschen");
-                        wizard.setFirstArgument((QuantifiedArticlesView)selected);
-                        wizard.setWidth(getNavigationPanel().getWidth());
-                        wizard.showAndWait();
-                    }
-                });
-                result.getItems().add(item);
-            }
             
         }
         this.addNotGeneratedItems(result,selected);
@@ -636,219 +405,6 @@ public class CustomerServiceClientView extends BorderPane implements ExceptionAn
         this.preCalculatedFilters = switchOff;
     }
     
-	class CustomerServiceAddToCartArticleIntegerMssgWizard extends Wizard {
-
-		protected CustomerServiceAddToCartArticleIntegerMssgWizard(String operationName){
-			super(CustomerServiceClientView.this);
-			getOkButton().setText(operationName);
-			getOkButton().setGraphic(new AddToCartPRMTRArticlePRMTRIntegerPRMTRMenuItem ().getGraphic());
-		}
-		protected void initialize(){
-			this.helpFileName = "CustomerServiceAddToCartArticleIntegerMssgWizard.help";
-			super.initialize();		
-		}
-				
-		protected void perform() {
-			try {
-				getConnection().addToCart(firstArgument, ((IntegerSelectionPanel)getParametersPanel().getChildren().get(0)).getResult().longValue());
-				getConnection().setEagerRefresh();
-				this.close();	
-			} catch(ModelException me){
-				handleException(me);
-				this.close();
-			}
-			
-		}
-		protected String checkCompleteParameterSet(){
-			return null;
-		}
-		protected boolean isModifying () {
-			return false;
-		}
-		protected void addParameters(){
-			getParametersPanel().getChildren().add(new IntegerSelectionPanel("amount", this));		
-		}	
-		protected void handleDependencies(int i) {
-		}
-		
-		
-		private ArticleView firstArgument; 
-	
-		public void setFirstArgument(ArticleView firstArgument){
-			this.firstArgument = firstArgument;
-			this.setTitle(this.firstArgument.toString());
-			this.check();
-		}
-		
-		
-	}
-
-	class CustomerServiceDepositIntegerMssgWizard extends Wizard {
-
-		protected CustomerServiceDepositIntegerMssgWizard(String operationName){
-			super(CustomerServiceClientView.this);
-			getOkButton().setText(operationName);
-			getOkButton().setGraphic(new DepositPRMTRIntegerPRMTRMenuItem ().getGraphic());
-		}
-		protected void initialize(){
-			this.helpFileName = "CustomerServiceDepositIntegerMssgWizard.help";
-			super.initialize();		
-		}
-				
-		protected void perform() {
-			try {
-				getConnection().deposit(((IntegerSelectionPanel)getParametersPanel().getChildren().get(0)).getResult().longValue());
-				getConnection().setEagerRefresh();
-				this.close();	
-			} catch(ModelException me){
-				handleException(me);
-				this.close();
-			}
-			
-		}
-		protected String checkCompleteParameterSet(){
-			return null;
-		}
-		protected boolean isModifying () {
-			return false;
-		}
-		protected void addParameters(){
-			getParametersPanel().getChildren().add(new IntegerSelectionPanel("amount", this));		
-		}	
-		protected void handleDependencies(int i) {
-		}
-		
-		
-	}
-
-	class CustomerServiceFindArticleStringMssgWizard extends Wizard {
-
-		protected CustomerServiceFindArticleStringMssgWizard(String operationName){
-			super(CustomerServiceClientView.this);
-			getOkButton().setText(operationName);
-			getOkButton().setGraphic(new FindArticlePRMTRStringPRMTRMenuItem ().getGraphic());
-		}
-		protected void initialize(){
-			this.helpFileName = "CustomerServiceFindArticleStringMssgWizard.help";
-			super.initialize();		
-		}
-				
-		protected void perform() {
-			try {
-				getConnection().findArticle(((StringSelectionPanel)getParametersPanel().getChildren().get(0)).getResult());
-				getConnection().setEagerRefresh();
-				this.close();	
-			} catch(ModelException me){
-				handleException(me);
-				this.close();
-			}
-			
-		}
-		protected String checkCompleteParameterSet(){
-			return null;
-		}
-		protected boolean isModifying () {
-			return false;
-		}
-		protected void addParameters(){
-			getParametersPanel().getChildren().add(new StringSelectionPanel("description", this));		
-		}	
-		protected void handleDependencies(int i) {
-		}
-		
-		
-	}
-
-	class CustomerServiceRemoveFCartQuantifiedArticlesCartMssgWizard extends Wizard {
-
-		protected CustomerServiceRemoveFCartQuantifiedArticlesCartMssgWizard(String operationName){
-			super(CustomerServiceClientView.this);
-			getOkButton().setText(operationName);
-			getOkButton().setGraphic(new RemoveFCartPRMTRQuantifiedArticlesPRMTRCartPRMTRMenuItem ().getGraphic());
-		}
-		protected void initialize(){
-			this.helpFileName = "CustomerServiceRemoveFCartQuantifiedArticlesCartMssgWizard.help";
-			super.initialize();		
-		}
-				
-		protected void perform() {
-			try {
-				getConnection().removeFCart(firstArgument, (CartView)((ObjectSelectionPanel)getParametersPanel().getChildren().get(0)).getResult());
-				getConnection().setEagerRefresh();
-				this.close();	
-			} catch(ModelException me){
-				handleException(me);
-				this.close();
-			}
-			
-		}
-		protected String checkCompleteParameterSet(){
-			return null;
-		}
-		protected boolean isModifying () {
-			return false;
-		}
-		protected void addParameters(){
-			final ObjectSelectionPanel panel1 = new ObjectSelectionPanel("cart", "view.CartView", null, this);
-			getParametersPanel().getChildren().add(panel1);
-			panel1.setBrowserRoot((ViewRoot) getConnection().getCustomerServiceView());		
-		}	
-		protected void handleDependencies(int i) {
-		}
-		
-		
-		private QuantifiedArticlesView firstArgument; 
-	
-		public void setFirstArgument(QuantifiedArticlesView firstArgument){
-			this.firstArgument = firstArgument;
-			this.setTitle(this.firstArgument.toString());
-			this.check();
-		}
-		
-		
-	}
-
-	class CustomerServiceWithdrawIntegerMssgWizard extends Wizard {
-
-		protected CustomerServiceWithdrawIntegerMssgWizard(String operationName){
-			super(CustomerServiceClientView.this);
-			getOkButton().setText(operationName);
-			getOkButton().setGraphic(new WithdrawPRMTRIntegerPRMTRMenuItem ().getGraphic());
-		}
-		protected void initialize(){
-			this.helpFileName = "CustomerServiceWithdrawIntegerMssgWizard.help";
-			super.initialize();		
-		}
-				
-		protected void perform() {
-			try {
-				getConnection().withdraw(((IntegerSelectionPanel)getParametersPanel().getChildren().get(0)).getResult().longValue());
-				getConnection().setEagerRefresh();
-				this.close();	
-			} catch(ModelException me){
-				handleException(me);
-				this.close();
-			}
-			catch(InsufficientFunds e) {
-				getStatusBar().setText(e.getMessage());
-			}
-			
-		}
-		protected String checkCompleteParameterSet(){
-			return null;
-		}
-		protected boolean isModifying () {
-			return false;
-		}
-		protected void addParameters(){
-			getParametersPanel().getChildren().add(new IntegerSelectionPanel("amount", this));		
-		}	
-		protected void handleDependencies(int i) {
-		}
-		
-		
-	}
-
 	/* Menu and wizard section end */
 	
 	private ImageView getIconForMenuItem(CustomerServiceMenuItem menuItem){

@@ -28,7 +28,7 @@ public interface Customer4Public extends Anything, AbstractPersistentProxi {
     public void withdraw(final long amount, final Invoker invoker) 
 				throws PersistenceException;
     public void addToCart(final PersistentArticle article, final long amount) 
-				throws model.InsufficientStock, PersistenceException;
+				throws PersistenceException;
     public void checkOut() 
 				throws model.InsufficientStock, PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 

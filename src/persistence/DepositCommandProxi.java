@@ -15,7 +15,7 @@ public class DepositCommandProxi extends PersistentProxi implements PersistentDe
     
     
     public long getClassId() {
-        return 122;
+        return 133;
     }
     
     public long getAmount() throws PersistenceException {

@@ -11,18 +11,18 @@ public class ProductGroupFacade{
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
     public PersistentProductGroup newProductGroup(String description,long idCreateIfLessZero) throws PersistenceException {
-        if(idCreateIfLessZero > 0) return (PersistentProductGroup)PersistentProxi.createProxi(idCreateIfLessZero, 102);
+        if(idCreateIfLessZero > 0) return (PersistentProductGroup)PersistentProxi.createProxi(idCreateIfLessZero, 150);
         long id = ConnectionHandler.getTheConnectionHandler().theItemFacade.getNextId();
         ProductGroup result = new ProductGroup(description,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentProductGroup)PersistentProxi.createProxi(id, 102);
+        return (PersistentProductGroup)PersistentProxi.createProxi(id, 150);
     }
     
     public PersistentProductGroup newDelayedProductGroup(String description) throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theItemFacade.getNextId();
         ProductGroup result = new ProductGroup(description,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentProductGroup)PersistentProxi.createProxi(id, 102);
+        return (PersistentProductGroup)PersistentProxi.createProxi(id, 150);
     }
     
     public ProductGroup getProductGroup(long ProductGroupId) throws PersistenceException{

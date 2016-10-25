@@ -19,7 +19,7 @@ public class StartSellingCommandICProxi extends PersistentInCacheProxi implement
     }
     
     public long getClassId() {
-        return 128;
+        return 159;
     }
     
     public Invoker getInvoker() throws PersistenceException {

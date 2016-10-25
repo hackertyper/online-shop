@@ -15,7 +15,7 @@ public class SendOrderProxi extends PersistentProxi implements PersistentSendOrd
     
     
     public long getClassId() {
-        return 126;
+        return 173;
     }
     
     public PersistentSendOrder getThis() throws PersistenceException {

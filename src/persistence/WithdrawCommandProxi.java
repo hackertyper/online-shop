@@ -15,7 +15,7 @@ public class WithdrawCommandProxi extends PersistentProxi implements PersistentW
     
     
     public long getClassId() {
-        return 118;
+        return 132;
     }
     
     public long getAmount() throws PersistenceException {

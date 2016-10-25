@@ -109,7 +109,7 @@ public class Customer extends PersistentObject implements PersistentCustomer{
     }
     
     static public long getTypeId() {
-        return 106;
+        return 131;
     }
     
     public long getClassId() {
@@ -118,7 +118,7 @@ public class Customer extends PersistentObject implements PersistentCustomer{
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 106) ConnectionHandler.getTheConnectionHandler().theCustomerFacade
+        if (this.getClassId() == 131) ConnectionHandler.getTheConnectionHandler().theCustomerFacade
             .newCustomer(this.getId());
         super.store();
         if(this.getMyAccount() != null){
@@ -204,8 +204,8 @@ public class Customer extends PersistentObject implements PersistentCustomer{
          return visitor.handleCustomer(this);
     }
     public int getLeafInfo() throws PersistenceException{
-        if (this.getMyAccount() != null) return 1;
-        if (this.getMyCart() != null) return 1;
+        if (this.getMyAccount() != null && this.getMyAccount().getTheObject().getLeafInfo() != 0) return 1;
+        if (this.getMyCart() != null && this.getMyCart().getTheObject().getLeafInfo() != 0) return 1;
         if (this.getItemRange().getLength() > 0) return 1;
         return 0;
     }
@@ -290,33 +290,28 @@ public class Customer extends PersistentObject implements PersistentCustomer{
     // Start of section that contains operations that must be implemented.
     
     public void addToCart(final PersistentArticle article, final long amount) 
-				throws model.InsufficientStock, PersistenceException{
-    	article.addToCart(amount, getMyCart());
+				throws PersistenceException{
+        article.addToCart(amount, getMyCart());
     }
     public void checkOut() 
 				throws model.InsufficientStock, PersistenceException{
-    	getThis().getMyCart().checkOut();
+        getThis().getMyCart().checkOut();
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }
     public void deposit(final long amount) 
 				throws PersistenceException{
-    	getThis().getMyAccount().deposit(amount);
+        getThis().getMyAccount().deposit(amount);
     }
     public void findArticle(final String description) 
 				throws PersistenceException{
-    	/*getThis().getItemRange().filterException(new PredcateException<PersistentItem, NoSearchResult>() {
-			@Override
-			public boolean test(PersistentItem argument) throws PersistenceException, NoSearchResult {
-				return false;
-			}
-		});*/
+        // TODO: implement findArticle
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-    	getThis().setMyCart(Cart.createCart());
-    	PersistentArticle a1 = Article.createArticle(Manufacturer.createManufacturer("M1"), 100, 10, 200, 0);
+        getThis().setMyCart(Cart.createCart());
+        PersistentArticle a1 = Article.createArticle(Manufacturer.createManufacturer("M1"), 100, 10, 200, 0);
     	a1.setDescription("A1");
     	a1.setState(OfferedFSale.createOfferedFSale());
     	a1.setStock(200);
@@ -327,15 +322,15 @@ public class Customer extends PersistentObject implements PersistentCustomer{
     }
     public void order() 
 				throws PersistenceException{
-    	getThis().getMyCart().order();
+        getThis().getMyCart().order();
     }
     public void pay(final long sum) 
 				throws PersistenceException{
-    	getThis().getMyAccount().pay(sum);
+        getThis().getMyAccount().pay(sum);
     }
     public void withdraw(final long amount) 
 				throws model.InsufficientFunds, PersistenceException{
-    	getThis().getMyAccount().withdraw(amount);
+        getThis().getMyAccount().withdraw(amount);
     }
     
     

@@ -16,7 +16,7 @@ public class SendOrder extends ViewObject implements SendOrderView{
     }
     
     static public long getTypeId() {
-        return 126;
+        return 173;
     }
     
     public long getClassId() {

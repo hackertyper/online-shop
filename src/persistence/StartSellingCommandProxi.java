@@ -15,7 +15,7 @@ public class StartSellingCommandProxi extends PersistentProxi implements Persist
     
     
     public long getClassId() {
-        return 128;
+        return 159;
     }
     
     public Invoker getInvoker() throws PersistenceException {

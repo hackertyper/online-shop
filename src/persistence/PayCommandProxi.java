@@ -15,7 +15,7 @@ public class PayCommandProxi extends PersistentProxi implements PersistentPayCom
     
     
     public long getClassId() {
-        return 114;
+        return 140;
     }
     
     public long getSum() throws PersistenceException {

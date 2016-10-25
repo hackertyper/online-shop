@@ -15,7 +15,7 @@ public class ChangePriceCommandProxi extends PersistentProxi implements Persiste
     
     
     public long getClassId() {
-        return 127;
+        return 158;
     }
     
     public long getNewPrice() throws PersistenceException {

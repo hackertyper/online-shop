@@ -18,7 +18,7 @@ public class RemovedFSale extends ViewObject implements RemovedFSaleView{
     }
     
     static public long getTypeId() {
-        return 132;
+        return 161;
     }
     
     public long getClassId() {

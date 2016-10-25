@@ -22,7 +22,7 @@ public class Cart extends ViewObject implements CartView{
     }
     
     static public long getTypeId() {
-        return 123;
+        return 141;
     }
     
     public long getClassId() {

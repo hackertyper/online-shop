@@ -51,7 +51,7 @@ public class CheckOutCommand extends PersistentObject implements PersistentCheck
     }
     
     static public long getTypeId() {
-        return 137;
+        return 147;
     }
     
     public long getClassId() {
@@ -60,7 +60,7 @@ public class CheckOutCommand extends PersistentObject implements PersistentCheck
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 137) ConnectionHandler.getTheConnectionHandler().theCheckOutCommandFacade
+        if (this.getClassId() == 147) ConnectionHandler.getTheConnectionHandler().theCheckOutCommandFacade
             .newCheckOutCommand(this.getId());
         super.store();
         if(this.getInvoker() != null){

@@ -7,6 +7,7 @@ import view.objects.ViewObjectInTree;
 import view.visitor.AnythingStandardVisitor;
 import view.visitor.ServiceVisitor;
 
+import java.awt.BorderLayout;
 import java.util.Optional;
 
 import javafx.application.Platform;
@@ -32,7 +33,7 @@ import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
-
+import model.Cart;
 
 import com.sun.javafx.geom.Point2D;
 
@@ -309,6 +310,12 @@ public class ServerClientView extends BorderPane implements ExceptionAndEventHan
 					customerService.connectCustomerService(ServerClientView.this.getConnection(), view);
 					ServerClientView.this.setCenter(view);
 				}
+				@Override
+				public void handleAccountService(AccountServiceView accountService) throws ModelException {	}
+				@Override
+				public void handleCartService(CartServiceView cartService) throws ModelException {	}
+				@Override
+				public void handleShopService(ShopServiceView shopService) throws ModelException {	}
 			});
 			getConnection().refresherStop();
 		} catch (ModelException e) {

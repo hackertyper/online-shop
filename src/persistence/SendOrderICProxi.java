@@ -19,7 +19,7 @@ public class SendOrderICProxi extends PersistentInCacheProxiOptimistic implement
     }
     
     public long getClassId() {
-        return 126;
+        return 173;
     }
     
     public PersistentSendOrder getThis() throws PersistenceException {

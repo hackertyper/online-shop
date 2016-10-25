@@ -19,7 +19,7 @@ public class ShopkeeperICProxi extends PersistentInCacheProxiOptimistic implemen
     }
     
     public long getClassId() {
-        return 107;
+        return 151;
     }
     
     public Shopkeeper_ItemRangeProxi getItemRange() throws PersistenceException {

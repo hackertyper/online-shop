@@ -15,7 +15,7 @@ public class OrderCommandProxi extends PersistentProxi implements PersistentOrde
     
     
     public long getClassId() {
-        return 104;
+        return 143;
     }
     
     public Invoker getInvoker() throws PersistenceException {

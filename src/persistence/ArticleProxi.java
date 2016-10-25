@@ -15,7 +15,7 @@ public class ArticleProxi extends ItemProxi implements PersistentArticle{
     
     
     public long getClassId() {
-        return 109;
+        return 144;
     }
     
     public PersistentManufacturer getManufacturer() throws PersistenceException {
@@ -111,7 +111,7 @@ public class ArticleProxi extends ItemProxi implements PersistentArticle{
         ((PersistentArticle)this.getTheObject()).initialize(This, final$$Fields);
     }
     public void addToCart(final long amount, final PersistentCart cart) 
-				throws model.InsufficientStock, PersistenceException{
+				throws PersistenceException{
         ((PersistentArticle)this.getTheObject()).addToCart(amount, cart);
     }
     public void changeDescription(final String newDescription) 

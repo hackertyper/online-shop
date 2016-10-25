@@ -26,25 +26,25 @@ public class ChangeManuDeliveryCommandFacade{
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
     public PersistentChangeManuDeliveryCommand newChangeManuDeliveryCommand(long newManuDelivery,long idCreateIfLessZero) throws PersistenceException {
-        if(idCreateIfLessZero > 0) return (PersistentChangeManuDeliveryCommand)PersistentProxi.createProxi(idCreateIfLessZero, 121);
+        if(idCreateIfLessZero > 0) return (PersistentChangeManuDeliveryCommand)PersistentProxi.createProxi(idCreateIfLessZero, 155);
         long id = ConnectionHandler.getTheConnectionHandler().theChangeManuDeliveryCommandFacade.getNextId();
         ChangeManuDeliveryCommand result = new ChangeManuDeliveryCommand(newManuDelivery,null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentChangeManuDeliveryCommand)PersistentProxi.createProxi(id, 121);
+        return (PersistentChangeManuDeliveryCommand)PersistentProxi.createProxi(id, 155);
     }
     
     public PersistentChangeManuDeliveryCommand newDelayedChangeManuDeliveryCommand(long newManuDelivery) throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theChangeManuDeliveryCommandFacade.getNextId();
         ChangeManuDeliveryCommand result = new ChangeManuDeliveryCommand(newManuDelivery,null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentChangeManuDeliveryCommand)PersistentProxi.createProxi(id, 121);
+        return (PersistentChangeManuDeliveryCommand)PersistentProxi.createProxi(id, 155);
     }
     
     public ChangeManuDeliveryCommand getChangeManuDeliveryCommand(long ChangeManuDeliveryCommandId) throws PersistenceException{
         return null; //All data is in the cache!
     }
     public long getClass(long objectId) throws PersistenceException{
-        if(Cache.getTheCache().contains(objectId, 121)) return 121;
+        if(Cache.getTheCache().contains(objectId, 155)) return 155;
         
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         

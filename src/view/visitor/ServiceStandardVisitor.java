@@ -14,5 +14,14 @@ public abstract class ServiceStandardVisitor implements ServiceVisitor {
     public void handleShopkeeperService(ShopkeeperServiceView shopkeeperService) throws ModelException{
         this.standardHandling(shopkeeperService);
     }
+    public void handleShopService(ShopServiceView shopService) throws ModelException{
+        this.standardHandling(shopService);
+    }
+    public void handleCartService(CartServiceView cartService) throws ModelException{
+        this.standardHandling(cartService);
+    }
+    public void handleAccountService(AccountServiceView accountService) throws ModelException{
+        this.standardHandling(accountService);
+    }
     protected abstract void standardHandling(ServiceView service) throws ModelException;
 }

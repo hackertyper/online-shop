@@ -101,7 +101,7 @@ public class QuantifiedArticles extends PersistentObject implements PersistentQu
     }
     
     static public long getTypeId() {
-        return 124;
+        return 156;
     }
     
     public long getClassId() {
@@ -110,7 +110,7 @@ public class QuantifiedArticles extends PersistentObject implements PersistentQu
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 124) ConnectionHandler.getTheConnectionHandler().theQuantifiedArticlesFacade
+        if (this.getClassId() == 156) ConnectionHandler.getTheConnectionHandler().theQuantifiedArticlesFacade
             .newQuantifiedArticles(amount,this.getId());
         super.store();
         if(this.getArticle() != null){
@@ -200,8 +200,6 @@ public class QuantifiedArticles extends PersistentObject implements PersistentQu
     
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
@@ -215,18 +213,15 @@ public class QuantifiedArticles extends PersistentObject implements PersistentQu
     }
     public void pack() 
 				throws PersistenceException{
-        //TODO: implement method: pack
-        
+        getThis().getArticle().pack(getThis().getAmount());
     }
     public void removeFCart(final PersistentCart cart) 
 				throws PersistenceException{
-        //TODO: implement method: removeFCart
-        
+        cart.removeArticle(getThis());
     }
     public void reserve() 
 				throws model.InsufficientStock, PersistenceException{
-        //TODO: implement method: reserve
-        
+    	getThis().getArticle().reserve(getThis().getAmount());
     }
     
     

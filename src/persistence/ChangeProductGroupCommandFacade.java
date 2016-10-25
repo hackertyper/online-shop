@@ -26,25 +26,25 @@ public class ChangeProductGroupCommandFacade{
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
     public PersistentChangeProductGroupCommand newChangeProductGroupCommand(long idCreateIfLessZero) throws PersistenceException {
-        if(idCreateIfLessZero > 0) return (PersistentChangeProductGroupCommand)PersistentProxi.createProxi(idCreateIfLessZero, 125);
+        if(idCreateIfLessZero > 0) return (PersistentChangeProductGroupCommand)PersistentProxi.createProxi(idCreateIfLessZero, 157);
         long id = ConnectionHandler.getTheConnectionHandler().theChangeProductGroupCommandFacade.getNextId();
         ChangeProductGroupCommand result = new ChangeProductGroupCommand(null,null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentChangeProductGroupCommand)PersistentProxi.createProxi(id, 125);
+        return (PersistentChangeProductGroupCommand)PersistentProxi.createProxi(id, 157);
     }
     
     public PersistentChangeProductGroupCommand newDelayedChangeProductGroupCommand() throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theChangeProductGroupCommandFacade.getNextId();
         ChangeProductGroupCommand result = new ChangeProductGroupCommand(null,null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentChangeProductGroupCommand)PersistentProxi.createProxi(id, 125);
+        return (PersistentChangeProductGroupCommand)PersistentProxi.createProxi(id, 157);
     }
     
     public ChangeProductGroupCommand getChangeProductGroupCommand(long ChangeProductGroupCommandId) throws PersistenceException{
         return null; //All data is in the cache!
     }
     public long getClass(long objectId) throws PersistenceException{
-        if(Cache.getTheCache().contains(objectId, 125)) return 125;
+        if(Cache.getTheCache().contains(objectId, 157)) return 157;
         
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         

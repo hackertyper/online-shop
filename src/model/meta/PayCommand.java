@@ -53,7 +53,7 @@ public class PayCommand extends PersistentObject implements PersistentPayCommand
     }
     
     static public long getTypeId() {
-        return 114;
+        return 140;
     }
     
     public long getClassId() {
@@ -62,7 +62,7 @@ public class PayCommand extends PersistentObject implements PersistentPayCommand
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 114) ConnectionHandler.getTheConnectionHandler().thePayCommandFacade
+        if (this.getClassId() == 140) ConnectionHandler.getTheConnectionHandler().thePayCommandFacade
             .newPayCommand(sum,this.getId());
         super.store();
         if(this.getInvoker() != null){

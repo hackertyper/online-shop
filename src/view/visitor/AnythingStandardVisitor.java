@@ -41,6 +41,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleRegisterService(RegisterServiceView registerService) throws ModelException{
         this.standardHandling(registerService);
     }
+    public void handleShopService(ShopServiceView shopService) throws ModelException{
+        this.standardHandling(shopService);
+    }
     public void handleManufacturer(ManufacturerView manufacturer) throws ModelException{
         this.standardHandling(manufacturer);
     }
@@ -67,6 +70,12 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     }
     public void handleRetoure(RetoureView retoure) throws ModelException{
         this.standardHandling(retoure);
+    }
+    public void handleCartService(CartServiceView cartService) throws ModelException{
+        this.standardHandling(cartService);
+    }
+    public void handleAccountService(AccountServiceView accountService) throws ModelException{
+        this.standardHandling(accountService);
     }
     protected abstract void standardHandling(Anything anything) throws ModelException;
 }

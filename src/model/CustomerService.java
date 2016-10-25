@@ -18,11 +18,11 @@ public class CustomerService extends model.Service implements PersistentCustomer
         PersistentCustomerService result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theCustomerServiceFacade
-                .newDelayedCustomerService(0,0);
+                .newDelayedCustomerService();
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theCustomerServiceFacade
-                .newCustomerService(0,0,-1);
+                .newCustomerService(-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         result.initialize(result, final$$Fields);
@@ -34,11 +34,11 @@ public class CustomerService extends model.Service implements PersistentCustomer
         PersistentCustomerService result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theCustomerServiceFacade
-                .newDelayedCustomerService(0,0);
+                .newDelayedCustomerService();
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theCustomerServiceFacade
-                .newCustomerService(0,0,-1);
+                .newCustomerService(-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         result.initialize(This, final$$Fields);
@@ -50,6 +50,7 @@ public class CustomerService extends model.Service implements PersistentCustomer
     java.util.HashMap<String,Object> result = null;
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
+            result.put("services", this.getServices().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, true));
             AbstractPersistentRoot manager = (AbstractPersistentRoot)this.getManager();
             if (manager != null) {
                 result.put("manager", manager.createProxiInformation(false, essentialLevel <= 1));
@@ -67,13 +68,12 @@ public class CustomerService extends model.Service implements PersistentCustomer
     
     public CustomerService provideCopy() throws PersistenceException{
         CustomerService result = this;
-        result = new CustomerService(this.lowerLimitPreset, 
-                                     this.balancePreset, 
-                                     this.This, 
+        result = new CustomerService(this.This, 
                                      this.manager, 
                                      this.getId());
         result.errors = this.errors.copy(result);
         result.errors = this.errors.copy(result);
+        result.services = this.services.copy(result);
         this.copyingPrivateUserAttributes(result);
         return result;
     }
@@ -81,11 +81,13 @@ public class CustomerService extends model.Service implements PersistentCustomer
     public boolean hasEssentialFields() throws PersistenceException{
         return false;
     }
+    protected CustomerService_ServicesProxi services;
     protected PersistentCustomer manager;
     
-    public CustomerService(long lowerLimitPreset,long balancePreset,PersistentService This,PersistentCustomer manager,long id) throws PersistenceException {
+    public CustomerService(PersistentService This,PersistentCustomer manager,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((long)lowerLimitPreset,(long)balancePreset,(PersistentService)This,id);
+        super((PersistentService)This,id);
+        this.services = new CustomerService_ServicesProxi(this);
         this.manager = manager;        
     }
     
@@ -100,8 +102,9 @@ public class CustomerService extends model.Service implements PersistentCustomer
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
         if (this.getClassId() == -103) ConnectionHandler.getTheConnectionHandler().theCustomerServiceFacade
-            .newCustomerService(lowerLimitPreset,balancePreset,this.getId());
+            .newCustomerService(this.getId());
         super.store();
+        this.getServices().store();
         if(this.getManager() != null){
             this.getManager().store();
             ConnectionHandler.getTheConnectionHandler().theCustomerServiceFacade.managerSet(this.getId(), getManager());
@@ -109,6 +112,9 @@ public class CustomerService extends model.Service implements PersistentCustomer
         
     }
     
+    public CustomerService_ServicesProxi getServices() throws PersistenceException {
+        return this.services;
+    }
     public PersistentCustomer getManager() throws PersistenceException {
         return this.manager;
     }
@@ -131,6 +137,18 @@ public class CustomerService extends model.Service implements PersistentCustomer
         }return (PersistentCustomerService)this.This;
     }
     
+    public void accept(CustomerServiceVisitor visitor) throws PersistenceException {
+        visitor.handleCustomerService(this);
+    }
+    public <R> R accept(CustomerServiceReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleCustomerService(this);
+    }
+    public <E extends model.UserException>  void accept(CustomerServiceExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleCustomerService(this);
+    }
+    public <R, E extends model.UserException> R accept(CustomerServiceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleCustomerService(this);
+    }
     public void accept(ServiceVisitor visitor) throws PersistenceException {
         visitor.handleCustomerService(this);
     }
@@ -181,6 +199,7 @@ public class CustomerService extends model.Service implements PersistentCustomer
     }
     public int getLeafInfo() throws PersistenceException{
         if (this.getManager() != null && this.getManager().getTheObject().getLeafInfo() != 0) return 1;
+        if (this.getServices().getLength() > 0) return 1;
         return 0;
     }
     
@@ -202,15 +221,7 @@ public class CustomerService extends model.Service implements PersistentCustomer
     
     public void acceptDelivery(final PersistentCustomerOrder customerOrder) 
 				throws PersistenceException{
-    	customerOrder.acceptDelivery();
-    }
-    public void addToCart(final PersistentArticle article, final long amount) 
-				throws PersistenceException{
-    	getThis().getManager().addToCart(article, amount, getThis());
-    }
-    public void checkOut() 
-				throws PersistenceException{
-    	getThis().getManager().checkOut(getThis());
+        customerOrder.acceptDelivery();
     }
     public void connected(final String user) 
 				throws PersistenceException{
@@ -218,39 +229,19 @@ public class CustomerService extends model.Service implements PersistentCustomer
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }
-    public void deposit(final long amount) 
-				throws PersistenceException{
-    	getThis().getManager().deposit(amount, getThis());
-    }
     public void disconnected() 
 				throws PersistenceException{
-    }
-    public void findArticle(final String description) 
-				throws PersistenceException{
-    	getThis().getManager().findArticle(description, getThis());
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
         super.initializeOnCreation();
         PersistentCustomer customer = Customer.createCustomer();
-        customer.setMyAccount(Account.createAccount(super.getLowerLimitPreset(), super.getBalancePreset()));
+        customer.setMyAccount(Account.createAccount());
 		getThis().setManager(customer);
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         super.initializeOnInstantiation();
-    }
-    public void order() 
-				throws PersistenceException{
-    	getThis().getManager().order(getThis());
-    }
-    public void removeFCart(final PersistentQuantifiedArticles article, final PersistentCart cart) 
-				throws PersistenceException{
-        cart.removeArticle(article);
-    }
-    public void withdraw(final long amount) 
-				throws model.InsufficientFunds, PersistenceException{
-    	getThis().getManager().withdraw(amount, getThis());
     }
     
     

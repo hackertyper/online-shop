@@ -79,6 +79,7 @@ public class ConnectionHandler {
     public ItemFacade theItemFacade;
     public CommandCoordinatorFacade theCommandCoordinatorFacade;
     public WithdrawCommandFacade theWithdrawCommandFacade;
+    public ShopServiceFacade theShopServiceFacade;
     public ManufacturerFacade theManufacturerFacade;
     public NewlyAddedFacade theNewlyAddedFacade;
     public ChangeManuDeliveryCommandFacade theChangeManuDeliveryCommandFacade;
@@ -95,9 +96,11 @@ public class ConnectionHandler {
     public RemovedFSaleFacade theRemovedFSaleFacade;
     public ShopkeeperServiceFacade theShopkeeperServiceFacade;
     public RetoureFacade theRetoureFacade;
+    public CartServiceFacade theCartServiceFacade;
     public AddToCartCommandFacade theAddToCartCommandFacade;
     public DeliveryFacade theDeliveryFacade;
     public CheckOutCommandFacade theCheckOutCommandFacade;
+    public AccountServiceFacade theAccountServiceFacade;
     public CommonDateFacade theCommonDateFacade;
     public CommandExecuterFacade theCommandExecuterFacade;
 
@@ -122,6 +125,7 @@ public class ConnectionHandler {
             this.theItemFacade= new ItemFacade();
             this.theCommandCoordinatorFacade= new CommandCoordinatorFacade();
             this.theWithdrawCommandFacade= new WithdrawCommandFacade();
+            this.theShopServiceFacade= new ShopServiceFacade();
             this.theManufacturerFacade= new ManufacturerFacade();
             this.theNewlyAddedFacade= new NewlyAddedFacade();
             this.theChangeManuDeliveryCommandFacade= new ChangeManuDeliveryCommandFacade();
@@ -138,9 +142,11 @@ public class ConnectionHandler {
             this.theRemovedFSaleFacade= new RemovedFSaleFacade();
             this.theShopkeeperServiceFacade= new ShopkeeperServiceFacade();
             this.theRetoureFacade= new RetoureFacade();
+            this.theCartServiceFacade= new CartServiceFacade();
             this.theAddToCartCommandFacade= new AddToCartCommandFacade();
             this.theDeliveryFacade= new DeliveryFacade();
             this.theCheckOutCommandFacade= new CheckOutCommandFacade();
+            this.theAccountServiceFacade= new AccountServiceFacade();
             this.theCommonDateFacade= new CommonDateFacade();
             this.theCommandExecuterFacade= new CommandExecuterFacade();
 	}

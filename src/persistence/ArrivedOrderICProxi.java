@@ -19,7 +19,7 @@ public class ArrivedOrderICProxi extends PersistentInCacheProxiOptimistic implem
     }
     
     public long getClassId() {
-        return 112;
+        return 172;
     }
     
     public long getTimtToAccept() throws PersistenceException {

@@ -90,7 +90,7 @@ public class OfferedFSale extends PersistentObject implements PersistentOfferedF
     }
     
     static public long getTypeId() {
-        return 110;
+        return 152;
     }
     
     public long getClassId() {
@@ -99,7 +99,7 @@ public class OfferedFSale extends PersistentObject implements PersistentOfferedF
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 110) ConnectionHandler.getTheConnectionHandler().theOfferedFSaleFacade
+        if (this.getClassId() == 152) ConnectionHandler.getTheConnectionHandler().theOfferedFSaleFacade
             .newOfferedFSale(this.getId());
         super.store();
         if(!this.isTheSameAs(this.getThis())){
@@ -183,23 +183,25 @@ public class OfferedFSale extends PersistentObject implements PersistentOfferedF
     // Start of section that contains operations that must be implemented.
     
     public void addToCart(final long amount, final PersistentCart cart) 
-				throws model.InsufficientStock, PersistenceException{
+				throws PersistenceException{
         //TODO: implement method: addToCart
         
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
+        //TODO: implement method: copyingPrivateUserAttributes
+        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
+    	getThis().getMyArticle().setStock(0);
     }
     public void reorder(final long amount, final long manuDelivery) 
 				throws PersistenceException{
-        //TODO: implement method: reorder
-        
+        ShopKeeperOrder.createShopKeeperOrder(manuDelivery, getThis().getMyArticle(), amount).deliver();
     }
     
     

@@ -18,7 +18,7 @@ public class Manufacturer extends ViewObject implements ManufacturerView{
     }
     
     static public long getTypeId() {
-        return 119;
+        return 153;
     }
     
     public long getClassId() {

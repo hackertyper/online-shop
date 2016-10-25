@@ -19,7 +19,7 @@ public class AddToCartCommandICProxi extends PersistentInCacheProxi implements P
     }
     
     public long getClassId() {
-        return 135;
+        return 146;
     }
     
     public PersistentArticle getArticle() throws PersistenceException {

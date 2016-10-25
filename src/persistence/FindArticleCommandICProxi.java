@@ -19,7 +19,7 @@ public class FindArticleCommandICProxi extends PersistentInCacheProxi implements
     }
     
     public long getClassId() {
-        return 113;
+        return 137;
     }
     
     public String getDescription() throws PersistenceException {

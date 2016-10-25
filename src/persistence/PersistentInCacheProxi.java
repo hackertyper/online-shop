@@ -12,13 +12,13 @@ public abstract class PersistentInCacheProxi extends PersistentRoot {
 		
 	  private static ICProxiFactory [] getTheICProxiFactories(){
 		if (iCProxiFactories == null){
-			iCProxiFactories = new ICProxiFactory[83];
-        iCProxiFactories[0] = new ICProxiFactory(){
+			iCProxiFactories = new ICProxiFactory[91];
+        iCProxiFactories[29] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new AccountICProxi(objectId);
             }
         };
-        iCProxiFactories[1] = new ICProxiFactory(){
+        iCProxiFactories[49] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new ProductGroupICProxi(objectId);
             }
@@ -28,167 +28,182 @@ public abstract class PersistentInCacheProxi extends PersistentRoot {
                 return new CustomerServiceICProxi(objectId);
             }
         };
-        iCProxiFactories[3] = new ICProxiFactory(){
+        iCProxiFactories[42] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new OrderCommandICProxi(objectId);
             }
         };
-        iCProxiFactories[4] = new ICProxiFactory(){
+        iCProxiFactories[3] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new ServerICProxi(objectId);
             }
         };
-        iCProxiFactories[5] = new ICProxiFactory(){
+        iCProxiFactories[30] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new CustomerICProxi(objectId);
             }
         };
-        iCProxiFactories[6] = new ICProxiFactory(){
+        iCProxiFactories[50] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new ShopkeeperICProxi(objectId);
             }
         };
-        iCProxiFactories[7] = new ICProxiFactory(){
+        iCProxiFactories[5] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new ErrorDisplayICProxi(objectId);
             }
         };
-        iCProxiFactories[8] = new ICProxiFactory(){
+        iCProxiFactories[43] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new ArticleICProxi(objectId);
             }
         };
-        iCProxiFactories[9] = new ICProxiFactory(){
+        iCProxiFactories[51] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new OfferedFSaleICProxi(objectId);
             }
         };
-        iCProxiFactories[10] = new ICProxiFactory(){
+        iCProxiFactories[70] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new CustomerOrderICProxi(objectId);
             }
         };
-        iCProxiFactories[11] = new ICProxiFactory(){
+        iCProxiFactories[71] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new ArrivedOrderICProxi(objectId);
             }
         };
-        iCProxiFactories[12] = new ICProxiFactory(){
+        iCProxiFactories[36] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new FindArticleCommandICProxi(objectId);
             }
         };
-        iCProxiFactories[13] = new ICProxiFactory(){
+        iCProxiFactories[39] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new PayCommandICProxi(objectId);
             }
         };
-        iCProxiFactories[14] = new ICProxiFactory(){
+        iCProxiFactories[0] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new RegisterServiceICProxi(objectId);
             }
         };
-        iCProxiFactories[16] = new ICProxiFactory(){
+        iCProxiFactories[1] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new CommandCoordinatorICProxi(objectId);
             }
         };
-        iCProxiFactories[17] = new ICProxiFactory(){
+        iCProxiFactories[31] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new WithdrawCommandICProxi(objectId);
             }
         };
-        iCProxiFactories[18] = new ICProxiFactory(){
+        iCProxiFactories[85] = new ICProxiFactory(){
+            PersistentInCacheProxi create(long objectId){
+                return new ShopServiceICProxi(objectId);
+            }
+        };
+        iCProxiFactories[52] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new ManufacturerICProxi(objectId);
             }
         };
-        iCProxiFactories[19] = new ICProxiFactory(){
+        iCProxiFactories[53] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new NewlyAddedICProxi(objectId);
             }
         };
-        iCProxiFactories[20] = new ICProxiFactory(){
+        iCProxiFactories[54] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new ChangeManuDeliveryCommandICProxi(objectId);
             }
         };
-        iCProxiFactories[21] = new ICProxiFactory(){
+        iCProxiFactories[32] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new DepositCommandICProxi(objectId);
             }
         };
-        iCProxiFactories[22] = new ICProxiFactory(){
+        iCProxiFactories[40] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new CartICProxi(objectId);
             }
         };
-        iCProxiFactories[23] = new ICProxiFactory(){
+        iCProxiFactories[55] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new QuantifiedArticlesICProxi(objectId);
             }
         };
-        iCProxiFactories[24] = new ICProxiFactory(){
+        iCProxiFactories[56] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new ChangeProductGroupCommandICProxi(objectId);
             }
         };
-        iCProxiFactories[25] = new ICProxiFactory(){
+        iCProxiFactories[72] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new SendOrderICProxi(objectId);
             }
         };
-        iCProxiFactories[26] = new ICProxiFactory(){
+        iCProxiFactories[57] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new ChangePriceCommandICProxi(objectId);
             }
         };
-        iCProxiFactories[27] = new ICProxiFactory(){
+        iCProxiFactories[58] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new StartSellingCommandICProxi(objectId);
             }
         };
-        iCProxiFactories[29] = new ICProxiFactory(){
+        iCProxiFactories[73] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new ShopKeeperOrderICProxi(objectId);
             }
         };
-        iCProxiFactories[30] = new ICProxiFactory(){
+        iCProxiFactories[59] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new ChangeDescriptionCommandICProxi(objectId);
             }
         };
-        iCProxiFactories[31] = new ICProxiFactory(){
+        iCProxiFactories[60] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new RemovedFSaleICProxi(objectId);
             }
         };
-        iCProxiFactories[32] = new ICProxiFactory(){
+        iCProxiFactories[4] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new ShopkeeperServiceICProxi(objectId);
             }
         };
-        iCProxiFactories[33] = new ICProxiFactory(){
+        iCProxiFactories[74] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new RetoureICProxi(objectId);
             }
         };
-        iCProxiFactories[34] = new ICProxiFactory(){
+        iCProxiFactories[86] = new ICProxiFactory(){
+            PersistentInCacheProxi create(long objectId){
+                return new CartServiceICProxi(objectId);
+            }
+        };
+        iCProxiFactories[45] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new AddToCartCommandICProxi(objectId);
             }
         };
-        iCProxiFactories[36] = new ICProxiFactory(){
+        iCProxiFactories[46] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new CheckOutCommandICProxi(objectId);
             }
         };
-        iCProxiFactories[37] = new ICProxiFactory(){
+        iCProxiFactories[87] = new ICProxiFactory(){
+            PersistentInCacheProxi create(long objectId){
+                return new AccountServiceICProxi(objectId);
+            }
+        };
+        iCProxiFactories[7] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new CommonDateICProxi(objectId);
             }
         };
-        iCProxiFactories[38] = new ICProxiFactory(){
+        iCProxiFactories[8] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new CommandExecuterICProxi(objectId);
             }

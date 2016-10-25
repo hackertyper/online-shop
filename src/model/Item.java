@@ -46,7 +46,7 @@ public abstract class Item extends PersistentObject implements PersistentItem{
     }
     
     static public long getTypeId() {
-        return 116;
+        return 145;
     }
     
     public long getClassId() {

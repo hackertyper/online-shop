@@ -19,7 +19,7 @@ public class PayCommandICProxi extends PersistentInCacheProxi implements Persist
     }
     
     public long getClassId() {
-        return 114;
+        return 140;
     }
     
     public long getSum() throws PersistenceException {

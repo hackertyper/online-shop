@@ -54,7 +54,7 @@ public class FindArticleCommand extends PersistentObject implements PersistentFi
     }
     
     static public long getTypeId() {
-        return 113;
+        return 137;
     }
     
     public long getClassId() {
@@ -63,7 +63,7 @@ public class FindArticleCommand extends PersistentObject implements PersistentFi
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 113) ConnectionHandler.getTheConnectionHandler().theFindArticleCommandFacade
+        if (this.getClassId() == 137) ConnectionHandler.getTheConnectionHandler().theFindArticleCommandFacade
             .newFindArticleCommand(description,this.getId());
         super.store();
         if(this.getInvoker() != null){

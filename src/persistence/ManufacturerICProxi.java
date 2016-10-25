@@ -19,7 +19,7 @@ public class ManufacturerICProxi extends PersistentInCacheProxiOptimistic implem
     }
     
     public long getClassId() {
-        return 119;
+        return 153;
     }
     
     public String getName() throws PersistenceException {

@@ -15,9 +15,9 @@ public class TestAccount {
 	
 	@Before
 	public void setUp() throws Exception {
-		TestSupport.prepareSingletons();
-		TestSupport.prepareDatabase();
-		acc = Account.createAccount(100, 1000);
+			TestSupport.prepareSingletons();
+			TestSupport.prepareDatabase();
+			acc = Account.createAccount();
 	}
 
 	@Test
@@ -46,7 +46,7 @@ public class TestAccount {
 		try {
 			acc.withdraw(1500);
 		} catch (InsufficientFunds e) {
-			assertEquals(serverConstants.ErrorMessages.InsufficientFunds, e.getMessage());
+			assertEquals("Not enough money on account!", e.getMessage());
 		}
 	}
 	
@@ -56,7 +56,7 @@ public class TestAccount {
 		try {
 			acc.withdraw(950);
 		} catch (InsufficientFunds e) {
-			assertEquals(serverConstants.ErrorMessages.InsufficientFunds, e.getMessage());
+			assertEquals("Not enough money on account!", e.getMessage());
 		}
 	}
 
