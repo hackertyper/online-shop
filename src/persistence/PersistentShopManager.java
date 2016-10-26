@@ -9,7 +9,7 @@ public interface PersistentShopManager extends Anything, AbstractPersistentProxi
     
     public PersistentCustomerManager getCustomerManager() 
 				throws PersistenceException;
-    public PersistentShopService getMyServer() 
+    public PersistentShopService getMyShopServer() 
 				throws PersistenceException;
 
 }

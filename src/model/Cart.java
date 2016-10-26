@@ -3,8 +3,6 @@ package model;
 
 import persistence.*;
 
-import java.util.Iterator;
-
 import model.visitor.*;
 
 
@@ -60,6 +58,15 @@ public class Cart extends PersistentObject implements PersistentCart{
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
             result.put("currentSum", new Long(this.getCurrentSum()).toString());
             result.put("articleList", this.getArticleList().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, true));
+            AbstractPersistentRoot cartMngr = (AbstractPersistentRoot)this.getCartMngr();
+            if (cartMngr != null) {
+                result.put("cartMngr", cartMngr.createProxiInformation(false, essentialLevel <= 1));
+                if(depth > 1) {
+                    cartMngr.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && cartMngr.hasEssentialFields())cartMngr.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
         }
@@ -209,6 +216,7 @@ public class Cart extends PersistentObject implements PersistentCart{
 				return result + (argument.getAmount() * argument.getArticle().getPrice());
 			}
 		}));
+        getThis().getCartMngr().setMyCart(getThis());
     }
     public void checkOut() 
 				throws model.InsufficientStock, PersistenceException{
@@ -225,13 +233,9 @@ public class Cart extends PersistentObject implements PersistentCart{
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
-        
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnInstantiation
-        
     }
     public void order() 
 				throws PersistenceException{

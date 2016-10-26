@@ -78,9 +78,9 @@ public class CustomerManagerICProxi extends PersistentInCacheProxiOptimistic imp
 				throws PersistenceException{
         ((PersistentCustomerManager)this.getTheObject()).findArticle(description, invoker);
     }
-    public PersistentCustomerService getMyServer() 
+    public PersistentCustomerService getMyCustomerServer() 
 				throws PersistenceException{
-        return ((PersistentCustomerManager)this.getTheObject()).getMyServer();
+        return ((PersistentCustomerManager)this.getTheObject()).getMyCustomerServer();
     }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{

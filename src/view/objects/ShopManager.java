@@ -10,11 +10,15 @@ import view.visitor.*;
 public class ShopManager extends ViewObject implements ShopManagerView{
     
     protected java.util.Vector<ItemView> itemRange;
+    protected CustomerManagerView customerManager;
+    protected ShopServiceView myShopServer;
     
-    public ShopManager(java.util.Vector<ItemView> itemRange,long id, long classId) {
+    public ShopManager(java.util.Vector<ItemView> itemRange,CustomerManagerView customerManager,ShopServiceView myShopServer,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
-        this.itemRange = itemRange;        
+        this.itemRange = itemRange;
+        this.customerManager = customerManager;
+        this.myShopServer = myShopServer;        
     }
     
     static public long getTypeId() {
@@ -30,6 +34,12 @@ public class ShopManager extends ViewObject implements ShopManagerView{
     }
     public void setItemRange(java.util.Vector<ItemView> newValue) throws ModelException {
         this.itemRange = newValue;
+    }
+    public CustomerManagerView getCustomerManager()throws ModelException{
+        return this.customerManager;
+    }
+    public ShopServiceView getMyShopServer()throws ModelException{
+        return this.myShopServer;
     }
     
     public void accept(AnythingVisitor visitor) throws ModelException {
@@ -49,6 +59,14 @@ public class ShopManager extends ViewObject implements ShopManagerView{
         java.util.Vector<?> itemRange = this.getItemRange();
         if (itemRange != null) {
             ViewObject.resolveVectorProxies(itemRange, resultTable);
+        }
+        CustomerManagerView customerManager = this.getCustomerManager();
+        if (customerManager != null) {
+            ((ViewProxi)customerManager).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(customerManager.getClassId(), customerManager.getId())));
+        }
+        ShopServiceView myShopServer = this.getMyShopServer();
+        if (myShopServer != null) {
+            ((ViewProxi)myShopServer).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(myShopServer.getClassId(), myShopServer.getId())));
         }
         
     }

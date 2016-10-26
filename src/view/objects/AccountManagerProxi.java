@@ -19,7 +19,21 @@ public class AccountManagerProxi extends ViewProxi implements AccountManagerView
             myAccount = view.objects.ViewProxi.createProxi(myAccount$Info,connectionKey);
             myAccount.setToString(myAccount$Info.getToString());
         }
-        AccountManagerView result$$ = new AccountManager((AccountView)myAccount, this.getId(), this.getClassId());
+        ViewProxi customerManager = null;
+        String customerManager$String = (String)resultTable.get("customerManager");
+        if (customerManager$String != null) {
+            common.ProxiInformation customerManager$Info = common.RPCConstantsAndServices.createProxiInformation(customerManager$String);
+            customerManager = view.objects.ViewProxi.createProxi(customerManager$Info,connectionKey);
+            customerManager.setToString(customerManager$Info.getToString());
+        }
+        ViewProxi myAccServer = null;
+        String myAccServer$String = (String)resultTable.get("myAccServer");
+        if (myAccServer$String != null) {
+            common.ProxiInformation myAccServer$Info = common.RPCConstantsAndServices.createProxiInformation(myAccServer$String);
+            myAccServer = view.objects.ViewProxi.createProxi(myAccServer$Info,connectionKey);
+            myAccServer.setToString(myAccServer$Info.getToString());
+        }
+        AccountManagerView result$$ = new AccountManager((AccountView)myAccount,(CustomerManagerView)customerManager,(AccountServiceView)myAccServer, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -54,6 +68,12 @@ public class AccountManagerProxi extends ViewProxi implements AccountManagerView
     }
     public void setMyAccount(AccountView newValue) throws ModelException {
         ((AccountManager)this.getTheObject()).setMyAccount(newValue);
+    }
+    public CustomerManagerView getCustomerManager()throws ModelException{
+        return ((AccountManager)this.getTheObject()).getCustomerManager();
+    }
+    public AccountServiceView getMyAccServer()throws ModelException{
+        return ((AccountManager)this.getTheObject()).getMyAccServer();
     }
     
     public void accept(AnythingVisitor visitor) throws ModelException {

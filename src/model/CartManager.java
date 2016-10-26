@@ -64,6 +64,24 @@ public class CartManager extends PersistentObject implements PersistentCartManag
                     if(forGUI && myCart.hasEssentialFields())myCart.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
                 }
             }
+            AbstractPersistentRoot customerManager = (AbstractPersistentRoot)this.getCustomerManager();
+            if (customerManager != null) {
+                result.put("customerManager", customerManager.createProxiInformation(false, essentialLevel <= 1));
+                if(depth > 1) {
+                    customerManager.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && customerManager.hasEssentialFields())customerManager.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
+            AbstractPersistentRoot myCartServer = (AbstractPersistentRoot)this.getMyCartServer();
+            if (myCartServer != null) {
+                result.put("myCartServer", myCartServer.createProxiInformation(false, essentialLevel <= 1));
+                if(depth > 1) {
+                    myCartServer.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && myCartServer.hasEssentialFields())myCartServer.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
         }
@@ -182,7 +200,7 @@ public class CartManager extends PersistentObject implements PersistentCartManag
 			return null;
 		}
     }
-    public PersistentCartService getMyServer() 
+    public PersistentCartService getMyCartServer() 
 				throws PersistenceException{
         CartServiceSearchList result = null;
 		if (result == null) result = ConnectionHandler.getTheConnectionHandler().theCartServiceFacade
@@ -203,6 +221,11 @@ public class CartManager extends PersistentObject implements PersistentCartManag
     
     // Start of section that contains operations that must be implemented.
     
+    public void addToCart(final PersistentArticle article, final long amount) 
+				throws PersistenceException{
+        getThis().getMyCart().addArticle(QuantifiedArticles.createQuantifiedArticles(article, amount));
+        getThis().getMyCartServer().signalChanged(true);
+    }
     public void checkOut() 
 				throws model.InsufficientStock, PersistenceException{
         //TODO: implement method: checkOut

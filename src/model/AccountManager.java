@@ -64,6 +64,24 @@ public class AccountManager extends PersistentObject implements PersistentAccoun
                     if(forGUI && myAccount.hasEssentialFields())myAccount.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
                 }
             }
+            AbstractPersistentRoot customerManager = (AbstractPersistentRoot)this.getCustomerManager();
+            if (customerManager != null) {
+                result.put("customerManager", customerManager.createProxiInformation(false, essentialLevel <= 1));
+                if(depth > 1) {
+                    customerManager.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && customerManager.hasEssentialFields())customerManager.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
+            AbstractPersistentRoot myAccServer = (AbstractPersistentRoot)this.getMyAccServer();
+            if (myAccServer != null) {
+                result.put("myAccServer", myAccServer.createProxiInformation(false, essentialLevel <= 1));
+                if(depth > 1) {
+                    myAccServer.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && myAccServer.hasEssentialFields())myAccServer.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
         }
@@ -182,7 +200,7 @@ public class AccountManager extends PersistentObject implements PersistentAccoun
 			return null;
 		}
     }
-    public PersistentAccountService getMyServer() 
+    public PersistentAccountService getMyAccServer() 
 				throws PersistenceException{
         AccountServiceSearchList result = null;
 		if (result == null) result = ConnectionHandler.getTheConnectionHandler().theAccountServiceFacade
@@ -208,23 +226,22 @@ public class AccountManager extends PersistentObject implements PersistentAccoun
     }
     public void deposit(final long amount) 
 				throws PersistenceException{
-        getThis().getMyAccount().deposit(amount);
+    	getThis().getMyAccount().deposit(amount);
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-		getThis().setMyAccount(Account.createAccount());
+    	getThis().setMyAccount(Account.createAccount());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
     }
     public void pay(final long sum) 
 				throws PersistenceException{
-        //TODO: implement method: pay
-        
+        getThis().getMyAccount().pay(sum);
     }
     public void withdraw(final long amount) 
 				throws model.InsufficientFunds, PersistenceException{
-        getThis().getMyAccount().withdraw(amount);
+    	getThis().getMyAccount().withdraw(amount);
     }
     
     

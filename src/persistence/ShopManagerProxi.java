@@ -43,17 +43,13 @@ public class ShopManagerProxi extends PersistentProxi implements PersistentShopM
 				throws PersistenceException{
         return ((PersistentShopManager)this.getTheObject()).getCustomerManager();
     }
-    public PersistentShopService getMyServer() 
+    public PersistentShopService getMyShopServer() 
 				throws PersistenceException{
-        return ((PersistentShopManager)this.getTheObject()).getMyServer();
+        return ((PersistentShopManager)this.getTheObject()).getMyShopServer();
     }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentShopManager)this.getTheObject()).initialize(This, final$$Fields);
-    }
-    public void addToCart(final PersistentArticle article, final long amount) 
-				throws PersistenceException{
-        ((PersistentShopManager)this.getTheObject()).addToCart(article, amount);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{

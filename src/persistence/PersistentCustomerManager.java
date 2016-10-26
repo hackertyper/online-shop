@@ -12,7 +12,7 @@ public interface PersistentCustomerManager extends Anything, AbstractPersistentP
     public PersistentCustomerManager getThis() throws PersistenceException ;
     
     
-    public PersistentCustomerService getMyServer() 
+    public PersistentCustomerService getMyCustomerServer() 
 				throws PersistenceException;
 
 }

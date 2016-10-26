@@ -10,7 +10,7 @@ public interface PersistentAccountManager extends Anything, AbstractPersistentPr
     
     public PersistentCustomerManager getCustomerManager() 
 				throws PersistenceException;
-    public PersistentAccountService getMyServer() 
+    public PersistentAccountService getMyAccServer() 
 				throws PersistenceException;
 
 }

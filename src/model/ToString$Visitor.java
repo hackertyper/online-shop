@@ -28,14 +28,6 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	protected void standardHandling(Anything anything) {
 		result = anything.getClassId() + ";" + anything.getId();
 	}
-	@Override
-	public void handleRegisterService(PersistentRegisterService registerService) throws PersistenceException {}
-	@Override
-	public void handleCustomerService(PersistentCustomerService customerService) throws PersistenceException {}
-	@Override
-	public void handleServer(PersistentServer server) throws PersistenceException {}
-	@Override
-	public void handleShopkeeperService(PersistentShopkeeperService shopkeeperService) throws PersistenceException {}
 	
 	@Override
 	public void handleAccount(PersistentAccount account) throws PersistenceException {
@@ -121,9 +113,15 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleCartManager(PersistentCartManager cartManager) throws PersistenceException {}
 	@Override
-	public void handleCustomerManager(PersistentCustomerManager customerManager) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
-	}
+	public void handleCustomerManager(PersistentCustomerManager customerManager) throws PersistenceException {}
+	@Override
+	public void handleRegisterService(PersistentRegisterService registerService) throws PersistenceException {}
+	@Override
+	public void handleCustomerService(PersistentCustomerService customerService) throws PersistenceException {}
+	@Override
+	public void handleServer(PersistentServer server) throws PersistenceException {}
+	@Override
+	public void handleShopkeeperService(PersistentShopkeeperService shopkeeperService) throws PersistenceException {}
+	
 
 }

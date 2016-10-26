@@ -10,11 +10,11 @@ import model.visitor.*;
 public class ShopService extends model.CustomerService implements PersistentShopService{
     
     
-    public static PersistentShopService createShopService() throws PersistenceException{
-        return createShopService(false);
+    public static PersistentShopService createShopService(PersistentCustomerManager manager) throws PersistenceException{
+        return createShopService(manager,false);
     }
     
-    public static PersistentShopService createShopService(boolean delayed$Persistence) throws PersistenceException {
+    public static PersistentShopService createShopService(PersistentCustomerManager manager,boolean delayed$Persistence) throws PersistenceException {
         PersistentShopService result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theShopServiceFacade
@@ -25,12 +25,13 @@ public class ShopService extends model.CustomerService implements PersistentShop
                 .newShopService(-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        final$$Fields.put("manager", manager);
         result.initialize(result, final$$Fields);
         result.initializeOnCreation();
         return result;
     }
     
-    public static PersistentShopService createShopService(boolean delayed$Persistence,PersistentShopService This) throws PersistenceException {
+    public static PersistentShopService createShopService(PersistentCustomerManager manager,boolean delayed$Persistence,PersistentShopService This) throws PersistenceException {
         PersistentShopService result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theShopServiceFacade
@@ -41,6 +42,7 @@ public class ShopService extends model.CustomerService implements PersistentShop
                 .newShopService(-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        final$$Fields.put("manager", manager);
         result.initialize(This, final$$Fields);
         result.initializeOnCreation();
         return result;
@@ -203,6 +205,7 @@ public class ShopService extends model.CustomerService implements PersistentShop
 				throws PersistenceException{
         this.setThis((PersistentShopService)This);
 		if(this.isTheSameAs(This)){
+			this.setManager((PersistentCustomerManager)final$$Fields.get("manager"));
 		}
     }
     public String shopService_Menu_Filter(final Anything anything) 
@@ -228,8 +231,7 @@ public class ShopService extends model.CustomerService implements PersistentShop
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        super.initializeOnCreation();
-        getThis().setShopMngr(super.getManager().getShopMngr());
+        getThis().setShopMngr(getManager().getShopMngr());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
@@ -244,6 +246,16 @@ public class ShopService extends model.CustomerService implements PersistentShop
     
     // Start of section that contains overridden operations only.
     
+    public void connected(final String user) 
+				throws PersistenceException{
+        //TODO: implement method: connected
+        
+    }
+    public void disconnected() 
+				throws PersistenceException{
+        //TODO: implement method: disconnected
+        
+    }
 
     /* Start of protected part that is not overridden by persistence generator */
     

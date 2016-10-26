@@ -345,10 +345,11 @@ public class Server extends PersistentObject implements PersistentServer{
         	getThis().setService(RegisterService.createRegisterService());
         	return;
         }
-        PersistentCustomerService cs = CustomerService.createCustomerService();
-        cs.getServices().add(ShopService.createShopService());
-        cs.getServices().add(CartService.createCartService());
-        cs.getServices().add(AccountService.createAccountService());
+        PersistentCustomerManager cm = CustomerManager.createCustomerManager();
+        PersistentCustomerService cs = CustomerService.createCustomerService(cm);
+        cs.getServices().add(ShopService.createShopService(cm));
+        cs.getServices().add(CartService.createCartService(cm));
+        cs.getServices().add(AccountService.createAccountService(cm));
     	getThis().setService(cs);
     }
     public void initializeOnInstantiation() 

@@ -19,7 +19,21 @@ public class CartManagerProxi extends ViewProxi implements CartManagerView{
             myCart = view.objects.ViewProxi.createProxi(myCart$Info,connectionKey);
             myCart.setToString(myCart$Info.getToString());
         }
-        CartManagerView result$$ = new CartManager((CartView)myCart, this.getId(), this.getClassId());
+        ViewProxi customerManager = null;
+        String customerManager$String = (String)resultTable.get("customerManager");
+        if (customerManager$String != null) {
+            common.ProxiInformation customerManager$Info = common.RPCConstantsAndServices.createProxiInformation(customerManager$String);
+            customerManager = view.objects.ViewProxi.createProxi(customerManager$Info,connectionKey);
+            customerManager.setToString(customerManager$Info.getToString());
+        }
+        ViewProxi myCartServer = null;
+        String myCartServer$String = (String)resultTable.get("myCartServer");
+        if (myCartServer$String != null) {
+            common.ProxiInformation myCartServer$Info = common.RPCConstantsAndServices.createProxiInformation(myCartServer$String);
+            myCartServer = view.objects.ViewProxi.createProxi(myCartServer$Info,connectionKey);
+            myCartServer.setToString(myCartServer$Info.getToString());
+        }
+        CartManagerView result$$ = new CartManager((CartView)myCart,(CustomerManagerView)customerManager,(CartServiceView)myCartServer, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -54,6 +68,12 @@ public class CartManagerProxi extends ViewProxi implements CartManagerView{
     }
     public void setMyCart(CartView newValue) throws ModelException {
         ((CartManager)this.getTheObject()).setMyCart(newValue);
+    }
+    public CustomerManagerView getCustomerManager()throws ModelException{
+        return ((CartManager)this.getTheObject()).getCustomerManager();
+    }
+    public CartServiceView getMyCartServer()throws ModelException{
+        return ((CartManager)this.getTheObject()).getMyCartServer();
     }
     
     public void accept(AnythingVisitor visitor) throws ModelException {

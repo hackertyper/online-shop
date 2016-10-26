@@ -13,6 +13,8 @@ public interface CartManager4Public extends Anything, AbstractPersistentProxi {
     
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
+    public void addToCart(final PersistentArticle article, final long amount) 
+				throws PersistenceException;
     public void checkOut() 
 				throws model.InsufficientStock, PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 

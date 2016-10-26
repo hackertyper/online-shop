@@ -10,11 +10,11 @@ import model.visitor.*;
 public class CartService extends model.CustomerService implements PersistentCartService{
     
     
-    public static PersistentCartService createCartService() throws PersistenceException{
-        return createCartService(false);
+    public static PersistentCartService createCartService(PersistentCustomerManager manager) throws PersistenceException{
+        return createCartService(manager,false);
     }
     
-    public static PersistentCartService createCartService(boolean delayed$Persistence) throws PersistenceException {
+    public static PersistentCartService createCartService(PersistentCustomerManager manager,boolean delayed$Persistence) throws PersistenceException {
         PersistentCartService result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theCartServiceFacade
@@ -25,12 +25,13 @@ public class CartService extends model.CustomerService implements PersistentCart
                 .newCartService(-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        final$$Fields.put("manager", manager);
         result.initialize(result, final$$Fields);
         result.initializeOnCreation();
         return result;
     }
     
-    public static PersistentCartService createCartService(boolean delayed$Persistence,PersistentCartService This) throws PersistenceException {
+    public static PersistentCartService createCartService(PersistentCustomerManager manager,boolean delayed$Persistence,PersistentCartService This) throws PersistenceException {
         PersistentCartService result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theCartServiceFacade
@@ -41,6 +42,7 @@ public class CartService extends model.CustomerService implements PersistentCart
                 .newCartService(-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        final$$Fields.put("manager", manager);
         result.initialize(This, final$$Fields);
         result.initializeOnCreation();
         return result;
@@ -208,6 +210,7 @@ public class CartService extends model.CustomerService implements PersistentCart
 				throws PersistenceException{
         this.setThis((PersistentCartService)This);
 		if(this.isTheSameAs(This)){
+			this.setManager((PersistentCustomerManager)final$$Fields.get("manager"));
 		}
     }
     
@@ -223,8 +226,7 @@ public class CartService extends model.CustomerService implements PersistentCart
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        super.initializeOnCreation();
-        getThis().setCartMngr(super.getManager().getCartMngr());
+        getThis().setCartMngr(getManager().getCartMngr());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{

@@ -13,8 +13,6 @@ public interface ShopManager4Public extends Anything, AbstractPersistentProxi {
     
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
-    public void addToCart(final PersistentArticle article, final long amount) 
-				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
     public void findArticle(final String description) 

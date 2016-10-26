@@ -55,6 +55,15 @@ public class CustomerManager extends PersistentObject implements PersistentCusto
     java.util.HashMap<String,Object> result = null;
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
+            AbstractPersistentRoot myCustomerServer = (AbstractPersistentRoot)this.getMyCustomerServer();
+            if (myCustomerServer != null) {
+                result.put("myCustomerServer", myCustomerServer.createProxiInformation(false, essentialLevel <= 1));
+                if(depth > 1) {
+                    myCustomerServer.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && myCustomerServer.hasEssentialFields())myCustomerServer.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
         }
@@ -245,7 +254,7 @@ public class CustomerManager extends PersistentObject implements PersistentCusto
 		command.setCommandReceiver(getThis());
 		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
     }
-    public PersistentCustomerService getMyServer() 
+    public PersistentCustomerService getMyCustomerServer() 
 				throws PersistenceException{
         CustomerServiceSearchList result = null;
 		if (result == null) result = ConnectionHandler.getTheConnectionHandler().theCustomerServiceFacade
@@ -289,8 +298,7 @@ public class CustomerManager extends PersistentObject implements PersistentCusto
     }
     public void addToCart(final PersistentArticle article, final long amount) 
 				throws PersistenceException{
-        //TODO: implement method: addToCart
-        
+    	getThis().getCartMngr().addToCart(article, amount);
     }
     public void checkOut() 
 				throws model.InsufficientStock, PersistenceException{

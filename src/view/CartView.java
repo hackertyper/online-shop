@@ -10,6 +10,7 @@ public interface CartView extends Anything, AbstractViewRoot {
     public void setCurrentSum(long newValue) throws ModelException ;
     public java.util.Vector<QuantifiedArticlesView> getArticleList()throws ModelException;
     public void setArticleList(java.util.Vector<QuantifiedArticlesView> newValue) throws ModelException ;
+    public CartManagerView getCartMngr()throws ModelException;
     
     public void accept(AnythingVisitor visitor) throws ModelException;
     public <R> R accept(AnythingReturnVisitor<R>  visitor) throws ModelException;

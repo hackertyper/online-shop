@@ -5,7 +5,8 @@ import view.objects.ViewRoot;
 import view.objects.ViewObjectInTree;
 
 import view.visitor.AnythingStandardVisitor;
-import view.visitor.CustomerServiceVisitor;
+import view.visitor.ServiceVisitor;
+
 import java.util.Optional;
 
 import javafx.application.Platform;
@@ -297,7 +298,7 @@ public class CustomerServiceClientView extends BorderPane implements ExceptionAn
 		try {
 			java.util.Iterator<CustomerServiceView> services = this.getService().getServices().iterator();
 			while (services.hasNext()) {
-				services.next().accept(new CustomerServiceVisitor() {
+				services.next().accept(new ServiceVisitor() {
 					@Override
 					public void handleAccountService(AccountServiceView accountService) throws ModelException {
 						AccountServiceClientView view = new AccountServiceClientView(CustomerServiceClientView.this, accountService);
@@ -318,6 +319,10 @@ public class CustomerServiceClientView extends BorderPane implements ExceptionAn
 					}
 					@Override
 					public void handleCustomerService(CustomerServiceView customerService) throws ModelException {}
+					@Override
+					public void handleRegisterService(RegisterServiceView registerService) throws ModelException {}
+					@Override
+					public void handleShopkeeperService(ShopkeeperServiceView shopkeeperService) throws ModelException {}
 				});
 				
 			}

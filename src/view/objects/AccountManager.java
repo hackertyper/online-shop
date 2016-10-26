@@ -10,11 +10,15 @@ import view.visitor.*;
 public class AccountManager extends ViewObject implements AccountManagerView{
     
     protected AccountView myAccount;
+    protected CustomerManagerView customerManager;
+    protected AccountServiceView myAccServer;
     
-    public AccountManager(AccountView myAccount,long id, long classId) {
+    public AccountManager(AccountView myAccount,CustomerManagerView customerManager,AccountServiceView myAccServer,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
-        this.myAccount = myAccount;        
+        this.myAccount = myAccount;
+        this.customerManager = customerManager;
+        this.myAccServer = myAccServer;        
     }
     
     static public long getTypeId() {
@@ -30,6 +34,12 @@ public class AccountManager extends ViewObject implements AccountManagerView{
     }
     public void setMyAccount(AccountView newValue) throws ModelException {
         this.myAccount = newValue;
+    }
+    public CustomerManagerView getCustomerManager()throws ModelException{
+        return this.customerManager;
+    }
+    public AccountServiceView getMyAccServer()throws ModelException{
+        return this.myAccServer;
     }
     
     public void accept(AnythingVisitor visitor) throws ModelException {
@@ -49,6 +59,14 @@ public class AccountManager extends ViewObject implements AccountManagerView{
         AccountView myAccount = this.getMyAccount();
         if (myAccount != null) {
             ((ViewProxi)myAccount).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(myAccount.getClassId(), myAccount.getId())));
+        }
+        CustomerManagerView customerManager = this.getCustomerManager();
+        if (customerManager != null) {
+            ((ViewProxi)customerManager).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(customerManager.getClassId(), customerManager.getId())));
+        }
+        AccountServiceView myAccServer = this.getMyAccServer();
+        if (myAccServer != null) {
+            ((ViewProxi)myAccServer).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(myAccServer.getClassId(), myAccServer.getId())));
         }
         
     }

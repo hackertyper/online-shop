@@ -8,6 +8,8 @@ public interface AccountManagerView extends Anything, AbstractViewRoot {
     
     public AccountView getMyAccount()throws ModelException;
     public void setMyAccount(AccountView newValue) throws ModelException ;
+    public CustomerManagerView getCustomerManager()throws ModelException;
+    public AccountServiceView getMyAccServer()throws ModelException;
     
     public void accept(AnythingVisitor visitor) throws ModelException;
     public <R> R accept(AnythingReturnVisitor<R>  visitor) throws ModelException;

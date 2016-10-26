@@ -50,13 +50,17 @@ public class CartManagerICProxi extends PersistentInCacheProxiOptimistic impleme
 				throws PersistenceException{
         return ((PersistentCartManager)this.getTheObject()).getCustomerManager();
     }
-    public PersistentCartService getMyServer() 
+    public PersistentCartService getMyCartServer() 
 				throws PersistenceException{
-        return ((PersistentCartManager)this.getTheObject()).getMyServer();
+        return ((PersistentCartManager)this.getTheObject()).getMyCartServer();
     }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentCartManager)this.getTheObject()).initialize(This, final$$Fields);
+    }
+    public void addToCart(final PersistentArticle article, final long amount) 
+				throws PersistenceException{
+        ((PersistentCartManager)this.getTheObject()).addToCart(article, amount);
     }
     public void checkOut() 
 				throws model.InsufficientStock, PersistenceException{

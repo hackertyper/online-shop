@@ -50,9 +50,9 @@ public class AccountManagerICProxi extends PersistentInCacheProxiOptimistic impl
 				throws PersistenceException{
         return ((PersistentAccountManager)this.getTheObject()).getCustomerManager();
     }
-    public PersistentAccountService getMyServer() 
+    public PersistentAccountService getMyAccServer() 
 				throws PersistenceException{
-        return ((PersistentAccountManager)this.getTheObject()).getMyServer();
+        return ((PersistentAccountManager)this.getTheObject()).getMyAccServer();
     }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{

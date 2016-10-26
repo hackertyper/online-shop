@@ -11,12 +11,14 @@ public class Cart extends ViewObject implements CartView{
     
     protected long currentSum;
     protected java.util.Vector<QuantifiedArticlesView> articleList;
+    protected CartManagerView cartMngr;
     
-    public Cart(long currentSum,java.util.Vector<QuantifiedArticlesView> articleList,long id, long classId) {
+    public Cart(long currentSum,java.util.Vector<QuantifiedArticlesView> articleList,CartManagerView cartMngr,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
         this.currentSum = currentSum;
-        this.articleList = articleList;        
+        this.articleList = articleList;
+        this.cartMngr = cartMngr;        
     }
     
     static public long getTypeId() {
@@ -39,6 +41,9 @@ public class Cart extends ViewObject implements CartView{
     public void setArticleList(java.util.Vector<QuantifiedArticlesView> newValue) throws ModelException {
         this.articleList = newValue;
     }
+    public CartManagerView getCartMngr()throws ModelException{
+        return this.cartMngr;
+    }
     
     public void accept(AnythingVisitor visitor) throws ModelException {
         visitor.handleCart(this);
@@ -57,6 +62,10 @@ public class Cart extends ViewObject implements CartView{
         java.util.Vector<?> articleList = this.getArticleList();
         if (articleList != null) {
             ViewObject.resolveVectorProxies(articleList, resultTable);
+        }
+        CartManagerView cartMngr = this.getCartMngr();
+        if (cartMngr != null) {
+            ((ViewProxi)cartMngr).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(cartMngr.getClassId(), cartMngr.getId())));
         }
         
     }

@@ -10,11 +10,11 @@ import model.visitor.*;
 public class CustomerService extends model.Service implements PersistentCustomerService{
     
     
-    public static PersistentCustomerService createCustomerService() throws PersistenceException{
-        return createCustomerService(false);
+    public static PersistentCustomerService createCustomerService(PersistentCustomerManager manager) throws PersistenceException{
+        return createCustomerService(manager,false);
     }
     
-    public static PersistentCustomerService createCustomerService(boolean delayed$Persistence) throws PersistenceException {
+    public static PersistentCustomerService createCustomerService(PersistentCustomerManager manager,boolean delayed$Persistence) throws PersistenceException {
         PersistentCustomerService result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theCustomerServiceFacade
@@ -25,12 +25,13 @@ public class CustomerService extends model.Service implements PersistentCustomer
                 .newCustomerService(-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        final$$Fields.put("manager", manager);
         result.initialize(result, final$$Fields);
         result.initializeOnCreation();
         return result;
     }
     
-    public static PersistentCustomerService createCustomerService(boolean delayed$Persistence,PersistentCustomerService This) throws PersistenceException {
+    public static PersistentCustomerService createCustomerService(PersistentCustomerManager manager,boolean delayed$Persistence,PersistentCustomerService This) throws PersistenceException {
         PersistentCustomerService result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theCustomerServiceFacade
@@ -41,6 +42,7 @@ public class CustomerService extends model.Service implements PersistentCustomer
                 .newCustomerService(-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        final$$Fields.put("manager", manager);
         result.initialize(This, final$$Fields);
         result.initializeOnCreation();
         return result;
@@ -213,6 +215,7 @@ public class CustomerService extends model.Service implements PersistentCustomer
 				throws PersistenceException{
         this.setThis((PersistentCustomerService)This);
 		if(this.isTheSameAs(This)){
+			this.setManager((PersistentCustomerManager)final$$Fields.get("manager"));
 		}
     }
     
@@ -235,7 +238,6 @@ public class CustomerService extends model.Service implements PersistentCustomer
     public void initializeOnCreation() 
 				throws PersistenceException{
         super.initializeOnCreation();
-        getThis().setManager(CustomerManager.createCustomerManager());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{

@@ -10,11 +10,11 @@ import model.visitor.*;
 public class AccountService extends model.CustomerService implements PersistentAccountService{
     
     
-    public static PersistentAccountService createAccountService() throws PersistenceException{
-        return createAccountService(false);
+    public static PersistentAccountService createAccountService(PersistentCustomerManager manager) throws PersistenceException{
+        return createAccountService(manager,false);
     }
     
-    public static PersistentAccountService createAccountService(boolean delayed$Persistence) throws PersistenceException {
+    public static PersistentAccountService createAccountService(PersistentCustomerManager manager,boolean delayed$Persistence) throws PersistenceException {
         PersistentAccountService result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theAccountServiceFacade
@@ -25,12 +25,13 @@ public class AccountService extends model.CustomerService implements PersistentA
                 .newAccountService(-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        final$$Fields.put("manager", manager);
         result.initialize(result, final$$Fields);
         result.initializeOnCreation();
         return result;
     }
     
-    public static PersistentAccountService createAccountService(boolean delayed$Persistence,PersistentAccountService This) throws PersistenceException {
+    public static PersistentAccountService createAccountService(PersistentCustomerManager manager,boolean delayed$Persistence,PersistentAccountService This) throws PersistenceException {
         PersistentAccountService result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theAccountServiceFacade
@@ -41,6 +42,7 @@ public class AccountService extends model.CustomerService implements PersistentA
                 .newAccountService(-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        final$$Fields.put("manager", manager);
         result.initialize(This, final$$Fields);
         result.initializeOnCreation();
         return result;
@@ -208,6 +210,7 @@ public class AccountService extends model.CustomerService implements PersistentA
 				throws PersistenceException{
         this.setThis((PersistentAccountService)This);
 		if(this.isTheSameAs(This)){
+			this.setManager((PersistentCustomerManager)final$$Fields.get("manager"));
 		}
     }
     
@@ -216,8 +219,6 @@ public class AccountService extends model.CustomerService implements PersistentA
     
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void deposit(final long amount) 
 				throws PersistenceException{
@@ -225,13 +226,11 @@ public class AccountService extends model.CustomerService implements PersistentA
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        super.initializeOnCreation();
-        getThis().setAccMngr(super.getManager().getAccMngr());
+        getThis().setAccMngr(getManager().getAccMngr());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         super.initializeOnInstantiation();
-		//TODO: implement method: initializeOnInstantiation
     }
     public void withdraw(final long amount) 
 				throws model.InsufficientFunds, PersistenceException{
@@ -241,6 +240,16 @@ public class AccountService extends model.CustomerService implements PersistentA
     
     // Start of section that contains overridden operations only.
     
+    public void connected(final String user) 
+				throws PersistenceException{
+        //TODO: implement method: connected
+        
+    }
+    public void disconnected() 
+				throws PersistenceException{
+        //TODO: implement method: disconnected
+        
+    }
 
     /* Start of protected part that is not overridden by persistence generator */
     

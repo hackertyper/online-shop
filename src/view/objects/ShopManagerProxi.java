@@ -15,7 +15,21 @@ public class ShopManagerProxi extends ViewProxi implements ShopManagerView{
     public ShopManagerView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
         java.util.Vector<String> itemRange_string = (java.util.Vector<String>)resultTable.get("itemRange");
         java.util.Vector<ItemView> itemRange = ViewProxi.getProxiVector(itemRange_string, connectionKey);
-        ShopManagerView result$$ = new ShopManager(itemRange, this.getId(), this.getClassId());
+        ViewProxi customerManager = null;
+        String customerManager$String = (String)resultTable.get("customerManager");
+        if (customerManager$String != null) {
+            common.ProxiInformation customerManager$Info = common.RPCConstantsAndServices.createProxiInformation(customerManager$String);
+            customerManager = view.objects.ViewProxi.createProxi(customerManager$Info,connectionKey);
+            customerManager.setToString(customerManager$Info.getToString());
+        }
+        ViewProxi myShopServer = null;
+        String myShopServer$String = (String)resultTable.get("myShopServer");
+        if (myShopServer$String != null) {
+            common.ProxiInformation myShopServer$Info = common.RPCConstantsAndServices.createProxiInformation(myShopServer$String);
+            myShopServer = view.objects.ViewProxi.createProxi(myShopServer$Info,connectionKey);
+            myShopServer.setToString(myShopServer$Info.getToString());
+        }
+        ShopManagerView result$$ = new ShopManager(itemRange,(CustomerManagerView)customerManager,(ShopServiceView)myShopServer, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -53,6 +67,12 @@ public class ShopManagerProxi extends ViewProxi implements ShopManagerView{
     }
     public void setItemRange(java.util.Vector<ItemView> newValue) throws ModelException {
         ((ShopManager)this.getTheObject()).setItemRange(newValue);
+    }
+    public CustomerManagerView getCustomerManager()throws ModelException{
+        return ((ShopManager)this.getTheObject()).getCustomerManager();
+    }
+    public ShopServiceView getMyShopServer()throws ModelException{
+        return ((ShopManager)this.getTheObject()).getMyShopServer();
     }
     
     public void accept(AnythingVisitor visitor) throws ModelException {

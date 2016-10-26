@@ -14,7 +14,14 @@ public class AccountProxi extends ViewProxi implements AccountView{
     public AccountView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
         long lowerLimit = new Long((String)resultTable.get("lowerLimit")).longValue();
         long balance = new Long((String)resultTable.get("balance")).longValue();
-        AccountView result$$ = new Account((long)lowerLimit,(long)balance, this.getId(), this.getClassId());
+        ViewProxi accMngr = null;
+        String accMngr$String = (String)resultTable.get("accMngr");
+        if (accMngr$String != null) {
+            common.ProxiInformation accMngr$Info = common.RPCConstantsAndServices.createProxiInformation(accMngr$String);
+            accMngr = view.objects.ViewProxi.createProxi(accMngr$Info,connectionKey);
+            accMngr.setToString(accMngr$Info.getToString());
+        }
+        AccountView result$$ = new Account((long)lowerLimit,(long)balance,(AccountManagerView)accMngr, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -48,6 +55,9 @@ public class AccountProxi extends ViewProxi implements AccountView{
     }
     public void setBalance(long newValue) throws ModelException {
         ((Account)this.getTheObject()).setBalance(newValue);
+    }
+    public AccountManagerView getAccMngr()throws ModelException{
+        return ((Account)this.getTheObject()).getAccMngr();
     }
     
     public void accept(AnythingVisitor visitor) throws ModelException {

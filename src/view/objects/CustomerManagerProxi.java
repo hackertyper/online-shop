@@ -12,7 +12,14 @@ public class CustomerManagerProxi extends ViewProxi implements CustomerManagerVi
     }
     
     public CustomerManagerView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
-        CustomerManagerView result$$ = new CustomerManager( this.getId(), this.getClassId());
+        ViewProxi myCustomerServer = null;
+        String myCustomerServer$String = (String)resultTable.get("myCustomerServer");
+        if (myCustomerServer$String != null) {
+            common.ProxiInformation myCustomerServer$Info = common.RPCConstantsAndServices.createProxiInformation(myCustomerServer$String);
+            myCustomerServer = view.objects.ViewProxi.createProxi(myCustomerServer$Info,connectionKey);
+            myCustomerServer.setToString(myCustomerServer$Info.getToString());
+        }
+        CustomerManagerView result$$ = new CustomerManager((CustomerServiceView)myCustomerServer, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -35,6 +42,9 @@ public class CustomerManagerProxi extends ViewProxi implements CustomerManagerVi
         return -1;
     }
     
+    public CustomerServiceView getMyCustomerServer()throws ModelException{
+        return ((CustomerManager)this.getTheObject()).getMyCustomerServer();
+    }
     
     public void accept(AnythingVisitor visitor) throws ModelException {
         visitor.handleCustomerManager(this);

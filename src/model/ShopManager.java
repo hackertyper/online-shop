@@ -3,8 +3,6 @@ package model;
 
 import persistence.*;
 
-import java.util.Iterator;
-
 import model.visitor.*;
 
 
@@ -59,6 +57,24 @@ public class ShopManager extends PersistentObject implements PersistentShopManag
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
             result.put("itemRange", this.getItemRange().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, true));
+            AbstractPersistentRoot customerManager = (AbstractPersistentRoot)this.getCustomerManager();
+            if (customerManager != null) {
+                result.put("customerManager", customerManager.createProxiInformation(false, essentialLevel <= 1));
+                if(depth > 1) {
+                    customerManager.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && customerManager.hasEssentialFields())customerManager.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
+            AbstractPersistentRoot myShopServer = (AbstractPersistentRoot)this.getMyShopServer();
+            if (myShopServer != null) {
+                result.put("myShopServer", myShopServer.createProxiInformation(false, essentialLevel <= 1));
+                if(depth > 1) {
+                    myShopServer.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && myShopServer.hasEssentialFields())myShopServer.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
         }
@@ -163,7 +179,7 @@ public class ShopManager extends PersistentObject implements PersistentShopManag
 			return null;
 		}
     }
-    public PersistentShopService getMyServer() 
+    public PersistentShopService getMyShopServer() 
 				throws PersistenceException{
         ShopServiceSearchList result = null;
 		if (result == null) result = ConnectionHandler.getTheConnectionHandler().theShopServiceFacade
@@ -184,10 +200,6 @@ public class ShopManager extends PersistentObject implements PersistentShopManag
     
     // Start of section that contains operations that must be implemented.
     
-    public void addToCart(final PersistentArticle article, final long amount) 
-				throws PersistenceException{
-        article.addToCart(amount, getThis().getCustomerManager().getCartMngr().getMyCart());
-    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }

@@ -20,7 +20,6 @@ public class TestAccount {
 			acc = Account.createAccount();
 	}
 
-	@Test
 	public void testAccountCreation() throws PersistenceException {
 		assertEquals(1000, acc.getBalance());
 		assertEquals(100, acc.getLowerLimit());

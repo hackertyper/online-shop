@@ -10,11 +10,15 @@ import view.visitor.*;
 public class CartManager extends ViewObject implements CartManagerView{
     
     protected CartView myCart;
+    protected CustomerManagerView customerManager;
+    protected CartServiceView myCartServer;
     
-    public CartManager(CartView myCart,long id, long classId) {
+    public CartManager(CartView myCart,CustomerManagerView customerManager,CartServiceView myCartServer,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
-        this.myCart = myCart;        
+        this.myCart = myCart;
+        this.customerManager = customerManager;
+        this.myCartServer = myCartServer;        
     }
     
     static public long getTypeId() {
@@ -30,6 +34,12 @@ public class CartManager extends ViewObject implements CartManagerView{
     }
     public void setMyCart(CartView newValue) throws ModelException {
         this.myCart = newValue;
+    }
+    public CustomerManagerView getCustomerManager()throws ModelException{
+        return this.customerManager;
+    }
+    public CartServiceView getMyCartServer()throws ModelException{
+        return this.myCartServer;
     }
     
     public void accept(AnythingVisitor visitor) throws ModelException {
@@ -49,6 +59,14 @@ public class CartManager extends ViewObject implements CartManagerView{
         CartView myCart = this.getMyCart();
         if (myCart != null) {
             ((ViewProxi)myCart).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(myCart.getClassId(), myCart.getId())));
+        }
+        CustomerManagerView customerManager = this.getCustomerManager();
+        if (customerManager != null) {
+            ((ViewProxi)customerManager).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(customerManager.getClassId(), customerManager.getId())));
+        }
+        CartServiceView myCartServer = this.getMyCartServer();
+        if (myCartServer != null) {
+            ((ViewProxi)myCartServer).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(myCartServer.getClassId(), myCartServer.getId())));
         }
         
     }

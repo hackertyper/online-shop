@@ -9,10 +9,12 @@ import view.visitor.*;
 
 public class CustomerManager extends ViewObject implements CustomerManagerView{
     
+    protected CustomerServiceView myCustomerServer;
     
-    public CustomerManager(long id, long classId) {
+    public CustomerManager(CustomerServiceView myCustomerServer,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
-        super(id, classId);        
+        super(id, classId);
+        this.myCustomerServer = myCustomerServer;        
     }
     
     static public long getTypeId() {
@@ -23,6 +25,9 @@ public class CustomerManager extends ViewObject implements CustomerManagerView{
         return getTypeId();
     }
     
+    public CustomerServiceView getMyCustomerServer()throws ModelException{
+        return this.myCustomerServer;
+    }
     
     public void accept(AnythingVisitor visitor) throws ModelException {
         visitor.handleCustomerManager(this);
@@ -38,6 +43,10 @@ public class CustomerManager extends ViewObject implements CustomerManagerView{
     }
     
     public void resolveProxies(java.util.HashMap<String,Object> resultTable) throws ModelException {
+        CustomerServiceView myCustomerServer = this.getMyCustomerServer();
+        if (myCustomerServer != null) {
+            ((ViewProxi)myCustomerServer).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(myCustomerServer.getClassId(), myCustomerServer.getId())));
+        }
         
     }
     public void sortSetValuedFields() throws ModelException {

@@ -57,6 +57,15 @@ public class Account extends PersistentObject implements PersistentAccount{
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
             result.put("lowerLimit", new Long(this.getLowerLimit()).toString());
             result.put("balance", new Long(this.getBalance()).toString());
+            AbstractPersistentRoot accMngr = (AbstractPersistentRoot)this.getAccMngr();
+            if (accMngr != null) {
+                result.put("accMngr", accMngr.createProxiInformation(false, essentialLevel <= 1));
+                if(depth > 1) {
+                    accMngr.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && accMngr.hasEssentialFields())accMngr.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
         }
@@ -89,7 +98,7 @@ public class Account extends PersistentObject implements PersistentAccount{
     }
     
     static public long getTypeId() {
-        return 101;
+        return 199;
     }
     
     public long getClassId() {
@@ -98,7 +107,7 @@ public class Account extends PersistentObject implements PersistentAccount{
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 101) ConnectionHandler.getTheConnectionHandler().theAccountFacade
+        if (this.getClassId() == 199) ConnectionHandler.getTheConnectionHandler().theAccountFacade
             .newAccount(lowerLimit,balance,this.getId());
         super.store();
         if(!this.isTheSameAs(this.getThis())){
@@ -188,7 +197,7 @@ public class Account extends PersistentObject implements PersistentAccount{
     }
     public void deposit(final long amount) 
 				throws PersistenceException{
-        getThis().setBalance(getThis().getBalance() + amount);
+    	getThis().setBalance(getThis().getBalance() + amount);
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
@@ -197,6 +206,8 @@ public class Account extends PersistentObject implements PersistentAccount{
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
+        //TODO: implement method: initializeOnInstantiation
+        
     }
     public void pay(final long sum) 
 				throws PersistenceException{
