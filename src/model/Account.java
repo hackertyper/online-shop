@@ -57,15 +57,6 @@ public class Account extends PersistentObject implements PersistentAccount{
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
             result.put("lowerLimit", new Long(this.getLowerLimit()).toString());
             result.put("balance", new Long(this.getBalance()).toString());
-            AbstractPersistentRoot manager = (AbstractPersistentRoot)this.getManager();
-            if (manager != null) {
-                result.put("manager", manager.createProxiInformation(false, essentialLevel <= 1));
-                if(depth > 1) {
-                    manager.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
-                }else{
-                    if(forGUI && manager.hasEssentialFields())manager.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
-                }
-            }
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
         }
@@ -98,7 +89,7 @@ public class Account extends PersistentObject implements PersistentAccount{
     }
     
     static public long getTypeId() {
-        return 130;
+        return 101;
     }
     
     public long getClassId() {
@@ -107,7 +98,7 @@ public class Account extends PersistentObject implements PersistentAccount{
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 130) ConnectionHandler.getTheConnectionHandler().theAccountFacade
+        if (this.getClassId() == 101) ConnectionHandler.getTheConnectionHandler().theAccountFacade
             .newAccount(lowerLimit,balance,this.getId());
         super.store();
         if(!this.isTheSameAs(this.getThis())){
@@ -171,10 +162,10 @@ public class Account extends PersistentObject implements PersistentAccount{
     }
     
     
-    public PersistentCustomer getManager() 
+    public PersistentAccountManager getAccMngr() 
 				throws PersistenceException{
-        CustomerSearchList result = null;
-		if (result == null) result = ConnectionHandler.getTheConnectionHandler().theCustomerFacade
+        AccountManagerSearchList result = null;
+		if (result == null) result = ConnectionHandler.getTheConnectionHandler().theAccountManagerFacade
 										.inverseGetMyAccount(getThis().getId(), getThis().getClassId());
 		try {
 			return result.iterator().next();
@@ -201,6 +192,8 @@ public class Account extends PersistentObject implements PersistentAccount{
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
+    	getThis().setBalance(1000);
+    	getThis().setLowerLimit(100);
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{

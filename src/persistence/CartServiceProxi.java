@@ -18,6 +18,12 @@ public class CartServiceProxi extends CustomerServiceProxi implements Persistent
         return -187;
     }
     
+    public PersistentCartManager getCartMngr() throws PersistenceException {
+        return ((PersistentCartService)this.getTheObject()).getCartMngr();
+    }
+    public void setCartMngr(PersistentCartManager newValue) throws PersistenceException {
+        ((PersistentCartService)this.getTheObject()).setCartMngr(newValue);
+    }
     public PersistentCartService getThis() throws PersistenceException {
         return ((PersistentCartService)this.getTheObject()).getThis();
     }

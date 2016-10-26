@@ -19,7 +19,7 @@ public class QuantifiedArticlesICProxi extends PersistentInCacheProxiOptimistic 
     }
     
     public long getClassId() {
-        return 156;
+        return 124;
     }
     
     public PersistentArticle getArticle() throws PersistenceException {

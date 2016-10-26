@@ -9,7 +9,7 @@ public interface PersistentCart extends Anything, AbstractPersistentProxi, Cart4
     public PersistentCart getThis() throws PersistenceException ;
     
     
-    public PersistentCustomer getManager() 
+    public PersistentCartManager getCartMngr() 
 				throws PersistenceException;
 
 }

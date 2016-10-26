@@ -15,7 +15,7 @@ public class CartProxi extends PersistentProxi implements PersistentCart{
     
     
     public long getClassId() {
-        return 141;
+        return 123;
     }
     
     public long getCurrentSum() throws PersistenceException {
@@ -45,9 +45,9 @@ public class CartProxi extends PersistentProxi implements PersistentCart{
     }
     
     
-    public PersistentCustomer getManager() 
+    public PersistentCartManager getCartMngr() 
 				throws PersistenceException{
-        return ((PersistentCart)this.getTheObject()).getManager();
+        return ((PersistentCart)this.getTheObject()).getCartMngr();
     }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{

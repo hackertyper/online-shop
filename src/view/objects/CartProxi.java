@@ -16,14 +16,7 @@ public class CartProxi extends ViewProxi implements CartView{
         long currentSum = new Long((String)resultTable.get("currentSum")).longValue();
         java.util.Vector<String> articleList_string = (java.util.Vector<String>)resultTable.get("articleList");
         java.util.Vector<QuantifiedArticlesView> articleList = ViewProxi.getProxiVector(articleList_string, connectionKey);
-        ViewProxi manager = null;
-        String manager$String = (String)resultTable.get("manager");
-        if (manager$String != null) {
-            common.ProxiInformation manager$Info = common.RPCConstantsAndServices.createProxiInformation(manager$String);
-            manager = view.objects.ViewProxi.createProxi(manager$Info,connectionKey);
-            manager.setToString(manager$Info.getToString());
-        }
-        CartView result$$ = new Cart((long)currentSum,articleList,(CustomerView)manager, this.getId(), this.getClassId());
+        CartView result$$ = new Cart((long)currentSum,articleList, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -67,9 +60,6 @@ public class CartProxi extends ViewProxi implements CartView{
     }
     public void setArticleList(java.util.Vector<QuantifiedArticlesView> newValue) throws ModelException {
         ((Cart)this.getTheObject()).setArticleList(newValue);
-    }
-    public CustomerView getManager()throws ModelException{
-        return ((Cart)this.getTheObject()).getManager();
     }
     
     public void accept(AnythingVisitor visitor) throws ModelException {

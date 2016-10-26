@@ -19,7 +19,7 @@ public class ArticleICProxi extends ItemICProxi implements PersistentArticle{
     }
     
     public long getClassId() {
-        return 144;
+        return 109;
     }
     
     public PersistentManufacturer getManufacturer() throws PersistenceException {

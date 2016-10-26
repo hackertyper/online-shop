@@ -50,6 +50,15 @@ public class ShopService extends model.CustomerService implements PersistentShop
     java.util.HashMap<String,Object> result = null;
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
+            AbstractPersistentRoot shopMngr = (AbstractPersistentRoot)this.getShopMngr();
+            if (shopMngr != null) {
+                result.put("shopMngr", shopMngr.createProxiInformation(false, essentialLevel <= 1));
+                if(depth > 1) {
+                    shopMngr.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && shopMngr.hasEssentialFields())shopMngr.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
         }
@@ -60,6 +69,7 @@ public class ShopService extends model.CustomerService implements PersistentShop
         ShopService result = this;
         result = new ShopService(this.This, 
                                  this.manager, 
+                                 this.shopMngr, 
                                  this.getId());
         result.errors = this.errors.copy(result);
         result.errors = this.errors.copy(result);
@@ -71,14 +81,16 @@ public class ShopService extends model.CustomerService implements PersistentShop
     public boolean hasEssentialFields() throws PersistenceException{
         return false;
     }
+    protected PersistentShopManager shopMngr;
     
-    public ShopService(PersistentService This,PersistentCustomer manager,long id) throws PersistenceException {
+    public ShopService(PersistentService This,PersistentCustomerManager manager,PersistentShopManager shopMngr,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((PersistentService)This,(PersistentCustomer)manager,id);        
+        super((PersistentService)This,(PersistentCustomerManager)manager,id);
+        this.shopMngr = shopMngr;        
     }
     
     static public long getTypeId() {
-        return -186;
+        return -185;
     }
     
     public long getClassId() {
@@ -87,12 +99,30 @@ public class ShopService extends model.CustomerService implements PersistentShop
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == -186) ConnectionHandler.getTheConnectionHandler().theShopServiceFacade
+        if (this.getClassId() == -185) ConnectionHandler.getTheConnectionHandler().theShopServiceFacade
             .newShopService(this.getId());
         super.store();
+        if(this.getShopMngr() != null){
+            this.getShopMngr().store();
+            ConnectionHandler.getTheConnectionHandler().theShopServiceFacade.shopMngrSet(this.getId(), getShopMngr());
+        }
         
     }
     
+    public PersistentShopManager getShopMngr() throws PersistenceException {
+        return this.shopMngr;
+    }
+    public void setShopMngr(PersistentShopManager newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.isTheSameAs(this.shopMngr)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.shopMngr = (PersistentShopManager)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theShopServiceFacade.shopMngrSet(this.getId(), newValue);
+        }
+    }
     public PersistentShopService getThis() throws PersistenceException {
         if(this.This == null){
             PersistentShopService result = (PersistentShopService)PersistentProxi.createProxi(this.getId(),this.getClassId());
@@ -163,6 +193,7 @@ public class ShopService extends model.CustomerService implements PersistentShop
     }
     public int getLeafInfo() throws PersistenceException{
         if (this.getManager() != null && this.getManager().getTheObject().getLeafInfo() != 0) return 1;
+        if (this.getShopMngr() != null && this.getShopMngr().getTheObject().getLeafInfo() != 0) return 1;
         if (this.getServices().getLength() > 0) return 1;
         return 0;
     }
@@ -185,13 +216,10 @@ public class ShopService extends model.CustomerService implements PersistentShop
     
     public void addToCart(final PersistentArticle article, final long amount) 
 				throws PersistenceException{
-        //TODO: implement method: addToCart
-        
+        getThis().getManager().addToCart(article, amount, getThis());
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void findArticle(final String description) 
 				throws PersistenceException{
@@ -201,12 +229,11 @@ public class ShopService extends model.CustomerService implements PersistentShop
     public void initializeOnCreation() 
 				throws PersistenceException{
         super.initializeOnCreation();
-		//TODO: implement method: initializeOnCreation
+        getThis().setShopMngr(super.getManager().getShopMngr());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         super.initializeOnInstantiation();
-		//TODO: implement method: initializeOnInstantiation
     }
     public void removeFCart(final PersistentQuantifiedArticles article, final PersistentCart cart) 
 				throws PersistenceException{

@@ -11,18 +11,16 @@ public class Cart extends ViewObject implements CartView{
     
     protected long currentSum;
     protected java.util.Vector<QuantifiedArticlesView> articleList;
-    protected CustomerView manager;
     
-    public Cart(long currentSum,java.util.Vector<QuantifiedArticlesView> articleList,CustomerView manager,long id, long classId) {
+    public Cart(long currentSum,java.util.Vector<QuantifiedArticlesView> articleList,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
         this.currentSum = currentSum;
-        this.articleList = articleList;
-        this.manager = manager;        
+        this.articleList = articleList;        
     }
     
     static public long getTypeId() {
-        return 141;
+        return 123;
     }
     
     public long getClassId() {
@@ -40,9 +38,6 @@ public class Cart extends ViewObject implements CartView{
     }
     public void setArticleList(java.util.Vector<QuantifiedArticlesView> newValue) throws ModelException {
         this.articleList = newValue;
-    }
-    public CustomerView getManager()throws ModelException{
-        return this.manager;
     }
     
     public void accept(AnythingVisitor visitor) throws ModelException {
@@ -62,10 +57,6 @@ public class Cart extends ViewObject implements CartView{
         java.util.Vector<?> articleList = this.getArticleList();
         if (articleList != null) {
             ViewObject.resolveVectorProxies(articleList, resultTable);
-        }
-        CustomerView manager = this.getManager();
-        if (manager != null) {
-            ((ViewProxi)manager).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(manager.getClassId(), manager.getId())));
         }
         
     }

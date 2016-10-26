@@ -15,7 +15,7 @@ public class OfferedFSaleProxi extends PersistentProxi implements PersistentOffe
     
     
     public long getClassId() {
-        return 152;
+        return 110;
     }
     
     public PersistentOfferedFSale getThis() throws PersistenceException {

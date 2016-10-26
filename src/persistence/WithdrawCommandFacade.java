@@ -26,25 +26,25 @@ public class WithdrawCommandFacade{
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
     public PersistentWithdrawCommand newWithdrawCommand(long amount,long idCreateIfLessZero) throws PersistenceException {
-        if(idCreateIfLessZero > 0) return (PersistentWithdrawCommand)PersistentProxi.createProxi(idCreateIfLessZero, 132);
+        if(idCreateIfLessZero > 0) return (PersistentWithdrawCommand)PersistentProxi.createProxi(idCreateIfLessZero, 118);
         long id = ConnectionHandler.getTheConnectionHandler().theWithdrawCommandFacade.getNextId();
         WithdrawCommand result = new WithdrawCommand(amount,null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentWithdrawCommand)PersistentProxi.createProxi(id, 132);
+        return (PersistentWithdrawCommand)PersistentProxi.createProxi(id, 118);
     }
     
     public PersistentWithdrawCommand newDelayedWithdrawCommand(long amount) throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theWithdrawCommandFacade.getNextId();
         WithdrawCommand result = new WithdrawCommand(amount,null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentWithdrawCommand)PersistentProxi.createProxi(id, 132);
+        return (PersistentWithdrawCommand)PersistentProxi.createProxi(id, 118);
     }
     
     public WithdrawCommand getWithdrawCommand(long WithdrawCommandId) throws PersistenceException{
         return null; //All data is in the cache!
     }
     public long getClass(long objectId) throws PersistenceException{
-        if(Cache.getTheCache().contains(objectId, 132)) return 132;
+        if(Cache.getTheCache().contains(objectId, 118)) return 118;
         
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         
@@ -55,7 +55,7 @@ public class WithdrawCommandFacade{
     public void invokerSet(long WithdrawCommandId, Invoker invokerVal) throws PersistenceException {
         
     }
-    public void commandReceiverSet(long WithdrawCommandId, PersistentCustomer commandReceiverVal) throws PersistenceException {
+    public void commandReceiverSet(long WithdrawCommandId, PersistentCustomerManager commandReceiverVal) throws PersistenceException {
         
     }
     public void myCommonDateSet(long WithdrawCommandId, PersistentCommonDate myCommonDateVal) throws PersistenceException {

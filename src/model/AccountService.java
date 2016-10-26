@@ -50,6 +50,15 @@ public class AccountService extends model.CustomerService implements PersistentA
     java.util.HashMap<String,Object> result = null;
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
+            AbstractPersistentRoot accMngr = (AbstractPersistentRoot)this.getAccMngr();
+            if (accMngr != null) {
+                result.put("accMngr", accMngr.createProxiInformation(false, essentialLevel <= 1));
+                if(depth > 1) {
+                    accMngr.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && accMngr.hasEssentialFields())accMngr.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
         }
@@ -60,6 +69,7 @@ public class AccountService extends model.CustomerService implements PersistentA
         AccountService result = this;
         result = new AccountService(this.This, 
                                     this.manager, 
+                                    this.accMngr, 
                                     this.getId());
         result.errors = this.errors.copy(result);
         result.errors = this.errors.copy(result);
@@ -71,14 +81,16 @@ public class AccountService extends model.CustomerService implements PersistentA
     public boolean hasEssentialFields() throws PersistenceException{
         return false;
     }
+    protected PersistentAccountManager accMngr;
     
-    public AccountService(PersistentService This,PersistentCustomer manager,long id) throws PersistenceException {
+    public AccountService(PersistentService This,PersistentCustomerManager manager,PersistentAccountManager accMngr,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((PersistentService)This,(PersistentCustomer)manager,id);        
+        super((PersistentService)This,(PersistentCustomerManager)manager,id);
+        this.accMngr = accMngr;        
     }
     
     static public long getTypeId() {
-        return -188;
+        return -189;
     }
     
     public long getClassId() {
@@ -87,12 +99,30 @@ public class AccountService extends model.CustomerService implements PersistentA
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == -188) ConnectionHandler.getTheConnectionHandler().theAccountServiceFacade
+        if (this.getClassId() == -189) ConnectionHandler.getTheConnectionHandler().theAccountServiceFacade
             .newAccountService(this.getId());
         super.store();
+        if(this.getAccMngr() != null){
+            this.getAccMngr().store();
+            ConnectionHandler.getTheConnectionHandler().theAccountServiceFacade.accMngrSet(this.getId(), getAccMngr());
+        }
         
     }
     
+    public PersistentAccountManager getAccMngr() throws PersistenceException {
+        return this.accMngr;
+    }
+    public void setAccMngr(PersistentAccountManager newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.isTheSameAs(this.accMngr)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.accMngr = (PersistentAccountManager)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theAccountServiceFacade.accMngrSet(this.getId(), newValue);
+        }
+    }
     public PersistentAccountService getThis() throws PersistenceException {
         if(this.This == null){
             PersistentAccountService result = (PersistentAccountService)PersistentProxi.createProxi(this.getId(),this.getClassId());
@@ -163,6 +193,7 @@ public class AccountService extends model.CustomerService implements PersistentA
     }
     public int getLeafInfo() throws PersistenceException{
         if (this.getManager() != null && this.getManager().getTheObject().getLeafInfo() != 0) return 1;
+        if (this.getAccMngr() != null && this.getAccMngr().getTheObject().getLeafInfo() != 0) return 1;
         if (this.getServices().getLength() > 0) return 1;
         return 0;
     }
@@ -190,13 +221,12 @@ public class AccountService extends model.CustomerService implements PersistentA
     }
     public void deposit(final long amount) 
 				throws PersistenceException{
-        //TODO: implement method: deposit
-        
+        getThis().getManager().deposit(amount, getThis());
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
         super.initializeOnCreation();
-		//TODO: implement method: initializeOnCreation
+        getThis().setAccMngr(super.getManager().getAccMngr());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
@@ -205,8 +235,7 @@ public class AccountService extends model.CustomerService implements PersistentA
     }
     public void withdraw(final long amount) 
 				throws model.InsufficientFunds, PersistenceException{
-        //TODO: implement method: withdraw
-        
+        getThis().getManager().withdraw(amount, getThis());
     }
     
     

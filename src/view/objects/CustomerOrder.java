@@ -20,7 +20,7 @@ public class CustomerOrder extends view.objects.Delivery implements CustomerOrde
     }
     
     static public long getTypeId() {
-        return 171;
+        return 111;
     }
     
     public long getClassId() {

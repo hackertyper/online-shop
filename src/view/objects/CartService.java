@@ -10,10 +10,12 @@ import view.visitor.*;
 
 public class CartService extends view.objects.CustomerService implements CartServiceView{
     
+    protected CartManagerView cartMngr;
     
-    public CartService(java.util.Vector<ErrorDisplayView> errors,java.util.Vector<CustomerServiceView> services,CustomerView manager,long id, long classId) {
+    public CartService(java.util.Vector<ErrorDisplayView> errors,java.util.Vector<CustomerServiceView> services,CustomerManagerView manager,CartManagerView cartMngr,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
-        super(errors,services,(CustomerView)manager,id, classId);        
+        super(errors,services,(CustomerManagerView)manager,id, classId);
+        this.cartMngr = cartMngr;        
     }
     
     static public long getTypeId() {
@@ -24,6 +26,12 @@ public class CartService extends view.objects.CustomerService implements CartSer
         return getTypeId();
     }
     
+    public CartManagerView getCartMngr()throws ModelException{
+        return this.cartMngr;
+    }
+    public void setCartMngr(CartManagerView newValue) throws ModelException {
+        this.cartMngr = newValue;
+    }
     
     public void accept(CustomerServiceVisitor visitor) throws ModelException {
         visitor.handleCartService(this);
@@ -83,9 +91,13 @@ public class CartService extends view.objects.CustomerService implements CartSer
         if (services != null) {
             ViewObject.resolveVectorProxies(services, resultTable);
         }
-        CustomerView manager = this.getManager();
+        CustomerManagerView manager = this.getManager();
         if (manager != null) {
             ((ViewProxi)manager).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(manager.getClassId(), manager.getId())));
+        }
+        CartManagerView cartMngr = this.getCartMngr();
+        if (cartMngr != null) {
+            ((ViewProxi)cartMngr).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(cartMngr.getClassId(), cartMngr.getId())));
         }
         
     }
@@ -99,17 +111,22 @@ public class CartService extends view.objects.CustomerService implements CartSer
         if(this.getManager() != null && index < this.getManager().getTheObject().getChildCount())
             return this.getManager().getTheObject().getChild(index);
         if(this.getManager() != null) index = index - this.getManager().getTheObject().getChildCount();
+        if(this.getCartMngr() != null && index < this.getCartMngr().getTheObject().getChildCount())
+            return this.getCartMngr().getTheObject().getChild(index);
+        if(this.getCartMngr() != null) index = index - this.getCartMngr().getTheObject().getChildCount();
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
             + (this.getServices().size())
-            + (this.getManager() == null ? 0 : this.getManager().getTheObject().getChildCount());
+            + (this.getManager() == null ? 0 : this.getManager().getTheObject().getChildCount())
+            + (this.getCartMngr() == null ? 0 : this.getCartMngr().getTheObject().getChildCount());
     }
     public boolean isLeaf() throws ModelException {
         return true 
             && (this.getServices().size() == 0)
-            && (this.getManager() == null ? true : this.getManager().getTheObject().isLeaf());
+            && (this.getManager() == null ? true : this.getManager().getTheObject().isLeaf())
+            && (this.getCartMngr() == null ? true : this.getCartMngr().getTheObject().isLeaf());
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
@@ -120,6 +137,8 @@ public class CartService extends view.objects.CustomerService implements CartSer
         }
         if(this.getManager() != null && this.getManager().equals(child)) return result;
         if(this.getManager() != null) result = result + 1;
+        if(this.getCartMngr() != null && this.getCartMngr().equals(child)) return result;
+        if(this.getCartMngr() != null) result = result + 1;
         return -1;
     }
     public int getRowCount(){

@@ -24,7 +24,14 @@ public class AccountServiceProxi extends CustomerServiceProxi implements Account
             manager = view.objects.ViewProxi.createProxi(manager$Info,connectionKey);
             manager.setToString(manager$Info.getToString());
         }
-        AccountServiceView result$$ = new AccountService(errors,services,(CustomerView)manager, this.getId(), this.getClassId());
+        ViewProxi accMngr = null;
+        String accMngr$String = (String)resultTable.get("accMngr");
+        if (accMngr$String != null) {
+            common.ProxiInformation accMngr$Info = common.RPCConstantsAndServices.createProxiInformation(accMngr$String);
+            accMngr = view.objects.ViewProxi.createProxi(accMngr$Info,connectionKey);
+            accMngr.setToString(accMngr$Info.getToString());
+        }
+        AccountServiceView result$$ = new AccountService(errors,services,(CustomerManagerView)manager,(AccountManagerView)accMngr, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -39,18 +46,23 @@ public class AccountServiceProxi extends CustomerServiceProxi implements Account
         if(this.getManager() != null && index < this.getManager().getTheObject().getChildCount())
             return this.getManager().getTheObject().getChild(index);
         if(this.getManager() != null) index = index - this.getManager().getTheObject().getChildCount();
+        if(this.getAccMngr() != null && index < this.getAccMngr().getTheObject().getChildCount())
+            return this.getAccMngr().getTheObject().getChild(index);
+        if(this.getAccMngr() != null) index = index - this.getAccMngr().getTheObject().getChildCount();
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
             + (this.getServices().size())
-            + (this.getManager() == null ? 0 : this.getManager().getTheObject().getChildCount());
+            + (this.getManager() == null ? 0 : this.getManager().getTheObject().getChildCount())
+            + (this.getAccMngr() == null ? 0 : this.getAccMngr().getTheObject().getChildCount());
     }
     public boolean isLeaf() throws ModelException {
         if (this.object == null) return this.getLeafInfo() == 0;
         return true 
             && (this.getServices().size() == 0)
-            && (this.getManager() == null ? true : this.getManager().getTheObject().isLeaf());
+            && (this.getManager() == null ? true : this.getManager().getTheObject().isLeaf())
+            && (this.getAccMngr() == null ? true : this.getAccMngr().getTheObject().isLeaf());
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
@@ -61,9 +73,17 @@ public class AccountServiceProxi extends CustomerServiceProxi implements Account
         }
         if(this.getManager() != null && this.getManager().equals(child)) return result;
         if(this.getManager() != null) result = result + 1;
+        if(this.getAccMngr() != null && this.getAccMngr().equals(child)) return result;
+        if(this.getAccMngr() != null) result = result + 1;
         return -1;
     }
     
+    public AccountManagerView getAccMngr()throws ModelException{
+        return ((AccountService)this.getTheObject()).getAccMngr();
+    }
+    public void setAccMngr(AccountManagerView newValue) throws ModelException {
+        ((AccountService)this.getTheObject()).setAccMngr(newValue);
+    }
     
     public void accept(CustomerServiceVisitor visitor) throws ModelException {
         visitor.handleAccountService(this);

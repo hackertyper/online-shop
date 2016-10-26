@@ -50,6 +50,15 @@ public class CartService extends model.CustomerService implements PersistentCart
     java.util.HashMap<String,Object> result = null;
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
+            AbstractPersistentRoot cartMngr = (AbstractPersistentRoot)this.getCartMngr();
+            if (cartMngr != null) {
+                result.put("cartMngr", cartMngr.createProxiInformation(false, essentialLevel <= 1));
+                if(depth > 1) {
+                    cartMngr.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && cartMngr.hasEssentialFields())cartMngr.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
         }
@@ -60,6 +69,7 @@ public class CartService extends model.CustomerService implements PersistentCart
         CartService result = this;
         result = new CartService(this.This, 
                                  this.manager, 
+                                 this.cartMngr, 
                                  this.getId());
         result.errors = this.errors.copy(result);
         result.errors = this.errors.copy(result);
@@ -71,10 +81,12 @@ public class CartService extends model.CustomerService implements PersistentCart
     public boolean hasEssentialFields() throws PersistenceException{
         return false;
     }
+    protected PersistentCartManager cartMngr;
     
-    public CartService(PersistentService This,PersistentCustomer manager,long id) throws PersistenceException {
+    public CartService(PersistentService This,PersistentCustomerManager manager,PersistentCartManager cartMngr,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((PersistentService)This,(PersistentCustomer)manager,id);        
+        super((PersistentService)This,(PersistentCustomerManager)manager,id);
+        this.cartMngr = cartMngr;        
     }
     
     static public long getTypeId() {
@@ -90,9 +102,27 @@ public class CartService extends model.CustomerService implements PersistentCart
         if (this.getClassId() == -187) ConnectionHandler.getTheConnectionHandler().theCartServiceFacade
             .newCartService(this.getId());
         super.store();
+        if(this.getCartMngr() != null){
+            this.getCartMngr().store();
+            ConnectionHandler.getTheConnectionHandler().theCartServiceFacade.cartMngrSet(this.getId(), getCartMngr());
+        }
         
     }
     
+    public PersistentCartManager getCartMngr() throws PersistenceException {
+        return this.cartMngr;
+    }
+    public void setCartMngr(PersistentCartManager newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.isTheSameAs(this.cartMngr)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.cartMngr = (PersistentCartManager)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theCartServiceFacade.cartMngrSet(this.getId(), newValue);
+        }
+    }
     public PersistentCartService getThis() throws PersistenceException {
         if(this.This == null){
             PersistentCartService result = (PersistentCartService)PersistentProxi.createProxi(this.getId(),this.getClassId());
@@ -163,6 +193,7 @@ public class CartService extends model.CustomerService implements PersistentCart
     }
     public int getLeafInfo() throws PersistenceException{
         if (this.getManager() != null && this.getManager().getTheObject().getLeafInfo() != 0) return 1;
+        if (this.getCartMngr() != null && this.getCartMngr().getTheObject().getLeafInfo() != 0) return 1;
         if (this.getServices().getLength() > 0) return 1;
         return 0;
     }
@@ -193,6 +224,7 @@ public class CartService extends model.CustomerService implements PersistentCart
     public void initializeOnCreation() 
 				throws PersistenceException{
         super.initializeOnCreation();
+        getThis().setCartMngr(super.getManager().getCartMngr());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{

@@ -26,25 +26,25 @@ public class CheckOutCommandFacade{
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
     public PersistentCheckOutCommand newCheckOutCommand(long idCreateIfLessZero) throws PersistenceException {
-        if(idCreateIfLessZero > 0) return (PersistentCheckOutCommand)PersistentProxi.createProxi(idCreateIfLessZero, 147);
+        if(idCreateIfLessZero > 0) return (PersistentCheckOutCommand)PersistentProxi.createProxi(idCreateIfLessZero, 137);
         long id = ConnectionHandler.getTheConnectionHandler().theCheckOutCommandFacade.getNextId();
         CheckOutCommand result = new CheckOutCommand(null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentCheckOutCommand)PersistentProxi.createProxi(id, 147);
+        return (PersistentCheckOutCommand)PersistentProxi.createProxi(id, 137);
     }
     
     public PersistentCheckOutCommand newDelayedCheckOutCommand() throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theCheckOutCommandFacade.getNextId();
         CheckOutCommand result = new CheckOutCommand(null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentCheckOutCommand)PersistentProxi.createProxi(id, 147);
+        return (PersistentCheckOutCommand)PersistentProxi.createProxi(id, 137);
     }
     
     public CheckOutCommand getCheckOutCommand(long CheckOutCommandId) throws PersistenceException{
         return null; //All data is in the cache!
     }
     public long getClass(long objectId) throws PersistenceException{
-        if(Cache.getTheCache().contains(objectId, 147)) return 147;
+        if(Cache.getTheCache().contains(objectId, 137)) return 137;
         
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         
@@ -52,7 +52,7 @@ public class CheckOutCommandFacade{
     public void invokerSet(long CheckOutCommandId, Invoker invokerVal) throws PersistenceException {
         
     }
-    public void commandReceiverSet(long CheckOutCommandId, PersistentCustomer commandReceiverVal) throws PersistenceException {
+    public void commandReceiverSet(long CheckOutCommandId, PersistentCustomerManager commandReceiverVal) throws PersistenceException {
         
     }
     public void myCommonDateSet(long CheckOutCommandId, PersistentCommonDate myCommonDateVal) throws PersistenceException {

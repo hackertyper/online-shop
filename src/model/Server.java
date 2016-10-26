@@ -132,7 +132,7 @@ public class Server extends PersistentObject implements PersistentServer{
     }
     
     static public long getTypeId() {
-        return -104;
+        return -105;
     }
     
     public long getClassId() {
@@ -141,7 +141,7 @@ public class Server extends PersistentObject implements PersistentServer{
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == -104) ConnectionHandler.getTheConnectionHandler().theServerFacade
+        if (this.getClassId() == -105) ConnectionHandler.getTheConnectionHandler().theServerFacade
             .newServer(password,user,hackCount,hackDelay,this.getId());
         super.store();
         if(this.getService() != null){

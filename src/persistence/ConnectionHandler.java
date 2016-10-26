@@ -66,7 +66,6 @@ public class ConnectionHandler {
     public CustomerServiceFacade theCustomerServiceFacade;
     public OrderCommandFacade theOrderCommandFacade;
     public ServerFacade theServerFacade;
-    public CustomerFacade theCustomerFacade;
     public ShopkeeperFacade theShopkeeperFacade;
     public ErrorDisplayFacade theErrorDisplayFacade;
     public ArticleFacade theArticleFacade;
@@ -74,14 +73,15 @@ public class ConnectionHandler {
     public CustomerOrderFacade theCustomerOrderFacade;
     public ArrivedOrderFacade theArrivedOrderFacade;
     public FindArticleCommandFacade theFindArticleCommandFacade;
-    public PayCommandFacade thePayCommandFacade;
     public RegisterServiceFacade theRegisterServiceFacade;
     public ItemFacade theItemFacade;
     public CommandCoordinatorFacade theCommandCoordinatorFacade;
     public WithdrawCommandFacade theWithdrawCommandFacade;
+    public CustomerManagerFacade theCustomerManagerFacade;
     public ShopServiceFacade theShopServiceFacade;
     public ManufacturerFacade theManufacturerFacade;
     public NewlyAddedFacade theNewlyAddedFacade;
+    public ShopManagerFacade theShopManagerFacade;
     public ChangeManuDeliveryCommandFacade theChangeManuDeliveryCommandFacade;
     public DepositCommandFacade theDepositCommandFacade;
     public CartFacade theCartFacade;
@@ -93,16 +93,19 @@ public class ConnectionHandler {
     public ServiceFacade theServiceFacade;
     public ShopKeeperOrderFacade theShopKeeperOrderFacade;
     public ChangeDescriptionCommandFacade theChangeDescriptionCommandFacade;
+    public AcceptDeliveryCommandFacade theAcceptDeliveryCommandFacade;
     public RemovedFSaleFacade theRemovedFSaleFacade;
     public ShopkeeperServiceFacade theShopkeeperServiceFacade;
     public RetoureFacade theRetoureFacade;
     public CartServiceFacade theCartServiceFacade;
+    public AccountManagerFacade theAccountManagerFacade;
     public AddToCartCommandFacade theAddToCartCommandFacade;
     public DeliveryFacade theDeliveryFacade;
     public CheckOutCommandFacade theCheckOutCommandFacade;
     public AccountServiceFacade theAccountServiceFacade;
     public CommonDateFacade theCommonDateFacade;
     public CommandExecuterFacade theCommandExecuterFacade;
+    public CartManagerFacade theCartManagerFacade;
 
 	protected ConnectionHandler() throws PersistenceException {
 	}
@@ -112,7 +115,6 @@ public class ConnectionHandler {
             this.theCustomerServiceFacade= new CustomerServiceFacade();
             this.theOrderCommandFacade= new OrderCommandFacade();
             this.theServerFacade= new ServerFacade();
-            this.theCustomerFacade= new CustomerFacade();
             this.theShopkeeperFacade= new ShopkeeperFacade();
             this.theErrorDisplayFacade= new ErrorDisplayFacade();
             this.theArticleFacade= new ArticleFacade();
@@ -120,14 +122,15 @@ public class ConnectionHandler {
             this.theCustomerOrderFacade= new CustomerOrderFacade();
             this.theArrivedOrderFacade= new ArrivedOrderFacade();
             this.theFindArticleCommandFacade= new FindArticleCommandFacade();
-            this.thePayCommandFacade= new PayCommandFacade();
             this.theRegisterServiceFacade= new RegisterServiceFacade();
             this.theItemFacade= new ItemFacade();
             this.theCommandCoordinatorFacade= new CommandCoordinatorFacade();
             this.theWithdrawCommandFacade= new WithdrawCommandFacade();
+            this.theCustomerManagerFacade= new CustomerManagerFacade();
             this.theShopServiceFacade= new ShopServiceFacade();
             this.theManufacturerFacade= new ManufacturerFacade();
             this.theNewlyAddedFacade= new NewlyAddedFacade();
+            this.theShopManagerFacade= new ShopManagerFacade();
             this.theChangeManuDeliveryCommandFacade= new ChangeManuDeliveryCommandFacade();
             this.theDepositCommandFacade= new DepositCommandFacade();
             this.theCartFacade= new CartFacade();
@@ -139,16 +142,19 @@ public class ConnectionHandler {
             this.theServiceFacade= new ServiceFacade();
             this.theShopKeeperOrderFacade= new ShopKeeperOrderFacade();
             this.theChangeDescriptionCommandFacade= new ChangeDescriptionCommandFacade();
+            this.theAcceptDeliveryCommandFacade= new AcceptDeliveryCommandFacade();
             this.theRemovedFSaleFacade= new RemovedFSaleFacade();
             this.theShopkeeperServiceFacade= new ShopkeeperServiceFacade();
             this.theRetoureFacade= new RetoureFacade();
             this.theCartServiceFacade= new CartServiceFacade();
+            this.theAccountManagerFacade= new AccountManagerFacade();
             this.theAddToCartCommandFacade= new AddToCartCommandFacade();
             this.theDeliveryFacade= new DeliveryFacade();
             this.theCheckOutCommandFacade= new CheckOutCommandFacade();
             this.theAccountServiceFacade= new AccountServiceFacade();
             this.theCommonDateFacade= new CommonDateFacade();
             this.theCommandExecuterFacade= new CommandExecuterFacade();
+            this.theCartManagerFacade= new CartManagerFacade();
 	}
 	public static void initializeMapsForMappedFields() throws PersistenceException {
 		

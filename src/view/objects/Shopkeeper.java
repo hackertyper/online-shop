@@ -18,7 +18,7 @@ public class Shopkeeper extends ViewObject implements ShopkeeperView{
     }
     
     static public long getTypeId() {
-        return 151;
+        return 107;
     }
     
     public long getClassId() {

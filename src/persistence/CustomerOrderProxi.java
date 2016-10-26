@@ -15,7 +15,7 @@ public class CustomerOrderProxi extends DeliveryProxi implements PersistentCusto
     
     
     public long getClassId() {
-        return 171;
+        return 111;
     }
     
     public CustomerOrder_ArticleListProxi getArticleList() throws PersistenceException {

@@ -24,7 +24,7 @@ public class CustomerServiceProxi extends ServiceProxi implements CustomerServic
             manager = view.objects.ViewProxi.createProxi(manager$Info,connectionKey);
             manager.setToString(manager$Info.getToString());
         }
-        CustomerServiceView result$$ = new CustomerService(errors,services,(CustomerView)manager, this.getId(), this.getClassId());
+        CustomerServiceView result$$ = new CustomerService(errors,services,(CustomerManagerView)manager, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -70,10 +70,10 @@ public class CustomerServiceProxi extends ServiceProxi implements CustomerServic
     public void setServices(java.util.Vector<CustomerServiceView> newValue) throws ModelException {
         ((CustomerService)this.getTheObject()).setServices(newValue);
     }
-    public CustomerView getManager()throws ModelException{
+    public CustomerManagerView getManager()throws ModelException{
         return ((CustomerService)this.getTheObject()).getManager();
     }
-    public void setManager(CustomerView newValue) throws ModelException {
+    public void setManager(CustomerManagerView newValue) throws ModelException {
         ((CustomerService)this.getTheObject()).setManager(newValue);
     }
     

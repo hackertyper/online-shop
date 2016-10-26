@@ -15,7 +15,7 @@ public class FindArticleCommandProxi extends PersistentProxi implements Persiste
     
     
     public long getClassId() {
-        return 137;
+        return 113;
     }
     
     public String getDescription() throws PersistenceException {
@@ -30,10 +30,10 @@ public class FindArticleCommandProxi extends PersistentProxi implements Persiste
     public void setInvoker(Invoker newValue) throws PersistenceException {
         ((PersistentFindArticleCommand)this.getTheObject()).setInvoker(newValue);
     }
-    public PersistentCustomer getCommandReceiver() throws PersistenceException {
+    public PersistentCustomerManager getCommandReceiver() throws PersistenceException {
         return ((PersistentFindArticleCommand)this.getTheObject()).getCommandReceiver();
     }
-    public void setCommandReceiver(PersistentCustomer newValue) throws PersistenceException {
+    public void setCommandReceiver(PersistentCustomerManager newValue) throws PersistenceException {
         ((PersistentFindArticleCommand)this.getTheObject()).setCommandReceiver(newValue);
     }
     public PersistentCommonDate getMyCommonDate() throws PersistenceException {
@@ -79,6 +79,18 @@ public class FindArticleCommandProxi extends PersistentProxi implements Persiste
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleFindArticleCommand(this);
     }
+    public void accept(CustomerManagerCommandVisitor visitor) throws PersistenceException {
+        visitor.handleFindArticleCommand(this);
+    }
+    public <R> R accept(CustomerManagerCommandReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleFindArticleCommand(this);
+    }
+    public <E extends model.UserException>  void accept(CustomerManagerCommandExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleFindArticleCommand(this);
+    }
+    public <R, E extends model.UserException> R accept(CustomerManagerCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleFindArticleCommand(this);
+    }
     public void accept(CommandVisitor visitor) throws PersistenceException {
         visitor.handleFindArticleCommand(this);
     }
@@ -89,18 +101,6 @@ public class FindArticleCommandProxi extends PersistentProxi implements Persiste
          visitor.handleFindArticleCommand(this);
     }
     public <R, E extends model.UserException> R accept(CommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
-         return visitor.handleFindArticleCommand(this);
-    }
-    public void accept(CustomerCommandVisitor visitor) throws PersistenceException {
-        visitor.handleFindArticleCommand(this);
-    }
-    public <R> R accept(CustomerCommandReturnVisitor<R>  visitor) throws PersistenceException {
-         return visitor.handleFindArticleCommand(this);
-    }
-    public <E extends model.UserException>  void accept(CustomerCommandExceptionVisitor<E> visitor) throws PersistenceException, E {
-         visitor.handleFindArticleCommand(this);
-    }
-    public <R, E extends model.UserException> R accept(CustomerCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleFindArticleCommand(this);
     }
     

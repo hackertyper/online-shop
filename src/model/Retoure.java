@@ -81,7 +81,7 @@ public class Retoure extends model.Delivery implements PersistentRetoure{
     }
     
     static public long getTypeId() {
-        return 175;
+        return 134;
     }
     
     public long getClassId() {
@@ -90,7 +90,7 @@ public class Retoure extends model.Delivery implements PersistentRetoure{
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 175) ConnectionHandler.getTheConnectionHandler().theRetoureFacade
+        if (this.getClassId() == 134) ConnectionHandler.getTheConnectionHandler().theRetoureFacade
             .newRetoure(remainingTimeToDelivery,this.getId());
         super.store();
         this.getArticleList().store();

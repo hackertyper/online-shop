@@ -15,7 +15,7 @@ public class ServerProxi extends PersistentProxi implements PersistentServer{
     
     
     public long getClassId() {
-        return -104;
+        return -105;
     }
     
     public PersistentService getService() throws PersistenceException {

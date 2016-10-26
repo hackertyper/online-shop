@@ -11,18 +11,18 @@ public class RetoureFacade{
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
     public PersistentRetoure newRetoure(long remainingTimeToDelivery,long idCreateIfLessZero) throws PersistenceException {
-        if(idCreateIfLessZero > 0) return (PersistentRetoure)PersistentProxi.createProxi(idCreateIfLessZero, 175);
+        if(idCreateIfLessZero > 0) return (PersistentRetoure)PersistentProxi.createProxi(idCreateIfLessZero, 134);
         long id = ConnectionHandler.getTheConnectionHandler().theDeliveryFacade.getNextId();
         Retoure result = new Retoure(remainingTimeToDelivery,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentRetoure)PersistentProxi.createProxi(id, 175);
+        return (PersistentRetoure)PersistentProxi.createProxi(id, 134);
     }
     
     public PersistentRetoure newDelayedRetoure(long remainingTimeToDelivery) throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theDeliveryFacade.getNextId();
         Retoure result = new Retoure(remainingTimeToDelivery,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentRetoure)PersistentProxi.createProxi(id, 175);
+        return (PersistentRetoure)PersistentProxi.createProxi(id, 134);
     }
     
     public Retoure getRetoure(long RetoureId) throws PersistenceException{

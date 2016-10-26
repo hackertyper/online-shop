@@ -25,10 +25,10 @@ public class CustomerServiceICProxi extends ServiceICProxi implements Persistent
     public CustomerService_ServicesProxi getServices() throws PersistenceException {
         return ((PersistentCustomerService)this.getTheObject()).getServices();
     }
-    public PersistentCustomer getManager() throws PersistenceException {
+    public PersistentCustomerManager getManager() throws PersistenceException {
         return ((PersistentCustomerService)this.getTheObject()).getManager();
     }
-    public void setManager(PersistentCustomer newValue) throws PersistenceException {
+    public void setManager(PersistentCustomerManager newValue) throws PersistenceException {
         ((PersistentCustomerService)this.getTheObject()).setManager(newValue);
     }
     public PersistentCustomerService getThis() throws PersistenceException {

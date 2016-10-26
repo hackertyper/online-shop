@@ -18,7 +18,7 @@ public class OfferedFSale extends ViewObject implements OfferedFSaleView{
     }
     
     static public long getTypeId() {
-        return 152;
+        return 110;
     }
     
     public long getClassId() {

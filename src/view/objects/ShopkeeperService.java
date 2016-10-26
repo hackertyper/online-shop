@@ -19,7 +19,7 @@ public class ShopkeeperService extends view.objects.Service implements Shopkeepe
     }
     
     static public long getTypeId() {
-        return -105;
+        return -133;
     }
     
     public long getClassId() {

@@ -24,7 +24,14 @@ public class ShopServiceProxi extends CustomerServiceProxi implements ShopServic
             manager = view.objects.ViewProxi.createProxi(manager$Info,connectionKey);
             manager.setToString(manager$Info.getToString());
         }
-        ShopServiceView result$$ = new ShopService(errors,services,(CustomerView)manager, this.getId(), this.getClassId());
+        ViewProxi shopMngr = null;
+        String shopMngr$String = (String)resultTable.get("shopMngr");
+        if (shopMngr$String != null) {
+            common.ProxiInformation shopMngr$Info = common.RPCConstantsAndServices.createProxiInformation(shopMngr$String);
+            shopMngr = view.objects.ViewProxi.createProxi(shopMngr$Info,connectionKey);
+            shopMngr.setToString(shopMngr$Info.getToString());
+        }
+        ShopServiceView result$$ = new ShopService(errors,services,(CustomerManagerView)manager,(ShopManagerView)shopMngr, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -39,18 +46,23 @@ public class ShopServiceProxi extends CustomerServiceProxi implements ShopServic
         if(this.getManager() != null && index < this.getManager().getTheObject().getChildCount())
             return this.getManager().getTheObject().getChild(index);
         if(this.getManager() != null) index = index - this.getManager().getTheObject().getChildCount();
+        if(this.getShopMngr() != null && index < this.getShopMngr().getTheObject().getChildCount())
+            return this.getShopMngr().getTheObject().getChild(index);
+        if(this.getShopMngr() != null) index = index - this.getShopMngr().getTheObject().getChildCount();
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
             + (this.getServices().size())
-            + (this.getManager() == null ? 0 : this.getManager().getTheObject().getChildCount());
+            + (this.getManager() == null ? 0 : this.getManager().getTheObject().getChildCount())
+            + (this.getShopMngr() == null ? 0 : this.getShopMngr().getTheObject().getChildCount());
     }
     public boolean isLeaf() throws ModelException {
         if (this.object == null) return this.getLeafInfo() == 0;
         return true 
             && (this.getServices().size() == 0)
-            && (this.getManager() == null ? true : this.getManager().getTheObject().isLeaf());
+            && (this.getManager() == null ? true : this.getManager().getTheObject().isLeaf())
+            && (this.getShopMngr() == null ? true : this.getShopMngr().getTheObject().isLeaf());
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
@@ -61,9 +73,17 @@ public class ShopServiceProxi extends CustomerServiceProxi implements ShopServic
         }
         if(this.getManager() != null && this.getManager().equals(child)) return result;
         if(this.getManager() != null) result = result + 1;
+        if(this.getShopMngr() != null && this.getShopMngr().equals(child)) return result;
+        if(this.getShopMngr() != null) result = result + 1;
         return -1;
     }
     
+    public ShopManagerView getShopMngr()throws ModelException{
+        return ((ShopService)this.getTheObject()).getShopMngr();
+    }
+    public void setShopMngr(ShopManagerView newValue) throws ModelException {
+        ((ShopService)this.getTheObject()).setShopMngr(newValue);
+    }
     
     public void accept(CustomerServiceVisitor visitor) throws ModelException {
         visitor.handleShopService(this);

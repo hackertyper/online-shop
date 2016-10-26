@@ -10,20 +10,28 @@ import view.visitor.*;
 
 public class AccountService extends view.objects.CustomerService implements AccountServiceView{
     
+    protected AccountManagerView accMngr;
     
-    public AccountService(java.util.Vector<ErrorDisplayView> errors,java.util.Vector<CustomerServiceView> services,CustomerView manager,long id, long classId) {
+    public AccountService(java.util.Vector<ErrorDisplayView> errors,java.util.Vector<CustomerServiceView> services,CustomerManagerView manager,AccountManagerView accMngr,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
-        super(errors,services,(CustomerView)manager,id, classId);        
+        super(errors,services,(CustomerManagerView)manager,id, classId);
+        this.accMngr = accMngr;        
     }
     
     static public long getTypeId() {
-        return -188;
+        return -189;
     }
     
     public long getClassId() {
         return getTypeId();
     }
     
+    public AccountManagerView getAccMngr()throws ModelException{
+        return this.accMngr;
+    }
+    public void setAccMngr(AccountManagerView newValue) throws ModelException {
+        this.accMngr = newValue;
+    }
     
     public void accept(CustomerServiceVisitor visitor) throws ModelException {
         visitor.handleAccountService(this);
@@ -83,9 +91,13 @@ public class AccountService extends view.objects.CustomerService implements Acco
         if (services != null) {
             ViewObject.resolveVectorProxies(services, resultTable);
         }
-        CustomerView manager = this.getManager();
+        CustomerManagerView manager = this.getManager();
         if (manager != null) {
             ((ViewProxi)manager).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(manager.getClassId(), manager.getId())));
+        }
+        AccountManagerView accMngr = this.getAccMngr();
+        if (accMngr != null) {
+            ((ViewProxi)accMngr).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(accMngr.getClassId(), accMngr.getId())));
         }
         
     }
@@ -99,17 +111,22 @@ public class AccountService extends view.objects.CustomerService implements Acco
         if(this.getManager() != null && index < this.getManager().getTheObject().getChildCount())
             return this.getManager().getTheObject().getChild(index);
         if(this.getManager() != null) index = index - this.getManager().getTheObject().getChildCount();
+        if(this.getAccMngr() != null && index < this.getAccMngr().getTheObject().getChildCount())
+            return this.getAccMngr().getTheObject().getChild(index);
+        if(this.getAccMngr() != null) index = index - this.getAccMngr().getTheObject().getChildCount();
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
             + (this.getServices().size())
-            + (this.getManager() == null ? 0 : this.getManager().getTheObject().getChildCount());
+            + (this.getManager() == null ? 0 : this.getManager().getTheObject().getChildCount())
+            + (this.getAccMngr() == null ? 0 : this.getAccMngr().getTheObject().getChildCount());
     }
     public boolean isLeaf() throws ModelException {
         return true 
             && (this.getServices().size() == 0)
-            && (this.getManager() == null ? true : this.getManager().getTheObject().isLeaf());
+            && (this.getManager() == null ? true : this.getManager().getTheObject().isLeaf())
+            && (this.getAccMngr() == null ? true : this.getAccMngr().getTheObject().isLeaf());
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
@@ -120,6 +137,8 @@ public class AccountService extends view.objects.CustomerService implements Acco
         }
         if(this.getManager() != null && this.getManager().equals(child)) return result;
         if(this.getManager() != null) result = result + 1;
+        if(this.getAccMngr() != null && this.getAccMngr().equals(child)) return result;
+        if(this.getAccMngr() != null) result = result + 1;
         return -1;
     }
     public int getRowCount(){

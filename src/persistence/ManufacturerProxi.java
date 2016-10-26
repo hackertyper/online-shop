@@ -15,7 +15,7 @@ public class ManufacturerProxi extends PersistentProxi implements PersistentManu
     
     
     public long getClassId() {
-        return 153;
+        return 119;
     }
     
     public String getName() throws PersistenceException {

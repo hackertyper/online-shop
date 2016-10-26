@@ -19,7 +19,7 @@ public class RegisterServiceICProxi extends ServiceICProxi implements Persistent
     }
     
     public long getClassId() {
-        return -101;
+        return -115;
     }
     
     public PersistentRegisterService getThis() throws PersistenceException {

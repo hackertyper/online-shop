@@ -2,6 +2,9 @@
 package model;
 
 import persistence.*;
+
+import java.util.Iterator;
+
 import model.visitor.*;
 
 
@@ -57,15 +60,6 @@ public class Cart extends PersistentObject implements PersistentCart{
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
             result.put("currentSum", new Long(this.getCurrentSum()).toString());
             result.put("articleList", this.getArticleList().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, true));
-            AbstractPersistentRoot manager = (AbstractPersistentRoot)this.getManager();
-            if (manager != null) {
-                result.put("manager", manager.createProxiInformation(false, essentialLevel <= 1));
-                if(depth > 1) {
-                    manager.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
-                }else{
-                    if(forGUI && manager.hasEssentialFields())manager.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
-                }
-            }
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
         }
@@ -98,7 +92,7 @@ public class Cart extends PersistentObject implements PersistentCart{
     }
     
     static public long getTypeId() {
-        return 141;
+        return 123;
     }
     
     public long getClassId() {
@@ -107,7 +101,7 @@ public class Cart extends PersistentObject implements PersistentCart{
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 141) ConnectionHandler.getTheConnectionHandler().theCartFacade
+        if (this.getClassId() == 123) ConnectionHandler.getTheConnectionHandler().theCartFacade
             .newCart(currentSum,this.getId());
         super.store();
         this.getArticleList().store();
@@ -169,10 +163,10 @@ public class Cart extends PersistentObject implements PersistentCart{
     }
     
     
-    public PersistentCustomer getManager() 
+    public PersistentCartManager getCartMngr() 
 				throws PersistenceException{
-        CustomerSearchList result = null;
-		if (result == null) result = ConnectionHandler.getTheConnectionHandler().theCustomerFacade
+        CartManagerSearchList result = null;
+		if (result == null) result = ConnectionHandler.getTheConnectionHandler().theCartManagerFacade
 										.inverseGetMyCart(getThis().getId(), getThis().getClassId());
 		try {
 			return result.iterator().next();
@@ -241,7 +235,7 @@ public class Cart extends PersistentObject implements PersistentCart{
     }
     public void order() 
 				throws PersistenceException{
-        getThis().getManager().pay(getThis().getCurrentSum());
+        getThis().getCartMngr().getCustomerManager().pay(currentSum);
         getThis().getArticleList().applyToAll(new Procdure<PersistentQuantifiedArticles>() {
 			@Override
 			public void doItTo(PersistentQuantifiedArticles argument) throws PersistenceException {

@@ -19,7 +19,7 @@ public class ShopkeeperServiceICProxi extends ServiceICProxi implements Persiste
     }
     
     public long getClassId() {
-        return -105;
+        return -133;
     }
     
     public PersistentShopkeeper getManager() throws PersistenceException {

@@ -10,7 +10,6 @@ public interface AccountView extends Anything, AbstractViewRoot {
     public void setLowerLimit(long newValue) throws ModelException ;
     public long getBalance()throws ModelException;
     public void setBalance(long newValue) throws ModelException ;
-    public CustomerView getManager()throws ModelException;
     
     public void accept(AnythingVisitor visitor) throws ModelException;
     public <R> R accept(AnythingReturnVisitor<R>  visitor) throws ModelException;

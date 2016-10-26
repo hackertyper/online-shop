@@ -18,7 +18,7 @@ public class ArrivedOrder extends ViewObject implements ArrivedOrderView{
     }
     
     static public long getTypeId() {
-        return 172;
+        return 112;
     }
     
     public long getClassId() {

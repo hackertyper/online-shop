@@ -26,25 +26,25 @@ public class DepositCommandFacade{
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
     public PersistentDepositCommand newDepositCommand(long amount,long idCreateIfLessZero) throws PersistenceException {
-        if(idCreateIfLessZero > 0) return (PersistentDepositCommand)PersistentProxi.createProxi(idCreateIfLessZero, 133);
+        if(idCreateIfLessZero > 0) return (PersistentDepositCommand)PersistentProxi.createProxi(idCreateIfLessZero, 122);
         long id = ConnectionHandler.getTheConnectionHandler().theDepositCommandFacade.getNextId();
         DepositCommand result = new DepositCommand(amount,null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentDepositCommand)PersistentProxi.createProxi(id, 133);
+        return (PersistentDepositCommand)PersistentProxi.createProxi(id, 122);
     }
     
     public PersistentDepositCommand newDelayedDepositCommand(long amount) throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theDepositCommandFacade.getNextId();
         DepositCommand result = new DepositCommand(amount,null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentDepositCommand)PersistentProxi.createProxi(id, 133);
+        return (PersistentDepositCommand)PersistentProxi.createProxi(id, 122);
     }
     
     public DepositCommand getDepositCommand(long DepositCommandId) throws PersistenceException{
         return null; //All data is in the cache!
     }
     public long getClass(long objectId) throws PersistenceException{
-        if(Cache.getTheCache().contains(objectId, 133)) return 133;
+        if(Cache.getTheCache().contains(objectId, 122)) return 122;
         
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         
@@ -55,7 +55,7 @@ public class DepositCommandFacade{
     public void invokerSet(long DepositCommandId, Invoker invokerVal) throws PersistenceException {
         
     }
-    public void commandReceiverSet(long DepositCommandId, PersistentCustomer commandReceiverVal) throws PersistenceException {
+    public void commandReceiverSet(long DepositCommandId, PersistentCustomerManager commandReceiverVal) throws PersistenceException {
         
     }
     public void myCommonDateSet(long DepositCommandId, PersistentCommonDate myCommonDateVal) throws PersistenceException {

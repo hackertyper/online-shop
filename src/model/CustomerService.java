@@ -82,9 +82,9 @@ public class CustomerService extends model.Service implements PersistentCustomer
         return false;
     }
     protected CustomerService_ServicesProxi services;
-    protected PersistentCustomer manager;
+    protected PersistentCustomerManager manager;
     
-    public CustomerService(PersistentService This,PersistentCustomer manager,long id) throws PersistenceException {
+    public CustomerService(PersistentService This,PersistentCustomerManager manager,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super((PersistentService)This,id);
         this.services = new CustomerService_ServicesProxi(this);
@@ -115,15 +115,15 @@ public class CustomerService extends model.Service implements PersistentCustomer
     public CustomerService_ServicesProxi getServices() throws PersistenceException {
         return this.services;
     }
-    public PersistentCustomer getManager() throws PersistenceException {
+    public PersistentCustomerManager getManager() throws PersistenceException {
         return this.manager;
     }
-    public void setManager(PersistentCustomer newValue) throws PersistenceException {
+    public void setManager(PersistentCustomerManager newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
         if(newValue.isTheSameAs(this.manager)) return;
         long objectId = newValue.getId();
         long classId = newValue.getClassId();
-        this.manager = (PersistentCustomer)PersistentProxi.createProxi(objectId, classId);
+        this.manager = (PersistentCustomerManager)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
             ConnectionHandler.getTheConnectionHandler().theCustomerServiceFacade.managerSet(this.getId(), newValue);
@@ -235,9 +235,7 @@ public class CustomerService extends model.Service implements PersistentCustomer
     public void initializeOnCreation() 
 				throws PersistenceException{
         super.initializeOnCreation();
-        PersistentCustomer customer = Customer.createCustomer();
-        customer.setMyAccount(Account.createAccount());
-		getThis().setManager(customer);
+        getThis().setManager(CustomerManager.createCustomerManager());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{

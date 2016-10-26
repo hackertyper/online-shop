@@ -10,37 +10,39 @@ import model.visitor.*;
 public class ProductGroup extends model.Item implements PersistentProductGroup{
     
     
-    public static PersistentProductGroup createProductGroup() throws PersistenceException{
-        return createProductGroup(false);
+    public static PersistentProductGroup createProductGroup(String description) throws PersistenceException{
+        return createProductGroup(description,false);
     }
     
-    public static PersistentProductGroup createProductGroup(boolean delayed$Persistence) throws PersistenceException {
+    public static PersistentProductGroup createProductGroup(String description,boolean delayed$Persistence) throws PersistenceException {
         PersistentProductGroup result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theProductGroupFacade
-                .newDelayedProductGroup("");
+                .newDelayedProductGroup(description);
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theProductGroupFacade
-                .newProductGroup("",-1);
+                .newProductGroup(description,-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        final$$Fields.put("description", description);
         result.initialize(result, final$$Fields);
         result.initializeOnCreation();
         return result;
     }
     
-    public static PersistentProductGroup createProductGroup(boolean delayed$Persistence,PersistentProductGroup This) throws PersistenceException {
+    public static PersistentProductGroup createProductGroup(String description,boolean delayed$Persistence,PersistentProductGroup This) throws PersistenceException {
         PersistentProductGroup result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theProductGroupFacade
-                .newDelayedProductGroup("");
+                .newDelayedProductGroup(description);
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theProductGroupFacade
-                .newProductGroup("",-1);
+                .newProductGroup(description,-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        final$$Fields.put("description", description);
         result.initialize(This, final$$Fields);
         result.initializeOnCreation();
         return result;
@@ -79,7 +81,7 @@ public class ProductGroup extends model.Item implements PersistentProductGroup{
     }
     
     static public long getTypeId() {
-        return 150;
+        return 102;
     }
     
     public long getClassId() {
@@ -88,7 +90,7 @@ public class ProductGroup extends model.Item implements PersistentProductGroup{
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 150) ConnectionHandler.getTheConnectionHandler().theProductGroupFacade
+        if (this.getClassId() == 102) ConnectionHandler.getTheConnectionHandler().theProductGroupFacade
             .newProductGroup(description,this.getId());
         super.store();
         this.getItemList().store();
@@ -140,6 +142,7 @@ public class ProductGroup extends model.Item implements PersistentProductGroup{
 				throws PersistenceException{
         this.setThis((PersistentProductGroup)This);
 		if(this.isTheSameAs(This)){
+			this.setDescription((String)final$$Fields.get("description"));
 		}
     }
     

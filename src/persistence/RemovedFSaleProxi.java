@@ -15,7 +15,7 @@ public class RemovedFSaleProxi extends PersistentProxi implements PersistentRemo
     
     
     public long getClassId() {
-        return 161;
+        return 132;
     }
     
     public PersistentRemovedFSale getThis() throws PersistenceException {

@@ -11,8 +11,6 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleServer(ServerView server) throws ModelException;
     
-    public abstract void handleCustomer(CustomerView customer) throws ModelException;
-    
     public abstract void handleShopkeeper(ShopkeeperView shopkeeper) throws ModelException;
     
     public abstract void handleErrorDisplay(ErrorDisplayView errorDisplay) throws ModelException;
@@ -51,9 +49,15 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     }
     public abstract void handleRemovedFSale(RemovedFSaleView removedFSale) throws ModelException;
     
+    public abstract void handleCustomerManager(CustomerManagerView customerManager) throws ModelException;
+    
     public abstract void handleManufacturer(ManufacturerView manufacturer) throws ModelException;
     
     public abstract void handleNewlyAdded(NewlyAddedView newlyAdded) throws ModelException;
+    
+    public abstract void handleShopManager(ShopManagerView shopManager) throws ModelException;
+    
+    public abstract void handleAccountManager(AccountManagerView accountManager) throws ModelException;
     
     public abstract void handleDelivery(DeliveryView delivery) throws ModelException;
     
@@ -69,6 +73,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public abstract void handleCart(CartView cart) throws ModelException;
     
     public abstract void handleQuantifiedArticles(QuantifiedArticlesView quantifiedArticles) throws ModelException;
+    
+    public abstract void handleCartManager(CartManagerView cartManager) throws ModelException;
     
     
 }

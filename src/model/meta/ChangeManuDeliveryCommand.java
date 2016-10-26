@@ -53,7 +53,7 @@ public class ChangeManuDeliveryCommand extends PersistentObject implements Persi
     }
     
     static public long getTypeId() {
-        return 155;
+        return 121;
     }
     
     public long getClassId() {
@@ -62,7 +62,7 @@ public class ChangeManuDeliveryCommand extends PersistentObject implements Persi
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 155) ConnectionHandler.getTheConnectionHandler().theChangeManuDeliveryCommandFacade
+        if (this.getClassId() == 121) ConnectionHandler.getTheConnectionHandler().theChangeManuDeliveryCommandFacade
             .newChangeManuDeliveryCommand(newManuDelivery,this.getId());
         super.store();
         if(this.getInvoker() != null){

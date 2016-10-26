@@ -25,9 +25,9 @@ public class DeliveryFacade{
 	}
 
     public long getClass(long objectId) throws PersistenceException{
-        if(Cache.getTheCache().contains(objectId, 171)) return 171;
-        if(Cache.getTheCache().contains(objectId, 174)) return 174;
-        if(Cache.getTheCache().contains(objectId, 175)) return 175;
+        if(Cache.getTheCache().contains(objectId, 111)) return 111;
+        if(Cache.getTheCache().contains(objectId, 130)) return 130;
+        if(Cache.getTheCache().contains(objectId, 134)) return 134;
         
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         

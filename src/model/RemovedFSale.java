@@ -90,7 +90,7 @@ public class RemovedFSale extends PersistentObject implements PersistentRemovedF
     }
     
     static public long getTypeId() {
-        return 161;
+        return 132;
     }
     
     public long getClassId() {
@@ -99,7 +99,7 @@ public class RemovedFSale extends PersistentObject implements PersistentRemovedF
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 161) ConnectionHandler.getTheConnectionHandler().theRemovedFSaleFacade
+        if (this.getClassId() == 132) ConnectionHandler.getTheConnectionHandler().theRemovedFSaleFacade
             .newRemovedFSale(this.getId());
         super.store();
         if(!this.isTheSameAs(this.getThis())){

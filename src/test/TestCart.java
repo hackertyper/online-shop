@@ -36,11 +36,11 @@ public class TestCart {
 		TestSupport.prepareDatabase();
 		cart = Cart.createCart();
 		m1 = Manufacturer.createManufacturer("M1");
-		a1 = Article.createArticle(m1, 100, 10, 150, 0);
+		a1 = Article.createArticle("a1", m1, 100, 10, 150, 0);
 		a1.setStock(100);
-		a2 = Article.createArticle(m1, 20, 5, 60, 0);
+		a2 = Article.createArticle("a2", m1, 20, 5, 60, 0);
 		a2.setStock(34);
-		a3 = Article.createArticle(m1, 18, 20, 100, 0);
+		a3 = Article.createArticle("a3", m1, 18, 20, 100, 0);
 		a3.setStock(42);
 	}
 

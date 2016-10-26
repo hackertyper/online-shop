@@ -15,7 +15,7 @@ public class ShopkeeperProxi extends PersistentProxi implements PersistentShopke
     
     
     public long getClassId() {
-        return 151;
+        return 107;
     }
     
     public Shopkeeper_ItemRangeProxi getItemRange() throws PersistenceException {

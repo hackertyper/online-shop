@@ -19,7 +19,7 @@ public class WithdrawCommandICProxi extends PersistentInCacheProxi implements Pe
     }
     
     public long getClassId() {
-        return 132;
+        return 118;
     }
     
     public long getAmount() throws PersistenceException {
@@ -34,10 +34,10 @@ public class WithdrawCommandICProxi extends PersistentInCacheProxi implements Pe
     public void setInvoker(Invoker newValue) throws PersistenceException {
         ((PersistentWithdrawCommand)this.getTheObject()).setInvoker(newValue);
     }
-    public PersistentCustomer getCommandReceiver() throws PersistenceException {
+    public PersistentCustomerManager getCommandReceiver() throws PersistenceException {
         return ((PersistentWithdrawCommand)this.getTheObject()).getCommandReceiver();
     }
-    public void setCommandReceiver(PersistentCustomer newValue) throws PersistenceException {
+    public void setCommandReceiver(PersistentCustomerManager newValue) throws PersistenceException {
         ((PersistentWithdrawCommand)this.getTheObject()).setCommandReceiver(newValue);
     }
     public PersistentCommonDate getMyCommonDate() throws PersistenceException {
@@ -83,6 +83,18 @@ public class WithdrawCommandICProxi extends PersistentInCacheProxi implements Pe
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleWithdrawCommand(this);
     }
+    public void accept(CustomerManagerCommandVisitor visitor) throws PersistenceException {
+        visitor.handleWithdrawCommand(this);
+    }
+    public <R> R accept(CustomerManagerCommandReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleWithdrawCommand(this);
+    }
+    public <E extends model.UserException>  void accept(CustomerManagerCommandExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleWithdrawCommand(this);
+    }
+    public <R, E extends model.UserException> R accept(CustomerManagerCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleWithdrawCommand(this);
+    }
     public void accept(CommandVisitor visitor) throws PersistenceException {
         visitor.handleWithdrawCommand(this);
     }
@@ -93,18 +105,6 @@ public class WithdrawCommandICProxi extends PersistentInCacheProxi implements Pe
          visitor.handleWithdrawCommand(this);
     }
     public <R, E extends model.UserException> R accept(CommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
-         return visitor.handleWithdrawCommand(this);
-    }
-    public void accept(CustomerCommandVisitor visitor) throws PersistenceException {
-        visitor.handleWithdrawCommand(this);
-    }
-    public <R> R accept(CustomerCommandReturnVisitor<R>  visitor) throws PersistenceException {
-         return visitor.handleWithdrawCommand(this);
-    }
-    public <E extends model.UserException>  void accept(CustomerCommandExceptionVisitor<E> visitor) throws PersistenceException, E {
-         visitor.handleWithdrawCommand(this);
-    }
-    public <R, E extends model.UserException> R accept(CustomerCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleWithdrawCommand(this);
     }
     

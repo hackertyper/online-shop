@@ -23,8 +23,8 @@ public abstract class CommonDateStandardVisitor implements CommonDateVisitor {
     public void handleFindArticleCommand(PersistentFindArticleCommand findArticleCommand) throws PersistenceException{
         this.standardHandling(findArticleCommand);
     }
-    public void handlePayCommand(PersistentPayCommand payCommand) throws PersistenceException{
-        this.standardHandling(payCommand);
+    public void handleAcceptDeliveryCommand(PersistentAcceptDeliveryCommand acceptDeliveryCommand) throws PersistenceException{
+        this.standardHandling(acceptDeliveryCommand);
     }
     public void handleWithdrawCommand(PersistentWithdrawCommand withdrawCommand) throws PersistenceException{
         this.standardHandling(withdrawCommand);

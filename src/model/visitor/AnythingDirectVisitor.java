@@ -11,8 +11,6 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleServer(PersistentServer server) throws PersistenceException;
     
-    public abstract void handleCustomer(PersistentCustomer customer) throws PersistenceException;
-    
     public abstract void handleShopkeeper(PersistentShopkeeper shopkeeper) throws PersistenceException;
     
     public abstract void handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException;
@@ -53,9 +51,15 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     }
     public abstract void handleRemovedFSale(PersistentRemovedFSale removedFSale) throws PersistenceException;
     
+    public abstract void handleCustomerManager(PersistentCustomerManager customerManager) throws PersistenceException;
+    
     public abstract void handleManufacturer(PersistentManufacturer manufacturer) throws PersistenceException;
     
     public abstract void handleNewlyAdded(PersistentNewlyAdded newlyAdded) throws PersistenceException;
+    
+    public abstract void handleShopManager(PersistentShopManager shopManager) throws PersistenceException;
+    
+    public abstract void handleAccountManager(PersistentAccountManager accountManager) throws PersistenceException;
     
     public abstract void handleDelivery(PersistentDelivery delivery) throws PersistenceException;
     
@@ -72,6 +76,9 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public void handleChangeProductGroupCommand(PersistentChangeProductGroupCommand changeProductGroupCommand) throws PersistenceException{
         this.handleCommonDate(changeProductGroupCommand);
+    }
+    public void handleAcceptDeliveryCommand(PersistentAcceptDeliveryCommand acceptDeliveryCommand) throws PersistenceException{
+        this.handleCommonDate(acceptDeliveryCommand);
     }
     public void handleOrderCommand(PersistentOrderCommand orderCommand) throws PersistenceException{
         this.handleCommonDate(orderCommand);
@@ -100,9 +107,6 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleCheckOutCommand(PersistentCheckOutCommand checkOutCommand) throws PersistenceException{
         this.handleCommonDate(checkOutCommand);
     }
-    public void handlePayCommand(PersistentPayCommand payCommand) throws PersistenceException{
-        this.handleCommonDate(payCommand);
-    }
     public void handleDepositCommand(PersistentDepositCommand depositCommand) throws PersistenceException{
         this.handleCommonDate(depositCommand);
     }
@@ -111,6 +115,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public abstract void handleCart(PersistentCart cart) throws PersistenceException;
     
     public abstract void handleQuantifiedArticles(PersistentQuantifiedArticles quantifiedArticles) throws PersistenceException;
+    
+    public abstract void handleCartManager(PersistentCartManager cartManager) throws PersistenceException;
     
     
 }

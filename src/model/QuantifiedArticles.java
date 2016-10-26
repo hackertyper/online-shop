@@ -101,7 +101,7 @@ public class QuantifiedArticles extends PersistentObject implements PersistentQu
     }
     
     static public long getTypeId() {
-        return 156;
+        return 124;
     }
     
     public long getClassId() {
@@ -110,7 +110,7 @@ public class QuantifiedArticles extends PersistentObject implements PersistentQu
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 156) ConnectionHandler.getTheConnectionHandler().theQuantifiedArticlesFacade
+        if (this.getClassId() == 124) ConnectionHandler.getTheConnectionHandler().theQuantifiedArticlesFacade
             .newQuantifiedArticles(amount,this.getId());
         super.store();
         if(this.getArticle() != null){

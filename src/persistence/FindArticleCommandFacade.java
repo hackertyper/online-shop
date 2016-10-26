@@ -26,25 +26,25 @@ public class FindArticleCommandFacade{
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
     public PersistentFindArticleCommand newFindArticleCommand(String description,long idCreateIfLessZero) throws PersistenceException {
-        if(idCreateIfLessZero > 0) return (PersistentFindArticleCommand)PersistentProxi.createProxi(idCreateIfLessZero, 137);
+        if(idCreateIfLessZero > 0) return (PersistentFindArticleCommand)PersistentProxi.createProxi(idCreateIfLessZero, 113);
         long id = ConnectionHandler.getTheConnectionHandler().theFindArticleCommandFacade.getNextId();
         FindArticleCommand result = new FindArticleCommand(description,null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentFindArticleCommand)PersistentProxi.createProxi(id, 137);
+        return (PersistentFindArticleCommand)PersistentProxi.createProxi(id, 113);
     }
     
     public PersistentFindArticleCommand newDelayedFindArticleCommand(String description) throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theFindArticleCommandFacade.getNextId();
         FindArticleCommand result = new FindArticleCommand(description,null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentFindArticleCommand)PersistentProxi.createProxi(id, 137);
+        return (PersistentFindArticleCommand)PersistentProxi.createProxi(id, 113);
     }
     
     public FindArticleCommand getFindArticleCommand(long FindArticleCommandId) throws PersistenceException{
         return null; //All data is in the cache!
     }
     public long getClass(long objectId) throws PersistenceException{
-        if(Cache.getTheCache().contains(objectId, 137)) return 137;
+        if(Cache.getTheCache().contains(objectId, 113)) return 113;
         
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         
@@ -55,7 +55,7 @@ public class FindArticleCommandFacade{
     public void invokerSet(long FindArticleCommandId, Invoker invokerVal) throws PersistenceException {
         
     }
-    public void commandReceiverSet(long FindArticleCommandId, PersistentCustomer commandReceiverVal) throws PersistenceException {
+    public void commandReceiverSet(long FindArticleCommandId, PersistentCustomerManager commandReceiverVal) throws PersistenceException {
         
     }
     public void myCommonDateSet(long FindArticleCommandId, PersistentCommonDate myCommonDateVal) throws PersistenceException {

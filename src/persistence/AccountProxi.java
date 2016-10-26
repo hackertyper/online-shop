@@ -15,7 +15,7 @@ public class AccountProxi extends PersistentProxi implements PersistentAccount{
     
     
     public long getClassId() {
-        return 130;
+        return 101;
     }
     
     public long getLowerLimit() throws PersistenceException {
@@ -48,9 +48,9 @@ public class AccountProxi extends PersistentProxi implements PersistentAccount{
     }
     
     
-    public PersistentCustomer getManager() 
+    public PersistentAccountManager getAccMngr() 
 				throws PersistenceException{
-        return ((PersistentAccount)this.getTheObject()).getManager();
+        return ((PersistentAccount)this.getTheObject()).getAccMngr();
     }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{

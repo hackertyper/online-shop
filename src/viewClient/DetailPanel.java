@@ -1200,9 +1200,6 @@ class DetailPanelFactory implements AnythingVisitor {
     public void handleServer(view.ServerView object){
         result = new ServerDefaultDetailPanel(handler, object);
     }
-    public void handleCustomer(view.CustomerView object){
-        result = new CustomerDefaultDetailPanel(handler, object);
-    }
     public void handleShopkeeper(view.ShopkeeperView object){
         result = new ShopkeeperDefaultDetailPanel(handler, object);
     }
@@ -1224,6 +1221,9 @@ class DetailPanelFactory implements AnythingVisitor {
     public void handleRegisterService(view.RegisterServiceView object){
         result = new RegisterServiceDefaultDetailPanel(handler, object);
     }
+    public void handleCustomerManager(view.CustomerManagerView object){
+        result = new CustomerManagerDefaultDetailPanel(handler, object);
+    }
     public void handleShopService(view.ShopServiceView object){
         result = new ShopServiceDefaultDetailPanel(handler, object);
     }
@@ -1232,6 +1232,9 @@ class DetailPanelFactory implements AnythingVisitor {
     }
     public void handleNewlyAdded(view.NewlyAddedView object){
         result = new NewlyAddedDefaultDetailPanel(handler, object);
+    }
+    public void handleShopManager(view.ShopManagerView object){
+        result = new ShopManagerDefaultDetailPanel(handler, object);
     }
     public void handleCart(view.CartView object){
         result = new CartDefaultDetailPanel(handler, object);
@@ -1257,8 +1260,14 @@ class DetailPanelFactory implements AnythingVisitor {
     public void handleCartService(view.CartServiceView object){
         result = new CartServiceDefaultDetailPanel(handler, object);
     }
+    public void handleAccountManager(view.AccountManagerView object){
+        result = new AccountManagerDefaultDetailPanel(handler, object);
+    }
     public void handleAccountService(view.AccountServiceView object){
         result = new AccountServiceDefaultDetailPanel(handler, object);
+    }
+    public void handleCartManager(view.CartManagerView object){
+        result = new CartManagerDefaultDetailPanel(handler, object);
     }
 
 }
@@ -1354,23 +1363,6 @@ class ServerDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.ServerView getAnything(){
         return (view.ServerView)this.anything;
-    }
-}
-
-class CustomerDefaultDetailPanel extends DefaultDetailPanel{
-    
-    protected static final String Customer$$myAccount = "Customer$$myAccount";
-    protected static final String Customer$$myCart = "Customer$$myCart";
-    protected static final String Customer$$itemRange = "Customer$$itemRange";
-    
-    protected CustomerDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
-        super(exceptionHandler, anything);
-    }
-    protected void addFields(){
-        
-    }
-    protected view.CustomerView getAnything(){
-        return (view.CustomerView)this.anything;
     }
 }
 
@@ -1547,10 +1539,24 @@ class RegisterServiceDefaultDetailPanel extends DefaultDetailPanel{
     }
 }
 
+class CustomerManagerDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected CustomerManagerDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.CustomerManagerView getAnything(){
+        return (view.CustomerManagerView)this.anything;
+    }
+}
+
 class ShopServiceDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String CustomerService$$services = "CustomerService$$services";
     protected static final String CustomerService$$manager = "CustomerService$$manager";
+    protected static final String ShopService$$shopMngr = "ShopService$$shopMngr";
     
     protected ShopServiceDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -1595,6 +1601,21 @@ class NewlyAddedDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.NewlyAddedView getAnything(){
         return (view.NewlyAddedView)this.anything;
+    }
+}
+
+class ShopManagerDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String ShopManager$$itemRange = "ShopManager$$itemRange";
+    
+    protected ShopManagerDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.ShopManagerView getAnything(){
+        return (view.ShopManagerView)this.anything;
     }
 }
 
@@ -1743,6 +1764,7 @@ class CartServiceDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String CustomerService$$services = "CustomerService$$services";
     protected static final String CustomerService$$manager = "CustomerService$$manager";
+    protected static final String CartService$$cartMngr = "CartService$$cartMngr";
     
     protected CartServiceDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -1755,10 +1777,26 @@ class CartServiceDefaultDetailPanel extends DefaultDetailPanel{
     }
 }
 
+class AccountManagerDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String AccountManager$$myAccount = "AccountManager$$myAccount";
+    
+    protected AccountManagerDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.AccountManagerView getAnything(){
+        return (view.AccountManagerView)this.anything;
+    }
+}
+
 class AccountServiceDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String CustomerService$$services = "CustomerService$$services";
     protected static final String CustomerService$$manager = "CustomerService$$manager";
+    protected static final String AccountService$$accMngr = "AccountService$$accMngr";
     
     protected AccountServiceDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -1768,5 +1806,20 @@ class AccountServiceDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.AccountServiceView getAnything(){
         return (view.AccountServiceView)this.anything;
+    }
+}
+
+class CartManagerDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String CartManager$$myCart = "CartManager$$myCart";
+    
+    protected CartManagerDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.CartManagerView getAnything(){
+        return (view.CartManagerView)this.anything;
     }
 }

@@ -19,7 +19,7 @@ public class OrderCommandICProxi extends PersistentInCacheProxi implements Persi
     }
     
     public long getClassId() {
-        return 143;
+        return 104;
     }
     
     public Invoker getInvoker() throws PersistenceException {
@@ -28,10 +28,10 @@ public class OrderCommandICProxi extends PersistentInCacheProxi implements Persi
     public void setInvoker(Invoker newValue) throws PersistenceException {
         ((PersistentOrderCommand)this.getTheObject()).setInvoker(newValue);
     }
-    public PersistentCustomer getCommandReceiver() throws PersistenceException {
+    public PersistentCustomerManager getCommandReceiver() throws PersistenceException {
         return ((PersistentOrderCommand)this.getTheObject()).getCommandReceiver();
     }
-    public void setCommandReceiver(PersistentCustomer newValue) throws PersistenceException {
+    public void setCommandReceiver(PersistentCustomerManager newValue) throws PersistenceException {
         ((PersistentOrderCommand)this.getTheObject()).setCommandReceiver(newValue);
     }
     public PersistentCommonDate getMyCommonDate() throws PersistenceException {
@@ -77,6 +77,18 @@ public class OrderCommandICProxi extends PersistentInCacheProxi implements Persi
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleOrderCommand(this);
     }
+    public void accept(CustomerManagerCommandVisitor visitor) throws PersistenceException {
+        visitor.handleOrderCommand(this);
+    }
+    public <R> R accept(CustomerManagerCommandReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleOrderCommand(this);
+    }
+    public <E extends model.UserException>  void accept(CustomerManagerCommandExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleOrderCommand(this);
+    }
+    public <R, E extends model.UserException> R accept(CustomerManagerCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleOrderCommand(this);
+    }
     public void accept(CommandVisitor visitor) throws PersistenceException {
         visitor.handleOrderCommand(this);
     }
@@ -87,18 +99,6 @@ public class OrderCommandICProxi extends PersistentInCacheProxi implements Persi
          visitor.handleOrderCommand(this);
     }
     public <R, E extends model.UserException> R accept(CommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
-         return visitor.handleOrderCommand(this);
-    }
-    public void accept(CustomerCommandVisitor visitor) throws PersistenceException {
-        visitor.handleOrderCommand(this);
-    }
-    public <R> R accept(CustomerCommandReturnVisitor<R>  visitor) throws PersistenceException {
-         return visitor.handleOrderCommand(this);
-    }
-    public <E extends model.UserException>  void accept(CustomerCommandExceptionVisitor<E> visitor) throws PersistenceException, E {
-         visitor.handleOrderCommand(this);
-    }
-    public <R, E extends model.UserException> R accept(CustomerCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleOrderCommand(this);
     }
     

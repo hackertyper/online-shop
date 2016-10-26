@@ -26,25 +26,25 @@ public class CommonDateFacade{
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
     public PersistentCommonDate newCommonDate(java.sql.Date createDate,java.sql.Date commitDate,long idCreateIfLessZero) throws PersistenceException {
-        if(idCreateIfLessZero > 0) return (PersistentCommonDate)PersistentProxi.createProxi(idCreateIfLessZero, 108);
+        if(idCreateIfLessZero > 0) return (PersistentCommonDate)PersistentProxi.createProxi(idCreateIfLessZero, 138);
         long id = ConnectionHandler.getTheConnectionHandler().theCommonDateFacade.getNextId();
         CommonDate result = new CommonDate(createDate,commitDate,id);
         Cache.getTheCache().put(result);
-        return (PersistentCommonDate)PersistentProxi.createProxi(id, 108);
+        return (PersistentCommonDate)PersistentProxi.createProxi(id, 138);
     }
     
     public PersistentCommonDate newDelayedCommonDate(java.sql.Date createDate,java.sql.Date commitDate) throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theCommonDateFacade.getNextId();
         CommonDate result = new CommonDate(createDate,commitDate,id);
         Cache.getTheCache().put(result);
-        return (PersistentCommonDate)PersistentProxi.createProxi(id, 108);
+        return (PersistentCommonDate)PersistentProxi.createProxi(id, 138);
     }
     
     public CommonDate getCommonDate(long CommonDateId) throws PersistenceException{
         return null; //All data is in the cache!
     }
     public long getClass(long objectId) throws PersistenceException{
-        if(Cache.getTheCache().contains(objectId, 108)) return 108;
+        if(Cache.getTheCache().contains(objectId, 138)) return 138;
         
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         

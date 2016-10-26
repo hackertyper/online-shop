@@ -10,20 +10,28 @@ import view.visitor.*;
 
 public class ShopService extends view.objects.CustomerService implements ShopServiceView{
     
+    protected ShopManagerView shopMngr;
     
-    public ShopService(java.util.Vector<ErrorDisplayView> errors,java.util.Vector<CustomerServiceView> services,CustomerView manager,long id, long classId) {
+    public ShopService(java.util.Vector<ErrorDisplayView> errors,java.util.Vector<CustomerServiceView> services,CustomerManagerView manager,ShopManagerView shopMngr,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
-        super(errors,services,(CustomerView)manager,id, classId);        
+        super(errors,services,(CustomerManagerView)manager,id, classId);
+        this.shopMngr = shopMngr;        
     }
     
     static public long getTypeId() {
-        return -186;
+        return -185;
     }
     
     public long getClassId() {
         return getTypeId();
     }
     
+    public ShopManagerView getShopMngr()throws ModelException{
+        return this.shopMngr;
+    }
+    public void setShopMngr(ShopManagerView newValue) throws ModelException {
+        this.shopMngr = newValue;
+    }
     
     public void accept(CustomerServiceVisitor visitor) throws ModelException {
         visitor.handleShopService(this);
@@ -83,9 +91,13 @@ public class ShopService extends view.objects.CustomerService implements ShopSer
         if (services != null) {
             ViewObject.resolveVectorProxies(services, resultTable);
         }
-        CustomerView manager = this.getManager();
+        CustomerManagerView manager = this.getManager();
         if (manager != null) {
             ((ViewProxi)manager).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(manager.getClassId(), manager.getId())));
+        }
+        ShopManagerView shopMngr = this.getShopMngr();
+        if (shopMngr != null) {
+            ((ViewProxi)shopMngr).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(shopMngr.getClassId(), shopMngr.getId())));
         }
         
     }
@@ -99,17 +111,22 @@ public class ShopService extends view.objects.CustomerService implements ShopSer
         if(this.getManager() != null && index < this.getManager().getTheObject().getChildCount())
             return this.getManager().getTheObject().getChild(index);
         if(this.getManager() != null) index = index - this.getManager().getTheObject().getChildCount();
+        if(this.getShopMngr() != null && index < this.getShopMngr().getTheObject().getChildCount())
+            return this.getShopMngr().getTheObject().getChild(index);
+        if(this.getShopMngr() != null) index = index - this.getShopMngr().getTheObject().getChildCount();
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
             + (this.getServices().size())
-            + (this.getManager() == null ? 0 : this.getManager().getTheObject().getChildCount());
+            + (this.getManager() == null ? 0 : this.getManager().getTheObject().getChildCount())
+            + (this.getShopMngr() == null ? 0 : this.getShopMngr().getTheObject().getChildCount());
     }
     public boolean isLeaf() throws ModelException {
         return true 
             && (this.getServices().size() == 0)
-            && (this.getManager() == null ? true : this.getManager().getTheObject().isLeaf());
+            && (this.getManager() == null ? true : this.getManager().getTheObject().isLeaf())
+            && (this.getShopMngr() == null ? true : this.getShopMngr().getTheObject().isLeaf());
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
@@ -120,6 +137,8 @@ public class ShopService extends view.objects.CustomerService implements ShopSer
         }
         if(this.getManager() != null && this.getManager().equals(child)) return result;
         if(this.getManager() != null) result = result + 1;
+        if(this.getShopMngr() != null && this.getShopMngr().equals(child)) return result;
+        if(this.getShopMngr() != null) result = result + 1;
         return -1;
     }
     public int getRowCount(){

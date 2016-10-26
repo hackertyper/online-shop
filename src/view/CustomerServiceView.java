@@ -8,8 +8,8 @@ public interface CustomerServiceView extends ServiceView {
     
     public java.util.Vector<CustomerServiceView> getServices()throws ModelException;
     public void setServices(java.util.Vector<CustomerServiceView> newValue) throws ModelException ;
-    public CustomerView getManager()throws ModelException;
-    public void setManager(CustomerView newValue) throws ModelException ;
+    public CustomerManagerView getManager()throws ModelException;
+    public void setManager(CustomerManagerView newValue) throws ModelException ;
     
     public void accept(CustomerServiceVisitor visitor) throws ModelException;
     public <R> R accept(CustomerServiceReturnVisitor<R>  visitor) throws ModelException;

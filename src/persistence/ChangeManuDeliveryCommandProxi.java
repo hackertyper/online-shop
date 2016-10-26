@@ -15,7 +15,7 @@ public class ChangeManuDeliveryCommandProxi extends PersistentProxi implements P
     
     
     public long getClassId() {
-        return 155;
+        return 121;
     }
     
     public long getNewManuDelivery() throws PersistenceException {

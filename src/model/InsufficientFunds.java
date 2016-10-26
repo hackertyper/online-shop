@@ -29,7 +29,7 @@ public class InsufficientFunds extends model.UserException{
     }
     
     static public long getTypeId() {
-        return -136;
+        return -183;
     }
     
     public long getClassId() {

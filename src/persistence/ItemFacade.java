@@ -25,8 +25,8 @@ public class ItemFacade{
 	}
 
     public long getClass(long objectId) throws PersistenceException{
-        if(Cache.getTheCache().contains(objectId, 150)) return 150;
-        if(Cache.getTheCache().contains(objectId, 144)) return 144;
+        if(Cache.getTheCache().contains(objectId, 102)) return 102;
+        if(Cache.getTheCache().contains(objectId, 109)) return 109;
         
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         
@@ -36,13 +36,13 @@ public class ItemFacade{
         description = description.replaceAll("_", ".");
         ItemSearchList result = new ItemSearchList();
         java.util.Iterator<?> candidates;
-        candidates = Cache.getTheCache().iterator(150);
+        candidates = Cache.getTheCache().iterator(102);
         while (candidates.hasNext()){
             PersistentItem current = (PersistentItem)((PersistentRoot)candidates.next()).getTheObject();
             if (current != null && !current.isDltd() && !current.isDelayed$Persistence() && current.getDescription().matches(description))
                 result.add((PersistentItem)PersistentProxi.createProxi(current.getId(), current.getClassId()));
         }
-        candidates = Cache.getTheCache().iterator(144);
+        candidates = Cache.getTheCache().iterator(109);
         while (candidates.hasNext()){
             PersistentItem current = (PersistentItem)((PersistentRoot)candidates.next()).getTheObject();
             if (current != null && !current.isDltd() && !current.isDelayed$Persistence() && current.getDescription().matches(description))

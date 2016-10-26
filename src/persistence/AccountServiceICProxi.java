@@ -19,9 +19,15 @@ public class AccountServiceICProxi extends CustomerServiceICProxi implements Per
     }
     
     public long getClassId() {
-        return -188;
+        return -189;
     }
     
+    public PersistentAccountManager getAccMngr() throws PersistenceException {
+        return ((PersistentAccountService)this.getTheObject()).getAccMngr();
+    }
+    public void setAccMngr(PersistentAccountManager newValue) throws PersistenceException {
+        ((PersistentAccountService)this.getTheObject()).setAccMngr(newValue);
+    }
     public PersistentAccountService getThis() throws PersistenceException {
         return ((PersistentAccountService)this.getTheObject()).getThis();
     }

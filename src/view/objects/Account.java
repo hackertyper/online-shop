@@ -11,18 +11,16 @@ public class Account extends ViewObject implements AccountView{
     
     protected long lowerLimit;
     protected long balance;
-    protected CustomerView manager;
     
-    public Account(long lowerLimit,long balance,CustomerView manager,long id, long classId) {
+    public Account(long lowerLimit,long balance,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
         this.lowerLimit = lowerLimit;
-        this.balance = balance;
-        this.manager = manager;        
+        this.balance = balance;        
     }
     
     static public long getTypeId() {
-        return 130;
+        return 101;
     }
     
     public long getClassId() {
@@ -41,9 +39,6 @@ public class Account extends ViewObject implements AccountView{
     public void setBalance(long newValue) throws ModelException {
         this.balance = newValue;
     }
-    public CustomerView getManager()throws ModelException{
-        return this.manager;
-    }
     
     public void accept(AnythingVisitor visitor) throws ModelException {
         visitor.handleAccount(this);
@@ -59,10 +54,6 @@ public class Account extends ViewObject implements AccountView{
     }
     
     public void resolveProxies(java.util.HashMap<String,Object> resultTable) throws ModelException {
-        CustomerView manager = this.getManager();
-        if (manager != null) {
-            ((ViewProxi)manager).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(manager.getClassId(), manager.getId())));
-        }
         
     }
     public void sortSetValuedFields() throws ModelException {

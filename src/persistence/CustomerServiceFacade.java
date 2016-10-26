@@ -37,13 +37,13 @@ public class CustomerServiceFacade{
     public CustomerServiceList servicesGet(long CustomerServiceId) throws PersistenceException {
         return new CustomerServiceList(); // remote access for initialization only!
     }
-    public void managerSet(long CustomerServiceId, PersistentCustomer managerVal) throws PersistenceException {
+    public void managerSet(long CustomerServiceId, PersistentCustomerManager managerVal) throws PersistenceException {
         
     }
     public CustomerServiceSearchList inverseGetManager(long objectId, long classId)throws PersistenceException{
         CustomerServiceSearchList result = new CustomerServiceSearchList();
         java.util.Iterator<PersistentInCacheProxi> candidates;
-        candidates = Cache.getTheCache().iterator(-186);
+        candidates = Cache.getTheCache().iterator(-185);
         while (candidates.hasNext()){
             PersistentCustomerService current = (PersistentCustomerService)((PersistentRoot)candidates.next()).getTheObject();
             if (current != null && !current.isDltd() && !current.isDelayed$Persistence() && current.getManager() != null){
@@ -63,7 +63,7 @@ public class CustomerServiceFacade{
                 }
             }
         }
-        candidates = Cache.getTheCache().iterator(-188);
+        candidates = Cache.getTheCache().iterator(-189);
         while (candidates.hasNext()){
             PersistentCustomerService current = (PersistentCustomerService)((PersistentRoot)candidates.next()).getTheObject();
             if (current != null && !current.isDltd() && !current.isDelayed$Persistence() && current.getManager() != null){

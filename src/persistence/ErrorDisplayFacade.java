@@ -26,25 +26,25 @@ public class ErrorDisplayFacade{
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
     public PersistentErrorDisplay newErrorDisplay(long idCreateIfLessZero) throws PersistenceException {
-        if(idCreateIfLessZero > 0) return (PersistentErrorDisplay)PersistentProxi.createProxi(idCreateIfLessZero, -106);
+        if(idCreateIfLessZero > 0) return (PersistentErrorDisplay)PersistentProxi.createProxi(idCreateIfLessZero, -108);
         long id = ConnectionHandler.getTheConnectionHandler().theErrorDisplayFacade.getNextId();
         ErrorDisplay result = new ErrorDisplay(id);
         Cache.getTheCache().put(result);
-        return (PersistentErrorDisplay)PersistentProxi.createProxi(id, -106);
+        return (PersistentErrorDisplay)PersistentProxi.createProxi(id, -108);
     }
     
     public PersistentErrorDisplay newDelayedErrorDisplay() throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theErrorDisplayFacade.getNextId();
         ErrorDisplay result = new ErrorDisplay(id);
         Cache.getTheCache().put(result);
-        return (PersistentErrorDisplay)PersistentProxi.createProxi(id, -106);
+        return (PersistentErrorDisplay)PersistentProxi.createProxi(id, -108);
     }
     
     public ErrorDisplay getErrorDisplay(long ErrorDisplayId) throws PersistenceException{
         return null; //All data is in the cache!
     }
     public long getClass(long objectId) throws PersistenceException{
-        if(Cache.getTheCache().contains(objectId, -106)) return -106;
+        if(Cache.getTheCache().contains(objectId, -108)) return -108;
         
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         

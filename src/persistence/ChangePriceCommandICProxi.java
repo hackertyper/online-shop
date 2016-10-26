@@ -19,7 +19,7 @@ public class ChangePriceCommandICProxi extends PersistentInCacheProxi implements
     }
     
     public long getClassId() {
-        return 158;
+        return 127;
     }
     
     public long getNewPrice() throws PersistenceException {

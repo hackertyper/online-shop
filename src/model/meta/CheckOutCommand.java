@@ -37,12 +37,12 @@ public class CheckOutCommand extends PersistentObject implements PersistentCheck
         return true;
     }
     protected Invoker invoker;
-    protected PersistentCustomer commandReceiver;
+    protected PersistentCustomerManager commandReceiver;
     protected PersistentCommonDate myCommonDate;
     
     private model.UserException commandException = null;
     
-    public CheckOutCommand(Invoker invoker,PersistentCustomer commandReceiver,PersistentCommonDate myCommonDate,long id) throws PersistenceException {
+    public CheckOutCommand(Invoker invoker,PersistentCustomerManager commandReceiver,PersistentCommonDate myCommonDate,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.invoker = invoker;
@@ -51,7 +51,7 @@ public class CheckOutCommand extends PersistentObject implements PersistentCheck
     }
     
     static public long getTypeId() {
-        return 147;
+        return 137;
     }
     
     public long getClassId() {
@@ -60,7 +60,7 @@ public class CheckOutCommand extends PersistentObject implements PersistentCheck
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 147) ConnectionHandler.getTheConnectionHandler().theCheckOutCommandFacade
+        if (this.getClassId() == 137) ConnectionHandler.getTheConnectionHandler().theCheckOutCommandFacade
             .newCheckOutCommand(this.getId());
         super.store();
         if(this.getInvoker() != null){
@@ -92,15 +92,15 @@ public class CheckOutCommand extends PersistentObject implements PersistentCheck
             ConnectionHandler.getTheConnectionHandler().theCheckOutCommandFacade.invokerSet(this.getId(), newValue);
         }
     }
-    public PersistentCustomer getCommandReceiver() throws PersistenceException {
+    public PersistentCustomerManager getCommandReceiver() throws PersistenceException {
         return this.commandReceiver;
     }
-    public void setCommandReceiver(PersistentCustomer newValue) throws PersistenceException {
+    public void setCommandReceiver(PersistentCustomerManager newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
         if(newValue.isTheSameAs(this.commandReceiver)) return;
         long objectId = newValue.getId();
         long classId = newValue.getClassId();
-        this.commandReceiver = (PersistentCustomer)PersistentProxi.createProxi(objectId, classId);
+        this.commandReceiver = (PersistentCustomerManager)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
             ConnectionHandler.getTheConnectionHandler().theCheckOutCommandFacade.commandReceiverSet(this.getId(), newValue);
@@ -161,6 +161,18 @@ public class CheckOutCommand extends PersistentObject implements PersistentCheck
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleCheckOutCommand(this);
     }
+    public void accept(CustomerManagerCommandVisitor visitor) throws PersistenceException {
+        visitor.handleCheckOutCommand(this);
+    }
+    public <R> R accept(CustomerManagerCommandReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleCheckOutCommand(this);
+    }
+    public <E extends model.UserException>  void accept(CustomerManagerCommandExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleCheckOutCommand(this);
+    }
+    public <R, E extends model.UserException> R accept(CustomerManagerCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleCheckOutCommand(this);
+    }
     public void accept(CommandVisitor visitor) throws PersistenceException {
         visitor.handleCheckOutCommand(this);
     }
@@ -171,18 +183,6 @@ public class CheckOutCommand extends PersistentObject implements PersistentCheck
          visitor.handleCheckOutCommand(this);
     }
     public <R, E extends model.UserException> R accept(CommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
-         return visitor.handleCheckOutCommand(this);
-    }
-    public void accept(CustomerCommandVisitor visitor) throws PersistenceException {
-        visitor.handleCheckOutCommand(this);
-    }
-    public <R> R accept(CustomerCommandReturnVisitor<R>  visitor) throws PersistenceException {
-         return visitor.handleCheckOutCommand(this);
-    }
-    public <E extends model.UserException>  void accept(CustomerCommandExceptionVisitor<E> visitor) throws PersistenceException, E {
-         visitor.handleCheckOutCommand(this);
-    }
-    public <R, E extends model.UserException> R accept(CustomerCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleCheckOutCommand(this);
     }
     public int getLeafInfo() throws PersistenceException{

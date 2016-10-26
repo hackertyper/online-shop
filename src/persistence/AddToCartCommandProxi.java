@@ -15,7 +15,7 @@ public class AddToCartCommandProxi extends PersistentProxi implements Persistent
     
     
     public long getClassId() {
-        return 146;
+        return 135;
     }
     
     public PersistentArticle getArticle() throws PersistenceException {
@@ -36,10 +36,10 @@ public class AddToCartCommandProxi extends PersistentProxi implements Persistent
     public void setInvoker(Invoker newValue) throws PersistenceException {
         ((PersistentAddToCartCommand)this.getTheObject()).setInvoker(newValue);
     }
-    public PersistentCustomer getCommandReceiver() throws PersistenceException {
+    public PersistentCustomerManager getCommandReceiver() throws PersistenceException {
         return ((PersistentAddToCartCommand)this.getTheObject()).getCommandReceiver();
     }
-    public void setCommandReceiver(PersistentCustomer newValue) throws PersistenceException {
+    public void setCommandReceiver(PersistentCustomerManager newValue) throws PersistenceException {
         ((PersistentAddToCartCommand)this.getTheObject()).setCommandReceiver(newValue);
     }
     public PersistentCommonDate getMyCommonDate() throws PersistenceException {
@@ -85,6 +85,18 @@ public class AddToCartCommandProxi extends PersistentProxi implements Persistent
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleAddToCartCommand(this);
     }
+    public void accept(CustomerManagerCommandVisitor visitor) throws PersistenceException {
+        visitor.handleAddToCartCommand(this);
+    }
+    public <R> R accept(CustomerManagerCommandReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleAddToCartCommand(this);
+    }
+    public <E extends model.UserException>  void accept(CustomerManagerCommandExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleAddToCartCommand(this);
+    }
+    public <R, E extends model.UserException> R accept(CustomerManagerCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleAddToCartCommand(this);
+    }
     public void accept(CommandVisitor visitor) throws PersistenceException {
         visitor.handleAddToCartCommand(this);
     }
@@ -95,18 +107,6 @@ public class AddToCartCommandProxi extends PersistentProxi implements Persistent
          visitor.handleAddToCartCommand(this);
     }
     public <R, E extends model.UserException> R accept(CommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
-         return visitor.handleAddToCartCommand(this);
-    }
-    public void accept(CustomerCommandVisitor visitor) throws PersistenceException {
-        visitor.handleAddToCartCommand(this);
-    }
-    public <R> R accept(CustomerCommandReturnVisitor<R>  visitor) throws PersistenceException {
-         return visitor.handleAddToCartCommand(this);
-    }
-    public <E extends model.UserException>  void accept(CustomerCommandExceptionVisitor<E> visitor) throws PersistenceException, E {
-         visitor.handleAddToCartCommand(this);
-    }
-    public <R, E extends model.UserException> R accept(CustomerCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleAddToCartCommand(this);
     }
     

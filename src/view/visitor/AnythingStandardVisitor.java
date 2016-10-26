@@ -17,9 +17,6 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleServer(ServerView server) throws ModelException{
         this.standardHandling(server);
     }
-    public void handleCustomer(CustomerView customer) throws ModelException{
-        this.standardHandling(customer);
-    }
     public void handleShopkeeper(ShopkeeperView shopkeeper) throws ModelException{
         this.standardHandling(shopkeeper);
     }
@@ -41,6 +38,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleRegisterService(RegisterServiceView registerService) throws ModelException{
         this.standardHandling(registerService);
     }
+    public void handleCustomerManager(CustomerManagerView customerManager) throws ModelException{
+        this.standardHandling(customerManager);
+    }
     public void handleShopService(ShopServiceView shopService) throws ModelException{
         this.standardHandling(shopService);
     }
@@ -49,6 +49,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     }
     public void handleNewlyAdded(NewlyAddedView newlyAdded) throws ModelException{
         this.standardHandling(newlyAdded);
+    }
+    public void handleShopManager(ShopManagerView shopManager) throws ModelException{
+        this.standardHandling(shopManager);
     }
     public void handleCart(CartView cart) throws ModelException{
         this.standardHandling(cart);
@@ -74,8 +77,14 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleCartService(CartServiceView cartService) throws ModelException{
         this.standardHandling(cartService);
     }
+    public void handleAccountManager(AccountManagerView accountManager) throws ModelException{
+        this.standardHandling(accountManager);
+    }
     public void handleAccountService(AccountServiceView accountService) throws ModelException{
         this.standardHandling(accountService);
+    }
+    public void handleCartManager(CartManagerView cartManager) throws ModelException{
+        this.standardHandling(cartManager);
     }
     protected abstract void standardHandling(Anything anything) throws ModelException;
 }

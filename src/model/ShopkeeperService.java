@@ -94,7 +94,7 @@ public class ShopkeeperService extends model.Service implements PersistentShopke
     }
     
     static public long getTypeId() {
-        return -105;
+        return -133;
     }
     
     public long getClassId() {
@@ -103,7 +103,7 @@ public class ShopkeeperService extends model.Service implements PersistentShopke
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == -105) ConnectionHandler.getTheConnectionHandler().theShopkeeperServiceFacade
+        if (this.getClassId() == -133) ConnectionHandler.getTheConnectionHandler().theShopkeeperServiceFacade
             .newShopkeeperService(lowerLimitPreset,balancePreset,this.getId());
         super.store();
         if(this.getManager() != null){

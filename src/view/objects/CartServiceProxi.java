@@ -24,7 +24,14 @@ public class CartServiceProxi extends CustomerServiceProxi implements CartServic
             manager = view.objects.ViewProxi.createProxi(manager$Info,connectionKey);
             manager.setToString(manager$Info.getToString());
         }
-        CartServiceView result$$ = new CartService(errors,services,(CustomerView)manager, this.getId(), this.getClassId());
+        ViewProxi cartMngr = null;
+        String cartMngr$String = (String)resultTable.get("cartMngr");
+        if (cartMngr$String != null) {
+            common.ProxiInformation cartMngr$Info = common.RPCConstantsAndServices.createProxiInformation(cartMngr$String);
+            cartMngr = view.objects.ViewProxi.createProxi(cartMngr$Info,connectionKey);
+            cartMngr.setToString(cartMngr$Info.getToString());
+        }
+        CartServiceView result$$ = new CartService(errors,services,(CustomerManagerView)manager,(CartManagerView)cartMngr, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -39,18 +46,23 @@ public class CartServiceProxi extends CustomerServiceProxi implements CartServic
         if(this.getManager() != null && index < this.getManager().getTheObject().getChildCount())
             return this.getManager().getTheObject().getChild(index);
         if(this.getManager() != null) index = index - this.getManager().getTheObject().getChildCount();
+        if(this.getCartMngr() != null && index < this.getCartMngr().getTheObject().getChildCount())
+            return this.getCartMngr().getTheObject().getChild(index);
+        if(this.getCartMngr() != null) index = index - this.getCartMngr().getTheObject().getChildCount();
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
             + (this.getServices().size())
-            + (this.getManager() == null ? 0 : this.getManager().getTheObject().getChildCount());
+            + (this.getManager() == null ? 0 : this.getManager().getTheObject().getChildCount())
+            + (this.getCartMngr() == null ? 0 : this.getCartMngr().getTheObject().getChildCount());
     }
     public boolean isLeaf() throws ModelException {
         if (this.object == null) return this.getLeafInfo() == 0;
         return true 
             && (this.getServices().size() == 0)
-            && (this.getManager() == null ? true : this.getManager().getTheObject().isLeaf());
+            && (this.getManager() == null ? true : this.getManager().getTheObject().isLeaf())
+            && (this.getCartMngr() == null ? true : this.getCartMngr().getTheObject().isLeaf());
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
@@ -61,9 +73,17 @@ public class CartServiceProxi extends CustomerServiceProxi implements CartServic
         }
         if(this.getManager() != null && this.getManager().equals(child)) return result;
         if(this.getManager() != null) result = result + 1;
+        if(this.getCartMngr() != null && this.getCartMngr().equals(child)) return result;
+        if(this.getCartMngr() != null) result = result + 1;
         return -1;
     }
     
+    public CartManagerView getCartMngr()throws ModelException{
+        return ((CartService)this.getTheObject()).getCartMngr();
+    }
+    public void setCartMngr(CartManagerView newValue) throws ModelException {
+        ((CartService)this.getTheObject()).setCartMngr(newValue);
+    }
     
     public void accept(CustomerServiceVisitor visitor) throws ModelException {
         visitor.handleCartService(this);

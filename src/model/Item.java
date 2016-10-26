@@ -46,7 +46,7 @@ public abstract class Item extends PersistentObject implements PersistentItem{
     }
     
     static public long getTypeId() {
-        return 145;
+        return 116;
     }
     
     public long getClassId() {
@@ -102,6 +102,7 @@ public abstract class Item extends PersistentObject implements PersistentItem{
 				throws PersistenceException{
         this.setThis((PersistentItem)This);
 		if(this.isTheSameAs(This)){
+			this.setDescription((String)final$$Fields.get("description"));
 		}
     }
     

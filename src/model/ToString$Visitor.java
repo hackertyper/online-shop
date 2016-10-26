@@ -29,48 +29,29 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 		result = anything.getClassId() + ";" + anything.getId();
 	}
 	@Override
-	public void handleRegisterService(PersistentRegisterService registerService) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
-	}
+	public void handleRegisterService(PersistentRegisterService registerService) throws PersistenceException {}
 	@Override
-	public void handleCustomerService(PersistentCustomerService customerService) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
-	}
+	public void handleCustomerService(PersistentCustomerService customerService) throws PersistenceException {}
 	@Override
-	public void handleServer(PersistentServer server) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
-	}
+	public void handleServer(PersistentServer server) throws PersistenceException {}
 	@Override
-	public void handleShopkeeperService(PersistentShopkeeperService shopkeeperService) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
-	}
+	public void handleShopkeeperService(PersistentShopkeeperService shopkeeperService) throws PersistenceException {}
+	
 	@Override
 	public void handleAccount(PersistentAccount account) throws PersistenceException {
-		result = String.valueOf(account.getBalance());
-	}
-	@Override
-	public void handleCustomer(PersistentCustomer customer) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		result = "Kontostand: " + account.getBalance();
 	}
 	@Override
 	public void handleCart(PersistentCart cart) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		result = "Aktueller Bestellpreis: " + cart.getCurrentSum();
 	}
 	@Override
 	public void handleArticle(PersistentArticle article) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		result = article.getDescription();
 	}
 	@Override
 	public void handleProductGroup(PersistentProductGroup productGroup) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		result = productGroup.getDescription();
 	}
 	@Override
 	public void handleShopkeeper(PersistentShopkeeper shopkeeper) throws PersistenceException {
@@ -128,17 +109,19 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 		
 	}
 	@Override
-	public void handleShopService(PersistentShopService shopService) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
-	}
+	public void handleShopService(PersistentShopService shopService) throws PersistenceException {}
 	@Override
-	public void handleCartService(PersistentCartService cartService) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
-	}
+	public void handleCartService(PersistentCartService cartService) throws PersistenceException {}
 	@Override
-	public void handleAccountService(PersistentAccountService accountService) throws PersistenceException {
+	public void handleAccountService(PersistentAccountService accountService) throws PersistenceException {}
+	@Override
+	public void handleShopManager(PersistentShopManager shopManager) throws PersistenceException {}
+	@Override
+	public void handleAccountManager(PersistentAccountManager accountManager) throws PersistenceException {}
+	@Override
+	public void handleCartManager(PersistentCartManager cartManager) throws PersistenceException {}
+	@Override
+	public void handleCustomerManager(PersistentCustomerManager customerManager) throws PersistenceException {
 		// TODO Auto-generated method stub
 		
 	}

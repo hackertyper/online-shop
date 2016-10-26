@@ -25,12 +25,12 @@ public class ServiceFacade{
 	}
 
     public long getClass(long objectId) throws PersistenceException{
-        if(Cache.getTheCache().contains(objectId, -186)) return -186;
+        if(Cache.getTheCache().contains(objectId, -185)) return -185;
         if(Cache.getTheCache().contains(objectId, -187)) return -187;
-        if(Cache.getTheCache().contains(objectId, -188)) return -188;
+        if(Cache.getTheCache().contains(objectId, -189)) return -189;
         if(Cache.getTheCache().contains(objectId, -103)) return -103;
-        if(Cache.getTheCache().contains(objectId, -101)) return -101;
-        if(Cache.getTheCache().contains(objectId, -105)) return -105;
+        if(Cache.getTheCache().contains(objectId, -115)) return -115;
+        if(Cache.getTheCache().contains(objectId, -133)) return -133;
         
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         

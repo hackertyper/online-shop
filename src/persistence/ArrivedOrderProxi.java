@@ -15,7 +15,7 @@ public class ArrivedOrderProxi extends PersistentProxi implements PersistentArri
     
     
     public long getClassId() {
-        return 172;
+        return 112;
     }
     
     public long getTimtToAccept() throws PersistenceException {

@@ -8,6 +8,9 @@ public abstract class CommandStandardVisitor implements CommandVisitor {
     public void handleChangeProductGroupCommand(PersistentChangeProductGroupCommand changeProductGroupCommand) throws PersistenceException{
         this.standardHandling(changeProductGroupCommand);
     }
+    public void handleAcceptDeliveryCommand(PersistentAcceptDeliveryCommand acceptDeliveryCommand) throws PersistenceException{
+        this.standardHandling(acceptDeliveryCommand);
+    }
     public void handleOrderCommand(PersistentOrderCommand orderCommand) throws PersistenceException{
         this.standardHandling(orderCommand);
     }
@@ -34,9 +37,6 @@ public abstract class CommandStandardVisitor implements CommandVisitor {
     }
     public void handleChangeManuDeliveryCommand(PersistentChangeManuDeliveryCommand changeManuDeliveryCommand) throws PersistenceException{
         this.standardHandling(changeManuDeliveryCommand);
-    }
-    public void handlePayCommand(PersistentPayCommand payCommand) throws PersistenceException{
-        this.standardHandling(payCommand);
     }
     public void handleDepositCommand(PersistentDepositCommand depositCommand) throws PersistenceException{
         this.standardHandling(depositCommand);

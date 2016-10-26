@@ -11,9 +11,9 @@ import view.visitor.*;
 public class CustomerService extends view.objects.Service implements CustomerServiceView{
     
     protected java.util.Vector<CustomerServiceView> services;
-    protected CustomerView manager;
+    protected CustomerManagerView manager;
     
-    public CustomerService(java.util.Vector<ErrorDisplayView> errors,java.util.Vector<CustomerServiceView> services,CustomerView manager,long id, long classId) {
+    public CustomerService(java.util.Vector<ErrorDisplayView> errors,java.util.Vector<CustomerServiceView> services,CustomerManagerView manager,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(errors,id, classId);
         this.services = services;
@@ -34,10 +34,10 @@ public class CustomerService extends view.objects.Service implements CustomerSer
     public void setServices(java.util.Vector<CustomerServiceView> newValue) throws ModelException {
         this.services = newValue;
     }
-    public CustomerView getManager()throws ModelException{
+    public CustomerManagerView getManager()throws ModelException{
         return this.manager;
     }
-    public void setManager(CustomerView newValue) throws ModelException {
+    public void setManager(CustomerManagerView newValue) throws ModelException {
         this.manager = newValue;
     }
     
@@ -99,7 +99,7 @@ public class CustomerService extends view.objects.Service implements CustomerSer
         if (services != null) {
             ViewObject.resolveVectorProxies(services, resultTable);
         }
-        CustomerView manager = this.getManager();
+        CustomerManagerView manager = this.getManager();
         if (manager != null) {
             ((ViewProxi)manager).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(manager.getClassId(), manager.getId())));
         }

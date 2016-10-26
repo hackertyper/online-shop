@@ -15,7 +15,7 @@ public class ShopKeeperOrderProxi extends DeliveryProxi implements PersistentSho
     
     
     public long getClassId() {
-        return 174;
+        return 130;
     }
     
     public PersistentArticle getArticle() throws PersistenceException {

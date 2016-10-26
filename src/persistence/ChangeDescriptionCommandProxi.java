@@ -15,7 +15,7 @@ public class ChangeDescriptionCommandProxi extends PersistentProxi implements Pe
     
     
     public long getClassId() {
-        return 160;
+        return 131;
     }
     
     public String getNewDescription() throws PersistenceException {

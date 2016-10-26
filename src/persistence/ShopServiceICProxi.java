@@ -19,9 +19,15 @@ public class ShopServiceICProxi extends CustomerServiceICProxi implements Persis
     }
     
     public long getClassId() {
-        return -186;
+        return -185;
     }
     
+    public PersistentShopManager getShopMngr() throws PersistenceException {
+        return ((PersistentShopService)this.getTheObject()).getShopMngr();
+    }
+    public void setShopMngr(PersistentShopManager newValue) throws PersistenceException {
+        ((PersistentShopService)this.getTheObject()).setShopMngr(newValue);
+    }
     public PersistentShopService getThis() throws PersistenceException {
         return ((PersistentShopService)this.getTheObject()).getThis();
     }

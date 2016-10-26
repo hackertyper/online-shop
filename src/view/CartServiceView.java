@@ -6,6 +6,8 @@ import view.visitor.*;
 
 public interface CartServiceView extends CustomerServiceView {
     
+    public CartManagerView getCartMngr()throws ModelException;
+    public void setCartMngr(CartManagerView newValue) throws ModelException ;
     
     public void accept(CustomerServiceVisitor visitor) throws ModelException;
     public <R> R accept(CustomerServiceReturnVisitor<R>  visitor) throws ModelException;

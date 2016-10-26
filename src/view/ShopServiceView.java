@@ -6,6 +6,8 @@ import view.visitor.*;
 
 public interface ShopServiceView extends CustomerServiceView {
     
+    public ShopManagerView getShopMngr()throws ModelException;
+    public void setShopMngr(ShopManagerView newValue) throws ModelException ;
     
     public void accept(CustomerServiceVisitor visitor) throws ModelException;
     public <R> R accept(CustomerServiceReturnVisitor<R>  visitor) throws ModelException;

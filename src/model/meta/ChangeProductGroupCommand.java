@@ -53,7 +53,7 @@ public class ChangeProductGroupCommand extends PersistentObject implements Persi
     }
     
     static public long getTypeId() {
-        return 157;
+        return 125;
     }
     
     public long getClassId() {
@@ -62,7 +62,7 @@ public class ChangeProductGroupCommand extends PersistentObject implements Persi
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 157) ConnectionHandler.getTheConnectionHandler().theChangeProductGroupCommandFacade
+        if (this.getClassId() == 125) ConnectionHandler.getTheConnectionHandler().theChangeProductGroupCommandFacade
             .newChangeProductGroupCommand(this.getId());
         super.store();
         if(this.getNewPG() != null){
