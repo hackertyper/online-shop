@@ -23,6 +23,10 @@ public interface Cart4Public extends Anything, SubjInterface, AbstractPersistent
 				throws PersistenceException;
     public void changeAmount(final PersistentQuantifiedArticles article, final long newAmount) 
 				throws PersistenceException;
+    public void changeState(final PersistentCartState newState) 
+				throws PersistenceException;
+    public void checkOutReverse() 
+				throws PersistenceException;
     public void checkOut() 
 				throws model.InsufficientStock, PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 

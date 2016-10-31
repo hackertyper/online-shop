@@ -265,6 +265,10 @@ public class QuantifiedArticles extends PersistentObject implements PersistentQu
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }
+    public void deleteReserve() 
+				throws PersistenceException{
+        getThis().getArticle().deleteReserve(getThis().getAmount());
+    }
     public long fetchPrice() 
 				throws PersistenceException{
         return getThis().getArticle().getPrice();

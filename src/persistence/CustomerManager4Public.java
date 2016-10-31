@@ -17,15 +17,11 @@ public interface CustomerManager4Public extends Anything, SubjInterface, Abstrac
     
     public void acceptDelivery(final PersistentCustomerOrder customerOrder, final Invoker invoker) 
 				throws PersistenceException;
-    public void checkOut(final Invoker invoker) 
-				throws PersistenceException;
     public void deposit(final long amount, final Invoker invoker) 
 				throws PersistenceException;
     public void findArticle(final String description, final Invoker invoker) 
 				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
-				throws PersistenceException;
-    public void order(final Invoker invoker) 
 				throws PersistenceException;
     public void withdraw(final long amount, final Invoker invoker) 
 				throws PersistenceException;
@@ -33,8 +29,6 @@ public interface CustomerManager4Public extends Anything, SubjInterface, Abstrac
 				throws PersistenceException;
     public void addToCart(final PersistentArticle article, final long amount) 
 				throws PersistenceException;
-    public void checkOut() 
-				throws model.InsufficientStock, PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
     public void deposit(final long amount) 
@@ -44,8 +38,6 @@ public interface CustomerManager4Public extends Anything, SubjInterface, Abstrac
     public void initializeOnCreation() 
 				throws PersistenceException;
     public void initializeOnInstantiation() 
-				throws PersistenceException;
-    public void order() 
 				throws PersistenceException;
     public void pay(final long sum) 
 				throws PersistenceException;

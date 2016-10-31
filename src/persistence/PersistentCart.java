@@ -5,6 +5,8 @@ public interface PersistentCart extends Anything, SubjInterface, AbstractPersist
     
     public long getCurrentSum() throws PersistenceException ;
     public void setCurrentSum(long newValue) throws PersistenceException ;
+    public PersistentCartState getState() throws PersistenceException ;
+    public void setState(PersistentCartState newValue) throws PersistenceException ;
     public SubjInterface getSubService() throws PersistenceException ;
     public void setSubService(SubjInterface newValue) throws PersistenceException ;
     public PersistentCart getThis() throws PersistenceException ;

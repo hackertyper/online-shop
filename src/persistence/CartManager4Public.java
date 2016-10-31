@@ -19,7 +19,11 @@ public interface CartManager4Public extends Anything, SubjInterface, AbstractPer
 				throws PersistenceException;
     public void changeAmount(final PersistentQuantifiedArticles article, final long newAmount, final Invoker invoker) 
 				throws PersistenceException;
+    public void checkOut(final Invoker invoker) 
+				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
+				throws PersistenceException;
+    public void order(final Invoker invoker) 
 				throws PersistenceException;
     public void removeFCart(final PersistentQuantifiedArticles article, final Invoker invoker) 
 				throws PersistenceException;

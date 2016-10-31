@@ -21,6 +21,8 @@ public interface QuantifiedArticles4Public extends Anything, SubjInterface, Abst
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
+    public void deleteReserve() 
+				throws PersistenceException;
     public long fetchPrice() 
 				throws PersistenceException;
     public void initializeOnCreation() 

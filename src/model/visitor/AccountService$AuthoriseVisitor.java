@@ -12,6 +12,7 @@ public abstract class AccountService$AuthoriseVisitor extends AnythingStandardVi
     public abstract void handleArticle(PersistentArticle article) throws PersistenceException;
     public abstract void handleOfferedFSale(PersistentOfferedFSale offeredFSale) throws PersistenceException;
     public abstract void handleRemovedFSale(PersistentRemovedFSale removedFSale) throws PersistenceException;
+    public abstract void handleOpenCart(PersistentOpenCart openCart) throws PersistenceException;
     public abstract void handleCustomerManager(PersistentCustomerManager customerManager) throws PersistenceException;
     public abstract void handleShopService(PersistentShopService shopService) throws PersistenceException;
     public abstract void handleManufacturer(PersistentManufacturer manufacturer) throws PersistenceException;
@@ -20,6 +21,7 @@ public abstract class AccountService$AuthoriseVisitor extends AnythingStandardVi
     public abstract void handleShopManager(PersistentShopManager shopManager) throws PersistenceException;
     public abstract void handleAccountManager(PersistentAccountManager accountManager) throws PersistenceException;
     public abstract void handleAccountService(PersistentAccountService accountService) throws PersistenceException;
+    public abstract void handleCheckedOut(PersistentCheckedOut checkedOut) throws PersistenceException;
     public abstract void handleCartManager(PersistentCartManager cartManager) throws PersistenceException;
     public abstract void handleCart(PersistentCart cart) throws PersistenceException;
     public abstract void handleQuantifiedArticles(PersistentQuantifiedArticles quantifiedArticles) throws PersistenceException;

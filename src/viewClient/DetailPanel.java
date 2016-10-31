@@ -1209,6 +1209,9 @@ class DetailPanelFactory implements AnythingVisitor {
     public void handleArrivedOrder(view.ArrivedOrderView object){
         result = new ArrivedOrderDefaultDetailPanel(handler, object);
     }
+    public void handleOpenCart(view.OpenCartView object){
+        result = new OpenCartDefaultDetailPanel(handler, object);
+    }
     public void handleCustomerManager(view.CustomerManagerView object){
         result = new CustomerManagerDefaultDetailPanel(handler, object);
     }
@@ -1265,6 +1268,9 @@ class DetailPanelFactory implements AnythingVisitor {
     }
     public void handleCartService(view.CartServiceView object){
         result = new CartServiceDefaultDetailPanel(handler, object);
+    }
+    public void handleCheckedOut(view.CheckedOutView object){
+        result = new CheckedOutDefaultDetailPanel(handler, object);
     }
     public void handleCartManager(view.CartManagerView object){
         result = new CartManagerDefaultDetailPanel(handler, object);
@@ -1431,6 +1437,19 @@ class ArrivedOrderDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.ArrivedOrderView getAnything(){
         return (view.ArrivedOrderView)this.anything;
+    }
+}
+
+class OpenCartDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected OpenCartDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.OpenCartView getAnything(){
+        return (view.OpenCartView)this.anything;
     }
 }
 
@@ -1734,6 +1753,7 @@ class RegisterServiceDefaultDetailPanel extends DefaultDetailPanel{
 class CartDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String Cart$$currentSum = "Cart$$currentSum";
+    protected static final String Cart$$state = "Cart$$state";
     
     protected CartDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -1805,6 +1825,19 @@ class CartServiceDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.CartServiceView getAnything(){
         return (view.CartServiceView)this.anything;
+    }
+}
+
+class CheckedOutDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected CheckedOutDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.CheckedOutView getAnything(){
+        return (view.CheckedOutView)this.anything;
     }
 }
 

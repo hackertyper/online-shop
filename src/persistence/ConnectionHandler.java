@@ -71,6 +71,7 @@ public class ConnectionHandler {
     public ArrivedOrderFacade theArrivedOrderFacade;
     public ItemFacade theItemFacade;
     public CommandCoordinatorFacade theCommandCoordinatorFacade;
+    public OpenCartFacade theOpenCartFacade;
     public CustomerManagerFacade theCustomerManagerFacade;
     public ShopServiceFacade theShopServiceFacade;
     public AddArticleCommandFacade theAddArticleCommandFacade;
@@ -94,6 +95,7 @@ public class ConnectionHandler {
     public ShopkeeperFacade theShopkeeperFacade;
     public ArticleFacade theArticleFacade;
     public OfferedFSaleFacade theOfferedFSaleFacade;
+    public CartStateFacade theCartStateFacade;
     public FindArticleCommandFacade theFindArticleCommandFacade;
     public RegisterServiceFacade theRegisterServiceFacade;
     public WithdrawCommandFacade theWithdrawCommandFacade;
@@ -109,6 +111,7 @@ public class ConnectionHandler {
     public DeliveryFacade theDeliveryFacade;
     public CheckOutCommandFacade theCheckOutCommandFacade;
     public ChangeAmountCommandFacade theChangeAmountCommandFacade;
+    public CheckedOutFacade theCheckedOutFacade;
     public CommandExecuterFacade theCommandExecuterFacade;
     public CartManagerFacade theCartManagerFacade;
 
@@ -125,6 +128,7 @@ public class ConnectionHandler {
             this.theArrivedOrderFacade= new ArrivedOrderFacade();
             this.theItemFacade= new ItemFacade();
             this.theCommandCoordinatorFacade= new CommandCoordinatorFacade();
+            this.theOpenCartFacade= new OpenCartFacade();
             this.theCustomerManagerFacade= new CustomerManagerFacade();
             this.theShopServiceFacade= new ShopServiceFacade();
             this.theAddArticleCommandFacade= new AddArticleCommandFacade();
@@ -148,6 +152,7 @@ public class ConnectionHandler {
             this.theShopkeeperFacade= new ShopkeeperFacade();
             this.theArticleFacade= new ArticleFacade();
             this.theOfferedFSaleFacade= new OfferedFSaleFacade();
+            this.theCartStateFacade= new CartStateFacade();
             this.theFindArticleCommandFacade= new FindArticleCommandFacade();
             this.theRegisterServiceFacade= new RegisterServiceFacade();
             this.theWithdrawCommandFacade= new WithdrawCommandFacade();
@@ -163,6 +168,7 @@ public class ConnectionHandler {
             this.theDeliveryFacade= new DeliveryFacade();
             this.theCheckOutCommandFacade= new CheckOutCommandFacade();
             this.theChangeAmountCommandFacade= new ChangeAmountCommandFacade();
+            this.theCheckedOutFacade= new CheckedOutFacade();
             this.theCommandExecuterFacade= new CommandExecuterFacade();
             this.theCartManagerFacade= new CartManagerFacade();
 	}

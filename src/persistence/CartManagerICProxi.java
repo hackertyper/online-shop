@@ -75,6 +75,10 @@ public class CartManagerICProxi extends PersistentInCacheProxiOptimistic impleme
 				throws PersistenceException{
         ((PersistentCartManager)this.getTheObject()).changeAmount(article, newAmount, invoker);
     }
+    public void checkOut(final Invoker invoker) 
+				throws PersistenceException{
+        ((PersistentCartManager)this.getTheObject()).checkOut(invoker);
+    }
     public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentCartManager)this.getTheObject()).deregister(observee);
@@ -94,6 +98,10 @@ public class CartManagerICProxi extends PersistentInCacheProxiOptimistic impleme
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentCartManager)this.getTheObject()).initialize(This, final$$Fields);
+    }
+    public void order(final Invoker invoker) 
+				throws PersistenceException{
+        ((PersistentCartManager)this.getTheObject()).order(invoker);
     }
     public void register(final ObsInterface observee) 
 				throws PersistenceException{

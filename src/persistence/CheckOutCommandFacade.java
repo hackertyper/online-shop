@@ -52,7 +52,7 @@ public class CheckOutCommandFacade{
     public void invokerSet(long CheckOutCommandId, Invoker invokerVal) throws PersistenceException {
         
     }
-    public void commandReceiverSet(long CheckOutCommandId, PersistentCustomerManager commandReceiverVal) throws PersistenceException {
+    public void commandReceiverSet(long CheckOutCommandId, PersistentCartManager commandReceiverVal) throws PersistenceException {
         
     }
     public void myCommonDateSet(long CheckOutCommandId, PersistentCommonDate myCommonDateVal) throws PersistenceException {

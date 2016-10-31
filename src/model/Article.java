@@ -359,6 +359,10 @@ public class Article extends model.Item implements PersistentArticle{
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }
+    public void deleteReserve(final long amount) 
+				throws PersistenceException{
+    	getThis().setStock(getThis().getStock() + amount);
+    }
     public void initializeOnCreation() 
 				throws PersistenceException{
         super.initializeOnCreation();
@@ -386,8 +390,8 @@ public class Article extends model.Item implements PersistentArticle{
     }
     public void reserve(final long amount) 
 				throws model.InsufficientStock, PersistenceException{
-    	if(amount > getThis().getStock()) {
-    		throw new InsufficientStock("Not enough articles in stock to process order");
+    	if(amount > getThis().getStock() || getThis().getStock() - amount < getThis().getMinStock()) {
+    		throw new InsufficientStock(serverConstants.ErrorMessages.InsufficientStock);
     	}
     	getThis().setStock(getThis().getStock() - amount);
     }

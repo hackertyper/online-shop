@@ -254,14 +254,6 @@ public class CustomerManager extends PersistentObject implements PersistentCusto
 		command.setCommandReceiver(getThis());
 		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
     }
-    public void checkOut(final Invoker invoker) 
-				throws PersistenceException{
-        java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
-		PersistentCheckOutCommand command = model.meta.CheckOutCommand.createCheckOutCommand(now, now);
-		command.setInvoker(invoker);
-		command.setCommandReceiver(getThis());
-		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
-    }
     public void deposit(final long amount, final Invoker invoker) 
 				throws PersistenceException{
         java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
@@ -304,14 +296,6 @@ public class CustomerManager extends PersistentObject implements PersistentCusto
 		if(this.isTheSameAs(This)){
 		}
     }
-    public void order(final Invoker invoker) 
-				throws PersistenceException{
-        java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
-		PersistentOrderCommand command = model.meta.OrderCommand.createOrderCommand(now, now);
-		command.setInvoker(invoker);
-		command.setCommandReceiver(getThis());
-		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
-    }
     public synchronized void register(final ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
@@ -351,11 +335,6 @@ public class CustomerManager extends PersistentObject implements PersistentCusto
 				throws PersistenceException{
         getThis().getCartMngr().addToCart(article, amount);
     }
-    public void checkOut() 
-				throws model.InsufficientStock, PersistenceException{
-        //TODO: implement method: checkOut
-        
-    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }
@@ -376,11 +355,6 @@ public class CustomerManager extends PersistentObject implements PersistentCusto
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-    }
-    public void order() 
-				throws PersistenceException{
-        //TODO: implement method: order
-        
     }
     public void pay(final long sum) 
 				throws PersistenceException{

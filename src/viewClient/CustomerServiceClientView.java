@@ -310,15 +310,21 @@ public class CustomerServiceClientView extends BorderPane implements ExceptionAn
 					public void handleAccountService(AccountServiceView accountService) throws ModelException {
 						AccountServiceClientView view = new AccountServiceClientView(CustomerServiceClientView.this, accountService);
 						accountService.connectAccountService(CustomerServiceClientView.this.getConnection(), view);
+						CustomerServiceClientView.this.getTabAccount().setOnSelectionChanged(new EventHandler<Event>() {
+							@Override
+							public void handle(Event event) {
+								view.handleRefresh();
+							}
+						});
 						CustomerServiceClientView.this.getTabAccount().setContent(view);
 					}
 					@Override
 					public void handleCartService(CartServiceView cartService) throws ModelException {
 						CartServiceClientView view = new CartServiceClientView(CustomerServiceClientView.this, cartService);
 						cartService.connectCartService(CustomerServiceClientView.this.getConnection(), view);
-						CustomerServiceClientView.this.getTabs().getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
+						CustomerServiceClientView.this.getTabCart().setOnSelectionChanged(new EventHandler<Event>() {
 							@Override
-							public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
+							public void handle(Event event) {
 								view.handleRefresh();
 							}
 						});
@@ -328,6 +334,12 @@ public class CustomerServiceClientView extends BorderPane implements ExceptionAn
 					public void handleShopService(ShopServiceView shopService) throws ModelException {
 						ShopServiceClientView view = new ShopServiceClientView(CustomerServiceClientView.this, shopService);
 						shopService.connectShopService(CustomerServiceClientView.this.getConnection(), view);
+						CustomerServiceClientView.this.getTabShop().setOnSelectionChanged(new EventHandler<Event>() {
+							@Override
+							public void handle(Event event) {
+								view.handleRefresh();
+							}
+						});
 						CustomerServiceClientView.this.getTabShop().setContent(view);
 					}
 					@Override

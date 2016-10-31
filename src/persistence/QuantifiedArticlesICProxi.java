@@ -94,6 +94,10 @@ public class QuantifiedArticlesICProxi extends PersistentInCacheProxiOptimistic 
 				throws PersistenceException{
         ((PersistentQuantifiedArticles)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
+    public void deleteReserve() 
+				throws PersistenceException{
+        ((PersistentQuantifiedArticles)this.getTheObject()).deleteReserve();
+    }
     public long fetchPrice() 
 				throws PersistenceException{
         return ((PersistentQuantifiedArticles)this.getTheObject()).fetchPrice();

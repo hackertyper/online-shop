@@ -76,10 +76,6 @@ public class CustomerManagerProxi extends PersistentProxi implements PersistentC
 				throws PersistenceException{
         ((PersistentCustomerManager)this.getTheObject()).acceptDelivery(customerOrder, invoker);
     }
-    public void checkOut(final Invoker invoker) 
-				throws PersistenceException{
-        ((PersistentCustomerManager)this.getTheObject()).checkOut(invoker);
-    }
     public void deposit(final long amount, final Invoker invoker) 
 				throws PersistenceException{
         ((PersistentCustomerManager)this.getTheObject()).deposit(amount, invoker);
@@ -99,10 +95,6 @@ public class CustomerManagerProxi extends PersistentProxi implements PersistentC
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentCustomerManager)this.getTheObject()).initialize(This, final$$Fields);
-    }
-    public void order(final Invoker invoker) 
-				throws PersistenceException{
-        ((PersistentCustomerManager)this.getTheObject()).order(invoker);
     }
     public void register(final ObsInterface observee) 
 				throws PersistenceException{
@@ -124,10 +116,6 @@ public class CustomerManagerProxi extends PersistentProxi implements PersistentC
 				throws PersistenceException{
         ((PersistentCustomerManager)this.getTheObject()).addToCart(article, amount);
     }
-    public void checkOut() 
-				throws model.InsufficientStock, PersistenceException{
-        ((PersistentCustomerManager)this.getTheObject()).checkOut();
-    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentCustomerManager)this.getTheObject()).copyingPrivateUserAttributes(copy);
@@ -147,10 +135,6 @@ public class CustomerManagerProxi extends PersistentProxi implements PersistentC
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         ((PersistentCustomerManager)this.getTheObject()).initializeOnInstantiation();
-    }
-    public void order() 
-				throws PersistenceException{
-        ((PersistentCustomerManager)this.getTheObject()).order();
     }
     public void pay(final long sum) 
 				throws PersistenceException{

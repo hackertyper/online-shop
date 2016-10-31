@@ -3,7 +3,7 @@ package model.visitor;
 
 import persistence.*;
 
-public interface AnythingVisitor extends CommonDateVisitor,DeliveryVisitor,ItemVisitor,ServiceVisitor{
+public interface AnythingVisitor extends CartStateVisitor,CommonDateVisitor,DeliveryVisitor,ItemVisitor,ServiceVisitor{
     
     public void handleAcceptDeliveryCommand(PersistentAcceptDeliveryCommand acceptDeliveryCommand) throws PersistenceException;
     public void handleAccount(PersistentAccount account) throws PersistenceException;

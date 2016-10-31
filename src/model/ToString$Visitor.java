@@ -121,6 +121,16 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	public void handleServer(PersistentServer server) throws PersistenceException {}
 	@Override
 	public void handleShopkeeperService(PersistentShopkeeperService shopkeeperService) throws PersistenceException {}
+	@Override
+	public void handleOpenCart(PersistentOpenCart openCart) throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleCheckedOut(PersistentCheckedOut checkedOut) throws PersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 }

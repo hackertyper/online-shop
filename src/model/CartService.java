@@ -240,7 +240,7 @@ public class CartService extends model.CustomerService implements PersistentCart
     }
     public void checkOut() 
 				throws PersistenceException{
-        getThis().getManager().checkOut(getThis());
+        getThis().getCartMngr().checkOut(getThis());
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
@@ -255,7 +255,7 @@ public class CartService extends model.CustomerService implements PersistentCart
     }
     public void order() 
 				throws PersistenceException{
-        getThis().getManager().order(getThis());
+        getThis().getCartMngr().order(getThis());
     }
     public void removeFCart(final PersistentQuantifiedArticles article) 
 				throws PersistenceException{

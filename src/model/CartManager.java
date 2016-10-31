@@ -260,6 +260,14 @@ public class CartManager extends PersistentObject implements PersistentCartManag
 		command.setCommandReceiver(getThis());
 		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
     }
+    public void checkOut(final Invoker invoker) 
+				throws PersistenceException{
+        java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
+		PersistentCheckOutCommand command = model.meta.CheckOutCommand.createCheckOutCommand(now, now);
+		command.setInvoker(invoker);
+		command.setCommandReceiver(getThis());
+		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
+    }
     public synchronized void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
@@ -304,6 +312,14 @@ public class CartManager extends PersistentObject implements PersistentCartManag
         this.setThis((PersistentCartManager)This);
 		if(this.isTheSameAs(This)){
 		}
+    }
+    public void order(final Invoker invoker) 
+				throws PersistenceException{
+        java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
+		PersistentOrderCommand command = model.meta.OrderCommand.createOrderCommand(now, now);
+		command.setInvoker(invoker);
+		command.setCommandReceiver(getThis());
+		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
     }
     public synchronized void register(final ObsInterface observee) 
 				throws PersistenceException{
@@ -354,15 +370,14 @@ public class CartManager extends PersistentObject implements PersistentCartManag
     }
     public void checkOut() 
 				throws model.InsufficientStock, PersistenceException{
-        //TODO: implement method: checkOut
-        
+        getThis().getMyCart().checkOut();
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-		getThis().setMyCart(Cart.createCart());
+		getThis().setMyCart(Cart.createCart(OpenCart.getTheOpenCart()));
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{

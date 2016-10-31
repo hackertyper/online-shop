@@ -38,6 +38,9 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     public void handleRegisterService(PersistentRegisterService registerService) throws PersistenceException{
         this.standardHandling(registerService);
     }
+    public void handleOpenCart(PersistentOpenCart openCart) throws PersistenceException{
+        this.standardHandling(openCart);
+    }
     public void handleCustomerManager(PersistentCustomerManager customerManager) throws PersistenceException{
         this.standardHandling(customerManager);
     }
@@ -85,6 +88,9 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     }
     public void handleAccountService(PersistentAccountService accountService) throws PersistenceException{
         this.standardHandling(accountService);
+    }
+    public void handleCheckedOut(PersistentCheckedOut checkedOut) throws PersistenceException{
+        this.standardHandling(checkedOut);
     }
     public void handleCartManager(PersistentCartManager cartManager) throws PersistenceException{
         this.standardHandling(cartManager);

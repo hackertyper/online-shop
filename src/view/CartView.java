@@ -8,6 +8,8 @@ public interface CartView extends Anything, AbstractViewRoot {
     
     public long getCurrentSum()throws ModelException;
     public void setCurrentSum(long newValue) throws ModelException ;
+    public CartStateView getState()throws ModelException;
+    public void setState(CartStateView newValue) throws ModelException ;
     public CartManagerView getCartMngr()throws ModelException;
     
     public void accept(AnythingVisitor visitor) throws ModelException;

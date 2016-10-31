@@ -28,6 +28,12 @@ public class CartICProxi extends PersistentInCacheProxiOptimistic implements Per
     public void setCurrentSum(long newValue) throws PersistenceException {
         ((PersistentCart)this.getTheObject()).setCurrentSum(newValue);
     }
+    public PersistentCartState getState() throws PersistenceException {
+        return ((PersistentCart)this.getTheObject()).getState();
+    }
+    public void setState(PersistentCartState newValue) throws PersistenceException {
+        ((PersistentCart)this.getTheObject()).setState(newValue);
+    }
     public SubjInterface getSubService() throws PersistenceException {
         return ((PersistentCart)this.getTheObject()).getSubService();
     }
@@ -95,6 +101,14 @@ public class CartICProxi extends PersistentInCacheProxiOptimistic implements Per
     public void changeAmount(final PersistentQuantifiedArticles article, final long newAmount) 
 				throws PersistenceException{
         ((PersistentCart)this.getTheObject()).changeAmount(article, newAmount);
+    }
+    public void changeState(final PersistentCartState newState) 
+				throws PersistenceException{
+        ((PersistentCart)this.getTheObject()).changeState(newState);
+    }
+    public void checkOutReverse() 
+				throws PersistenceException{
+        ((PersistentCart)this.getTheObject()).checkOutReverse();
     }
     public void checkOut() 
 				throws model.InsufficientStock, PersistenceException{

@@ -28,14 +28,14 @@ public class CartFacade{
     public PersistentCart newCart(long currentSum,long idCreateIfLessZero) throws PersistenceException {
         if(idCreateIfLessZero > 0) return (PersistentCart)PersistentProxi.createProxi(idCreateIfLessZero, 123);
         long id = ConnectionHandler.getTheConnectionHandler().theCartFacade.getNextId();
-        Cart result = new Cart(currentSum,null,null,id);
+        Cart result = new Cart(currentSum,null,null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentCart)PersistentProxi.createProxi(id, 123);
     }
     
     public PersistentCart newDelayedCart(long currentSum) throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theCartFacade.getNextId();
-        Cart result = new Cart(currentSum,null,null,id);
+        Cart result = new Cart(currentSum,null,null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentCart)PersistentProxi.createProxi(id, 123);
     }
@@ -50,6 +50,9 @@ public class CartFacade{
         
     }
     public void currentSumSet(long CartId, long currentSumVal) throws PersistenceException {
+        
+    }
+    public void stateSet(long CartId, PersistentCartState stateVal) throws PersistenceException {
         
     }
     public void subServiceSet(long CartId, SubjInterface subServiceVal) throws PersistenceException {

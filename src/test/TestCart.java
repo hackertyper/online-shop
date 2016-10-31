@@ -11,12 +11,16 @@ import org.junit.Test;
 
 import model.Article;
 import model.CartManager;
+import model.InsufficientStock;
 import model.Manufacturer;
+import model.OpenCart;
 import model.QuantifiedArticles;
 import persistence.PersistenceException;
 import persistence.PersistentArticle;
 import persistence.PersistentCartManager;
+import persistence.PersistentCheckedOut;
 import persistence.PersistentManufacturer;
+import persistence.PersistentOpenCart;
 import persistence.PersistentQuantifiedArticles;
 import persistence.Predcate;
 
@@ -39,7 +43,7 @@ public class TestCart {
 		a2 = Article.createArticle("a2", m1, 20, 5, 60, 0);
 		a2.setStock(34);
 		a3 = Article.createArticle("a3", m1, 18, 20, 100, 0);
-		a3.setStock(42);
+		a3.setStock(40);
 	}
 
 	@Test
@@ -111,6 +115,48 @@ public class TestCart {
 			assertEquals(5, next.getAmount());
 		}
 		assertEquals(500, cm.getMyCart().getCurrentSum());
+	}
+	
+	@Test
+	public void testCheckOut() throws PersistenceException, InsufficientStock {
+		cm.checkOut();
+		assertEquals(90, a1.getStock());
+		assertTrue(cm.getMyCart().getState() instanceof PersistentCheckedOut);
+	}
+	
+	@Test
+	public void testCheckOutException() throws PersistenceException {
+		a1.addToCart(100, cm.getMyCart());
+		try {	
+			cm.checkOut();
+		} catch (InsufficientStock e) {
+			assertEquals(100, a1.getStock());
+			assertTrue(cm.getMyCart().getState() instanceof PersistentOpenCart);
+			assertEquals(serverConstants.ErrorMessages.InsufficientStock, e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testToOpenCart() throws PersistenceException, InsufficientStock {
+		cm.checkOut();
+		Iterator<PersistentQuantifiedArticles> cartIterator = cm.getArticleList().iterator();
+		while(cartIterator.hasNext()) {
+			PersistentQuantifiedArticles next = cartIterator.next();
+			cm.changeAmount(next, 10);
+			assertEquals(100, a1.getStock());
+			assertTrue(cm.getMyCart().getState() instanceof PersistentOpenCart);
+		}
+		cm.checkOut();
+		a1.addToCart(10, cm.getMyCart());
+		assertEquals(100, a1.getStock());
+		assertTrue(cm.getMyCart().getState() instanceof PersistentOpenCart);
+		cm.checkOut();
+		while(cartIterator.hasNext()) {
+			PersistentQuantifiedArticles next = cartIterator.next();
+			cm.removeFCart(next);
+			assertEquals(100, a1.getStock());
+			assertTrue(cm.getMyCart().getState() instanceof PersistentOpenCart);
+		}
 	}
 
 }

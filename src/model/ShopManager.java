@@ -302,6 +302,7 @@ public class ShopManager extends PersistentObject implements PersistentShopManag
 				throws PersistenceException{
         PersistentProductGroup pg = ProductGroup.createProductGroup("Alles");
 		PersistentArticle article = Article.createArticle("Herd", Manufacturer.createManufacturer("Bosch"), 112, 10, 1000, 0);
+		article.setStock(10);
 		pg.getItemList().add(article);
 		getThis().getItemRange().add(pg);
     }

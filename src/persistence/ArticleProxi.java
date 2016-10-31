@@ -158,6 +158,10 @@ public class ArticleProxi extends ItemProxi implements PersistentArticle{
 				throws PersistenceException{
         ((PersistentArticle)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
+    public void deleteReserve(final long amount) 
+				throws PersistenceException{
+        ((PersistentArticle)this.getTheObject()).deleteReserve(amount);
+    }
     public void initializeOnCreation() 
 				throws PersistenceException{
         ((PersistentArticle)this.getTheObject()).initializeOnCreation();

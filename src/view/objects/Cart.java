@@ -10,12 +10,14 @@ import view.visitor.*;
 public class Cart extends ViewObject implements CartView{
     
     protected long currentSum;
+    protected CartStateView state;
     protected CartManagerView cartMngr;
     
-    public Cart(long currentSum,CartManagerView cartMngr,long id, long classId) {
+    public Cart(long currentSum,CartStateView state,CartManagerView cartMngr,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
         this.currentSum = currentSum;
+        this.state = state;
         this.cartMngr = cartMngr;        
     }
     
@@ -32,6 +34,12 @@ public class Cart extends ViewObject implements CartView{
     }
     public void setCurrentSum(long newValue) throws ModelException {
         this.currentSum = newValue;
+    }
+    public CartStateView getState()throws ModelException{
+        return this.state;
+    }
+    public void setState(CartStateView newValue) throws ModelException {
+        this.state = newValue;
     }
     public CartManagerView getCartMngr()throws ModelException{
         return this.cartMngr;
@@ -51,6 +59,10 @@ public class Cart extends ViewObject implements CartView{
     }
     
     public void resolveProxies(java.util.HashMap<String,Object> resultTable) throws ModelException {
+        CartStateView state = this.getState();
+        if (state != null) {
+            ((ViewProxi)state).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(state.getClassId(), state.getId())));
+        }
         CartManagerView cartMngr = this.getCartMngr();
         if (cartMngr != null) {
             ((ViewProxi)cartMngr).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(cartMngr.getClassId(), cartMngr.getId())));
@@ -61,17 +73,24 @@ public class Cart extends ViewObject implements CartView{
         
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
-        
+        int index = originalIndex;
+        if(this.getState() != null && index < this.getState().getTheObject().getChildCount())
+            return this.getState().getTheObject().getChild(index);
+        if(this.getState() != null) index = index - this.getState().getTheObject().getChildCount();
         return null;
     }
     public int getChildCount() throws ModelException {
-        return 0 ;
+        return 0 
+            + (this.getState() == null ? 0 : this.getState().getTheObject().getChildCount());
     }
     public boolean isLeaf() throws ModelException {
-        return true;
+        return true 
+            && (this.getState() == null ? true : this.getState().getTheObject().isLeaf());
     }
     public int getIndexOfChild(Object child) throws ModelException {
-        
+        int result = 0;
+        if(this.getState() != null && this.getState().equals(child)) return result;
+        if(this.getState() != null) result = result + 1;
         return -1;
     }
     public int getCurrentSumIndex() throws ModelException {

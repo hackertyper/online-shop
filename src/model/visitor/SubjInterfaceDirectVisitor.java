@@ -39,6 +39,14 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     }
     public abstract void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException;
     
+    public abstract void handleCartState(PersistentCartState cartState) throws PersistenceException;
+    
+    public void handleOpenCart(PersistentOpenCart openCart) throws PersistenceException{
+        this.handleCartState(openCart);
+    }
+    public void handleCheckedOut(PersistentCheckedOut checkedOut) throws PersistenceException{
+        this.handleCartState(checkedOut);
+    }
     public abstract void handleSubj(PersistentSubj subj) throws PersistenceException;
     
     public abstract void handleItem(PersistentItem item) throws PersistenceException;

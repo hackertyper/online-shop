@@ -28,10 +28,10 @@ public class CheckOutCommandICProxi extends PersistentInCacheProxi implements Pe
     public void setInvoker(Invoker newValue) throws PersistenceException {
         ((PersistentCheckOutCommand)this.getTheObject()).setInvoker(newValue);
     }
-    public PersistentCustomerManager getCommandReceiver() throws PersistenceException {
+    public PersistentCartManager getCommandReceiver() throws PersistenceException {
         return ((PersistentCheckOutCommand)this.getTheObject()).getCommandReceiver();
     }
-    public void setCommandReceiver(PersistentCustomerManager newValue) throws PersistenceException {
+    public void setCommandReceiver(PersistentCartManager newValue) throws PersistenceException {
         ((PersistentCheckOutCommand)this.getTheObject()).setCommandReceiver(newValue);
     }
     public PersistentCommonDate getMyCommonDate() throws PersistenceException {
@@ -77,18 +77,6 @@ public class CheckOutCommandICProxi extends PersistentInCacheProxi implements Pe
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleCheckOutCommand(this);
     }
-    public void accept(CustomerManagerCommandVisitor visitor) throws PersistenceException {
-        visitor.handleCheckOutCommand(this);
-    }
-    public <R> R accept(CustomerManagerCommandReturnVisitor<R>  visitor) throws PersistenceException {
-         return visitor.handleCheckOutCommand(this);
-    }
-    public <E extends model.UserException>  void accept(CustomerManagerCommandExceptionVisitor<E> visitor) throws PersistenceException, E {
-         visitor.handleCheckOutCommand(this);
-    }
-    public <R, E extends model.UserException> R accept(CustomerManagerCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
-         return visitor.handleCheckOutCommand(this);
-    }
     public void accept(CommandVisitor visitor) throws PersistenceException {
         visitor.handleCheckOutCommand(this);
     }
@@ -99,6 +87,18 @@ public class CheckOutCommandICProxi extends PersistentInCacheProxi implements Pe
          visitor.handleCheckOutCommand(this);
     }
     public <R, E extends model.UserException> R accept(CommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleCheckOutCommand(this);
+    }
+    public void accept(CartManagerCommandVisitor visitor) throws PersistenceException {
+        visitor.handleCheckOutCommand(this);
+    }
+    public <R> R accept(CartManagerCommandReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleCheckOutCommand(this);
+    }
+    public <E extends model.UserException>  void accept(CartManagerCommandExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleCheckOutCommand(this);
+    }
+    public <R, E extends model.UserException> R accept(CartManagerCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleCheckOutCommand(this);
     }
     

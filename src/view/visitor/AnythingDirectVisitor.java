@@ -17,6 +17,14 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleArrivedOrder(ArrivedOrderView arrivedOrder) throws ModelException;
     
+    public abstract void handleCartState(CartStateView cartState) throws ModelException;
+    
+    public void handleOpenCart(OpenCartView openCart) throws ModelException{
+        this.handleCartState(openCart);
+    }
+    public void handleCheckedOut(CheckedOutView checkedOut) throws ModelException{
+        this.handleCartState(checkedOut);
+    }
     public abstract void handleItem(ItemView item) throws ModelException;
     
     public void handleProductGroup(ProductGroupView productGroup) throws ModelException{

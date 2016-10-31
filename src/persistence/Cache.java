@@ -291,6 +291,7 @@ public class Cache {
 		this.number2NameMap.put(127, "ChangePriceCommand");
 		this.number2NameMap.put(125, "ChangeProductGroupCommand");
 		this.number2NameMap.put(137, "CheckOutCommand");
+		this.number2NameMap.put(218, "CheckedOut");
 		this.number2NameMap.put(-117, "CommandCoordinator");
 		this.number2NameMap.put(-139, "CommandExecuter");
 		this.number2NameMap.put(138, "CommonDate");
@@ -303,6 +304,7 @@ public class Cache {
 		this.number2NameMap.put(119, "Manufacturer");
 		this.number2NameMap.put(120, "NewlyAdded");
 		this.number2NameMap.put(110, "OfferedFSale");
+		this.number2NameMap.put(216, "OpenCart");
 		this.number2NameMap.put(104, "OrderCommand");
 		this.number2NameMap.put(102, "ProductGroup");
 		this.number2NameMap.put(124, "QuantifiedArticles");
