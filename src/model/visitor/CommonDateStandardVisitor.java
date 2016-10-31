@@ -14,6 +14,9 @@ public abstract class CommonDateStandardVisitor implements CommonDateVisitor {
     public void handleChangePriceCommand(PersistentChangePriceCommand changePriceCommand) throws PersistenceException{
         this.standardHandling(changePriceCommand);
     }
+    public void handleRemoveFCartCommand(PersistentRemoveFCartCommand removeFCartCommand) throws PersistenceException{
+        this.standardHandling(removeFCartCommand);
+    }
     public void handleStartSellingCommand(PersistentStartSellingCommand startSellingCommand) throws PersistenceException{
         this.standardHandling(startSellingCommand);
     }
@@ -29,8 +32,8 @@ public abstract class CommonDateStandardVisitor implements CommonDateVisitor {
     public void handleWithdrawCommand(PersistentWithdrawCommand withdrawCommand) throws PersistenceException{
         this.standardHandling(withdrawCommand);
     }
-    public void handleAddToCartCommand(PersistentAddToCartCommand addToCartCommand) throws PersistenceException{
-        this.standardHandling(addToCartCommand);
+    public void handleAddArticleCommand(PersistentAddArticleCommand addArticleCommand) throws PersistenceException{
+        this.standardHandling(addArticleCommand);
     }
     public void handleChangeManuDeliveryCommand(PersistentChangeManuDeliveryCommand changeManuDeliveryCommand) throws PersistenceException{
         this.standardHandling(changeManuDeliveryCommand);
@@ -40,6 +43,9 @@ public abstract class CommonDateStandardVisitor implements CommonDateVisitor {
     }
     public void handleCommonDate(PersistentCommonDate commonDate) throws PersistenceException{
         this.standardHandling(commonDate);
+    }
+    public void handleChangeAmountCommand(PersistentChangeAmountCommand changeAmountCommand) throws PersistenceException{
+        this.standardHandling(changeAmountCommand);
     }
     public void handleDepositCommand(PersistentDepositCommand depositCommand) throws PersistenceException{
         this.standardHandling(depositCommand);

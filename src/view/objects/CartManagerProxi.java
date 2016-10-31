@@ -11,6 +11,7 @@ public class CartManagerProxi extends ViewProxi implements CartManagerView{
         super(objectId, classId, connectionKey);
     }
     
+    @SuppressWarnings("unchecked")
     public CartManagerView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
         ViewProxi myCart = null;
         String myCart$String = (String)resultTable.get("myCart");
@@ -19,6 +20,8 @@ public class CartManagerProxi extends ViewProxi implements CartManagerView{
             myCart = view.objects.ViewProxi.createProxi(myCart$Info,connectionKey);
             myCart.setToString(myCart$Info.getToString());
         }
+        java.util.Vector<String> articleList_string = (java.util.Vector<String>)resultTable.get("articleList");
+        java.util.Vector<QuantifiedArticlesView> articleList = ViewProxi.getProxiVector(articleList_string, connectionKey);
         ViewProxi customerManager = null;
         String customerManager$String = (String)resultTable.get("customerManager");
         if (customerManager$String != null) {
@@ -33,7 +36,7 @@ public class CartManagerProxi extends ViewProxi implements CartManagerView{
             myCartServer = view.objects.ViewProxi.createProxi(myCartServer$Info,connectionKey);
             myCartServer.setToString(myCartServer$Info.getToString());
         }
-        CartManagerView result$$ = new CartManager((CartView)myCart,(CustomerManagerView)customerManager,(CartServiceView)myCartServer, this.getId(), this.getClassId());
+        CartManagerView result$$ = new CartManager((CartView)myCart,articleList,(CustomerManagerView)customerManager,(CartServiceView)myCartServer, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -45,21 +48,30 @@ public class CartManagerProxi extends ViewProxi implements CartManagerView{
         int index = originalIndex;
         if(index == 0 && this.getMyCart() != null) return new MyCartCartManagerWrapper(this, originalIndex, (ViewRoot)this.getMyCart());
         if(this.getMyCart() != null) index = index - 1;
+        if(index < this.getArticleList().size()) return new ArticleListCartManagerWrapper(this, originalIndex, (ViewRoot)this.getArticleList().get(index));
+        index = index - this.getArticleList().size();
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getMyCart() == null ? 0 : 1);
+            + (this.getMyCart() == null ? 0 : 1)
+            + (this.getArticleList().size());
     }
     public boolean isLeaf() throws ModelException {
         if (this.object == null) return this.getLeafInfo() == 0;
         return true 
-            && (this.getMyCart() == null ? true : false);
+            && (this.getMyCart() == null ? true : false)
+            && (this.getArticleList().size() == 0);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
         if(this.getMyCart() != null && this.getMyCart().equals(child)) return result;
         if(this.getMyCart() != null) result = result + 1;
+        java.util.Iterator<?> getArticleListIterator = this.getArticleList().iterator();
+        while(getArticleListIterator.hasNext()){
+            if(getArticleListIterator.next().equals(child)) return result;
+            result = result + 1;
+        }
         return -1;
     }
     
@@ -68,6 +80,12 @@ public class CartManagerProxi extends ViewProxi implements CartManagerView{
     }
     public void setMyCart(CartView newValue) throws ModelException {
         ((CartManager)this.getTheObject()).setMyCart(newValue);
+    }
+    public java.util.Vector<QuantifiedArticlesView> getArticleList()throws ModelException{
+        return ((CartManager)this.getTheObject()).getArticleList();
+    }
+    public void setArticleList(java.util.Vector<QuantifiedArticlesView> newValue) throws ModelException {
+        ((CartManager)this.getTheObject()).setArticleList(newValue);
     }
     public CustomerManagerView getCustomerManager()throws ModelException{
         return ((CartManager)this.getTheObject()).getCustomerManager();

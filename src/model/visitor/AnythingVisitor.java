@@ -8,10 +8,12 @@ public interface AnythingVisitor extends CommonDateVisitor,DeliveryVisitor,ItemV
     public void handleAcceptDeliveryCommand(PersistentAcceptDeliveryCommand acceptDeliveryCommand) throws PersistenceException;
     public void handleAccount(PersistentAccount account) throws PersistenceException;
     public void handleAccountManager(PersistentAccountManager accountManager) throws PersistenceException;
-    public void handleAddToCartCommand(PersistentAddToCartCommand addToCartCommand) throws PersistenceException;
+    public void handleAddArticleCommand(PersistentAddArticleCommand addArticleCommand) throws PersistenceException;
     public void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException;
     public void handleCart(PersistentCart cart) throws PersistenceException;
     public void handleCartManager(PersistentCartManager cartManager) throws PersistenceException;
+    public void handleCartManagerArticleList(PersistentCartManagerArticleList cartManagerArticleList) throws PersistenceException;
+    public void handleChangeAmountCommand(PersistentChangeAmountCommand changeAmountCommand) throws PersistenceException;
     public void handleChangeDescriptionCommand(PersistentChangeDescriptionCommand changeDescriptionCommand) throws PersistenceException;
     public void handleChangeManuDeliveryCommand(PersistentChangeManuDeliveryCommand changeManuDeliveryCommand) throws PersistenceException;
     public void handleChangePriceCommand(PersistentChangePriceCommand changePriceCommand) throws PersistenceException;
@@ -29,12 +31,15 @@ public interface AnythingVisitor extends CommonDateVisitor,DeliveryVisitor,ItemV
     public void handleOfferedFSale(PersistentOfferedFSale offeredFSale) throws PersistenceException;
     public void handleOrderCommand(PersistentOrderCommand orderCommand) throws PersistenceException;
     public void handleQuantifiedArticles(PersistentQuantifiedArticles quantifiedArticles) throws PersistenceException;
+    public void handleRemoveFCartCommand(PersistentRemoveFCartCommand removeFCartCommand) throws PersistenceException;
     public void handleRemovedFSale(PersistentRemovedFSale removedFSale) throws PersistenceException;
     public void handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException;
     public void handleServer(PersistentServer server) throws PersistenceException;
     public void handleShopManager(PersistentShopManager shopManager) throws PersistenceException;
+    public void handleShopManagerItemRange(PersistentShopManagerItemRange shopManagerItemRange) throws PersistenceException;
     public void handleShopkeeper(PersistentShopkeeper shopkeeper) throws PersistenceException;
     public void handleStartSellingCommand(PersistentStartSellingCommand startSellingCommand) throws PersistenceException;
+    public void handleSubj(PersistentSubj subj) throws PersistenceException;
     public void handleWithdrawCommand(PersistentWithdrawCommand withdrawCommand) throws PersistenceException;
     
 }

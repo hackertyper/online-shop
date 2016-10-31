@@ -28,14 +28,14 @@ public class AccountFacade{
     public PersistentAccount newAccount(long lowerLimit,long balance,long idCreateIfLessZero) throws PersistenceException {
         if(idCreateIfLessZero > 0) return (PersistentAccount)PersistentProxi.createProxi(idCreateIfLessZero, 199);
         long id = ConnectionHandler.getTheConnectionHandler().theAccountFacade.getNextId();
-        Account result = new Account(lowerLimit,balance,null,id);
+        Account result = new Account(lowerLimit,balance,null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentAccount)PersistentProxi.createProxi(id, 199);
     }
     
     public PersistentAccount newDelayedAccount(long lowerLimit,long balance) throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theAccountFacade.getNextId();
-        Account result = new Account(lowerLimit,balance,null,id);
+        Account result = new Account(lowerLimit,balance,null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentAccount)PersistentProxi.createProxi(id, 199);
     }
@@ -53,6 +53,9 @@ public class AccountFacade{
         
     }
     public void balanceSet(long AccountId, long balanceVal) throws PersistenceException {
+        
+    }
+    public void subServiceSet(long AccountId, SubjInterface subServiceVal) throws PersistenceException {
         
     }
     public void ThisSet(long AccountId, PersistentAccount ThisVal) throws PersistenceException {

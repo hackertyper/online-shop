@@ -4,7 +4,7 @@ import model.visitor.*;
 
 /* Additional import section end */
 
-public interface CustomerOrderState extends AbstractPersistentProxi {
+public interface CustomerOrderState extends  SubjInterface {
     
     
 

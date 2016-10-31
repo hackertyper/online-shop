@@ -5,6 +5,8 @@ public interface PersistentArrivedOrder extends CustomerOrderState, Anything, Ab
     
     public long getTimtToAccept() throws PersistenceException ;
     public void setTimtToAccept(long newValue) throws PersistenceException ;
+    public SubjInterface getSubService() throws PersistenceException ;
+    public void setSubService(SubjInterface newValue) throws PersistenceException ;
     public PersistentArrivedOrder getThis() throws PersistenceException ;
     
     

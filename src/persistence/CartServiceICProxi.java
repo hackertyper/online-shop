@@ -80,6 +80,18 @@ public class CartServiceICProxi extends CustomerServiceICProxi implements Persis
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleCartService(this);
     }
+    public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
+        visitor.handleCartService(this);
+    }
+    public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleCartService(this);
+    }
+    public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleCartService(this);
+    }
+    public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleCartService(this);
+    }
     public void accept(RemoteVisitor visitor) throws PersistenceException {
         visitor.handleCartService(this);
     }
@@ -102,17 +114,37 @@ public class CartServiceICProxi extends CustomerServiceICProxi implements Persis
 				throws PersistenceException{
         return ((PersistentCartService)this.getTheObject()).customerService_Menu_Filter(anything);
     }
+    public void deregister(final ObsInterface observee) 
+				throws PersistenceException{
+        ((PersistentCartService)this.getTheObject()).deregister(observee);
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentCartService)this.getTheObject()).initialize(This, final$$Fields);
+    }
+    public void register(final ObsInterface observee) 
+				throws PersistenceException{
+        ((PersistentCartService)this.getTheObject()).register(observee);
     }
     public void signalChanged(final boolean signal) 
 				throws PersistenceException{
         ((PersistentCartService)this.getTheObject()).signalChanged(signal);
     }
+    public void updateObservers(final model.meta.Mssgs event) 
+				throws PersistenceException{
+        ((PersistentCartService)this.getTheObject()).updateObservers(event);
+    }
     public void acceptDelivery(final PersistentCustomerOrder customerOrder) 
 				throws PersistenceException{
         ((PersistentCartService)this.getTheObject()).acceptDelivery(customerOrder);
+    }
+    public void addToCart(final PersistentArticle article, final long amount) 
+				throws PersistenceException{
+        ((PersistentCartService)this.getTheObject()).addToCart(article, amount);
+    }
+    public void changeAmount(final PersistentQuantifiedArticles article, final long newAmount) 
+				throws PersistenceException{
+        ((PersistentCartService)this.getTheObject()).changeAmount(article, newAmount);
     }
     public void checkOut() 
 				throws PersistenceException{
@@ -153,6 +185,10 @@ public class CartServiceICProxi extends CustomerServiceICProxi implements Persis
     public void order() 
 				throws PersistenceException{
         ((PersistentCartService)this.getTheObject()).order();
+    }
+    public void removeFCart(final PersistentQuantifiedArticles article) 
+				throws PersistenceException{
+        ((PersistentCartService)this.getTheObject()).removeFCart(article);
     }
 
     

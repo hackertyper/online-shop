@@ -92,6 +92,18 @@ public class ArticleICProxi extends ItemICProxi implements PersistentArticle{
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleArticle(this);
     }
+    public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
+        visitor.handleArticle(this);
+    }
+    public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleArticle(this);
+    }
+    public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleArticle(this);
+    }
+    public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleArticle(this);
+    }
     
     
     public void changeDescription(final String newDescription, final Invoker invoker) 
@@ -110,9 +122,21 @@ public class ArticleICProxi extends ItemICProxi implements PersistentArticle{
 				throws PersistenceException{
         ((PersistentArticle)this.getTheObject()).changeProductGroup(newPG, invoker);
     }
+    public void deregister(final ObsInterface observee) 
+				throws PersistenceException{
+        ((PersistentArticle)this.getTheObject()).deregister(observee);
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentArticle)this.getTheObject()).initialize(This, final$$Fields);
+    }
+    public void register(final ObsInterface observee) 
+				throws PersistenceException{
+        ((PersistentArticle)this.getTheObject()).register(observee);
+    }
+    public void updateObservers(final model.meta.Mssgs event) 
+				throws PersistenceException{
+        ((PersistentArticle)this.getTheObject()).updateObservers(event);
     }
     public void addToCart(final long amount, final PersistentCart cart) 
 				throws PersistenceException{

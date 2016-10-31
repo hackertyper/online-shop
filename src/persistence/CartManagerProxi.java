@@ -24,6 +24,15 @@ public class CartManagerProxi extends PersistentProxi implements PersistentCartM
     public void setMyCart(PersistentCart newValue) throws PersistenceException {
         ((PersistentCartManager)this.getTheObject()).setMyCart(newValue);
     }
+    public void setArticleList(PersistentCartManagerArticleList newValue) throws PersistenceException {
+        ((PersistentCartManager)this.getTheObject()).setArticleList(newValue);
+    }
+    public SubjInterface getSubService() throws PersistenceException {
+        return ((PersistentCartManager)this.getTheObject()).getSubService();
+    }
+    public void setSubService(SubjInterface newValue) throws PersistenceException {
+        ((PersistentCartManager)this.getTheObject()).setSubService(newValue);
+    }
     public PersistentCartManager getThis() throws PersistenceException {
         return ((PersistentCartManager)this.getTheObject()).getThis();
     }
@@ -40,8 +49,36 @@ public class CartManagerProxi extends PersistentProxi implements PersistentCartM
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleCartManager(this);
     }
+    public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
+        visitor.handleCartManager(this);
+    }
+    public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleCartManager(this);
+    }
+    public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleCartManager(this);
+    }
+    public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleCartManager(this);
+    }
     
     
+    public void addArticle(final PersistentArticle article, final long amount, final Invoker invoker) 
+				throws PersistenceException{
+        ((PersistentCartManager)this.getTheObject()).addArticle(article, amount, invoker);
+    }
+    public void changeAmount(final PersistentQuantifiedArticles article, final long newAmount, final Invoker invoker) 
+				throws PersistenceException{
+        ((PersistentCartManager)this.getTheObject()).changeAmount(article, newAmount, invoker);
+    }
+    public void deregister(final ObsInterface observee) 
+				throws PersistenceException{
+        ((PersistentCartManager)this.getTheObject()).deregister(observee);
+    }
+    public PersistentCartManagerArticleList getArticleList() 
+				throws PersistenceException{
+        return ((PersistentCartManager)this.getTheObject()).getArticleList();
+    }
     public PersistentCustomerManager getCustomerManager() 
 				throws PersistenceException{
         return ((PersistentCartManager)this.getTheObject()).getCustomerManager();
@@ -54,9 +91,33 @@ public class CartManagerProxi extends PersistentProxi implements PersistentCartM
 				throws PersistenceException{
         ((PersistentCartManager)this.getTheObject()).initialize(This, final$$Fields);
     }
+    public void register(final ObsInterface observee) 
+				throws PersistenceException{
+        ((PersistentCartManager)this.getTheObject()).register(observee);
+    }
+    public void removeFCart(final PersistentQuantifiedArticles article, final Invoker invoker) 
+				throws PersistenceException{
+        ((PersistentCartManager)this.getTheObject()).removeFCart(article, invoker);
+    }
+    public void updateObservers(final model.meta.Mssgs event) 
+				throws PersistenceException{
+        ((PersistentCartManager)this.getTheObject()).updateObservers(event);
+    }
+    public void addArticle(final PersistentArticle article, final long amount) 
+				throws PersistenceException{
+        ((PersistentCartManager)this.getTheObject()).addArticle(article, amount);
+    }
     public void addToCart(final PersistentArticle article, final long amount) 
 				throws PersistenceException{
         ((PersistentCartManager)this.getTheObject()).addToCart(article, amount);
+    }
+    public void articleList_update(final model.meta.QuantifiedArticlesMssgs event) 
+				throws PersistenceException{
+        ((PersistentCartManager)this.getTheObject()).articleList_update(event);
+    }
+    public void changeAmount(final PersistentQuantifiedArticles article, final long newAmount) 
+				throws PersistenceException{
+        ((PersistentCartManager)this.getTheObject()).changeAmount(article, newAmount);
     }
     public void checkOut() 
 				throws model.InsufficientStock, PersistenceException{
@@ -77,6 +138,10 @@ public class CartManagerProxi extends PersistentProxi implements PersistentCartM
     public void order() 
 				throws PersistenceException{
         ((PersistentCartManager)this.getTheObject()).order();
+    }
+    public void removeFCart(final PersistentQuantifiedArticles article) 
+				throws PersistenceException{
+        ((PersistentCartManager)this.getTheObject()).removeFCart(article);
     }
 
     

@@ -24,6 +24,12 @@ public class AccountManagerProxi extends PersistentProxi implements PersistentAc
     public void setMyAccount(PersistentAccount newValue) throws PersistenceException {
         ((PersistentAccountManager)this.getTheObject()).setMyAccount(newValue);
     }
+    public SubjInterface getSubService() throws PersistenceException {
+        return ((PersistentAccountManager)this.getTheObject()).getSubService();
+    }
+    public void setSubService(SubjInterface newValue) throws PersistenceException {
+        ((PersistentAccountManager)this.getTheObject()).setSubService(newValue);
+    }
     public PersistentAccountManager getThis() throws PersistenceException {
         return ((PersistentAccountManager)this.getTheObject()).getThis();
     }
@@ -40,8 +46,24 @@ public class AccountManagerProxi extends PersistentProxi implements PersistentAc
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleAccountManager(this);
     }
+    public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
+        visitor.handleAccountManager(this);
+    }
+    public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleAccountManager(this);
+    }
+    public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleAccountManager(this);
+    }
+    public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleAccountManager(this);
+    }
     
     
+    public void deregister(final ObsInterface observee) 
+				throws PersistenceException{
+        ((PersistentAccountManager)this.getTheObject()).deregister(observee);
+    }
     public PersistentCustomerManager getCustomerManager() 
 				throws PersistenceException{
         return ((PersistentAccountManager)this.getTheObject()).getCustomerManager();
@@ -53,6 +75,14 @@ public class AccountManagerProxi extends PersistentProxi implements PersistentAc
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentAccountManager)this.getTheObject()).initialize(This, final$$Fields);
+    }
+    public void register(final ObsInterface observee) 
+				throws PersistenceException{
+        ((PersistentAccountManager)this.getTheObject()).register(observee);
+    }
+    public void updateObservers(final model.meta.Mssgs event) 
+				throws PersistenceException{
+        ((PersistentAccountManager)this.getTheObject()).updateObservers(event);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{

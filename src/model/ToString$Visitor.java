@@ -35,7 +35,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	}
 	@Override
 	public void handleCart(PersistentCart cart) throws PersistenceException {
-		result = "Aktueller Bestellpreis: " + cart.getCurrentSum();
+		result = "Aktuelle Bestellsumme: " + cart.getCurrentSum();
 	}
 	@Override
 	public void handleArticle(PersistentArticle article) throws PersistenceException {
@@ -67,8 +67,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	}
 	@Override
 	public void handleQuantifiedArticles(PersistentQuantifiedArticles quantifiedArticles) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		result = quantifiedArticles.getArticle() + " Menge: " + quantifiedArticles.getAmount();
 	}
 	@Override
 	public void handleRemovedFSale(PersistentRemovedFSale removedFSale) throws PersistenceException {

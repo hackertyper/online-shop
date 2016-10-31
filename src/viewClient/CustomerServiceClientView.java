@@ -13,6 +13,7 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.scene.control.Alert;
@@ -63,6 +64,12 @@ public class CustomerServiceClientView extends BorderPane implements ExceptionAn
 		if(this.tabs == null) {
 			this.tabs = new TabPane();
 			this.tabs.getTabs().addAll(getTabShop(), getTabAccount(), getTabCart());
+			this.tabs.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
+				@Override
+				public void changed(ObservableValue<? extends Tab> observable, Tab oldTab, Tab newTab) {
+					
+				}
+			});
 		}
 		return this.tabs;
 	}
@@ -309,6 +316,12 @@ public class CustomerServiceClientView extends BorderPane implements ExceptionAn
 					public void handleCartService(CartServiceView cartService) throws ModelException {
 						CartServiceClientView view = new CartServiceClientView(CustomerServiceClientView.this, cartService);
 						cartService.connectCartService(CustomerServiceClientView.this.getConnection(), view);
+						CustomerServiceClientView.this.getTabs().getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
+							@Override
+							public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
+								view.handleRefresh();
+							}
+						});
 						CustomerServiceClientView.this.getTabCart().setContent(view);
 					}
 					@Override

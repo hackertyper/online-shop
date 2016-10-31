@@ -28,8 +28,11 @@ public class CartICProxi extends PersistentInCacheProxiOptimistic implements Per
     public void setCurrentSum(long newValue) throws PersistenceException {
         ((PersistentCart)this.getTheObject()).setCurrentSum(newValue);
     }
-    public Cart_ArticleListProxi getArticleList() throws PersistenceException {
-        return ((PersistentCart)this.getTheObject()).getArticleList();
+    public SubjInterface getSubService() throws PersistenceException {
+        return ((PersistentCart)this.getTheObject()).getSubService();
+    }
+    public void setSubService(SubjInterface newValue) throws PersistenceException {
+        ((PersistentCart)this.getTheObject()).setSubService(newValue);
     }
     public PersistentCart getThis() throws PersistenceException {
         return ((PersistentCart)this.getTheObject()).getThis();
@@ -47,8 +50,28 @@ public class CartICProxi extends PersistentInCacheProxiOptimistic implements Per
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleCart(this);
     }
+    public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
+        visitor.handleCart(this);
+    }
+    public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleCart(this);
+    }
+    public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleCart(this);
+    }
+    public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleCart(this);
+    }
     
     
+    public void addArticle(final PersistentQuantifiedArticles article) 
+				throws PersistenceException{
+        ((PersistentCart)this.getTheObject()).addArticle(article);
+    }
+    public void deregister(final ObsInterface observee) 
+				throws PersistenceException{
+        ((PersistentCart)this.getTheObject()).deregister(observee);
+    }
     public PersistentCartManager getCartMngr() 
 				throws PersistenceException{
         return ((PersistentCart)this.getTheObject()).getCartMngr();
@@ -57,9 +80,21 @@ public class CartICProxi extends PersistentInCacheProxiOptimistic implements Per
 				throws PersistenceException{
         ((PersistentCart)this.getTheObject()).initialize(This, final$$Fields);
     }
-    public void addArticle(final PersistentQuantifiedArticles article) 
+    public void register(final ObsInterface observee) 
 				throws PersistenceException{
-        ((PersistentCart)this.getTheObject()).addArticle(article);
+        ((PersistentCart)this.getTheObject()).register(observee);
+    }
+    public void updateObservers(final model.meta.Mssgs event) 
+				throws PersistenceException{
+        ((PersistentCart)this.getTheObject()).updateObservers(event);
+    }
+    public void addArticleImplementation(final PersistentQuantifiedArticles article) 
+				throws PersistenceException{
+        ((PersistentCart)this.getTheObject()).addArticleImplementation(article);
+    }
+    public void changeAmount(final PersistentQuantifiedArticles article, final long newAmount) 
+				throws PersistenceException{
+        ((PersistentCart)this.getTheObject()).changeAmount(article, newAmount);
     }
     public void checkOut() 
 				throws model.InsufficientStock, PersistenceException{
@@ -68,6 +103,10 @@ public class CartICProxi extends PersistentInCacheProxiOptimistic implements Per
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentCart)this.getTheObject()).copyingPrivateUserAttributes(copy);
+    }
+    public long fetchCurrentSum() 
+				throws PersistenceException{
+        return ((PersistentCart)this.getTheObject()).fetchCurrentSum();
     }
     public void initializeOnCreation() 
 				throws PersistenceException{

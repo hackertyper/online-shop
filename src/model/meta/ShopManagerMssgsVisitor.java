@@ -5,11 +5,13 @@ public interface ShopManagerMssgsVisitor extends ShopManagerDOWNMssgsVisitor, Sh
 
 interface ShopManagerDOWNMssgsVisitor  {
 
+    public void handleShopManagerAddToCartArticleIntegerMssg(ShopManagerAddToCartArticleIntegerMssg event) throws persistence.PersistenceException;
     
 }
 
 
 interface ShopManagerUPMssgsVisitor  {
 
+    public void handleShopManagerAddToCartArticleIntegerMssg(ShopManagerAddToCartArticleIntegerMssg event) throws persistence.PersistenceException;
     
 }

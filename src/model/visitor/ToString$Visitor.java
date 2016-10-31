@@ -10,8 +10,8 @@ public abstract class ToString$Visitor extends AnythingStandardVisitor{
     public abstract void handleCustomerService(PersistentCustomerService customerService) throws PersistenceException;
     public abstract void handleServer(PersistentServer server) throws PersistenceException;
     public abstract void handleShopkeeper(PersistentShopkeeper shopkeeper) throws PersistenceException;
-    public abstract void handleOfferedFSale(PersistentOfferedFSale offeredFSale) throws PersistenceException;
     public abstract void handleArticle(PersistentArticle article) throws PersistenceException;
+    public abstract void handleOfferedFSale(PersistentOfferedFSale offeredFSale) throws PersistenceException;
     public abstract void handleCustomerOrder(PersistentCustomerOrder customerOrder) throws PersistenceException;
     public abstract void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException;
     public abstract void handleRegisterService(PersistentRegisterService registerService) throws PersistenceException;

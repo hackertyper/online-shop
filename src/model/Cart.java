@@ -57,7 +57,6 @@ public class Cart extends PersistentObject implements PersistentCart{
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
             result.put("currentSum", new Long(this.getCurrentSum()).toString());
-            result.put("articleList", this.getArticleList().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, true));
             AbstractPersistentRoot cartMngr = (AbstractPersistentRoot)this.getCartMngr();
             if (cartMngr != null) {
                 result.put("cartMngr", cartMngr.createProxiInformation(false, essentialLevel <= 1));
@@ -76,9 +75,9 @@ public class Cart extends PersistentObject implements PersistentCart{
     public Cart provideCopy() throws PersistenceException{
         Cart result = this;
         result = new Cart(this.currentSum, 
+                          this.subService, 
                           this.This, 
                           this.getId());
-        result.articleList = this.articleList.copy(result);
         this.copyingPrivateUserAttributes(result);
         return result;
     }
@@ -87,14 +86,14 @@ public class Cart extends PersistentObject implements PersistentCart{
         return false;
     }
     protected long currentSum;
-    protected Cart_ArticleListProxi articleList;
+    protected SubjInterface subService;
     protected PersistentCart This;
     
-    public Cart(long currentSum,PersistentCart This,long id) throws PersistenceException {
+    public Cart(long currentSum,SubjInterface subService,PersistentCart This,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.currentSum = currentSum;
-        this.articleList = new Cart_ArticleListProxi(this);
+        this.subService = subService;
         if (This != null && !(this.isTheSameAs(This))) this.This = This;        
     }
     
@@ -111,7 +110,10 @@ public class Cart extends PersistentObject implements PersistentCart{
         if (this.getClassId() == 123) ConnectionHandler.getTheConnectionHandler().theCartFacade
             .newCart(currentSum,this.getId());
         super.store();
-        this.getArticleList().store();
+        if(this.getSubService() != null){
+            this.getSubService().store();
+            ConnectionHandler.getTheConnectionHandler().theCartFacade.subServiceSet(this.getId(), getSubService());
+        }
         if(!this.isTheSameAs(this.getThis())){
             this.getThis().store();
             ConnectionHandler.getTheConnectionHandler().theCartFacade.ThisSet(this.getId(), getThis());
@@ -126,8 +128,19 @@ public class Cart extends PersistentObject implements PersistentCart{
         if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theCartFacade.currentSumSet(this.getId(), newValue);
         this.currentSum = newValue;
     }
-    public Cart_ArticleListProxi getArticleList() throws PersistenceException {
-        return this.articleList;
+    public SubjInterface getSubService() throws PersistenceException {
+        return this.subService;
+    }
+    public void setSubService(SubjInterface newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.isTheSameAs(this.subService)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.subService = (SubjInterface)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theCartFacade.subServiceSet(this.getId(), newValue);
+        }
     }
     protected void setThis(PersistentCart newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
@@ -164,12 +177,39 @@ public class Cart extends PersistentObject implements PersistentCart{
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleCart(this);
     }
+    public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
+        visitor.handleCart(this);
+    }
+    public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleCart(this);
+    }
+    public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleCart(this);
+    }
+    public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleCart(this);
+    }
     public int getLeafInfo() throws PersistenceException{
-        if (this.getArticleList().getLength() > 0) return 1;
         return 0;
     }
     
     
+    public void addArticle(final PersistentQuantifiedArticles article) 
+				throws PersistenceException{
+        model.meta.CartAddArticleQuantifiedArticlesMssg event = new model.meta.CartAddArticleQuantifiedArticlesMssg(article, getThis());
+		event.execute();
+		getThis().updateObservers(event);
+		event.getResult();
+    }
+    public synchronized void deregister(final ObsInterface observee) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.deregister(observee);
+    }
     public PersistentCartManager getCartMngr() 
 				throws PersistenceException{
         CartManagerSearchList result = null;
@@ -187,41 +227,70 @@ public class Cart extends PersistentObject implements PersistentCart{
 		if(this.isTheSameAs(This)){
 		}
     }
+    public synchronized void register(final ObsInterface observee) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.register(observee);
+    }
+    public synchronized void updateObservers(final model.meta.Mssgs event) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.updateObservers(event);
+    }
     
     
     // Start of section that contains operations that must be implemented.
     
-    public void addArticle(final PersistentQuantifiedArticles article) 
+    /**
+     * Adds the article to the cart. If the article is already in the cart, adds the amount.
+     * Recalculates the current sum of the cart.
+     * 
+     * @param article - the article to add to the cart
+     */
+    public void addArticleImplementation(final PersistentQuantifiedArticles article) 
 				throws PersistenceException{
-    	PersistentQuantifiedArticles oldEntry = getThis().getArticleList().findFirst(new Predcate<PersistentQuantifiedArticles>() {
+    	// Check if article is already in cart
+        PersistentQuantifiedArticles oldEntry = getThis().getCartMngr().getArticleList().findFirst(x -> x.getArticle().equals(article.getArticle()));
+        if(oldEntry == null) {
+        	getThis().getCartMngr().getArticleList().add(article);
+        } else {
+        	oldEntry.changeAmount(oldEntry.getAmount() + article.getAmount());
+        }
+        // Calculation of new sum
+        getThis().setCurrentSum(getThis().fetchCurrentSum());
+    }
+    /**
+     * Changes the amount of article to new value. Deletes articles if amount is == 0.
+     * Recalculates the current sum of the cart.
+     * 
+     * @param article - the article for which the amount is changed
+     * @param newAmount - the new value for amount
+     */
+    public void changeAmount(final PersistentQuantifiedArticles article, final long newAmount) 
+				throws PersistenceException{
+    	// Find article to change amount
+        getThis().getCartMngr().getArticleList().findFirst(new Predcate<PersistentQuantifiedArticles>() {
 			@Override
 			public boolean test(PersistentQuantifiedArticles argument) throws PersistenceException {
-				return argument.getArticle().equals(article.getArticle());
+				return argument.equals(article);
 			}
-		});
-    	if(oldEntry == null) {
-    		getThis().getArticleList().add(article);
-    	} else {
-    		oldEntry.setAmount(oldEntry.getAmount() + article.getAmount());
-    	}
-        getThis().setCurrentSum(getThis().getArticleList().aggregate(new Aggregtion<PersistentQuantifiedArticles, Long>() {
-
-			@Override
-			public Long neutral() throws PersistenceException {
-				return (long) 0;
-			}
-
-			@Override
-			public Long compose(Long result, PersistentQuantifiedArticles argument) throws PersistenceException {
-				return result + (argument.getAmount() * argument.getArticle().getPrice());
-			}
-		}));
-        getThis().getCartMngr().setMyCart(getThis());
+		}).changeAmount(newAmount);
+        // Delete article from list if amount = 0
+        getThis().getCartMngr().getArticleList().filter((PersistentQuantifiedArticles x) -> x.getAmount() != 0);
+        // Calculation of new sum
+        getThis().setCurrentSum(getThis().fetchCurrentSum());
     }
     public void checkOut() 
 				throws model.InsufficientStock, PersistenceException{
-        getThis().getArticleList().applyToAllException(new ProcdureException<PersistentQuantifiedArticles, InsufficientStock>() {
-
+        getThis().getCartMngr().getArticleList().applyToAllException(new ProcdureException<PersistentQuantifiedArticles, InsufficientStock>() {
 			@Override
 			public void doItTo(PersistentQuantifiedArticles argument) throws PersistenceException, InsufficientStock {
 				argument.reserve();
@@ -230,6 +299,24 @@ public class Cart extends PersistentObject implements PersistentCart{
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
+    }
+    /**
+     * Calculates the current sum of the cart.
+     */
+    public long fetchCurrentSum() 
+				throws PersistenceException{
+    	return getThis().getCartMngr().getArticleList().aggregate(new Aggregtion<PersistentQuantifiedArticles, Long>() {
+
+			@Override
+			public Long neutral() throws PersistenceException {
+				return (long) 0;
+			}
+
+			@Override
+			public Long compose(Long result, PersistentQuantifiedArticles argument) throws PersistenceException {
+				return result + (argument.getAmount() * argument.fetchPrice());
+			}
+		});
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
@@ -240,17 +327,30 @@ public class Cart extends PersistentObject implements PersistentCart{
     public void order() 
 				throws PersistenceException{
         getThis().getCartMngr().getCustomerManager().pay(currentSum);
-        getThis().getArticleList().applyToAll(new Procdure<PersistentQuantifiedArticles>() {
+        getThis().getCartMngr().getArticleList().applyToAll(new Procdure<PersistentQuantifiedArticles>() {
 			@Override
 			public void doItTo(PersistentQuantifiedArticles argument) throws PersistenceException {
 				argument.pack();
 			}
 		});
     }
+    /**
+     * Removes the article from the cart.
+     * Recalculates the current sum of the cart.
+     * 
+     * @param article - the article to remove
+     */
     public void removeArticle(final PersistentQuantifiedArticles article) 
 				throws PersistenceException{
-        getThis().getArticleList().removeFirst(article);
-        getThis().setCurrentSum(getThis().getCurrentSum() - article.getArticle().getPrice());
+    	// Delete article from cart
+        getThis().getCartMngr().getArticleList().filter(new Predcate<PersistentQuantifiedArticles>() {
+			@Override
+			public boolean test(PersistentQuantifiedArticles argument) throws PersistenceException {
+				return !argument.equals(article);
+			}
+		});
+        // Calculation of new sum
+        getThis().setCurrentSum(getThis().fetchCurrentSum());
     }
     
     

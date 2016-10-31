@@ -72,7 +72,8 @@ public class NewlyAdded extends PersistentObject implements PersistentNewlyAdded
     
     public NewlyAdded provideCopy() throws PersistenceException{
         NewlyAdded result = this;
-        result = new NewlyAdded(this.This, 
+        result = new NewlyAdded(this.subService, 
+                                this.This, 
                                 this.getId());
         this.copyingPrivateUserAttributes(result);
         return result;
@@ -81,11 +82,13 @@ public class NewlyAdded extends PersistentObject implements PersistentNewlyAdded
     public boolean hasEssentialFields() throws PersistenceException{
         return false;
     }
+    protected SubjInterface subService;
     protected PersistentNewlyAdded This;
     
-    public NewlyAdded(PersistentNewlyAdded This,long id) throws PersistenceException {
+    public NewlyAdded(SubjInterface subService,PersistentNewlyAdded This,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
+        this.subService = subService;
         if (This != null && !(this.isTheSameAs(This))) this.This = This;        
     }
     
@@ -102,6 +105,10 @@ public class NewlyAdded extends PersistentObject implements PersistentNewlyAdded
         if (this.getClassId() == 120) ConnectionHandler.getTheConnectionHandler().theNewlyAddedFacade
             .newNewlyAdded(this.getId());
         super.store();
+        if(this.getSubService() != null){
+            this.getSubService().store();
+            ConnectionHandler.getTheConnectionHandler().theNewlyAddedFacade.subServiceSet(this.getId(), getSubService());
+        }
         if(!this.isTheSameAs(this.getThis())){
             this.getThis().store();
             ConnectionHandler.getTheConnectionHandler().theNewlyAddedFacade.ThisSet(this.getId(), getThis());
@@ -109,6 +116,20 @@ public class NewlyAdded extends PersistentObject implements PersistentNewlyAdded
         
     }
     
+    public SubjInterface getSubService() throws PersistenceException {
+        return this.subService;
+    }
+    public void setSubService(SubjInterface newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.isTheSameAs(this.subService)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.subService = (SubjInterface)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theNewlyAddedFacade.subServiceSet(this.getId(), newValue);
+        }
+    }
     protected void setThis(PersistentNewlyAdded newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
         if (newValue.isTheSameAs(this)){
@@ -144,6 +165,18 @@ public class NewlyAdded extends PersistentObject implements PersistentNewlyAdded
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleNewlyAdded(this);
     }
+    public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
+        visitor.handleNewlyAdded(this);
+    }
+    public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleNewlyAdded(this);
+    }
+    public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleNewlyAdded(this);
+    }
+    public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleNewlyAdded(this);
+    }
     public void accept(ArticleStateVisitor visitor) throws PersistenceException {
         visitor.handleNewlyAdded(this);
     }
@@ -161,6 +194,15 @@ public class NewlyAdded extends PersistentObject implements PersistentNewlyAdded
     }
     
     
+    public synchronized void deregister(final ObsInterface observee) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.deregister(observee);
+    }
     public PersistentArticle getMyArticle() 
 				throws PersistenceException{
         ArticleSearchList result = null;
@@ -178,6 +220,15 @@ public class NewlyAdded extends PersistentObject implements PersistentNewlyAdded
 		if(this.isTheSameAs(This)){
 		}
     }
+    public synchronized void register(final ObsInterface observee) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.register(observee);
+    }
     public void startSelling(final Invoker invoker) 
 				throws PersistenceException{
         java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
@@ -186,14 +237,21 @@ public class NewlyAdded extends PersistentObject implements PersistentNewlyAdded
 		command.setCommandReceiver(getThis());
 		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
     }
+    public synchronized void updateObservers(final model.meta.Mssgs event) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.updateObservers(event);
+    }
     
     
     // Start of section that contains operations that must be implemented.
     
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{

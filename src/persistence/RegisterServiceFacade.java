@@ -13,14 +13,14 @@ public class RegisterServiceFacade{
     public PersistentRegisterService newRegisterService(long idCreateIfLessZero) throws PersistenceException {
         if(idCreateIfLessZero > 0) return (PersistentRegisterService)PersistentProxi.createProxi(idCreateIfLessZero, -115);
         long id = ConnectionHandler.getTheConnectionHandler().theServiceFacade.getNextId();
-        RegisterService result = new RegisterService(null,id);
+        RegisterService result = new RegisterService(null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentRegisterService)PersistentProxi.createProxi(id, -115);
     }
     
     public PersistentRegisterService newDelayedRegisterService() throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theServiceFacade.getNextId();
-        RegisterService result = new RegisterService(null,id);
+        RegisterService result = new RegisterService(null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentRegisterService)PersistentProxi.createProxi(id, -115);
     }

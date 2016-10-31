@@ -3,9 +3,9 @@ package view.objects;
 
 /* Additional import section end */
 
-public class ArticleListCartWrapper extends AssociationInTreeWrapper {
+public class ArticleListCartManagerWrapper extends AssociationInTreeWrapper {
 
-	public ArticleListCartWrapper(ViewRoot parent, int index, ViewRoot object) {
+	public ArticleListCartManagerWrapper(ViewRoot parent, int index, ViewRoot object) {
 		super(parent, index, object);
 	}
     
@@ -16,7 +16,7 @@ public class ArticleListCartWrapper extends AssociationInTreeWrapper {
 	
 	
 	public String toString(){
-    	//TODO: Implement toString in wrapper class for association articleList in class Cart
+    	//TODO: Implement toString in wrapper class for association articleList in class CartManager
     	return this.getWrappedObject().toString();
     }
 

@@ -13,14 +13,14 @@ public class CartServiceFacade{
     public PersistentCartService newCartService(long idCreateIfLessZero) throws PersistenceException {
         if(idCreateIfLessZero > 0) return (PersistentCartService)PersistentProxi.createProxi(idCreateIfLessZero, -187);
         long id = ConnectionHandler.getTheConnectionHandler().theServiceFacade.getNextId();
-        CartService result = new CartService(null,null,null,id);
+        CartService result = new CartService(null,null,null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentCartService)PersistentProxi.createProxi(id, -187);
     }
     
     public PersistentCartService newDelayedCartService() throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theServiceFacade.getNextId();
-        CartService result = new CartService(null,null,null,id);
+        CartService result = new CartService(null,null,null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentCartService)PersistentProxi.createProxi(id, -187);
     }

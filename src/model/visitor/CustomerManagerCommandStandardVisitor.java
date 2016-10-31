@@ -14,9 +14,6 @@ public abstract class CustomerManagerCommandStandardVisitor implements CustomerM
     public void handleWithdrawCommand(PersistentWithdrawCommand withdrawCommand) throws PersistenceException{
         this.standardHandling(withdrawCommand);
     }
-    public void handleAddToCartCommand(PersistentAddToCartCommand addToCartCommand) throws PersistenceException{
-        this.standardHandling(addToCartCommand);
-    }
     public void handleFindArticleCommand(PersistentFindArticleCommand findArticleCommand) throws PersistenceException{
         this.standardHandling(findArticleCommand);
     }

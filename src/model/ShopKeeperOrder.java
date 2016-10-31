@@ -75,6 +75,7 @@ public class ShopKeeperOrder extends model.Delivery implements PersistentShopKee
     public ShopKeeperOrder provideCopy() throws PersistenceException{
         ShopKeeperOrder result = this;
         result = new ShopKeeperOrder(this.remainingTimeToDelivery, 
+                                     this.subService, 
                                      this.This, 
                                      this.article, 
                                      this.amount, 
@@ -89,9 +90,9 @@ public class ShopKeeperOrder extends model.Delivery implements PersistentShopKee
     protected PersistentArticle article;
     protected long amount;
     
-    public ShopKeeperOrder(long remainingTimeToDelivery,PersistentDelivery This,PersistentArticle article,long amount,long id) throws PersistenceException {
+    public ShopKeeperOrder(long remainingTimeToDelivery,SubjInterface subService,PersistentDelivery This,PersistentArticle article,long amount,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((long)remainingTimeToDelivery,(PersistentDelivery)This,id);
+        super((long)remainingTimeToDelivery,(SubjInterface)subService,(PersistentDelivery)This,id);
         this.article = article;
         this.amount = amount;        
     }
@@ -169,12 +170,33 @@ public class ShopKeeperOrder extends model.Delivery implements PersistentShopKee
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleShopKeeperOrder(this);
     }
+    public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
+        visitor.handleShopKeeperOrder(this);
+    }
+    public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleShopKeeperOrder(this);
+    }
+    public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleShopKeeperOrder(this);
+    }
+    public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleShopKeeperOrder(this);
+    }
     public int getLeafInfo() throws PersistenceException{
         if (this.getArticle() != null) return 1;
         return 0;
     }
     
     
+    public synchronized void deregister(final ObsInterface observee) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.deregister(observee);
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentShopKeeperOrder)This);
@@ -184,14 +206,30 @@ public class ShopKeeperOrder extends model.Delivery implements PersistentShopKee
 			this.setAmount((Long)final$$Fields.get("amount"));
 		}
     }
+    public synchronized void register(final ObsInterface observee) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.register(observee);
+    }
+    public synchronized void updateObservers(final model.meta.Mssgs event) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.updateObservers(event);
+    }
     
     
     // Start of section that contains operations that must be implemented.
     
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void deliver() 
 				throws PersistenceException{

@@ -1,7 +1,7 @@
 package persistence;
 
 
-public interface PersistentCustomerManager extends Anything, AbstractPersistentProxi, CustomerManager4Public {
+public interface PersistentCustomerManager extends Anything, SubjInterface, AbstractPersistentProxi, CustomerManager4Public {
     
     public PersistentShopManager getShopMngr() throws PersistenceException ;
     public void setShopMngr(PersistentShopManager newValue) throws PersistenceException ;
@@ -9,6 +9,8 @@ public interface PersistentCustomerManager extends Anything, AbstractPersistentP
     public void setAccMngr(PersistentAccountManager newValue) throws PersistenceException ;
     public PersistentCartManager getCartMngr() throws PersistenceException ;
     public void setCartMngr(PersistentCartManager newValue) throws PersistenceException ;
+    public SubjInterface getSubService() throws PersistenceException ;
+    public void setSubService(SubjInterface newValue) throws PersistenceException ;
     public PersistentCustomerManager getThis() throws PersistenceException ;
     
     

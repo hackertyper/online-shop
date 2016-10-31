@@ -7,27 +7,27 @@ import model.visitor.*;
 
 /* Additional import section end */
 
-public class AddToCartCommand extends PersistentObject implements PersistentAddToCartCommand{
+public class AddArticleCommand extends PersistentObject implements PersistentAddArticleCommand{
     
     /** Throws persistence exception if the object with the given id does not exist. */
-    public static PersistentAddToCartCommand getById(long objectId) throws PersistenceException{
-        long classId = ConnectionHandler.getTheConnectionHandler().theAddToCartCommandFacade.getClass(objectId);
-        return (PersistentAddToCartCommand)PersistentProxi.createProxi(objectId, classId);
+    public static PersistentAddArticleCommand getById(long objectId) throws PersistenceException{
+        long classId = ConnectionHandler.getTheConnectionHandler().theAddArticleCommandFacade.getClass(objectId);
+        return (PersistentAddArticleCommand)PersistentProxi.createProxi(objectId, classId);
     }
     
-    public static PersistentAddToCartCommand createAddToCartCommand(long amount,java.sql.Date createDate,java.sql.Date commitDate) throws PersistenceException{
-        return createAddToCartCommand(amount,createDate,commitDate,false);
+    public static PersistentAddArticleCommand createAddArticleCommand(long amount,java.sql.Date createDate,java.sql.Date commitDate) throws PersistenceException{
+        return createAddArticleCommand(amount,createDate,commitDate,false);
     }
     
-    public static PersistentAddToCartCommand createAddToCartCommand(long amount,java.sql.Date createDate,java.sql.Date commitDate,boolean delayed$Persistence) throws PersistenceException {
-        PersistentAddToCartCommand result = null;
+    public static PersistentAddArticleCommand createAddArticleCommand(long amount,java.sql.Date createDate,java.sql.Date commitDate,boolean delayed$Persistence) throws PersistenceException {
+        PersistentAddArticleCommand result = null;
         if(delayed$Persistence){
-            result = ConnectionHandler.getTheConnectionHandler().theAddToCartCommandFacade
-                .newDelayedAddToCartCommand(amount);
+            result = ConnectionHandler.getTheConnectionHandler().theAddArticleCommandFacade
+                .newDelayedAddArticleCommand(amount);
             result.setDelayed$Persistence(true);
         }else{
-            result = ConnectionHandler.getTheConnectionHandler().theAddToCartCommandFacade
-                .newAddToCartCommand(amount,-1);
+            result = ConnectionHandler.getTheConnectionHandler().theAddArticleCommandFacade
+                .newAddArticleCommand(amount,-1);
         }
         result.setMyCommonDate(CommonDate.createCommonDate(createDate, createDate));
         return result;
@@ -39,12 +39,12 @@ public class AddToCartCommand extends PersistentObject implements PersistentAddT
     protected PersistentArticle article;
     protected long amount;
     protected Invoker invoker;
-    protected PersistentCustomerManager commandReceiver;
+    protected PersistentCartManager commandReceiver;
     protected PersistentCommonDate myCommonDate;
     
     private model.UserException commandException = null;
     
-    public AddToCartCommand(PersistentArticle article,long amount,Invoker invoker,PersistentCustomerManager commandReceiver,PersistentCommonDate myCommonDate,long id) throws PersistenceException {
+    public AddArticleCommand(PersistentArticle article,long amount,Invoker invoker,PersistentCartManager commandReceiver,PersistentCommonDate myCommonDate,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.article = article;
@@ -55,7 +55,7 @@ public class AddToCartCommand extends PersistentObject implements PersistentAddT
     }
     
     static public long getTypeId() {
-        return 135;
+        return 202;
     }
     
     public long getClassId() {
@@ -64,24 +64,24 @@ public class AddToCartCommand extends PersistentObject implements PersistentAddT
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 135) ConnectionHandler.getTheConnectionHandler().theAddToCartCommandFacade
-            .newAddToCartCommand(amount,this.getId());
+        if (this.getClassId() == 202) ConnectionHandler.getTheConnectionHandler().theAddArticleCommandFacade
+            .newAddArticleCommand(amount,this.getId());
         super.store();
         if(this.getArticle() != null){
             this.getArticle().store();
-            ConnectionHandler.getTheConnectionHandler().theAddToCartCommandFacade.articleSet(this.getId(), getArticle());
+            ConnectionHandler.getTheConnectionHandler().theAddArticleCommandFacade.articleSet(this.getId(), getArticle());
         }
         if(this.getInvoker() != null){
             this.getInvoker().store();
-            ConnectionHandler.getTheConnectionHandler().theAddToCartCommandFacade.invokerSet(this.getId(), getInvoker());
+            ConnectionHandler.getTheConnectionHandler().theAddArticleCommandFacade.invokerSet(this.getId(), getInvoker());
         }
         if(this.getCommandReceiver() != null){
             this.getCommandReceiver().store();
-            ConnectionHandler.getTheConnectionHandler().theAddToCartCommandFacade.commandReceiverSet(this.getId(), getCommandReceiver());
+            ConnectionHandler.getTheConnectionHandler().theAddArticleCommandFacade.commandReceiverSet(this.getId(), getCommandReceiver());
         }
         if(this.getMyCommonDate() != null){
             this.getMyCommonDate().store();
-            ConnectionHandler.getTheConnectionHandler().theAddToCartCommandFacade.myCommonDateSet(this.getId(), getMyCommonDate());
+            ConnectionHandler.getTheConnectionHandler().theAddArticleCommandFacade.myCommonDateSet(this.getId(), getMyCommonDate());
         }
         
     }
@@ -97,14 +97,14 @@ public class AddToCartCommand extends PersistentObject implements PersistentAddT
         this.article = (PersistentArticle)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
-            ConnectionHandler.getTheConnectionHandler().theAddToCartCommandFacade.articleSet(this.getId(), newValue);
+            ConnectionHandler.getTheConnectionHandler().theAddArticleCommandFacade.articleSet(this.getId(), newValue);
         }
     }
     public long getAmount() throws PersistenceException {
         return this.amount;
     }
     public void setAmount(long newValue) throws PersistenceException {
-        if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theAddToCartCommandFacade.amountSet(this.getId(), newValue);
+        if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theAddArticleCommandFacade.amountSet(this.getId(), newValue);
         this.amount = newValue;
     }
     public Invoker getInvoker() throws PersistenceException {
@@ -118,21 +118,21 @@ public class AddToCartCommand extends PersistentObject implements PersistentAddT
         this.invoker = (Invoker)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
-            ConnectionHandler.getTheConnectionHandler().theAddToCartCommandFacade.invokerSet(this.getId(), newValue);
+            ConnectionHandler.getTheConnectionHandler().theAddArticleCommandFacade.invokerSet(this.getId(), newValue);
         }
     }
-    public PersistentCustomerManager getCommandReceiver() throws PersistenceException {
+    public PersistentCartManager getCommandReceiver() throws PersistenceException {
         return this.commandReceiver;
     }
-    public void setCommandReceiver(PersistentCustomerManager newValue) throws PersistenceException {
+    public void setCommandReceiver(PersistentCartManager newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
         if(newValue.isTheSameAs(this.commandReceiver)) return;
         long objectId = newValue.getId();
         long classId = newValue.getClassId();
-        this.commandReceiver = (PersistentCustomerManager)PersistentProxi.createProxi(objectId, classId);
+        this.commandReceiver = (PersistentCartManager)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
-            ConnectionHandler.getTheConnectionHandler().theAddToCartCommandFacade.commandReceiverSet(this.getId(), newValue);
+            ConnectionHandler.getTheConnectionHandler().theAddArticleCommandFacade.commandReceiverSet(this.getId(), newValue);
         }
     }
     public PersistentCommonDate getMyCommonDate() throws PersistenceException {
@@ -146,7 +146,7 @@ public class AddToCartCommand extends PersistentObject implements PersistentAddT
         this.myCommonDate = (PersistentCommonDate)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
-            ConnectionHandler.getTheConnectionHandler().theAddToCartCommandFacade.myCommonDateSet(this.getId(), newValue);
+            ConnectionHandler.getTheConnectionHandler().theAddArticleCommandFacade.myCommonDateSet(this.getId(), newValue);
         }
     }
     public java.sql.Date getCreateDate() throws PersistenceException {
@@ -167,52 +167,52 @@ public class AddToCartCommand extends PersistentObject implements PersistentAddT
     }
     
     public void accept(CommonDateVisitor visitor) throws PersistenceException {
-        visitor.handleAddToCartCommand(this);
+        visitor.handleAddArticleCommand(this);
     }
     public <R> R accept(CommonDateReturnVisitor<R>  visitor) throws PersistenceException {
-         return visitor.handleAddToCartCommand(this);
+         return visitor.handleAddArticleCommand(this);
     }
     public <E extends model.UserException>  void accept(CommonDateExceptionVisitor<E> visitor) throws PersistenceException, E {
-         visitor.handleAddToCartCommand(this);
+         visitor.handleAddArticleCommand(this);
     }
     public <R, E extends model.UserException> R accept(CommonDateReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
-         return visitor.handleAddToCartCommand(this);
+         return visitor.handleAddArticleCommand(this);
     }
     public void accept(AnythingVisitor visitor) throws PersistenceException {
-        visitor.handleAddToCartCommand(this);
+        visitor.handleAddArticleCommand(this);
     }
     public <R> R accept(AnythingReturnVisitor<R>  visitor) throws PersistenceException {
-         return visitor.handleAddToCartCommand(this);
+         return visitor.handleAddArticleCommand(this);
     }
     public <E extends model.UserException>  void accept(AnythingExceptionVisitor<E> visitor) throws PersistenceException, E {
-         visitor.handleAddToCartCommand(this);
+         visitor.handleAddArticleCommand(this);
     }
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
-         return visitor.handleAddToCartCommand(this);
-    }
-    public void accept(CustomerManagerCommandVisitor visitor) throws PersistenceException {
-        visitor.handleAddToCartCommand(this);
-    }
-    public <R> R accept(CustomerManagerCommandReturnVisitor<R>  visitor) throws PersistenceException {
-         return visitor.handleAddToCartCommand(this);
-    }
-    public <E extends model.UserException>  void accept(CustomerManagerCommandExceptionVisitor<E> visitor) throws PersistenceException, E {
-         visitor.handleAddToCartCommand(this);
-    }
-    public <R, E extends model.UserException> R accept(CustomerManagerCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
-         return visitor.handleAddToCartCommand(this);
+         return visitor.handleAddArticleCommand(this);
     }
     public void accept(CommandVisitor visitor) throws PersistenceException {
-        visitor.handleAddToCartCommand(this);
+        visitor.handleAddArticleCommand(this);
     }
     public <R> R accept(CommandReturnVisitor<R>  visitor) throws PersistenceException {
-         return visitor.handleAddToCartCommand(this);
+         return visitor.handleAddArticleCommand(this);
     }
     public <E extends model.UserException>  void accept(CommandExceptionVisitor<E> visitor) throws PersistenceException, E {
-         visitor.handleAddToCartCommand(this);
+         visitor.handleAddArticleCommand(this);
     }
     public <R, E extends model.UserException> R accept(CommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
-         return visitor.handleAddToCartCommand(this);
+         return visitor.handleAddArticleCommand(this);
+    }
+    public void accept(CartManagerCommandVisitor visitor) throws PersistenceException {
+        visitor.handleAddArticleCommand(this);
+    }
+    public <R> R accept(CartManagerCommandReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleAddArticleCommand(this);
+    }
+    public <E extends model.UserException>  void accept(CartManagerCommandExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleAddArticleCommand(this);
+    }
+    public <R, E extends model.UserException> R accept(CartManagerCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleAddArticleCommand(this);
     }
     public int getLeafInfo() throws PersistenceException{
         if (this.getArticle() != null) return 1;
@@ -231,7 +231,7 @@ public class AddToCartCommand extends PersistentObject implements PersistentAddT
     }
     public void execute() 
 				throws PersistenceException{
-        this.commandReceiver.addToCart(this.getArticle(), this.getAmount());
+        this.commandReceiver.addArticle(this.getArticle(), this.getAmount());
 		
     }
     public Invoker fetchInvoker() 

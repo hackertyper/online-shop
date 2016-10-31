@@ -311,7 +311,9 @@ public class CartServiceClientView extends BorderPane implements ExceptionAndEve
 
 
     interface MenuItemVisitor{
+        ImageView handle(ChangeAmountPRMTRQuantifiedArticlesPRMTRIntegerPRMTRMenuItem menuItem);
         ImageView handle(OrderPRMTRMenuItem menuItem);
+        ImageView handle(RemoveFCartPRMTRQuantifiedArticlesPRMTRMenuItem menuItem);
         ImageView handle(CheckOutPRMTRMenuItem menuItem);
         ImageView handle(AcceptDeliveryPRMTRCustomerOrderPRMTRMenuItem menuItem);
     }
@@ -321,7 +323,17 @@ public class CartServiceClientView extends BorderPane implements ExceptionAndEve
         }
         abstract protected ImageView accept(MenuItemVisitor visitor);
     }
+    private class ChangeAmountPRMTRQuantifiedArticlesPRMTRIntegerPRMTRMenuItem extends CartServiceMenuItem{
+        protected ImageView accept(MenuItemVisitor visitor){
+            return visitor.handle(this);
+        }
+    }
     private class OrderPRMTRMenuItem extends CartServiceMenuItem{
+        protected ImageView accept(MenuItemVisitor visitor){
+            return visitor.handle(this);
+        }
+    }
+    private class RemoveFCartPRMTRQuantifiedArticlesPRMTRMenuItem extends CartServiceMenuItem{
         protected ImageView accept(MenuItemVisitor visitor){
             return visitor.handle(this);
         }
@@ -458,6 +470,40 @@ public class CartServiceClientView extends BorderPane implements ExceptionAndEve
                 });
                 result.getItems().add(item);
             }
+            if (selected instanceof QuantifiedArticlesView){
+                item = new ChangeAmountPRMTRQuantifiedArticlesPRMTRIntegerPRMTRMenuItem();
+                item.setText("Anzahl ändern ... ");
+                item.setOnAction(new EventHandler<ActionEvent>(){
+                    public void handle(javafx.event.ActionEvent e) {
+                        final CartServiceChangeAmountQuantifiedArticlesIntegerMssgWizard wizard = new CartServiceChangeAmountQuantifiedArticlesIntegerMssgWizard("Anzahl ändern");
+                        wizard.setFirstArgument((QuantifiedArticlesView)selected);
+                        wizard.setWidth(getNavigationPanel().getWidth());
+                        wizard.showAndWait();
+                    }
+                });
+                result.getItems().add(item);
+                item = new RemoveFCartPRMTRQuantifiedArticlesPRMTRMenuItem();
+                item.setText("Löschen");
+                item.setOnAction(new EventHandler<ActionEvent>(){
+                    public void handle(javafx.event.ActionEvent e) {
+                        Alert confirm = new Alert(AlertType.CONFIRMATION);
+                        confirm.setTitle(GUIConstants.ConfirmButtonText);
+                        confirm.setHeaderText(null);
+                        confirm.setContentText("Löschen" + GUIConstants.ConfirmQuestionMark);
+                        Optional<ButtonType> buttonResult = confirm.showAndWait();
+                        if (buttonResult.get() == ButtonType.OK) {
+                            try {
+                                getConnection().removeFCart((QuantifiedArticlesView)selected);
+                                getConnection().setEagerRefresh();
+                                
+                            }catch(ModelException me){
+                                handleException(me);
+                            }
+                        }
+                    }
+                });
+                result.getItems().add(item);
+            }
             
         }
         this.addNotGeneratedItems(result,selected);
@@ -471,6 +517,53 @@ public class CartServiceClientView extends BorderPane implements ExceptionAndEve
         this.preCalculatedFilters = switchOff;
     }
     
+	class CartServiceChangeAmountQuantifiedArticlesIntegerMssgWizard extends Wizard {
+
+		protected CartServiceChangeAmountQuantifiedArticlesIntegerMssgWizard(String operationName){
+			super(CartServiceClientView.this);
+			getOkButton().setText(operationName);
+			getOkButton().setGraphic(new ChangeAmountPRMTRQuantifiedArticlesPRMTRIntegerPRMTRMenuItem ().getGraphic());
+		}
+		protected void initialize(){
+			this.helpFileName = "CartServiceChangeAmountQuantifiedArticlesIntegerMssgWizard.help";
+			super.initialize();		
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().changeAmount(firstArgument, ((IntegerSelectionPanel)getParametersPanel().getChildren().get(0)).getResult().longValue());
+				getConnection().setEagerRefresh();
+				this.close();	
+			} catch(ModelException me){
+				handleException(me);
+				this.close();
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		protected boolean isModifying () {
+			return false;
+		}
+		protected void addParameters(){
+			getParametersPanel().getChildren().add(new IntegerSelectionPanel("newAmount", this));		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+		private QuantifiedArticlesView firstArgument; 
+	
+		public void setFirstArgument(QuantifiedArticlesView firstArgument){
+			this.firstArgument = firstArgument;
+			this.setTitle(this.firstArgument.toString());
+			this.check();
+		}
+		
+		
+	}
+
 	/* Menu and wizard section end */
 	
 	private ImageView getIconForMenuItem(CartServiceMenuItem menuItem){

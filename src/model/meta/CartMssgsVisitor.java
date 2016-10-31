@@ -5,11 +5,13 @@ public interface CartMssgsVisitor extends CartDOWNMssgsVisitor, CartUPMssgsVisit
 
 interface CartDOWNMssgsVisitor  {
 
+    public void handleCartAddArticleQuantifiedArticlesMssg(CartAddArticleQuantifiedArticlesMssg event) throws persistence.PersistenceException;
     
 }
 
 
 interface CartUPMssgsVisitor  {
 
+    public void handleCartAddArticleQuantifiedArticlesMssg(CartAddArticleQuantifiedArticlesMssg event) throws persistence.PersistenceException;
     
 }

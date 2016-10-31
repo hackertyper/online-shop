@@ -10,13 +10,15 @@ import view.visitor.*;
 public class CartManager extends ViewObject implements CartManagerView{
     
     protected CartView myCart;
+    protected java.util.Vector<QuantifiedArticlesView> articleList;
     protected CustomerManagerView customerManager;
     protected CartServiceView myCartServer;
     
-    public CartManager(CartView myCart,CustomerManagerView customerManager,CartServiceView myCartServer,long id, long classId) {
+    public CartManager(CartView myCart,java.util.Vector<QuantifiedArticlesView> articleList,CustomerManagerView customerManager,CartServiceView myCartServer,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
         this.myCart = myCart;
+        this.articleList = articleList;
         this.customerManager = customerManager;
         this.myCartServer = myCartServer;        
     }
@@ -34,6 +36,12 @@ public class CartManager extends ViewObject implements CartManagerView{
     }
     public void setMyCart(CartView newValue) throws ModelException {
         this.myCart = newValue;
+    }
+    public java.util.Vector<QuantifiedArticlesView> getArticleList()throws ModelException{
+        return this.articleList;
+    }
+    public void setArticleList(java.util.Vector<QuantifiedArticlesView> newValue) throws ModelException {
+        this.articleList = newValue;
     }
     public CustomerManagerView getCustomerManager()throws ModelException{
         return this.customerManager;
@@ -60,6 +68,10 @@ public class CartManager extends ViewObject implements CartManagerView{
         if (myCart != null) {
             ((ViewProxi)myCart).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(myCart.getClassId(), myCart.getId())));
         }
+        java.util.Vector<?> articleList = this.getArticleList();
+        if (articleList != null) {
+            ViewObject.resolveVectorProxies(articleList, resultTable);
+        }
         CustomerManagerView customerManager = this.getCustomerManager();
         if (customerManager != null) {
             ((ViewProxi)customerManager).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(customerManager.getClassId(), customerManager.getId())));
@@ -77,20 +89,29 @@ public class CartManager extends ViewObject implements CartManagerView{
         int index = originalIndex;
         if(index == 0 && this.getMyCart() != null) return new MyCartCartManagerWrapper(this, originalIndex, (ViewRoot)this.getMyCart());
         if(this.getMyCart() != null) index = index - 1;
+        if(index < this.getArticleList().size()) return new ArticleListCartManagerWrapper(this, originalIndex, (ViewRoot)this.getArticleList().get(index));
+        index = index - this.getArticleList().size();
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getMyCart() == null ? 0 : 1);
+            + (this.getMyCart() == null ? 0 : 1)
+            + (this.getArticleList().size());
     }
     public boolean isLeaf() throws ModelException {
         return true 
-            && (this.getMyCart() == null ? true : false);
+            && (this.getMyCart() == null ? true : false)
+            && (this.getArticleList().size() == 0);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
         if(this.getMyCart() != null && this.getMyCart().equals(child)) return result;
         if(this.getMyCart() != null) result = result + 1;
+        java.util.Iterator<?> getArticleListIterator = this.getArticleList().iterator();
+        while(getArticleListIterator.hasNext()){
+            if(getArticleListIterator.next().equals(child)) return result;
+            result = result + 1;
+        }
         return -1;
     }
     public int getRowCount(){

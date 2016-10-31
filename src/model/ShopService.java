@@ -69,7 +69,8 @@ public class ShopService extends model.CustomerService implements PersistentShop
     
     public ShopService provideCopy() throws PersistenceException{
         ShopService result = this;
-        result = new ShopService(this.This, 
+        result = new ShopService(this.subService, 
+                                 this.This, 
                                  this.manager, 
                                  this.shopMngr, 
                                  this.getId());
@@ -85,9 +86,9 @@ public class ShopService extends model.CustomerService implements PersistentShop
     }
     protected PersistentShopManager shopMngr;
     
-    public ShopService(PersistentService This,PersistentCustomerManager manager,PersistentShopManager shopMngr,long id) throws PersistenceException {
+    public ShopService(SubjInterface subService,PersistentService This,PersistentCustomerManager manager,PersistentShopManager shopMngr,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((PersistentService)This,(PersistentCustomerManager)manager,id);
+        super((SubjInterface)subService,(PersistentService)This,(PersistentCustomerManager)manager,id);
         this.shopMngr = shopMngr;        
     }
     
@@ -181,6 +182,18 @@ public class ShopService extends model.CustomerService implements PersistentShop
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleShopService(this);
     }
+    public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
+        visitor.handleShopService(this);
+    }
+    public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleShopService(this);
+    }
+    public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleShopService(this);
+    }
+    public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleShopService(this);
+    }
     public void accept(RemoteVisitor visitor) throws PersistenceException {
         visitor.handleShopService(this);
     }
@@ -219,7 +232,7 @@ public class ShopService extends model.CustomerService implements PersistentShop
     
     public void addToCart(final PersistentArticle article, final long amount) 
 				throws PersistenceException{
-        getThis().getManager().addToCart(article, amount, getThis());
+        getThis().getShopMngr().addToCart(article, amount);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
@@ -237,24 +250,15 @@ public class ShopService extends model.CustomerService implements PersistentShop
 				throws PersistenceException{
         super.initializeOnInstantiation();
     }
-    public void removeFCart(final PersistentQuantifiedArticles article, final PersistentCart cart) 
-				throws PersistenceException{
-        //TODO: implement method: removeFCart
-        
-    }
     
     
     // Start of section that contains overridden operations only.
     
     public void connected(final String user) 
 				throws PersistenceException{
-        //TODO: implement method: connected
-        
     }
     public void disconnected() 
 				throws PersistenceException{
-        //TODO: implement method: disconnected
-        
     }
 
     /* Start of protected part that is not overridden by persistence generator */

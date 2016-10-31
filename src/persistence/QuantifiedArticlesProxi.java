@@ -30,6 +30,12 @@ public class QuantifiedArticlesProxi extends PersistentProxi implements Persiste
     public void setAmount(long newValue) throws PersistenceException {
         ((PersistentQuantifiedArticles)this.getTheObject()).setAmount(newValue);
     }
+    public SubjInterface getSubService() throws PersistenceException {
+        return ((PersistentQuantifiedArticles)this.getTheObject()).getSubService();
+    }
+    public void setSubService(SubjInterface newValue) throws PersistenceException {
+        ((PersistentQuantifiedArticles)this.getTheObject()).setSubService(newValue);
+    }
     public PersistentQuantifiedArticles getThis() throws PersistenceException {
         return ((PersistentQuantifiedArticles)this.getTheObject()).getThis();
     }
@@ -46,15 +52,47 @@ public class QuantifiedArticlesProxi extends PersistentProxi implements Persiste
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleQuantifiedArticles(this);
     }
+    public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
+        visitor.handleQuantifiedArticles(this);
+    }
+    public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleQuantifiedArticles(this);
+    }
+    public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleQuantifiedArticles(this);
+    }
+    public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleQuantifiedArticles(this);
+    }
     
     
+    public void deregister(final ObsInterface observee) 
+				throws PersistenceException{
+        ((PersistentQuantifiedArticles)this.getTheObject()).deregister(observee);
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentQuantifiedArticles)this.getTheObject()).initialize(This, final$$Fields);
     }
+    public void register(final ObsInterface observee) 
+				throws PersistenceException{
+        ((PersistentQuantifiedArticles)this.getTheObject()).register(observee);
+    }
+    public void updateObservers(final model.meta.Mssgs event) 
+				throws PersistenceException{
+        ((PersistentQuantifiedArticles)this.getTheObject()).updateObservers(event);
+    }
+    public void changeAmount(final long newAmount) 
+				throws PersistenceException{
+        ((PersistentQuantifiedArticles)this.getTheObject()).changeAmount(newAmount);
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentQuantifiedArticles)this.getTheObject()).copyingPrivateUserAttributes(copy);
+    }
+    public long fetchPrice() 
+				throws PersistenceException{
+        return ((PersistentQuantifiedArticles)this.getTheObject()).fetchPrice();
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
@@ -67,10 +105,6 @@ public class QuantifiedArticlesProxi extends PersistentProxi implements Persiste
     public void pack() 
 				throws PersistenceException{
         ((PersistentQuantifiedArticles)this.getTheObject()).pack();
-    }
-    public void removeFCart(final PersistentCart cart) 
-				throws PersistenceException{
-        ((PersistentQuantifiedArticles)this.getTheObject()).removeFCart(cart);
     }
     public void reserve() 
 				throws model.InsufficientStock, PersistenceException{

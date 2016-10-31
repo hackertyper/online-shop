@@ -31,12 +31,14 @@ public abstract class Delivery extends PersistentObject implements PersistentDel
         return false;
     }
     protected long remainingTimeToDelivery;
+    protected SubjInterface subService;
     protected PersistentDelivery This;
     
-    public Delivery(long remainingTimeToDelivery,PersistentDelivery This,long id) throws PersistenceException {
+    public Delivery(long remainingTimeToDelivery,SubjInterface subService,PersistentDelivery This,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.remainingTimeToDelivery = remainingTimeToDelivery;
+        this.subService = subService;
         if (This != null && !(this.isTheSameAs(This))) this.This = This;        
     }
     
@@ -51,6 +53,10 @@ public abstract class Delivery extends PersistentObject implements PersistentDel
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
         super.store();
+        if(this.getSubService() != null){
+            this.getSubService().store();
+            ConnectionHandler.getTheConnectionHandler().theDeliveryFacade.subServiceSet(this.getId(), getSubService());
+        }
         if(!this.isTheSameAs(this.getThis())){
             this.getThis().store();
             ConnectionHandler.getTheConnectionHandler().theDeliveryFacade.ThisSet(this.getId(), getThis());
@@ -64,6 +70,20 @@ public abstract class Delivery extends PersistentObject implements PersistentDel
     public void setRemainingTimeToDelivery(long newValue) throws PersistenceException {
         if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theDeliveryFacade.remainingTimeToDeliverySet(this.getId(), newValue);
         this.remainingTimeToDelivery = newValue;
+    }
+    public SubjInterface getSubService() throws PersistenceException {
+        return this.subService;
+    }
+    public void setSubService(SubjInterface newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.isTheSameAs(this.subService)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.subService = (SubjInterface)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theDeliveryFacade.subServiceSet(this.getId(), newValue);
+        }
     }
     protected void setThis(PersistentDelivery newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
@@ -97,8 +117,6 @@ public abstract class Delivery extends PersistentObject implements PersistentDel
     
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{

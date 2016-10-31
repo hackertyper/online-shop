@@ -69,6 +69,7 @@ public class Manufacturer extends PersistentObject implements PersistentManufact
     public Manufacturer provideCopy() throws PersistenceException{
         Manufacturer result = this;
         result = new Manufacturer(this.name, 
+                                  this.subService, 
                                   this.This, 
                                   this.getId());
         this.copyingPrivateUserAttributes(result);
@@ -79,12 +80,14 @@ public class Manufacturer extends PersistentObject implements PersistentManufact
         return false;
     }
     protected String name;
+    protected SubjInterface subService;
     protected PersistentManufacturer This;
     
-    public Manufacturer(String name,PersistentManufacturer This,long id) throws PersistenceException {
+    public Manufacturer(String name,SubjInterface subService,PersistentManufacturer This,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.name = name;
+        this.subService = subService;
         if (This != null && !(this.isTheSameAs(This))) this.This = This;        
     }
     
@@ -101,6 +104,10 @@ public class Manufacturer extends PersistentObject implements PersistentManufact
         if (this.getClassId() == 119) ConnectionHandler.getTheConnectionHandler().theManufacturerFacade
             .newManufacturer(name,this.getId());
         super.store();
+        if(this.getSubService() != null){
+            this.getSubService().store();
+            ConnectionHandler.getTheConnectionHandler().theManufacturerFacade.subServiceSet(this.getId(), getSubService());
+        }
         if(!this.isTheSameAs(this.getThis())){
             this.getThis().store();
             ConnectionHandler.getTheConnectionHandler().theManufacturerFacade.ThisSet(this.getId(), getThis());
@@ -115,6 +122,20 @@ public class Manufacturer extends PersistentObject implements PersistentManufact
         if (newValue == null) throw new PersistenceException("Null not allowed for persistent strings, since null = \"\" in Oracle!", 0);
         if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theManufacturerFacade.nameSet(this.getId(), newValue);
         this.name = newValue;
+    }
+    public SubjInterface getSubService() throws PersistenceException {
+        return this.subService;
+    }
+    public void setSubService(SubjInterface newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.isTheSameAs(this.subService)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.subService = (SubjInterface)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theManufacturerFacade.subServiceSet(this.getId(), newValue);
+        }
     }
     protected void setThis(PersistentManufacturer newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
@@ -151,11 +172,32 @@ public class Manufacturer extends PersistentObject implements PersistentManufact
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleManufacturer(this);
     }
+    public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
+        visitor.handleManufacturer(this);
+    }
+    public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleManufacturer(this);
+    }
+    public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleManufacturer(this);
+    }
+    public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleManufacturer(this);
+    }
     public int getLeafInfo() throws PersistenceException{
         return 0;
     }
     
     
+    public synchronized void deregister(final ObsInterface observee) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.deregister(observee);
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentManufacturer)This);
@@ -163,14 +205,30 @@ public class Manufacturer extends PersistentObject implements PersistentManufact
 			this.setName((String)final$$Fields.get("name"));
 		}
     }
+    public synchronized void register(final ObsInterface observee) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.register(observee);
+    }
+    public synchronized void updateObservers(final model.meta.Mssgs event) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.updateObservers(event);
+    }
     
     
     // Start of section that contains operations that must be implemented.
     
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{

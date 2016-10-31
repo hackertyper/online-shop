@@ -4,12 +4,12 @@ import model.*;
 
 import java.util.Iterator;
 
-public class Cart_ArticleListProxi extends PersistentListProxi<PersistentQuantifiedArticles> {
+public class CartManagerArticleList_ObserveeProxi extends PersistentListProxi<PersistentQuantifiedArticles> {
 
   	private QuantifiedArticlesList list;
-  	private Cart owner;
+  	private CartManagerArticleList owner;
 
-  	public Cart_ArticleListProxi(Cart owner) {
+  	public CartManagerArticleList_ObserveeProxi(CartManagerArticleList owner) {
     	this.owner = owner;
   	}
   	public QuantifiedArticlesList getList() throws PersistenceException{
@@ -19,7 +19,7 @@ public class Cart_ArticleListProxi extends PersistentListProxi<PersistentQuantif
       		} else {
         		this.list = ConnectionHandler
                 		    .getTheConnectionHandler()
-                      		.theCartFacade.articleListGet(this.owner.getId());
+                      		.theCartManagerArticleListFacade.observeeGet(this.owner.getId());
       		}
       		this.data = this.list.data;
     	}
@@ -37,23 +37,23 @@ public class Cart_ArticleListProxi extends PersistentListProxi<PersistentQuantif
       		long entryId = 0;
       		if (!this.owner.isDelayed$Persistence()) {
         		entry.store();  	
-        		entryId = ConnectionHandler.getTheConnectionHandler().theCartFacade
-        	               	.articleListAdd(owner.getId(), entry);
+        		entryId = ConnectionHandler.getTheConnectionHandler().theCartManagerArticleListFacade
+        	               	.observeeAdd(owner.getId(), entry);
       		}
       		list.add((PersistentQuantifiedArticles)PersistentProxi.createListEntryProxi(entry.getId(),
             		                   entry.getClassId(),
         	    	                   entryId));
-      		
+      		entry.register(this.owner);
     	}
   	}
   	protected void remove(PersistentListEntryProxi entry) throws PersistenceException {
     	if (!this.owner.isDelayed$Persistence()) {
-      		ConnectionHandler.getTheConnectionHandler().theCartFacade.articleListRem(entry.getListEntryId());
+      		ConnectionHandler.getTheConnectionHandler().theCartManagerArticleListFacade.observeeRem(entry.getListEntryId());
     	}
-    	
+    	((PersistentQuantifiedArticles)entry).deregister(this.owner);
   	}
-  	public Cart_ArticleListProxi copy(Cart owner) throws PersistenceException {
-  		Cart_ArticleListProxi result = new Cart_ArticleListProxi(owner);
+  	public CartManagerArticleList_ObserveeProxi copy(CartManagerArticleList owner) throws PersistenceException {
+  		CartManagerArticleList_ObserveeProxi result = new CartManagerArticleList_ObserveeProxi(owner);
   		result.list = this.getList().copy();
   		return result;
   	}	 
@@ -62,8 +62,8 @@ public class Cart_ArticleListProxi extends PersistentListProxi<PersistentQuantif
   		while (entries.hasNext()){
   			PersistentQuantifiedArticles current = entries.next();
   			current.store();
-      		long entryId = ConnectionHandler.getTheConnectionHandler().theCartFacade
-            	           .articleListAdd(owner.getId(), current);
+      		long entryId = ConnectionHandler.getTheConnectionHandler().theCartManagerArticleListFacade
+            	           .observeeAdd(owner.getId(), current);
         	((PersistentListEntryProxi)current).setListEntryId(entryId);
 		}
 	}

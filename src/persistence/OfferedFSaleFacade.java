@@ -28,14 +28,14 @@ public class OfferedFSaleFacade{
     public PersistentOfferedFSale newOfferedFSale(long idCreateIfLessZero) throws PersistenceException {
         if(idCreateIfLessZero > 0) return (PersistentOfferedFSale)PersistentProxi.createProxi(idCreateIfLessZero, 110);
         long id = ConnectionHandler.getTheConnectionHandler().theOfferedFSaleFacade.getNextId();
-        OfferedFSale result = new OfferedFSale(null,id);
+        OfferedFSale result = new OfferedFSale(null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentOfferedFSale)PersistentProxi.createProxi(id, 110);
     }
     
     public PersistentOfferedFSale newDelayedOfferedFSale() throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theOfferedFSaleFacade.getNextId();
-        OfferedFSale result = new OfferedFSale(null,id);
+        OfferedFSale result = new OfferedFSale(null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentOfferedFSale)PersistentProxi.createProxi(id, 110);
     }
@@ -47,6 +47,9 @@ public class OfferedFSaleFacade{
         if(Cache.getTheCache().contains(objectId, 110)) return 110;
         
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
+        
+    }
+    public void subServiceSet(long OfferedFSaleId, SubjInterface subServiceVal) throws PersistenceException {
         
     }
     public void ThisSet(long OfferedFSaleId, PersistentOfferedFSale ThisVal) throws PersistenceException {

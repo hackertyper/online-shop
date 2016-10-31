@@ -13,14 +13,14 @@ public class ShopServiceFacade{
     public PersistentShopService newShopService(long idCreateIfLessZero) throws PersistenceException {
         if(idCreateIfLessZero > 0) return (PersistentShopService)PersistentProxi.createProxi(idCreateIfLessZero, -185);
         long id = ConnectionHandler.getTheConnectionHandler().theServiceFacade.getNextId();
-        ShopService result = new ShopService(null,null,null,id);
+        ShopService result = new ShopService(null,null,null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentShopService)PersistentProxi.createProxi(id, -185);
     }
     
     public PersistentShopService newDelayedShopService() throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theServiceFacade.getNextId();
-        ShopService result = new ShopService(null,null,null,id);
+        ShopService result = new ShopService(null,null,null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentShopService)PersistentProxi.createProxi(id, -185);
     }

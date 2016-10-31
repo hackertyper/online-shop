@@ -53,6 +53,9 @@ public class ItemFacade{
     public void descriptionSet(long ItemId, String descriptionVal) throws PersistenceException {
         
     }
+    public void subServiceSet(long ItemId, SubjInterface subServiceVal) throws PersistenceException {
+        
+    }
     public void ThisSet(long ItemId, PersistentItem ThisVal) throws PersistenceException {
         
     }

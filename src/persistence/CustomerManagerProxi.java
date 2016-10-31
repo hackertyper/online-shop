@@ -36,6 +36,12 @@ public class CustomerManagerProxi extends PersistentProxi implements PersistentC
     public void setCartMngr(PersistentCartManager newValue) throws PersistenceException {
         ((PersistentCustomerManager)this.getTheObject()).setCartMngr(newValue);
     }
+    public SubjInterface getSubService() throws PersistenceException {
+        return ((PersistentCustomerManager)this.getTheObject()).getSubService();
+    }
+    public void setSubService(SubjInterface newValue) throws PersistenceException {
+        ((PersistentCustomerManager)this.getTheObject()).setSubService(newValue);
+    }
     public PersistentCustomerManager getThis() throws PersistenceException {
         return ((PersistentCustomerManager)this.getTheObject()).getThis();
     }
@@ -52,15 +58,23 @@ public class CustomerManagerProxi extends PersistentProxi implements PersistentC
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleCustomerManager(this);
     }
+    public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
+        visitor.handleCustomerManager(this);
+    }
+    public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleCustomerManager(this);
+    }
+    public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleCustomerManager(this);
+    }
+    public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleCustomerManager(this);
+    }
     
     
     public void acceptDelivery(final PersistentCustomerOrder customerOrder, final Invoker invoker) 
 				throws PersistenceException{
         ((PersistentCustomerManager)this.getTheObject()).acceptDelivery(customerOrder, invoker);
-    }
-    public void addToCart(final PersistentArticle article, final long amount, final Invoker invoker) 
-				throws PersistenceException{
-        ((PersistentCustomerManager)this.getTheObject()).addToCart(article, amount, invoker);
     }
     public void checkOut(final Invoker invoker) 
 				throws PersistenceException{
@@ -69,6 +83,10 @@ public class CustomerManagerProxi extends PersistentProxi implements PersistentC
     public void deposit(final long amount, final Invoker invoker) 
 				throws PersistenceException{
         ((PersistentCustomerManager)this.getTheObject()).deposit(amount, invoker);
+    }
+    public void deregister(final ObsInterface observee) 
+				throws PersistenceException{
+        ((PersistentCustomerManager)this.getTheObject()).deregister(observee);
     }
     public void findArticle(final String description, final Invoker invoker) 
 				throws PersistenceException{
@@ -85,6 +103,14 @@ public class CustomerManagerProxi extends PersistentProxi implements PersistentC
     public void order(final Invoker invoker) 
 				throws PersistenceException{
         ((PersistentCustomerManager)this.getTheObject()).order(invoker);
+    }
+    public void register(final ObsInterface observee) 
+				throws PersistenceException{
+        ((PersistentCustomerManager)this.getTheObject()).register(observee);
+    }
+    public void updateObservers(final model.meta.Mssgs event) 
+				throws PersistenceException{
+        ((PersistentCustomerManager)this.getTheObject()).updateObservers(event);
     }
     public void withdraw(final long amount, final Invoker invoker) 
 				throws PersistenceException{

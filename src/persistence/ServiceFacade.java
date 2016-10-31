@@ -35,6 +35,9 @@ public class ServiceFacade{
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         
     }
+    public void subServiceSet(long ServiceId, SubjInterface subServiceVal) throws PersistenceException {
+        
+    }
     public void ThisSet(long ServiceId, PersistentService ThisVal) throws PersistenceException {
         
     }

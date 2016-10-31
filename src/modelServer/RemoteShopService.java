@@ -64,17 +64,6 @@ public  class RemoteShopService extends RemoteCustomerService {
         }
     }
     
-    public synchronized java.util.HashMap<?,?> removeFCart(String articleProxiString, String cartProxiString){
-        try {
-            PersistentQuantifiedArticles article = (PersistentQuantifiedArticles)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(articleProxiString));
-            PersistentCart cart = (PersistentCart)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(cartProxiString));
-            ((PersistentShopService)this.server).removeFCart(article, cart);
-            return createOKResult();
-        }catch(PersistenceException pe){
-            return createExceptionResult(pe);
-        }
-    }
-    
 
 
 }

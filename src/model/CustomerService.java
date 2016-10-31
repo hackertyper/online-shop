@@ -70,7 +70,8 @@ public class CustomerService extends model.Service implements PersistentCustomer
     
     public CustomerService provideCopy() throws PersistenceException{
         CustomerService result = this;
-        result = new CustomerService(this.This, 
+        result = new CustomerService(this.subService, 
+                                     this.This, 
                                      this.manager, 
                                      this.getId());
         result.errors = this.errors.copy(result);
@@ -86,9 +87,9 @@ public class CustomerService extends model.Service implements PersistentCustomer
     protected CustomerService_ServicesProxi services;
     protected PersistentCustomerManager manager;
     
-    public CustomerService(PersistentService This,PersistentCustomerManager manager,long id) throws PersistenceException {
+    public CustomerService(SubjInterface subService,PersistentService This,PersistentCustomerManager manager,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((PersistentService)This,id);
+        super((SubjInterface)subService,(PersistentService)This,id);
         this.services = new CustomerService_ServicesProxi(this);
         this.manager = manager;        
     }
@@ -187,6 +188,18 @@ public class CustomerService extends model.Service implements PersistentCustomer
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleCustomerService(this);
     }
+    public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
+        visitor.handleCustomerService(this);
+    }
+    public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleCustomerService(this);
+    }
+    public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleCustomerService(this);
+    }
+    public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleCustomerService(this);
+    }
     public void accept(RemoteVisitor visitor) throws PersistenceException {
         visitor.handleCustomerService(this);
     }
@@ -211,12 +224,39 @@ public class CustomerService extends model.Service implements PersistentCustomer
         String result = "+++";
 		return result;
     }
+    public synchronized void deregister(final ObsInterface observee) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.deregister(observee);
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentCustomerService)This);
 		if(this.isTheSameAs(This)){
 			this.setManager((PersistentCustomerManager)final$$Fields.get("manager"));
 		}
+    }
+    public synchronized void register(final ObsInterface observee) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.register(observee);
+    }
+    public synchronized void updateObservers(final model.meta.Mssgs event) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.updateObservers(event);
     }
     
     

@@ -4,12 +4,12 @@ import model.*;
 
 import java.util.Iterator;
 
-public class ShopManager_ItemRangeProxi extends PersistentListProxi<PersistentItem> {
+public class ShopManagerItemRange_ObserveeProxi extends PersistentListProxi<PersistentItem> {
 
   	private ItemList list;
-  	private ShopManager owner;
+  	private ShopManagerItemRange owner;
 
-  	public ShopManager_ItemRangeProxi(ShopManager owner) {
+  	public ShopManagerItemRange_ObserveeProxi(ShopManagerItemRange owner) {
     	this.owner = owner;
   	}
   	public ItemList getList() throws PersistenceException{
@@ -19,7 +19,7 @@ public class ShopManager_ItemRangeProxi extends PersistentListProxi<PersistentIt
       		} else {
         		this.list = ConnectionHandler
                 		    .getTheConnectionHandler()
-                      		.theShopManagerFacade.itemRangeGet(this.owner.getId());
+                      		.theShopManagerItemRangeFacade.observeeGet(this.owner.getId());
       		}
       		this.data = this.list.data;
     	}
@@ -37,23 +37,23 @@ public class ShopManager_ItemRangeProxi extends PersistentListProxi<PersistentIt
       		long entryId = 0;
       		if (!this.owner.isDelayed$Persistence()) {
         		entry.store();  	
-        		entryId = ConnectionHandler.getTheConnectionHandler().theShopManagerFacade
-        	               	.itemRangeAdd(owner.getId(), entry);
+        		entryId = ConnectionHandler.getTheConnectionHandler().theShopManagerItemRangeFacade
+        	               	.observeeAdd(owner.getId(), entry);
       		}
       		list.add((PersistentItem)PersistentProxi.createListEntryProxi(entry.getId(),
             		                   entry.getClassId(),
         	    	                   entryId));
-      		
+      		entry.register(this.owner);
     	}
   	}
   	protected void remove(PersistentListEntryProxi entry) throws PersistenceException {
     	if (!this.owner.isDelayed$Persistence()) {
-      		ConnectionHandler.getTheConnectionHandler().theShopManagerFacade.itemRangeRem(entry.getListEntryId());
+      		ConnectionHandler.getTheConnectionHandler().theShopManagerItemRangeFacade.observeeRem(entry.getListEntryId());
     	}
-    	
+    	((PersistentItem)entry).deregister(this.owner);
   	}
-  	public ShopManager_ItemRangeProxi copy(ShopManager owner) throws PersistenceException {
-  		ShopManager_ItemRangeProxi result = new ShopManager_ItemRangeProxi(owner);
+  	public ShopManagerItemRange_ObserveeProxi copy(ShopManagerItemRange owner) throws PersistenceException {
+  		ShopManagerItemRange_ObserveeProxi result = new ShopManagerItemRange_ObserveeProxi(owner);
   		result.list = this.getList().copy();
   		return result;
   	}	 
@@ -62,8 +62,8 @@ public class ShopManager_ItemRangeProxi extends PersistentListProxi<PersistentIt
   		while (entries.hasNext()){
   			PersistentItem current = entries.next();
   			current.store();
-      		long entryId = ConnectionHandler.getTheConnectionHandler().theShopManagerFacade
-            	           .itemRangeAdd(owner.getId(), current);
+      		long entryId = ConnectionHandler.getTheConnectionHandler().theShopManagerItemRangeFacade
+            	           .observeeAdd(owner.getId(), current);
         	((PersistentListEntryProxi)current).setListEntryId(entryId);
 		}
 	}

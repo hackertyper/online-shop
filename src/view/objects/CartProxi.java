@@ -11,11 +11,8 @@ public class CartProxi extends ViewProxi implements CartView{
         super(objectId, classId, connectionKey);
     }
     
-    @SuppressWarnings("unchecked")
     public CartView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
         long currentSum = new Long((String)resultTable.get("currentSum")).longValue();
-        java.util.Vector<String> articleList_string = (java.util.Vector<String>)resultTable.get("articleList");
-        java.util.Vector<QuantifiedArticlesView> articleList = ViewProxi.getProxiVector(articleList_string, connectionKey);
         ViewProxi cartMngr = null;
         String cartMngr$String = (String)resultTable.get("cartMngr");
         if (cartMngr$String != null) {
@@ -23,7 +20,7 @@ public class CartProxi extends ViewProxi implements CartView{
             cartMngr = view.objects.ViewProxi.createProxi(cartMngr$Info,connectionKey);
             cartMngr.setToString(cartMngr$Info.getToString());
         }
-        CartView result$$ = new Cart((long)currentSum,articleList,(CartManagerView)cartMngr, this.getId(), this.getClassId());
+        CartView result$$ = new Cart((long)currentSum,(CartManagerView)cartMngr, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -32,27 +29,17 @@ public class CartProxi extends ViewProxi implements CartView{
         return RemoteDepth;
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
-        int index = originalIndex;
-        if(index < this.getArticleList().size()) return new ArticleListCartWrapper(this, originalIndex, (ViewRoot)this.getArticleList().get(index));
-        index = index - this.getArticleList().size();
+        
         return null;
     }
     public int getChildCount() throws ModelException {
-        return 0 
-            + (this.getArticleList().size());
+        return 0 ;
     }
     public boolean isLeaf() throws ModelException {
-        if (this.object == null) return this.getLeafInfo() == 0;
-        return true 
-            && (this.getArticleList().size() == 0);
+        return true;
     }
     public int getIndexOfChild(Object child) throws ModelException {
-        int result = 0;
-        java.util.Iterator<?> getArticleListIterator = this.getArticleList().iterator();
-        while(getArticleListIterator.hasNext()){
-            if(getArticleListIterator.next().equals(child)) return result;
-            result = result + 1;
-        }
+        
         return -1;
     }
     
@@ -61,12 +48,6 @@ public class CartProxi extends ViewProxi implements CartView{
     }
     public void setCurrentSum(long newValue) throws ModelException {
         ((Cart)this.getTheObject()).setCurrentSum(newValue);
-    }
-    public java.util.Vector<QuantifiedArticlesView> getArticleList()throws ModelException{
-        return ((Cart)this.getTheObject()).getArticleList();
-    }
-    public void setArticleList(java.util.Vector<QuantifiedArticlesView> newValue) throws ModelException {
-        ((Cart)this.getTheObject()).setArticleList(newValue);
     }
     public CartManagerView getCartMngr()throws ModelException{
         return ((Cart)this.getTheObject()).getCartMngr();

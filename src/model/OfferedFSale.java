@@ -72,7 +72,8 @@ public class OfferedFSale extends PersistentObject implements PersistentOfferedF
     
     public OfferedFSale provideCopy() throws PersistenceException{
         OfferedFSale result = this;
-        result = new OfferedFSale(this.This, 
+        result = new OfferedFSale(this.subService, 
+                                  this.This, 
                                   this.getId());
         this.copyingPrivateUserAttributes(result);
         return result;
@@ -81,11 +82,13 @@ public class OfferedFSale extends PersistentObject implements PersistentOfferedF
     public boolean hasEssentialFields() throws PersistenceException{
         return false;
     }
+    protected SubjInterface subService;
     protected PersistentOfferedFSale This;
     
-    public OfferedFSale(PersistentOfferedFSale This,long id) throws PersistenceException {
+    public OfferedFSale(SubjInterface subService,PersistentOfferedFSale This,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
+        this.subService = subService;
         if (This != null && !(this.isTheSameAs(This))) this.This = This;        
     }
     
@@ -102,6 +105,10 @@ public class OfferedFSale extends PersistentObject implements PersistentOfferedF
         if (this.getClassId() == 110) ConnectionHandler.getTheConnectionHandler().theOfferedFSaleFacade
             .newOfferedFSale(this.getId());
         super.store();
+        if(this.getSubService() != null){
+            this.getSubService().store();
+            ConnectionHandler.getTheConnectionHandler().theOfferedFSaleFacade.subServiceSet(this.getId(), getSubService());
+        }
         if(!this.isTheSameAs(this.getThis())){
             this.getThis().store();
             ConnectionHandler.getTheConnectionHandler().theOfferedFSaleFacade.ThisSet(this.getId(), getThis());
@@ -109,6 +116,20 @@ public class OfferedFSale extends PersistentObject implements PersistentOfferedF
         
     }
     
+    public SubjInterface getSubService() throws PersistenceException {
+        return this.subService;
+    }
+    public void setSubService(SubjInterface newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.isTheSameAs(this.subService)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.subService = (SubjInterface)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theOfferedFSaleFacade.subServiceSet(this.getId(), newValue);
+        }
+    }
     protected void setThis(PersistentOfferedFSale newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
         if (newValue.isTheSameAs(this)){
@@ -144,6 +165,18 @@ public class OfferedFSale extends PersistentObject implements PersistentOfferedF
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleOfferedFSale(this);
     }
+    public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
+        visitor.handleOfferedFSale(this);
+    }
+    public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleOfferedFSale(this);
+    }
+    public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleOfferedFSale(this);
+    }
+    public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleOfferedFSale(this);
+    }
     public void accept(ArticleStateVisitor visitor) throws PersistenceException {
         visitor.handleOfferedFSale(this);
     }
@@ -161,6 +194,15 @@ public class OfferedFSale extends PersistentObject implements PersistentOfferedF
     }
     
     
+    public synchronized void deregister(final ObsInterface observee) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.deregister(observee);
+    }
     public PersistentArticle getMyArticle() 
 				throws PersistenceException{
         ArticleSearchList result = null;
@@ -178,6 +220,24 @@ public class OfferedFSale extends PersistentObject implements PersistentOfferedF
 		if(this.isTheSameAs(This)){
 		}
     }
+    public synchronized void register(final ObsInterface observee) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.register(observee);
+    }
+    public synchronized void updateObservers(final model.meta.Mssgs event) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.updateObservers(event);
+    }
     
     
     // Start of section that contains operations that must be implemented.
@@ -189,8 +249,6 @@ public class OfferedFSale extends PersistentObject implements PersistentOfferedF
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{

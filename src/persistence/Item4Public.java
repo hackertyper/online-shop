@@ -3,7 +3,7 @@ package persistence;
 
 import model.visitor.*;
 
-public interface Item4Public extends Anything, AbstractPersistentProxi {
+public interface Item4Public extends Anything, SubjInterface, AbstractPersistentProxi {
     
     
     public void accept(ItemVisitor visitor) throws PersistenceException;

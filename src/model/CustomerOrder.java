@@ -71,6 +71,7 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
     public CustomerOrder provideCopy() throws PersistenceException{
         CustomerOrder result = this;
         result = new CustomerOrder(this.remainingTimeToDelivery, 
+                                   this.subService, 
                                    this.This, 
                                    this.myState, 
                                    this.getId());
@@ -85,9 +86,9 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
     protected CustomerOrder_ArticleListProxi articleList;
     protected CustomerOrderState myState;
     
-    public CustomerOrder(long remainingTimeToDelivery,PersistentDelivery This,CustomerOrderState myState,long id) throws PersistenceException {
+    public CustomerOrder(long remainingTimeToDelivery,SubjInterface subService,PersistentDelivery This,CustomerOrderState myState,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((long)remainingTimeToDelivery,(PersistentDelivery)This,id);
+        super((long)remainingTimeToDelivery,(SubjInterface)subService,(PersistentDelivery)This,id);
         this.articleList = new CustomerOrder_ArticleListProxi(this);
         this.myState = myState;        
     }
@@ -162,6 +163,18 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleCustomerOrder(this);
     }
+    public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
+        visitor.handleCustomerOrder(this);
+    }
+    public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleCustomerOrder(this);
+    }
+    public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleCustomerOrder(this);
+    }
+    public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleCustomerOrder(this);
+    }
     public int getLeafInfo() throws PersistenceException{
         if (this.getMyState() != null && this.getMyState().getTheObject().getLeafInfo() != 0) return 1;
         if (this.getArticleList().getLength() > 0) return 1;
@@ -169,12 +182,39 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
     }
     
     
+    public synchronized void deregister(final ObsInterface observee) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.deregister(observee);
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentCustomerOrder)This);
 		if(this.isTheSameAs(This)){
 			this.setRemainingTimeToDelivery((Long)final$$Fields.get("remainingTimeToDelivery"));
 		}
+    }
+    public synchronized void register(final ObsInterface observee) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.register(observee);
+    }
+    public synchronized void updateObservers(final model.meta.Mssgs event) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.updateObservers(event);
     }
     
     
@@ -187,8 +227,6 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void deliver() 
 				throws PersistenceException{

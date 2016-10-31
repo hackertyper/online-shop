@@ -62,6 +62,18 @@ public class RegisterServiceICProxi extends ServiceICProxi implements Persistent
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleRegisterService(this);
     }
+    public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
+        visitor.handleRegisterService(this);
+    }
+    public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleRegisterService(this);
+    }
+    public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleRegisterService(this);
+    }
+    public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleRegisterService(this);
+    }
     public void accept(RemoteVisitor visitor) throws PersistenceException {
         visitor.handleRegisterService(this);
     }
@@ -76,6 +88,10 @@ public class RegisterServiceICProxi extends ServiceICProxi implements Persistent
     }
     
     
+    public void deregister(final ObsInterface observee) 
+				throws PersistenceException{
+        ((PersistentRegisterService)this.getTheObject()).deregister(observee);
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentRegisterService)this.getTheObject()).initialize(This, final$$Fields);
@@ -84,9 +100,17 @@ public class RegisterServiceICProxi extends ServiceICProxi implements Persistent
 				throws PersistenceException{
         return ((PersistentRegisterService)this.getTheObject()).registerService_Menu_Filter(anything);
     }
+    public void register(final ObsInterface observee) 
+				throws PersistenceException{
+        ((PersistentRegisterService)this.getTheObject()).register(observee);
+    }
     public void signalChanged(final boolean signal) 
 				throws PersistenceException{
         ((PersistentRegisterService)this.getTheObject()).signalChanged(signal);
+    }
+    public void updateObservers(final model.meta.Mssgs event) 
+				throws PersistenceException{
+        ((PersistentRegisterService)this.getTheObject()).updateObservers(event);
     }
     public void connected(final String user) 
 				throws PersistenceException{

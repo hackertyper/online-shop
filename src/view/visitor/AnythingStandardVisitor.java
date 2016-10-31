@@ -23,11 +23,11 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleErrorDisplay(ErrorDisplayView errorDisplay) throws ModelException{
         this.standardHandling(errorDisplay);
     }
-    public void handleOfferedFSale(OfferedFSaleView offeredFSale) throws ModelException{
-        this.standardHandling(offeredFSale);
-    }
     public void handleArticle(ArticleView article) throws ModelException{
         this.standardHandling(article);
+    }
+    public void handleOfferedFSale(OfferedFSaleView offeredFSale) throws ModelException{
+        this.standardHandling(offeredFSale);
     }
     public void handleCustomerOrder(CustomerOrderView customerOrder) throws ModelException{
         this.standardHandling(customerOrder);

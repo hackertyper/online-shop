@@ -13,14 +13,14 @@ public class ProductGroupFacade{
     public PersistentProductGroup newProductGroup(String description,long idCreateIfLessZero) throws PersistenceException {
         if(idCreateIfLessZero > 0) return (PersistentProductGroup)PersistentProxi.createProxi(idCreateIfLessZero, 102);
         long id = ConnectionHandler.getTheConnectionHandler().theItemFacade.getNextId();
-        ProductGroup result = new ProductGroup(description,null,id);
+        ProductGroup result = new ProductGroup(description,null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentProductGroup)PersistentProxi.createProxi(id, 102);
     }
     
     public PersistentProductGroup newDelayedProductGroup(String description) throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theItemFacade.getNextId();
-        ProductGroup result = new ProductGroup(description,null,id);
+        ProductGroup result = new ProductGroup(description,null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentProductGroup)PersistentProxi.createProxi(id, 102);
     }

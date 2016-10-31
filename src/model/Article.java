@@ -94,6 +94,7 @@ public class Article extends model.Item implements PersistentArticle{
     public Article provideCopy() throws PersistenceException{
         Article result = this;
         result = new Article(this.description, 
+                             this.subService, 
                              this.This, 
                              this.manufacturer, 
                              this.state, 
@@ -118,9 +119,9 @@ public class Article extends model.Item implements PersistentArticle{
     protected long manuDelivery;
     protected long stock;
     
-    public Article(String description,PersistentItem This,PersistentManufacturer manufacturer,ArticleState state,long price,long minStock,long maxStock,long manuDelivery,long stock,long id) throws PersistenceException {
+    public Article(String description,SubjInterface subService,PersistentItem This,PersistentManufacturer manufacturer,ArticleState state,long price,long minStock,long maxStock,long manuDelivery,long stock,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((String)description,(PersistentItem)This,id);
+        super((String)description,(SubjInterface)subService,(PersistentItem)This,id);
         this.manufacturer = manufacturer;
         this.state = state;
         this.price = price;
@@ -249,6 +250,18 @@ public class Article extends model.Item implements PersistentArticle{
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleArticle(this);
     }
+    public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
+        visitor.handleArticle(this);
+    }
+    public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleArticle(this);
+    }
+    public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleArticle(this);
+    }
+    public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleArticle(this);
+    }
     public int getLeafInfo() throws PersistenceException{
         if (this.getManufacturer() != null && this.getManufacturer().getTheObject().getLeafInfo() != 0) return 1;
         if (this.getState() != null && this.getState().getTheObject().getLeafInfo() != 0) return 1;
@@ -281,6 +294,15 @@ public class Article extends model.Item implements PersistentArticle{
 		command.setCommandReceiver(getThis());
 		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
     }
+    public synchronized void deregister(final ObsInterface observee) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.deregister(observee);
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentArticle)This);
@@ -293,13 +315,31 @@ public class Article extends model.Item implements PersistentArticle{
 			this.setManuDelivery((Long)final$$Fields.get("manuDelivery"));
 		}
     }
+    public synchronized void register(final ObsInterface observee) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.register(observee);
+    }
+    public synchronized void updateObservers(final model.meta.Mssgs event) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.updateObservers(event);
+    }
     
     
     // Start of section that contains operations that must be implemented.
     
     public void addToCart(final long amount, final PersistentCart cart) 
 				throws PersistenceException{
-        cart.addArticle(QuantifiedArticles.createQuantifiedArticles(getThis(), amount));
+    	cart.addArticle(QuantifiedArticles.createQuantifiedArticles(getThis(), amount));        
     }
     public void changeManuDelivery(final long newManuDelivery) 
 				throws PersistenceException{
@@ -318,8 +358,6 @@ public class Article extends model.Item implements PersistentArticle{
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
@@ -329,7 +367,6 @@ public class Article extends model.Item implements PersistentArticle{
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         super.initializeOnInstantiation();
-		//TODO: implement method: initializeOnInstantiation
     }
     public void pack(final long amount) 
 				throws PersistenceException{
@@ -337,14 +374,13 @@ public class Article extends model.Item implements PersistentArticle{
         	getThis().getState().accept(new ArticleStateVisitor() {
 				@Override
 				public void handleNewlyAdded(PersistentNewlyAdded newlyAdded) throws PersistenceException {}
-
+				@Override
+				public void handleRemovedFSale(PersistentRemovedFSale removedFSale) throws PersistenceException {}
+				
 				@Override
 				public void handleOfferedFSale(PersistentOfferedFSale offeredFSale) throws PersistenceException {
 					offeredFSale.reorder(getThis().getMaxStock()-getThis().getStock(), getThis().getManuDelivery());
 				}
-
-				@Override
-				public void handleRemovedFSale(PersistentRemovedFSale removedFSale) throws PersistenceException {}
 			});
         }
     }

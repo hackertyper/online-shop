@@ -312,7 +312,6 @@ public class ShopServiceClientView extends BorderPane implements ExceptionAndEve
 
     interface MenuItemVisitor{
         ImageView handle(FindArticlePRMTRStringPRMTRMenuItem menuItem);
-        ImageView handle(RemoveFCartPRMTRQuantifiedArticlesPRMTRCartPRMTRMenuItem menuItem);
         ImageView handle(AddToCartPRMTRArticlePRMTRIntegerPRMTRMenuItem menuItem);
         ImageView handle(AcceptDeliveryPRMTRCustomerOrderPRMTRMenuItem menuItem);
     }
@@ -323,11 +322,6 @@ public class ShopServiceClientView extends BorderPane implements ExceptionAndEve
         abstract protected ImageView accept(MenuItemVisitor visitor);
     }
     private class FindArticlePRMTRStringPRMTRMenuItem extends ShopServiceMenuItem{
-        protected ImageView accept(MenuItemVisitor visitor){
-            return visitor.handle(this);
-        }
-    }
-    private class RemoveFCartPRMTRQuantifiedArticlesPRMTRCartPRMTRMenuItem extends ShopServiceMenuItem{
         protected ImageView accept(MenuItemVisitor visitor){
             return visitor.handle(this);
         }
@@ -409,19 +403,6 @@ public class ShopServiceClientView extends BorderPane implements ExceptionAndEve
                                 handleException(me);
                             }
                         }
-                    }
-                });
-                result.getItems().add(item);
-            }
-            if (selected instanceof QuantifiedArticlesView){
-                item = new RemoveFCartPRMTRQuantifiedArticlesPRMTRCartPRMTRMenuItem();
-                item.setText("Löschen ... ");
-                item.setOnAction(new EventHandler<ActionEvent>(){
-                    public void handle(javafx.event.ActionEvent e) {
-                        final ShopServiceRemoveFCartQuantifiedArticlesCartMssgWizard wizard = new ShopServiceRemoveFCartQuantifiedArticlesCartMssgWizard("Löschen");
-                        wizard.setFirstArgument((QuantifiedArticlesView)selected);
-                        wizard.setWidth(getNavigationPanel().getWidth());
-                        wizard.showAndWait();
                     }
                 });
                 result.getItems().add(item);
@@ -519,55 +500,6 @@ public class ShopServiceClientView extends BorderPane implements ExceptionAndEve
 			getParametersPanel().getChildren().add(new StringSelectionPanel("description", this));		
 		}	
 		protected void handleDependencies(int i) {
-		}
-		
-		
-	}
-
-	class ShopServiceRemoveFCartQuantifiedArticlesCartMssgWizard extends Wizard {
-
-		protected ShopServiceRemoveFCartQuantifiedArticlesCartMssgWizard(String operationName){
-			super(ShopServiceClientView.this);
-			getOkButton().setText(operationName);
-			getOkButton().setGraphic(new RemoveFCartPRMTRQuantifiedArticlesPRMTRCartPRMTRMenuItem ().getGraphic());
-		}
-		protected void initialize(){
-			this.helpFileName = "ShopServiceRemoveFCartQuantifiedArticlesCartMssgWizard.help";
-			super.initialize();		
-		}
-				
-		protected void perform() {
-			try {
-				getConnection().removeFCart(firstArgument, (CartView)((ObjectSelectionPanel)getParametersPanel().getChildren().get(0)).getResult());
-				getConnection().setEagerRefresh();
-				this.close();	
-			} catch(ModelException me){
-				handleException(me);
-				this.close();
-			}
-			
-		}
-		protected String checkCompleteParameterSet(){
-			return null;
-		}
-		protected boolean isModifying () {
-			return false;
-		}
-		protected void addParameters(){
-			final ObjectSelectionPanel panel1 = new ObjectSelectionPanel("cart", "view.CartView", null, this);
-			getParametersPanel().getChildren().add(panel1);
-			panel1.setBrowserRoot((ViewRoot) getConnection().getShopServiceView());		
-		}	
-		protected void handleDependencies(int i) {
-		}
-		
-		
-		private QuantifiedArticlesView firstArgument; 
-	
-		public void setFirstArgument(QuantifiedArticlesView firstArgument){
-			this.firstArgument = firstArgument;
-			this.setTitle(this.firstArgument.toString());
-			this.check();
 		}
 		
 		

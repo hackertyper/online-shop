@@ -69,7 +69,8 @@ public class CartService extends model.CustomerService implements PersistentCart
     
     public CartService provideCopy() throws PersistenceException{
         CartService result = this;
-        result = new CartService(this.This, 
+        result = new CartService(this.subService, 
+                                 this.This, 
                                  this.manager, 
                                  this.cartMngr, 
                                  this.getId());
@@ -85,9 +86,9 @@ public class CartService extends model.CustomerService implements PersistentCart
     }
     protected PersistentCartManager cartMngr;
     
-    public CartService(PersistentService This,PersistentCustomerManager manager,PersistentCartManager cartMngr,long id) throws PersistenceException {
+    public CartService(SubjInterface subService,PersistentService This,PersistentCustomerManager manager,PersistentCartManager cartMngr,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((PersistentService)This,(PersistentCustomerManager)manager,id);
+        super((SubjInterface)subService,(PersistentService)This,(PersistentCustomerManager)manager,id);
         this.cartMngr = cartMngr;        
     }
     
@@ -181,6 +182,18 @@ public class CartService extends model.CustomerService implements PersistentCart
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleCartService(this);
     }
+    public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
+        visitor.handleCartService(this);
+    }
+    public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleCartService(this);
+    }
+    public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleCartService(this);
+    }
+    public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleCartService(this);
+    }
     public void accept(RemoteVisitor visitor) throws PersistenceException {
         visitor.handleCartService(this);
     }
@@ -217,6 +230,14 @@ public class CartService extends model.CustomerService implements PersistentCart
     
     // Start of section that contains operations that must be implemented.
     
+    public void addToCart(final PersistentArticle article, final long amount) 
+				throws PersistenceException{
+        getThis().getCartMngr().addArticle(article, amount, getThis());
+    }
+    public void changeAmount(final PersistentQuantifiedArticles article, final long newAmount) 
+				throws PersistenceException{
+        getThis().getCartMngr().changeAmount(article, newAmount, getThis());
+    }
     public void checkOut() 
 				throws PersistenceException{
         getThis().getManager().checkOut(getThis());
@@ -235,6 +256,10 @@ public class CartService extends model.CustomerService implements PersistentCart
     public void order() 
 				throws PersistenceException{
         getThis().getManager().order(getThis());
+    }
+    public void removeFCart(final PersistentQuantifiedArticles article) 
+				throws PersistenceException{
+        getThis().getCartMngr().removeFCart(article, getThis());
     }
     
     

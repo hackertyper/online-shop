@@ -69,7 +69,8 @@ public class AccountService extends model.CustomerService implements PersistentA
     
     public AccountService provideCopy() throws PersistenceException{
         AccountService result = this;
-        result = new AccountService(this.This, 
+        result = new AccountService(this.subService, 
+                                    this.This, 
                                     this.manager, 
                                     this.accMngr, 
                                     this.getId());
@@ -85,9 +86,9 @@ public class AccountService extends model.CustomerService implements PersistentA
     }
     protected PersistentAccountManager accMngr;
     
-    public AccountService(PersistentService This,PersistentCustomerManager manager,PersistentAccountManager accMngr,long id) throws PersistenceException {
+    public AccountService(SubjInterface subService,PersistentService This,PersistentCustomerManager manager,PersistentAccountManager accMngr,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((PersistentService)This,(PersistentCustomerManager)manager,id);
+        super((SubjInterface)subService,(PersistentService)This,(PersistentCustomerManager)manager,id);
         this.accMngr = accMngr;        
     }
     
@@ -181,6 +182,18 @@ public class AccountService extends model.CustomerService implements PersistentA
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleAccountService(this);
     }
+    public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
+        visitor.handleAccountService(this);
+    }
+    public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleAccountService(this);
+    }
+    public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleAccountService(this);
+    }
+    public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleAccountService(this);
+    }
     public void accept(RemoteVisitor visitor) throws PersistenceException {
         visitor.handleAccountService(this);
     }
@@ -242,13 +255,9 @@ public class AccountService extends model.CustomerService implements PersistentA
     
     public void connected(final String user) 
 				throws PersistenceException{
-        //TODO: implement method: connected
-        
     }
     public void disconnected() 
 				throws PersistenceException{
-        //TODO: implement method: disconnected
-        
     }
 
     /* Start of protected part that is not overridden by persistence generator */
