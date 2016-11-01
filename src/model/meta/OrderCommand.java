@@ -201,8 +201,15 @@ public class OrderCommand extends PersistentObject implements PersistentOrderCom
     }
     public void execute() 
 				throws PersistenceException{
-        this.commandReceiver.order();
-		
+        try{
+			this.commandReceiver.order();
+		}
+		catch(model.FirstCheckOut e){
+			this.commandException = e;
+		}
+		catch(model.InsufficientFunds e){
+			this.commandException = e;
+		}
     }
     public Invoker fetchInvoker() 
 				throws PersistenceException{

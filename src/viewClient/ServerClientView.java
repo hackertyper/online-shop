@@ -311,11 +311,13 @@ public class ServerClientView extends BorderPane implements ExceptionAndEventHan
 					ServerClientView.this.setCenter(view);
 				}
 				@Override
-				public void handleAccountService(AccountServiceView accountService) throws ModelException {	}
+				public void handleAccountService(AccountServiceView accountService) throws ModelException {}
 				@Override
-				public void handleCartService(CartServiceView cartService) throws ModelException {	}
+				public void handleCartService(CartServiceView cartService) throws ModelException {}
 				@Override
-				public void handleShopService(ShopServiceView shopService) throws ModelException {	}
+				public void handleShopService(ShopServiceView shopService) throws ModelException {}
+				@Override
+				public void handleOrderService(OrderServiceView orderService) throws ModelException {}
 			});
 			getConnection().refresherStop();
 		} catch (ModelException e) {

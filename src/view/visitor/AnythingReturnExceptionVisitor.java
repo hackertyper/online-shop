@@ -15,6 +15,7 @@ public interface AnythingReturnExceptionVisitor<R, E extends view.UserException>
     public R handleManufacturer(ManufacturerView manufacturer) throws ModelException, E;
     public R handleNewlyAdded(NewlyAddedView newlyAdded) throws ModelException, E;
     public R handleOfferedFSale(OfferedFSaleView offeredFSale) throws ModelException, E;
+    public R handleOrderManager(OrderManagerView orderManager) throws ModelException, E;
     public R handleQuantifiedArticles(QuantifiedArticlesView quantifiedArticles) throws ModelException, E;
     public R handleRemovedFSale(RemovedFSaleView removedFSale) throws ModelException, E;
     public R handleSendOrder(SendOrderView sendOrder) throws ModelException, E;

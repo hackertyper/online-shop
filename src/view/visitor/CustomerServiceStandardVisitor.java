@@ -14,6 +14,9 @@ public abstract class CustomerServiceStandardVisitor implements CustomerServiceV
     public void handleCartService(CartServiceView cartService) throws ModelException{
         this.standardHandling(cartService);
     }
+    public void handleOrderService(OrderServiceView orderService) throws ModelException{
+        this.standardHandling(orderService);
+    }
     public void handleAccountService(AccountServiceView accountService) throws ModelException{
         this.standardHandling(accountService);
     }

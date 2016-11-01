@@ -246,8 +246,11 @@ public class ArrivedOrder extends PersistentObject implements PersistentArrivedO
     
     public void acceptDelivery() 
 				throws PersistenceException{
-        //TODO: implement method: acceptDelivery
-        
+    	//TODO: implement method: acceptDelivery
+    }
+    public void arrived() 
+				throws PersistenceException{
+    	//TODO: implement method: arrived
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
@@ -259,13 +262,16 @@ public class ArrivedOrder extends PersistentObject implements PersistentArrivedO
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnInstantiation
-        
     }
     public void retoure(final QuantifiedArticlesSearchList list) 
 				throws PersistenceException{
-        //TODO: implement method: retoure
-        
+        PersistentRetoure re = Retoure.createRetoure(0, serverConstants.OrderConstants.current);
+        try {
+			re.getArticleList().add(list);
+		} catch (UserException e) {
+			new Error(e);
+		}
+        re.send();
     }
     
     

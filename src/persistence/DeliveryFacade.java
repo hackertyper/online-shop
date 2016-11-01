@@ -35,6 +35,9 @@ public class DeliveryFacade{
     public void remainingTimeToDeliverySet(long DeliveryId, long remainingTimeToDeliveryVal) throws PersistenceException {
         
     }
+    public void sendDateSet(long DeliveryId, java.sql.Timestamp sendDateVal) throws PersistenceException {
+        
+    }
     public void subServiceSet(long DeliveryId, SubjInterface subServiceVal) throws PersistenceException {
         
     }

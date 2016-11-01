@@ -13,6 +13,7 @@ public class ShopKeeperOrderProxi extends DeliveryProxi implements ShopKeeperOrd
     
     public ShopKeeperOrderView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
         long remainingTimeToDelivery = new Long((String)resultTable.get("remainingTimeToDelivery")).longValue();
+        java.util.Date sendDate = (java.util.Date)resultTable.get("sendDate");
         ViewProxi article = null;
         String article$String = (String)resultTable.get("article");
         if (article$String != null) {
@@ -21,7 +22,7 @@ public class ShopKeeperOrderProxi extends DeliveryProxi implements ShopKeeperOrd
             article.setToString(article$Info.getToString());
         }
         long amount = new Long((String)resultTable.get("amount")).longValue();
-        ShopKeeperOrderView result$$ = new ShopKeeperOrder((long)remainingTimeToDelivery,(ArticleView)article,(long)amount, this.getId(), this.getClassId());
+        ShopKeeperOrderView result$$ = new ShopKeeperOrder((long)remainingTimeToDelivery,(java.util.Date)sendDate,(ArticleView)article,(long)amount, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }

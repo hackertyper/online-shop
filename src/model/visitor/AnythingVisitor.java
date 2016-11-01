@@ -30,9 +30,11 @@ public interface AnythingVisitor extends CartStateVisitor,CommonDateVisitor,Deli
     public void handleNewlyAdded(PersistentNewlyAdded newlyAdded) throws PersistenceException;
     public void handleOfferedFSale(PersistentOfferedFSale offeredFSale) throws PersistenceException;
     public void handleOrderCommand(PersistentOrderCommand orderCommand) throws PersistenceException;
+    public void handleOrderManager(PersistentOrderManager orderManager) throws PersistenceException;
     public void handleQuantifiedArticles(PersistentQuantifiedArticles quantifiedArticles) throws PersistenceException;
     public void handleRemoveFCartCommand(PersistentRemoveFCartCommand removeFCartCommand) throws PersistenceException;
     public void handleRemovedFSale(PersistentRemovedFSale removedFSale) throws PersistenceException;
+    public void handleRetoureDeliveryCommand(PersistentRetoureDeliveryCommand retoureDeliveryCommand) throws PersistenceException;
     public void handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException;
     public void handleServer(PersistentServer server) throws PersistenceException;
     public void handleShopManager(PersistentShopManager shopManager) throws PersistenceException;

@@ -88,8 +88,10 @@ public class ConnectionHandler {
     public RemovedFSaleFacade theRemovedFSaleFacade;
     public RetoureFacade theRetoureFacade;
     public AccountManagerFacade theAccountManagerFacade;
+    public OrderServiceFacade theOrderServiceFacade;
     public AccountServiceFacade theAccountServiceFacade;
     public CommonDateFacade theCommonDateFacade;
+    public OrderManagerFacade theOrderManagerFacade;
     public ShopManagerItemRangeFacade theShopManagerItemRangeFacade;
     public OrderCommandFacade theOrderCommandFacade;
     public ShopkeeperFacade theShopkeeperFacade;
@@ -104,6 +106,7 @@ public class ConnectionHandler {
     public CartFacade theCartFacade;
     public QuantifiedArticlesFacade theQuantifiedArticlesFacade;
     public ChangePriceCommandFacade theChangePriceCommandFacade;
+    public RetoureDeliveryCommandFacade theRetoureDeliveryCommandFacade;
     public ServiceFacade theServiceFacade;
     public SubjFacade theSubjFacade;
     public ShopkeeperServiceFacade theShopkeeperServiceFacade;
@@ -145,8 +148,10 @@ public class ConnectionHandler {
             this.theRemovedFSaleFacade= new RemovedFSaleFacade();
             this.theRetoureFacade= new RetoureFacade();
             this.theAccountManagerFacade= new AccountManagerFacade();
+            this.theOrderServiceFacade= new OrderServiceFacade();
             this.theAccountServiceFacade= new AccountServiceFacade();
             this.theCommonDateFacade= new CommonDateFacade();
+            this.theOrderManagerFacade= new OrderManagerFacade();
             this.theShopManagerItemRangeFacade= new ShopManagerItemRangeFacade();
             this.theOrderCommandFacade= new OrderCommandFacade();
             this.theShopkeeperFacade= new ShopkeeperFacade();
@@ -161,6 +166,7 @@ public class ConnectionHandler {
             this.theCartFacade= new CartFacade();
             this.theQuantifiedArticlesFacade= new QuantifiedArticlesFacade();
             this.theChangePriceCommandFacade= new ChangePriceCommandFacade();
+            this.theRetoureDeliveryCommandFacade= new RetoureDeliveryCommandFacade();
             this.theServiceFacade= new ServiceFacade();
             this.theSubjFacade= new SubjFacade();
             this.theShopkeeperServiceFacade= new ShopkeeperServiceFacade();

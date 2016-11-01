@@ -14,6 +14,9 @@ public abstract class CommandStandardVisitor implements CommandVisitor {
     public void handleChangePriceCommand(PersistentChangePriceCommand changePriceCommand) throws PersistenceException{
         this.standardHandling(changePriceCommand);
     }
+    public void handleRetoureDeliveryCommand(PersistentRetoureDeliveryCommand retoureDeliveryCommand) throws PersistenceException{
+        this.standardHandling(retoureDeliveryCommand);
+    }
     public void handleRemoveFCartCommand(PersistentRemoveFCartCommand removeFCartCommand) throws PersistenceException{
         this.standardHandling(removeFCartCommand);
     }

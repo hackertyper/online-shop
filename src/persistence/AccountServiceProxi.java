@@ -130,10 +130,6 @@ public class AccountServiceProxi extends CustomerServiceProxi implements Persist
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).updateObservers(event);
     }
-    public void acceptDelivery(final PersistentCustomerOrder customerOrder) 
-				throws PersistenceException{
-        ((PersistentAccountService)this.getTheObject()).acceptDelivery(customerOrder);
-    }
     public void connected(final String user) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).connected(user);

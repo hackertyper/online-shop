@@ -5,9 +5,6 @@ import persistence.*;
 
 public abstract class CustomerManagerCommandStandardVisitor implements CustomerManagerCommandVisitor {
     
-    public void handleAcceptDeliveryCommand(PersistentAcceptDeliveryCommand acceptDeliveryCommand) throws PersistenceException{
-        this.standardHandling(acceptDeliveryCommand);
-    }
     public void handleWithdrawCommand(PersistentWithdrawCommand withdrawCommand) throws PersistenceException{
         this.standardHandling(withdrawCommand);
     }

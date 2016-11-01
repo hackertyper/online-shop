@@ -22,7 +22,9 @@ public abstract class ToString$Visitor extends AnythingStandardVisitor{
     public abstract void handleRemovedFSale(PersistentRemovedFSale removedFSale) throws PersistenceException;
     public abstract void handleRetoure(PersistentRetoure retoure) throws PersistenceException;
     public abstract void handleAccountManager(PersistentAccountManager accountManager) throws PersistenceException;
+    public abstract void handleOrderService(PersistentOrderService orderService) throws PersistenceException;
     public abstract void handleAccountService(PersistentAccountService accountService) throws PersistenceException;
+    public abstract void handleOrderManager(PersistentOrderManager orderManager) throws PersistenceException;
     public abstract void handleShopkeeper(PersistentShopkeeper shopkeeper) throws PersistenceException;
     public abstract void handleArticle(PersistentArticle article) throws PersistenceException;
     public abstract void handleOfferedFSale(PersistentOfferedFSale offeredFSale) throws PersistenceException;

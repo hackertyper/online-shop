@@ -36,17 +36,17 @@ public class AcceptDeliveryCommand extends PersistentObject implements Persisten
     public boolean hasEssentialFields() throws PersistenceException{
         return true;
     }
-    protected PersistentCustomerOrder customerOrder;
+    protected PersistentArrivedOrder arrivedOrder;
     protected Invoker invoker;
-    protected PersistentCustomerManager commandReceiver;
+    protected PersistentOrderManager commandReceiver;
     protected PersistentCommonDate myCommonDate;
     
     private model.UserException commandException = null;
     
-    public AcceptDeliveryCommand(PersistentCustomerOrder customerOrder,Invoker invoker,PersistentCustomerManager commandReceiver,PersistentCommonDate myCommonDate,long id) throws PersistenceException {
+    public AcceptDeliveryCommand(PersistentArrivedOrder arrivedOrder,Invoker invoker,PersistentOrderManager commandReceiver,PersistentCommonDate myCommonDate,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
-        this.customerOrder = customerOrder;
+        this.arrivedOrder = arrivedOrder;
         this.invoker = invoker;
         this.commandReceiver = commandReceiver;
         this.myCommonDate = myCommonDate;        
@@ -65,9 +65,9 @@ public class AcceptDeliveryCommand extends PersistentObject implements Persisten
         if (this.getClassId() == 198) ConnectionHandler.getTheConnectionHandler().theAcceptDeliveryCommandFacade
             .newAcceptDeliveryCommand(this.getId());
         super.store();
-        if(this.getCustomerOrder() != null){
-            this.getCustomerOrder().store();
-            ConnectionHandler.getTheConnectionHandler().theAcceptDeliveryCommandFacade.customerOrderSet(this.getId(), getCustomerOrder());
+        if(this.getArrivedOrder() != null){
+            this.getArrivedOrder().store();
+            ConnectionHandler.getTheConnectionHandler().theAcceptDeliveryCommandFacade.arrivedOrderSet(this.getId(), getArrivedOrder());
         }
         if(this.getInvoker() != null){
             this.getInvoker().store();
@@ -84,18 +84,18 @@ public class AcceptDeliveryCommand extends PersistentObject implements Persisten
         
     }
     
-    public PersistentCustomerOrder getCustomerOrder() throws PersistenceException {
-        return this.customerOrder;
+    public PersistentArrivedOrder getArrivedOrder() throws PersistenceException {
+        return this.arrivedOrder;
     }
-    public void setCustomerOrder(PersistentCustomerOrder newValue) throws PersistenceException {
+    public void setArrivedOrder(PersistentArrivedOrder newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
-        if(newValue.isTheSameAs(this.customerOrder)) return;
+        if(newValue.isTheSameAs(this.arrivedOrder)) return;
         long objectId = newValue.getId();
         long classId = newValue.getClassId();
-        this.customerOrder = (PersistentCustomerOrder)PersistentProxi.createProxi(objectId, classId);
+        this.arrivedOrder = (PersistentArrivedOrder)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
-            ConnectionHandler.getTheConnectionHandler().theAcceptDeliveryCommandFacade.customerOrderSet(this.getId(), newValue);
+            ConnectionHandler.getTheConnectionHandler().theAcceptDeliveryCommandFacade.arrivedOrderSet(this.getId(), newValue);
         }
     }
     public Invoker getInvoker() throws PersistenceException {
@@ -112,15 +112,15 @@ public class AcceptDeliveryCommand extends PersistentObject implements Persisten
             ConnectionHandler.getTheConnectionHandler().theAcceptDeliveryCommandFacade.invokerSet(this.getId(), newValue);
         }
     }
-    public PersistentCustomerManager getCommandReceiver() throws PersistenceException {
+    public PersistentOrderManager getCommandReceiver() throws PersistenceException {
         return this.commandReceiver;
     }
-    public void setCommandReceiver(PersistentCustomerManager newValue) throws PersistenceException {
+    public void setCommandReceiver(PersistentOrderManager newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
         if(newValue.isTheSameAs(this.commandReceiver)) return;
         long objectId = newValue.getId();
         long classId = newValue.getClassId();
-        this.commandReceiver = (PersistentCustomerManager)PersistentProxi.createProxi(objectId, classId);
+        this.commandReceiver = (PersistentOrderManager)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
             ConnectionHandler.getTheConnectionHandler().theAcceptDeliveryCommandFacade.commandReceiverSet(this.getId(), newValue);
@@ -181,18 +181,6 @@ public class AcceptDeliveryCommand extends PersistentObject implements Persisten
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleAcceptDeliveryCommand(this);
     }
-    public void accept(CustomerManagerCommandVisitor visitor) throws PersistenceException {
-        visitor.handleAcceptDeliveryCommand(this);
-    }
-    public <R> R accept(CustomerManagerCommandReturnVisitor<R>  visitor) throws PersistenceException {
-         return visitor.handleAcceptDeliveryCommand(this);
-    }
-    public <E extends model.UserException>  void accept(CustomerManagerCommandExceptionVisitor<E> visitor) throws PersistenceException, E {
-         visitor.handleAcceptDeliveryCommand(this);
-    }
-    public <R, E extends model.UserException> R accept(CustomerManagerCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
-         return visitor.handleAcceptDeliveryCommand(this);
-    }
     public void accept(CommandVisitor visitor) throws PersistenceException {
         visitor.handleAcceptDeliveryCommand(this);
     }
@@ -205,8 +193,20 @@ public class AcceptDeliveryCommand extends PersistentObject implements Persisten
     public <R, E extends model.UserException> R accept(CommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleAcceptDeliveryCommand(this);
     }
+    public void accept(OrderManagerCommandVisitor visitor) throws PersistenceException {
+        visitor.handleAcceptDeliveryCommand(this);
+    }
+    public <R> R accept(OrderManagerCommandReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleAcceptDeliveryCommand(this);
+    }
+    public <E extends model.UserException>  void accept(OrderManagerCommandExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleAcceptDeliveryCommand(this);
+    }
+    public <R, E extends model.UserException> R accept(OrderManagerCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleAcceptDeliveryCommand(this);
+    }
     public int getLeafInfo() throws PersistenceException{
-        if (this.getCustomerOrder() != null) return 1;
+        if (this.getArrivedOrder() != null) return 1;
         if (this.getCommandReceiver() != null) return 1;
         return 0;
     }
@@ -222,7 +222,7 @@ public class AcceptDeliveryCommand extends PersistentObject implements Persisten
     }
     public void execute() 
 				throws PersistenceException{
-        this.commandReceiver.acceptDelivery(this.getCustomerOrder());
+        this.commandReceiver.acceptDelivery(this.getArrivedOrder());
 		
     }
     public Invoker fetchInvoker() 

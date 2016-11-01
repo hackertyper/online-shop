@@ -70,6 +70,9 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleCartService(PersistentCartService cartService) throws PersistenceException{
         this.handleService(cartService);
     }
+    public void handleOrderService(PersistentOrderService orderService) throws PersistenceException{
+        this.handleService(orderService);
+    }
     public void handleAccountService(PersistentAccountService accountService) throws PersistenceException{
         this.handleService(accountService);
     }
@@ -104,6 +107,9 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleRemoveFCartCommand(PersistentRemoveFCartCommand removeFCartCommand) throws PersistenceException{
         this.handleCommonDate(removeFCartCommand);
     }
+    public void handleRetoureDeliveryCommand(PersistentRetoureDeliveryCommand retoureDeliveryCommand) throws PersistenceException{
+        this.handleCommonDate(retoureDeliveryCommand);
+    }
     public void handleStartSellingCommand(PersistentStartSellingCommand startSellingCommand) throws PersistenceException{
         this.handleCommonDate(startSellingCommand);
     }
@@ -134,6 +140,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleDepositCommand(PersistentDepositCommand depositCommand) throws PersistenceException{
         this.handleCommonDate(depositCommand);
     }
+    public abstract void handleOrderManager(PersistentOrderManager orderManager) throws PersistenceException;
+    
     public abstract void handleCommandExecuter(PersistentCommandExecuter commandExecuter) throws PersistenceException;
     
     public abstract void handleCartManager(PersistentCartManager cartManager) throws PersistenceException;

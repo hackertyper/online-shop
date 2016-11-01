@@ -8,6 +8,8 @@ public interface DeliveryView extends Anything, AbstractViewRoot {
     
     public long getRemainingTimeToDelivery()throws ModelException;
     public void setRemainingTimeToDelivery(long newValue) throws ModelException ;
+    public java.util.Date getSendDate()throws ModelException;
+    public void setSendDate(java.util.Date newValue) throws ModelException ;
     
     public void accept(DeliveryVisitor visitor) throws ModelException;
     public <R> R accept(DeliveryReturnVisitor<R>  visitor) throws ModelException;

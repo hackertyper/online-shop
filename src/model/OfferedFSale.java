@@ -2,6 +2,9 @@
 package model;
 
 import persistence.*;
+
+import java.sql.Timestamp;
+
 import model.visitor.*;
 
 
@@ -259,7 +262,8 @@ public class OfferedFSale extends PersistentObject implements PersistentOfferedF
     }
     public void reorder(final long amount, final long manuDelivery) 
 				throws PersistenceException{
-        ShopKeeperOrder.createShopKeeperOrder(manuDelivery, getThis().getMyArticle(), amount).deliver();
+    	Timestamp ts = new Timestamp(System.currentTimeMillis());
+        ShopKeeperOrder.createShopKeeperOrder(manuDelivery, ts, getThis().getMyArticle(), amount).deliver();
     }
     
     

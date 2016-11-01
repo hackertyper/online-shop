@@ -134,10 +134,6 @@ public class AccountServiceICProxi extends CustomerServiceICProxi implements Per
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).updateObservers(event);
     }
-    public void acceptDelivery(final PersistentCustomerOrder customerOrder) 
-				throws PersistenceException{
-        ((PersistentAccountService)this.getTheObject()).acceptDelivery(customerOrder);
-    }
     public void connected(final String user) 
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).connected(user);

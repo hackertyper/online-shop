@@ -262,10 +262,6 @@ public class CustomerService extends model.Service implements PersistentCustomer
     
     // Start of section that contains operations that must be implemented.
     
-    public void acceptDelivery(final PersistentCustomerOrder customerOrder) 
-				throws PersistenceException{
-        customerOrder.acceptDelivery();
-    }
     public void connected(final String user) 
 				throws PersistenceException{
     }

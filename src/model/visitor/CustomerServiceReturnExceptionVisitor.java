@@ -7,6 +7,7 @@ public interface CustomerServiceReturnExceptionVisitor<R, E extends model.UserEx
     
     public R handleAccountService(PersistentAccountService accountService) throws PersistenceException, E;
     public R handleCartService(PersistentCartService cartService) throws PersistenceException, E;
+    public R handleOrderService(PersistentOrderService orderService) throws PersistenceException, E;
     public R handleShopService(PersistentShopService shopService) throws PersistenceException, E;
     public R handleCustomerService(PersistentCustomerService customerService) throws PersistenceException, E;
     

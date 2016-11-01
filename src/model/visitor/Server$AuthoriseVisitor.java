@@ -13,6 +13,8 @@ public abstract class Server$AuthoriseVisitor extends AnythingStandardVisitor{
     public abstract void handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException;
     public abstract void handleArticle(PersistentArticle article) throws PersistenceException;
     public abstract void handleOfferedFSale(PersistentOfferedFSale offeredFSale) throws PersistenceException;
+    public abstract void handleCustomerOrder(PersistentCustomerOrder customerOrder) throws PersistenceException;
+    public abstract void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException;
     public abstract void handleRegisterService(PersistentRegisterService registerService) throws PersistenceException;
     public abstract void handleOpenCart(PersistentOpenCart openCart) throws PersistenceException;
     public abstract void handleCustomerManager(PersistentCustomerManager customerManager) throws PersistenceException;
@@ -22,12 +24,15 @@ public abstract class Server$AuthoriseVisitor extends AnythingStandardVisitor{
     public abstract void handleShopManager(PersistentShopManager shopManager) throws PersistenceException;
     public abstract void handleCart(PersistentCart cart) throws PersistenceException;
     public abstract void handleQuantifiedArticles(PersistentQuantifiedArticles quantifiedArticles) throws PersistenceException;
+    public abstract void handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException;
     public abstract void handleRemovedFSale(PersistentRemovedFSale removedFSale) throws PersistenceException;
     public abstract void handleShopkeeperService(PersistentShopkeeperService shopkeeperService) throws PersistenceException;
     public abstract void handleCartService(PersistentCartService cartService) throws PersistenceException;
     public abstract void handleAccountManager(PersistentAccountManager accountManager) throws PersistenceException;
+    public abstract void handleOrderService(PersistentOrderService orderService) throws PersistenceException;
     public abstract void handleAccountService(PersistentAccountService accountService) throws PersistenceException;
     public abstract void handleCheckedOut(PersistentCheckedOut checkedOut) throws PersistenceException;
+    public abstract void handleOrderManager(PersistentOrderManager orderManager) throws PersistenceException;
     public abstract void handleCartManager(PersistentCartManager cartManager) throws PersistenceException;
     
 }

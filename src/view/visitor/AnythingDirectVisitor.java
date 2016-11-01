@@ -64,6 +64,9 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleCartService(CartServiceView cartService) throws ModelException{
         this.handleService(cartService);
     }
+    public void handleOrderService(OrderServiceView orderService) throws ModelException{
+        this.handleService(orderService);
+    }
     public void handleAccountService(AccountServiceView accountService) throws ModelException{
         this.handleService(accountService);
     }
@@ -82,6 +85,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleShopKeeperOrder(ShopKeeperOrderView shopKeeperOrder) throws ModelException{
         this.handleDelivery(shopKeeperOrder);
     }
+    public abstract void handleOrderManager(OrderManagerView orderManager) throws ModelException;
+    
     public abstract void handleCartManager(CartManagerView cartManager) throws ModelException;
     
     

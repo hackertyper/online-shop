@@ -25,6 +25,12 @@ public class CustomerOrderICProxi extends DeliveryICProxi implements PersistentC
     public CustomerOrder_ArticleListProxi getArticleList() throws PersistenceException {
         return ((PersistentCustomerOrder)this.getTheObject()).getArticleList();
     }
+    public PersistentOrderManager getOrdermngr() throws PersistenceException {
+        return ((PersistentCustomerOrder)this.getTheObject()).getOrdermngr();
+    }
+    public void setOrdermngr(PersistentOrderManager newValue) throws PersistenceException {
+        ((PersistentCustomerOrder)this.getTheObject()).setOrdermngr(newValue);
+    }
     public CustomerOrderState getMyState() throws PersistenceException {
         return ((PersistentCustomerOrder)this.getTheObject()).getMyState();
     }
@@ -89,10 +95,6 @@ public class CustomerOrderICProxi extends DeliveryICProxi implements PersistentC
 				throws PersistenceException{
         ((PersistentCustomerOrder)this.getTheObject()).updateObservers(event);
     }
-    public void acceptDelivery() 
-				throws PersistenceException{
-        ((PersistentCustomerOrder)this.getTheObject()).acceptDelivery();
-    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentCustomerOrder)this.getTheObject()).copyingPrivateUserAttributes(copy);
@@ -108,10 +110,6 @@ public class CustomerOrderICProxi extends DeliveryICProxi implements PersistentC
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         ((PersistentCustomerOrder)this.getTheObject()).initializeOnInstantiation();
-    }
-    public void retoure() 
-				throws PersistenceException{
-        ((PersistentCustomerOrder)this.getTheObject()).retoure();
     }
     public void send() 
 				throws PersistenceException{

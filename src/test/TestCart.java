@@ -1,6 +1,8 @@
 package test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -11,9 +13,10 @@ import org.junit.Test;
 
 import model.Article;
 import model.CartManager;
+import model.FirstCheckOut;
+import model.InsufficientFunds;
 import model.InsufficientStock;
 import model.Manufacturer;
-import model.OpenCart;
 import model.QuantifiedArticles;
 import persistence.PersistenceException;
 import persistence.PersistentArticle;
@@ -37,27 +40,27 @@ public class TestCart {
 		TestSupport.prepareDatabase();
 		cm = CartManager.createCartManager();
 		m1 = Manufacturer.createManufacturer("M1");
-		a1 = Article.createArticle("a1", m1, 100, 10, 150, 0);
+		a1 = Article.createArticle("A1", m1, 100, 10, 150, 0);
 		a1.setStock(100);
 		a1.addToCart(10, cm.getMyCart());
-		a2 = Article.createArticle("a2", m1, 20, 5, 60, 0);
+		a2 = Article.createArticle("A2", m1, 20, 5, 60, 0);
 		a2.setStock(34);
-		a3 = Article.createArticle("a3", m1, 18, 20, 100, 0);
+		a3 = Article.createArticle("A3", m1, 18, 20, 100, 0);
 		a3.setStock(40);
 	}
 
 	@Test
-	public void testCurrentSum() throws PersistenceException {
-		assertEquals(1000, cm.getMyCart().getCurrentSum());
+	public void testFetchCurrentSum() throws PersistenceException {
+		assertEquals(1000, cm.getMyCart().fetchCurrentSum());
 		a2.addToCart(5, cm.getMyCart());
-		assertEquals(1100, cm.getMyCart().getCurrentSum());
+		assertEquals(1100, cm.getMyCart().fetchCurrentSum());
 		a3.addToCart(22, cm.getMyCart());
-		assertEquals(1496, cm.getMyCart().getCurrentSum());
+		assertEquals(1496, cm.getMyCart().fetchCurrentSum());
 	}
 	
 	@Test
 	public void testAddToCart() throws PersistenceException {
-		testCurrentSum();
+		testFetchCurrentSum();
 		a1.addToCart(20, cm.getMyCart());
 		Map<PersistentArticle, PersistentQuantifiedArticles> expected = new HashMap<PersistentArticle, PersistentQuantifiedArticles>();
 		expected.put(a1, QuantifiedArticles.createQuantifiedArticles(a1, 30));
@@ -129,6 +132,7 @@ public class TestCart {
 		a1.addToCart(100, cm.getMyCart());
 		try {	
 			cm.checkOut();
+			fail("No expected exception occured");
 		} catch (InsufficientStock e) {
 			assertEquals(100, a1.getStock());
 			assertTrue(cm.getMyCart().getState() instanceof PersistentOpenCart);
@@ -156,6 +160,15 @@ public class TestCart {
 			cm.removeFCart(next);
 			assertEquals(100, a1.getStock());
 			assertTrue(cm.getMyCart().getState() instanceof PersistentOpenCart);
+		}
+	}
+
+	@Test
+	public void testOrderException() throws PersistenceException {
+		try {
+			cm.order();
+		} catch (FirstCheckOut | InsufficientFunds e) {
+			assertEquals(serverConstants.ErrorMessages.FirstCheckOut, e.getMessage());
 		}
 	}
 

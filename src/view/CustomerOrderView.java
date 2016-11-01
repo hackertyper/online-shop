@@ -6,6 +6,8 @@ public interface CustomerOrderView extends DeliveryView {
     
     public java.util.Vector<QuantifiedArticlesView> getArticleList()throws ModelException;
     public void setArticleList(java.util.Vector<QuantifiedArticlesView> newValue) throws ModelException ;
+    public OrderManagerView getOrdermngr()throws ModelException;
+    public void setOrdermngr(OrderManagerView newValue) throws ModelException ;
     public CustomerOrderState getMyState()throws ModelException;
     public void setMyState(CustomerOrderState newValue) throws ModelException ;
     

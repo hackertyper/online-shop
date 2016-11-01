@@ -313,7 +313,6 @@ public class AccountServiceClientView extends BorderPane implements ExceptionAnd
     interface MenuItemVisitor{
         ImageView handle(WithdrawPRMTRIntegerPRMTRMenuItem menuItem);
         ImageView handle(DepositPRMTRIntegerPRMTRMenuItem menuItem);
-        ImageView handle(AcceptDeliveryPRMTRCustomerOrderPRMTRMenuItem menuItem);
     }
     private abstract class AccountServiceMenuItem extends MenuItem{
         private AccountServiceMenuItem(){
@@ -327,11 +326,6 @@ public class AccountServiceClientView extends BorderPane implements ExceptionAnd
         }
     }
     private class DepositPRMTRIntegerPRMTRMenuItem extends AccountServiceMenuItem{
-        protected ImageView accept(MenuItemVisitor visitor){
-            return visitor.handle(this);
-        }
-    }
-    private class AcceptDeliveryPRMTRCustomerOrderPRMTRMenuItem extends AccountServiceMenuItem{
         protected ImageView accept(MenuItemVisitor visitor){
             return visitor.handle(this);
         }
@@ -390,29 +384,6 @@ public class AccountServiceClientView extends BorderPane implements ExceptionAnd
             } catch (ModelException me){
                 this.handleException(me);
                 return result;
-            }
-            if (selected instanceof CustomerOrderView){
-                item = new AcceptDeliveryPRMTRCustomerOrderPRMTRMenuItem();
-                item.setText("acceptDelivery");
-                item.setOnAction(new EventHandler<ActionEvent>(){
-                    public void handle(javafx.event.ActionEvent e) {
-                        Alert confirm = new Alert(AlertType.CONFIRMATION);
-                        confirm.setTitle(GUIConstants.ConfirmButtonText);
-                        confirm.setHeaderText(null);
-                        confirm.setContentText("acceptDelivery" + GUIConstants.ConfirmQuestionMark);
-                        Optional<ButtonType> buttonResult = confirm.showAndWait();
-                        if (buttonResult.get() == ButtonType.OK) {
-                            try {
-                                getConnection().acceptDelivery((CustomerOrderView)selected);
-                                getConnection().setEagerRefresh();
-                                
-                            }catch(ModelException me){
-                                handleException(me);
-                            }
-                        }
-                    }
-                });
-                result.getItems().add(item);
             }
             
         }

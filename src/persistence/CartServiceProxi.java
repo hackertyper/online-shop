@@ -130,10 +130,6 @@ public class CartServiceProxi extends CustomerServiceProxi implements Persistent
 				throws PersistenceException{
         ((PersistentCartService)this.getTheObject()).updateObservers(event);
     }
-    public void acceptDelivery(final PersistentCustomerOrder customerOrder) 
-				throws PersistenceException{
-        ((PersistentCartService)this.getTheObject()).acceptDelivery(customerOrder);
-    }
     public void addToCart(final PersistentArticle article, final long amount) 
 				throws PersistenceException{
         ((PersistentCartService)this.getTheObject()).addToCart(article, amount);

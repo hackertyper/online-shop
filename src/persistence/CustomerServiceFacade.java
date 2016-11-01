@@ -63,6 +63,16 @@ public class CustomerServiceFacade{
                 }
             }
         }
+        candidates = Cache.getTheCache().iterator(-223);
+        while (candidates.hasNext()){
+            PersistentCustomerService current = (PersistentCustomerService)((PersistentRoot)candidates.next()).getTheObject();
+            if (current != null && !current.isDltd() && !current.isDelayed$Persistence() && current.getManager() != null){
+                if (current.getManager().getClassId() == classId && current.getManager().getId() == objectId) {
+                    PersistentCustomerService proxi = (PersistentCustomerService)PersistentProxi.createProxi(current.getId(), current.getClassId());
+                    result.add((PersistentCustomerService)proxi.getThis());
+                }
+            }
+        }
         candidates = Cache.getTheCache().iterator(-189);
         while (candidates.hasNext()){
             PersistentCustomerService current = (PersistentCustomerService)((PersistentRoot)candidates.next()).getTheObject();

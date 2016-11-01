@@ -306,12 +306,15 @@ public class Cache {
 		this.number2NameMap.put(110, "OfferedFSale");
 		this.number2NameMap.put(216, "OpenCart");
 		this.number2NameMap.put(104, "OrderCommand");
+		this.number2NameMap.put(224, "OrderManager");
+		this.number2NameMap.put(-223, "OrderService");
 		this.number2NameMap.put(102, "ProductGroup");
 		this.number2NameMap.put(124, "QuantifiedArticles");
 		this.number2NameMap.put(-115, "RegisterService");
 		this.number2NameMap.put(215, "RemoveFCartCommand");
 		this.number2NameMap.put(132, "RemovedFSale");
 		this.number2NameMap.put(134, "Retoure");
+		this.number2NameMap.put(225, "RetoureDeliveryCommand");
 		this.number2NameMap.put(126, "SendOrder");
 		this.number2NameMap.put(-105, "Server");
 		this.number2NameMap.put(130, "ShopKeeperOrder");

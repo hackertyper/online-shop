@@ -34,16 +34,6 @@ public  class RemoteAccountService extends RemoteCustomerService {
         }
     }
     
-    public synchronized java.util.HashMap<?,?> acceptDelivery(String customerOrderProxiString){
-        try {
-            PersistentCustomerOrder customerOrder = (PersistentCustomerOrder)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(customerOrderProxiString));
-            ((PersistentAccountService)this.server).acceptDelivery(customerOrder);
-            return createOKResult();
-        }catch(PersistenceException pe){
-            return createExceptionResult(pe);
-        }
-    }
-    
     public synchronized java.util.HashMap<?,?> deposit(String amountAsString){
         try {
             long amount = new Long(amountAsString).longValue();

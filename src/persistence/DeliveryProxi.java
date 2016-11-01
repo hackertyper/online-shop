@@ -18,6 +18,12 @@ public abstract class DeliveryProxi extends PersistentProxi implements Persisten
     public void setRemainingTimeToDelivery(long newValue) throws PersistenceException {
         ((PersistentDelivery)this.getTheObject()).setRemainingTimeToDelivery(newValue);
     }
+    public java.sql.Timestamp getSendDate() throws PersistenceException {
+        return ((PersistentDelivery)this.getTheObject()).getSendDate();
+    }
+    public void setSendDate(java.sql.Timestamp newValue) throws PersistenceException {
+        ((PersistentDelivery)this.getTheObject()).setSendDate(newValue);
+    }
     public SubjInterface getSubService() throws PersistenceException {
         return ((PersistentDelivery)this.getTheObject()).getSubService();
     }

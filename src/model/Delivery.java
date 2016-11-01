@@ -19,6 +19,7 @@ public abstract class Delivery extends PersistentObject implements PersistentDel
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
             result.put("remainingTimeToDelivery", new Long(this.getRemainingTimeToDelivery()).toString());
+            result.put("sendDate", this.getSendDate());
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
         }
@@ -31,13 +32,15 @@ public abstract class Delivery extends PersistentObject implements PersistentDel
         return false;
     }
     protected long remainingTimeToDelivery;
+    protected java.sql.Timestamp sendDate;
     protected SubjInterface subService;
     protected PersistentDelivery This;
     
-    public Delivery(long remainingTimeToDelivery,SubjInterface subService,PersistentDelivery This,long id) throws PersistenceException {
+    public Delivery(long remainingTimeToDelivery,java.sql.Timestamp sendDate,SubjInterface subService,PersistentDelivery This,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.remainingTimeToDelivery = remainingTimeToDelivery;
+        this.sendDate = sendDate;
         this.subService = subService;
         if (This != null && !(this.isTheSameAs(This))) this.This = This;        
     }
@@ -70,6 +73,13 @@ public abstract class Delivery extends PersistentObject implements PersistentDel
     public void setRemainingTimeToDelivery(long newValue) throws PersistenceException {
         if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theDeliveryFacade.remainingTimeToDeliverySet(this.getId(), newValue);
         this.remainingTimeToDelivery = newValue;
+    }
+    public java.sql.Timestamp getSendDate() throws PersistenceException {
+        return this.sendDate;
+    }
+    public void setSendDate(java.sql.Timestamp newValue) throws PersistenceException {
+        if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theDeliveryFacade.sendDateSet(this.getId(), newValue);
+        this.sendDate = newValue;
     }
     public SubjInterface getSubService() throws PersistenceException {
         return this.subService;
@@ -109,6 +119,7 @@ public abstract class Delivery extends PersistentObject implements PersistentDel
         this.setThis((PersistentDelivery)This);
 		if(this.isTheSameAs(This)){
 			this.setRemainingTimeToDelivery((Long)final$$Fields.get("remainingTimeToDelivery"));
+			this.setSendDate((java.sql.Timestamp)final$$Fields.get("sendDate"));
 		}
     }
     

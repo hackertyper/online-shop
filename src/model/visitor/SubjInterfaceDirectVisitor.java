@@ -34,6 +34,9 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     public void handleCartService(PersistentCartService cartService) throws PersistenceException{
         this.handleService(cartService);
     }
+    public void handleOrderService(PersistentOrderService orderService) throws PersistenceException{
+        this.handleService(orderService);
+    }
     public void handleAccountService(PersistentAccountService accountService) throws PersistenceException{
         this.handleService(accountService);
     }
@@ -80,6 +83,8 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     public void handleShopKeeperOrder(PersistentShopKeeperOrder shopKeeperOrder) throws PersistenceException{
         this.handleDelivery(shopKeeperOrder);
     }
+    public abstract void handleOrderManager(PersistentOrderManager orderManager) throws PersistenceException;
+    
     public abstract void handleCart(PersistentCart cart) throws PersistenceException;
     
     public abstract void handleQuantifiedArticles(PersistentQuantifiedArticles quantifiedArticles) throws PersistenceException;

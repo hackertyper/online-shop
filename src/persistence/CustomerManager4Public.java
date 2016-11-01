@@ -15,8 +15,6 @@ public interface CustomerManager4Public extends Anything, SubjInterface, Abstrac
     public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E;
     public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     
-    public void acceptDelivery(final PersistentCustomerOrder customerOrder, final Invoker invoker) 
-				throws PersistenceException;
     public void deposit(final long amount, final Invoker invoker) 
 				throws PersistenceException;
     public void findArticle(final String description, final Invoker invoker) 
@@ -25,7 +23,7 @@ public interface CustomerManager4Public extends Anything, SubjInterface, Abstrac
 				throws PersistenceException;
     public void withdraw(final long amount, final Invoker invoker) 
 				throws PersistenceException;
-    public void acceptDelivery(final PersistentCustomerOrder customerOrder) 
+    public void addOrder(final PersistentCustomerOrder order) 
 				throws PersistenceException;
     public void addToCart(final PersistentArticle article, final long amount) 
 				throws PersistenceException;
@@ -40,7 +38,7 @@ public interface CustomerManager4Public extends Anything, SubjInterface, Abstrac
     public void initializeOnInstantiation() 
 				throws PersistenceException;
     public void pay(final long sum) 
-				throws PersistenceException;
+				throws model.InsufficientFunds, PersistenceException;
     public void withdraw(final long amount) 
 				throws model.InsufficientFunds, PersistenceException;
 

@@ -38,7 +38,7 @@ public interface Cart4Public extends Anything, SubjInterface, AbstractPersistent
     public void initializeOnInstantiation() 
 				throws PersistenceException;
     public void order() 
-				throws PersistenceException;
+				throws model.FirstCheckOut, model.InsufficientFunds, PersistenceException;
     public void removeArticle(final PersistentQuantifiedArticles article) 
 				throws PersistenceException;
 

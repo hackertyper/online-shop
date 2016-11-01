@@ -15,6 +15,9 @@ public abstract class ServiceDirectVisitor implements ServiceVisitor {
     public void handleCartService(PersistentCartService cartService) throws PersistenceException{
         this.handleCustomerService(cartService);
     }
+    public void handleOrderService(PersistentOrderService orderService) throws PersistenceException{
+        this.handleCustomerService(orderService);
+    }
     public void handleAccountService(PersistentAccountService accountService) throws PersistenceException{
         this.handleCustomerService(accountService);
     }

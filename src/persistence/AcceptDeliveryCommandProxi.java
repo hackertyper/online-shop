@@ -18,11 +18,11 @@ public class AcceptDeliveryCommandProxi extends PersistentProxi implements Persi
         return 198;
     }
     
-    public PersistentCustomerOrder getCustomerOrder() throws PersistenceException {
-        return ((PersistentAcceptDeliveryCommand)this.getTheObject()).getCustomerOrder();
+    public PersistentArrivedOrder getArrivedOrder() throws PersistenceException {
+        return ((PersistentAcceptDeliveryCommand)this.getTheObject()).getArrivedOrder();
     }
-    public void setCustomerOrder(PersistentCustomerOrder newValue) throws PersistenceException {
-        ((PersistentAcceptDeliveryCommand)this.getTheObject()).setCustomerOrder(newValue);
+    public void setArrivedOrder(PersistentArrivedOrder newValue) throws PersistenceException {
+        ((PersistentAcceptDeliveryCommand)this.getTheObject()).setArrivedOrder(newValue);
     }
     public Invoker getInvoker() throws PersistenceException {
         return ((PersistentAcceptDeliveryCommand)this.getTheObject()).getInvoker();
@@ -30,10 +30,10 @@ public class AcceptDeliveryCommandProxi extends PersistentProxi implements Persi
     public void setInvoker(Invoker newValue) throws PersistenceException {
         ((PersistentAcceptDeliveryCommand)this.getTheObject()).setInvoker(newValue);
     }
-    public PersistentCustomerManager getCommandReceiver() throws PersistenceException {
+    public PersistentOrderManager getCommandReceiver() throws PersistenceException {
         return ((PersistentAcceptDeliveryCommand)this.getTheObject()).getCommandReceiver();
     }
-    public void setCommandReceiver(PersistentCustomerManager newValue) throws PersistenceException {
+    public void setCommandReceiver(PersistentOrderManager newValue) throws PersistenceException {
         ((PersistentAcceptDeliveryCommand)this.getTheObject()).setCommandReceiver(newValue);
     }
     public PersistentCommonDate getMyCommonDate() throws PersistenceException {
@@ -79,18 +79,6 @@ public class AcceptDeliveryCommandProxi extends PersistentProxi implements Persi
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleAcceptDeliveryCommand(this);
     }
-    public void accept(CustomerManagerCommandVisitor visitor) throws PersistenceException {
-        visitor.handleAcceptDeliveryCommand(this);
-    }
-    public <R> R accept(CustomerManagerCommandReturnVisitor<R>  visitor) throws PersistenceException {
-         return visitor.handleAcceptDeliveryCommand(this);
-    }
-    public <E extends model.UserException>  void accept(CustomerManagerCommandExceptionVisitor<E> visitor) throws PersistenceException, E {
-         visitor.handleAcceptDeliveryCommand(this);
-    }
-    public <R, E extends model.UserException> R accept(CustomerManagerCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
-         return visitor.handleAcceptDeliveryCommand(this);
-    }
     public void accept(CommandVisitor visitor) throws PersistenceException {
         visitor.handleAcceptDeliveryCommand(this);
     }
@@ -101,6 +89,18 @@ public class AcceptDeliveryCommandProxi extends PersistentProxi implements Persi
          visitor.handleAcceptDeliveryCommand(this);
     }
     public <R, E extends model.UserException> R accept(CommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleAcceptDeliveryCommand(this);
+    }
+    public void accept(OrderManagerCommandVisitor visitor) throws PersistenceException {
+        visitor.handleAcceptDeliveryCommand(this);
+    }
+    public <R> R accept(OrderManagerCommandReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleAcceptDeliveryCommand(this);
+    }
+    public <E extends model.UserException>  void accept(OrderManagerCommandExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleAcceptDeliveryCommand(this);
+    }
+    public <R, E extends model.UserException> R accept(OrderManagerCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleAcceptDeliveryCommand(this);
     }
     

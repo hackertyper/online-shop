@@ -86,11 +86,17 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     public void handleAccountManager(PersistentAccountManager accountManager) throws PersistenceException{
         this.standardHandling(accountManager);
     }
+    public void handleOrderService(PersistentOrderService orderService) throws PersistenceException{
+        this.standardHandling(orderService);
+    }
     public void handleAccountService(PersistentAccountService accountService) throws PersistenceException{
         this.standardHandling(accountService);
     }
     public void handleCheckedOut(PersistentCheckedOut checkedOut) throws PersistenceException{
         this.standardHandling(checkedOut);
+    }
+    public void handleOrderManager(PersistentOrderManager orderManager) throws PersistenceException{
+        this.standardHandling(orderManager);
     }
     public void handleCartManager(PersistentCartManager cartManager) throws PersistenceException{
         this.standardHandling(cartManager);

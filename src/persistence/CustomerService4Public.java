@@ -35,8 +35,6 @@ public interface CustomerService4Public extends Service4Public {
 				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
-    public void acceptDelivery(final PersistentCustomerOrder customerOrder) 
-				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
     public void initializeOnCreation() 

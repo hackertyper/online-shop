@@ -15,6 +15,9 @@ public abstract class ServiceDirectVisitor implements ServiceVisitor {
     public void handleCartService(CartServiceView cartService) throws ModelException{
         this.handleCustomerService(cartService);
     }
+    public void handleOrderService(OrderServiceView orderService) throws ModelException{
+        this.handleCustomerService(orderService);
+    }
     public void handleAccountService(AccountServiceView accountService) throws ModelException{
         this.handleCustomerService(accountService);
     }

@@ -57,8 +57,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	}
 	@Override
 	public void handleManufacturer(PersistentManufacturer manufacturer) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		result = manufacturer.getName();
 	}
 	@Override
 	public void handleNewlyAdded(PersistentNewlyAdded newlyAdded) throws PersistenceException {
@@ -74,31 +73,21 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 		// TODO Auto-generated method stub
 		
 	}
+	@SuppressWarnings("deprecation")
 	@Override
 	public void handleCustomerOrder(PersistentCustomerOrder customerOrder) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		result = customerOrder.getSendDate().getDate() + ". " + customerOrder.getSendDate().getMonth() + " " + customerOrder.getSendDate().getHours() + ":" + customerOrder.getSendDate().getMinutes();
 	}
 	@Override
 	public void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		result = "Bestellung vom: " + arrivedOrder.getCustomerOrder() + " Annehmen bis: " + arrivedOrder.getTimtToAccept();
 	}
 	@Override
-	public void handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
-	}
+	public void handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException {}
 	@Override
-	public void handleShopKeeperOrder(PersistentShopKeeperOrder shopKeeperOrder) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
-	}
+	public void handleShopKeeperOrder(PersistentShopKeeperOrder shopKeeperOrder) throws PersistenceException {}
 	@Override
-	public void handleRetoure(PersistentRetoure retoure) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
-	}
+	public void handleRetoure(PersistentRetoure retoure) throws PersistenceException {}
 	@Override
 	public void handleShopService(PersistentShopService shopService) throws PersistenceException {}
 	@Override
@@ -122,15 +111,13 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleShopkeeperService(PersistentShopkeeperService shopkeeperService) throws PersistenceException {}
 	@Override
-	public void handleOpenCart(PersistentOpenCart openCart) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
-	}
+	public void handleOpenCart(PersistentOpenCart openCart) throws PersistenceException {}
 	@Override
-	public void handleCheckedOut(PersistentCheckedOut checkedOut) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
-	}
+	public void handleCheckedOut(PersistentCheckedOut checkedOut) throws PersistenceException {}
+	@Override
+	public void handleOrderService(PersistentOrderService orderService) throws PersistenceException {}
+	@Override
+	public void handleOrderManager(PersistentOrderManager orderManager) throws PersistenceException {}
 	
 
 }

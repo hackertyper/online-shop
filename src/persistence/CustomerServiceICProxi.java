@@ -133,10 +133,6 @@ public class CustomerServiceICProxi extends ServiceICProxi implements Persistent
 				throws PersistenceException{
         ((PersistentCustomerService)this.getTheObject()).updateObservers(event);
     }
-    public void acceptDelivery(final PersistentCustomerOrder customerOrder) 
-				throws PersistenceException{
-        ((PersistentCustomerService)this.getTheObject()).acceptDelivery(customerOrder);
-    }
     public void connected(final String user) 
 				throws PersistenceException{
         ((PersistentCustomerService)this.getTheObject()).connected(user);

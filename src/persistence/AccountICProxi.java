@@ -107,7 +107,7 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
         ((PersistentAccount)this.getTheObject()).initializeOnInstantiation();
     }
     public void pay(final long sum) 
-				throws PersistenceException{
+				throws model.InsufficientFunds, PersistenceException{
         ((PersistentAccount)this.getTheObject()).pay(sum);
     }
     public void withdraw(final long amount) 

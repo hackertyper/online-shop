@@ -96,6 +96,10 @@ public class ArrivedOrderProxi extends PersistentProxi implements PersistentArri
 				throws PersistenceException{
         ((PersistentArrivedOrder)this.getTheObject()).acceptDelivery();
     }
+    public void arrived() 
+				throws PersistenceException{
+        ((PersistentArrivedOrder)this.getTheObject()).arrived();
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentArrivedOrder)this.getTheObject()).copyingPrivateUserAttributes(copy);

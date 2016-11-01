@@ -15,6 +15,7 @@ public interface AnythingVisitor extends CartStateVisitor,DeliveryVisitor,ItemVi
     public void handleManufacturer(ManufacturerView manufacturer) throws ModelException;
     public void handleNewlyAdded(NewlyAddedView newlyAdded) throws ModelException;
     public void handleOfferedFSale(OfferedFSaleView offeredFSale) throws ModelException;
+    public void handleOrderManager(OrderManagerView orderManager) throws ModelException;
     public void handleQuantifiedArticles(QuantifiedArticlesView quantifiedArticles) throws ModelException;
     public void handleRemovedFSale(RemovedFSaleView removedFSale) throws ModelException;
     public void handleSendOrder(SendOrderView sendOrder) throws ModelException;

@@ -33,7 +33,7 @@ import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
-
+import persistence.PersistentCustomerOrder;
 
 import com.sun.javafx.geom.Point2D;
 
@@ -55,7 +55,6 @@ public class CustomerServiceClientView extends BorderPane implements ExceptionAn
 		this.service = service;
 		this.initialize();
 	}
-	@SuppressWarnings("unused")
 	private CustomerServiceView getService(){
 		return this.service;
 	}
@@ -63,13 +62,7 @@ public class CustomerServiceClientView extends BorderPane implements ExceptionAn
 	private TabPane getTabs() {
 		if(this.tabs == null) {
 			this.tabs = new TabPane();
-			this.tabs.getTabs().addAll(getTabShop(), getTabAccount(), getTabCart());
-			this.tabs.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
-				@Override
-				public void changed(ObservableValue<? extends Tab> observable, Tab oldTab, Tab newTab) {
-					
-				}
-			});
+			this.tabs.getTabs().addAll(getTabShop(), getTabAccount(), getTabCart(), getTabOrder());
 		}
 		return this.tabs;
 	}
@@ -100,9 +93,19 @@ public class CustomerServiceClientView extends BorderPane implements ExceptionAn
 		}
 		return this.tabCart;
 	}
+	private Tab tabOrder = null;
+	private Tab getTabOrder() {
+		if(this.tabOrder == null) {
+			this.tabOrder = new Tab();
+			this.tabOrder.setText("Bestellungen");
+			this.tabOrder.setClosable(false);
+		}
+		return this.tabOrder;
+	}
 	private void initialize() {
         this.setCenter( this.getTabs());
 	}
+	
 	private SplitPane navigationSplitPane = null;
 	private SplitPane getNavigationSplitPane(){
 		if( this.navigationSplitPane == null ){
@@ -348,6 +351,18 @@ public class CustomerServiceClientView extends BorderPane implements ExceptionAn
 					public void handleRegisterService(RegisterServiceView registerService) throws ModelException {}
 					@Override
 					public void handleShopkeeperService(ShopkeeperServiceView shopkeeperService) throws ModelException {}
+					@Override
+					public void handleOrderService(OrderServiceView orderService) throws ModelException {
+						OrderServiceClientView view = new OrderServiceClientView(CustomerServiceClientView.this, orderService);
+						orderService.connectOrderService(CustomerServiceClientView.this.getConnection(), view);
+						CustomerServiceClientView.this.getTabOrder().setOnSelectionChanged(new EventHandler<Event>() {
+							@Override
+							public void handle(Event event) {
+								view.handleRefresh();
+							}
+						});
+						CustomerServiceClientView.this.getTabOrder().setContent(view);
+					}
 				});
 				
 			}
@@ -372,18 +387,13 @@ public class CustomerServiceClientView extends BorderPane implements ExceptionAn
 
 
     interface MenuItemVisitor{
-        ImageView handle(AcceptDeliveryPRMTRCustomerOrderPRMTRMenuItem menuItem);
+        
     }
     private abstract class CustomerServiceMenuItem extends MenuItem{
         private CustomerServiceMenuItem(){
             this.setGraphic(getIconForMenuItem(this));
         }
         abstract protected ImageView accept(MenuItemVisitor visitor);
-    }
-    private class AcceptDeliveryPRMTRCustomerOrderPRMTRMenuItem extends CustomerServiceMenuItem{
-        protected ImageView accept(MenuItemVisitor visitor){
-            return visitor.handle(this);
-        }
     }
     private java.util.Vector<javafx.scene.control.Button> getToolButtonsForStaticOperations() {
         java.util.Vector<javafx.scene.control.Button> result = new java.util.Vector<javafx.scene.control.Button>();
@@ -398,29 +408,6 @@ public class CustomerServiceClientView extends BorderPane implements ExceptionAn
             } catch (ModelException me){
                 this.handleException(me);
                 return result;
-            }
-            if (selected instanceof CustomerOrderView){
-                item = new AcceptDeliveryPRMTRCustomerOrderPRMTRMenuItem();
-                item.setText("acceptDelivery");
-                item.setOnAction(new EventHandler<ActionEvent>(){
-                    public void handle(javafx.event.ActionEvent e) {
-                        Alert confirm = new Alert(AlertType.CONFIRMATION);
-                        confirm.setTitle(GUIConstants.ConfirmButtonText);
-                        confirm.setHeaderText(null);
-                        confirm.setContentText("acceptDelivery" + GUIConstants.ConfirmQuestionMark);
-                        Optional<ButtonType> buttonResult = confirm.showAndWait();
-                        if (buttonResult.get() == ButtonType.OK) {
-                            try {
-                                getConnection().acceptDelivery((CustomerOrderView)selected);
-                                getConnection().setEagerRefresh();
-                                
-                            }catch(ModelException me){
-                                handleException(me);
-                            }
-                        }
-                    }
-                });
-                result.getItems().add(item);
             }
             
         }

@@ -14,6 +14,9 @@ public abstract class UserExceptionStandardVisitor implements UserExceptionVisit
     public void handleCycleException(model.CycleException cycleException) throws PersistenceException{
         this.standardHandling(cycleException);
     }
+    public void handleFirstCheckOut(model.FirstCheckOut firstCheckOut) throws PersistenceException{
+        this.standardHandling(firstCheckOut);
+    }
     public void handleRestrictionException(model.RestrictionException restrictionException) throws PersistenceException{
         this.standardHandling(restrictionException);
     }

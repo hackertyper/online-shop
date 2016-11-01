@@ -27,6 +27,7 @@ public class ServiceFacade{
     public long getClass(long objectId) throws PersistenceException{
         if(Cache.getTheCache().contains(objectId, -185)) return -185;
         if(Cache.getTheCache().contains(objectId, -187)) return -187;
+        if(Cache.getTheCache().contains(objectId, -223)) return -223;
         if(Cache.getTheCache().contains(objectId, -189)) return -189;
         if(Cache.getTheCache().contains(objectId, -103)) return -103;
         if(Cache.getTheCache().contains(objectId, -115)) return -115;

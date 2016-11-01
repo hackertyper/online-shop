@@ -75,6 +75,7 @@ public class CustomerManager extends PersistentObject implements PersistentCusto
         result = new CustomerManager(this.shopMngr, 
                                      this.accMngr, 
                                      this.cartMngr, 
+                                     this.orderMngr, 
                                      this.subService, 
                                      this.This, 
                                      this.getId());
@@ -88,15 +89,17 @@ public class CustomerManager extends PersistentObject implements PersistentCusto
     protected PersistentShopManager shopMngr;
     protected PersistentAccountManager accMngr;
     protected PersistentCartManager cartMngr;
+    protected PersistentOrderManager orderMngr;
     protected SubjInterface subService;
     protected PersistentCustomerManager This;
     
-    public CustomerManager(PersistentShopManager shopMngr,PersistentAccountManager accMngr,PersistentCartManager cartMngr,SubjInterface subService,PersistentCustomerManager This,long id) throws PersistenceException {
+    public CustomerManager(PersistentShopManager shopMngr,PersistentAccountManager accMngr,PersistentCartManager cartMngr,PersistentOrderManager orderMngr,SubjInterface subService,PersistentCustomerManager This,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.shopMngr = shopMngr;
         this.accMngr = accMngr;
         this.cartMngr = cartMngr;
+        this.orderMngr = orderMngr;
         this.subService = subService;
         if (This != null && !(this.isTheSameAs(This))) this.This = This;        
     }
@@ -125,6 +128,10 @@ public class CustomerManager extends PersistentObject implements PersistentCusto
         if(this.getCartMngr() != null){
             this.getCartMngr().store();
             ConnectionHandler.getTheConnectionHandler().theCustomerManagerFacade.cartMngrSet(this.getId(), getCartMngr());
+        }
+        if(this.getOrderMngr() != null){
+            this.getOrderMngr().store();
+            ConnectionHandler.getTheConnectionHandler().theCustomerManagerFacade.orderMngrSet(this.getId(), getOrderMngr());
         }
         if(this.getSubService() != null){
             this.getSubService().store();
@@ -177,6 +184,20 @@ public class CustomerManager extends PersistentObject implements PersistentCusto
         if(!this.isDelayed$Persistence()){
             newValue.store();
             ConnectionHandler.getTheConnectionHandler().theCustomerManagerFacade.cartMngrSet(this.getId(), newValue);
+        }
+    }
+    public PersistentOrderManager getOrderMngr() throws PersistenceException {
+        return this.orderMngr;
+    }
+    public void setOrderMngr(PersistentOrderManager newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.isTheSameAs(this.orderMngr)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.orderMngr = (PersistentOrderManager)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theCustomerManagerFacade.orderMngrSet(this.getId(), newValue);
         }
     }
     public SubjInterface getSubService() throws PersistenceException {
@@ -245,15 +266,6 @@ public class CustomerManager extends PersistentObject implements PersistentCusto
     }
     
     
-    public void acceptDelivery(final PersistentCustomerOrder customerOrder, final Invoker invoker) 
-				throws PersistenceException{
-        java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
-		PersistentAcceptDeliveryCommand command = model.meta.AcceptDeliveryCommand.createAcceptDeliveryCommand(now, now);
-		command.setCustomerOrder(customerOrder);
-		command.setInvoker(invoker);
-		command.setCommandReceiver(getThis());
-		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
-    }
     public void deposit(final long amount, final Invoker invoker) 
 				throws PersistenceException{
         java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
@@ -326,10 +338,9 @@ public class CustomerManager extends PersistentObject implements PersistentCusto
     
     // Start of section that contains operations that must be implemented.
     
-    public void acceptDelivery(final PersistentCustomerOrder customerOrder) 
+    public void addOrder(final PersistentCustomerOrder order) 
 				throws PersistenceException{
-        //TODO: implement method: acceptDelivery
-        
+        getThis().getOrderMngr().addOrder(order);
     }
     public void addToCart(final PersistentArticle article, final long amount) 
 				throws PersistenceException{
@@ -352,14 +363,14 @@ public class CustomerManager extends PersistentObject implements PersistentCusto
         getThis().setShopMngr(ShopManager.createShopManager());
         getThis().setAccMngr(AccountManager.createAccountManager());
         getThis().setCartMngr(CartManager.createCartManager());
+        getThis().setOrderMngr(OrderManager.createOrderManager());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
     }
     public void pay(final long sum) 
-				throws PersistenceException{
-        //TODO: implement method: pay
-        
+				throws model.InsufficientFunds, PersistenceException{
+        getThis().getAccMngr().pay(sum);
     }
     public void withdraw(final long amount) 
 				throws model.InsufficientFunds, PersistenceException{

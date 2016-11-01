@@ -29,6 +29,8 @@ public interface CartManager4Public extends Anything, SubjInterface, AbstractPer
 				throws PersistenceException;
     public void addArticle(final PersistentArticle article, final long amount) 
 				throws PersistenceException;
+    public void addOrder(final PersistentCustomerOrder order) 
+				throws PersistenceException;
     public void addToCart(final PersistentArticle article, final long amount) 
 				throws PersistenceException;
     public void changeAmount(final PersistentQuantifiedArticles article, final long newAmount) 
@@ -42,7 +44,7 @@ public interface CartManager4Public extends Anything, SubjInterface, AbstractPer
     public void initializeOnInstantiation() 
 				throws PersistenceException;
     public void order() 
-				throws PersistenceException;
+				throws model.FirstCheckOut, model.InsufficientFunds, PersistenceException;
     public void removeFCart(final PersistentQuantifiedArticles article) 
 				throws PersistenceException;
 

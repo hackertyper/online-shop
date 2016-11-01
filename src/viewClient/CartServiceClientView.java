@@ -315,7 +315,6 @@ public class CartServiceClientView extends BorderPane implements ExceptionAndEve
         ImageView handle(OrderPRMTRMenuItem menuItem);
         ImageView handle(RemoveFCartPRMTRQuantifiedArticlesPRMTRMenuItem menuItem);
         ImageView handle(CheckOutPRMTRMenuItem menuItem);
-        ImageView handle(AcceptDeliveryPRMTRCustomerOrderPRMTRMenuItem menuItem);
     }
     private abstract class CartServiceMenuItem extends MenuItem{
         private CartServiceMenuItem(){
@@ -339,11 +338,6 @@ public class CartServiceClientView extends BorderPane implements ExceptionAndEve
         }
     }
     private class CheckOutPRMTRMenuItem extends CartServiceMenuItem{
-        protected ImageView accept(MenuItemVisitor visitor){
-            return visitor.handle(this);
-        }
-    }
-    private class AcceptDeliveryPRMTRCustomerOrderPRMTRMenuItem extends CartServiceMenuItem{
         protected ImageView accept(MenuItemVisitor visitor){
             return visitor.handle(this);
         }
@@ -446,29 +440,6 @@ public class CartServiceClientView extends BorderPane implements ExceptionAndEve
             } catch (ModelException me){
                 this.handleException(me);
                 return result;
-            }
-            if (selected instanceof CustomerOrderView){
-                item = new AcceptDeliveryPRMTRCustomerOrderPRMTRMenuItem();
-                item.setText("acceptDelivery");
-                item.setOnAction(new EventHandler<ActionEvent>(){
-                    public void handle(javafx.event.ActionEvent e) {
-                        Alert confirm = new Alert(AlertType.CONFIRMATION);
-                        confirm.setTitle(GUIConstants.ConfirmButtonText);
-                        confirm.setHeaderText(null);
-                        confirm.setContentText("acceptDelivery" + GUIConstants.ConfirmQuestionMark);
-                        Optional<ButtonType> buttonResult = confirm.showAndWait();
-                        if (buttonResult.get() == ButtonType.OK) {
-                            try {
-                                getConnection().acceptDelivery((CustomerOrderView)selected);
-                                getConnection().setEagerRefresh();
-                                
-                            }catch(ModelException me){
-                                handleException(me);
-                            }
-                        }
-                    }
-                });
-                result.getItems().add(item);
             }
             if (selected instanceof QuantifiedArticlesView){
                 item = new ChangeAmountPRMTRQuantifiedArticlesPRMTRIntegerPRMTRMenuItem();

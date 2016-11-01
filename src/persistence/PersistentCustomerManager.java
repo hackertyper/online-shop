@@ -9,6 +9,8 @@ public interface PersistentCustomerManager extends Anything, SubjInterface, Abst
     public void setAccMngr(PersistentAccountManager newValue) throws PersistenceException ;
     public PersistentCartManager getCartMngr() throws PersistenceException ;
     public void setCartMngr(PersistentCartManager newValue) throws PersistenceException ;
+    public PersistentOrderManager getOrderMngr() throws PersistenceException ;
+    public void setOrderMngr(PersistentOrderManager newValue) throws PersistenceException ;
     public SubjInterface getSubService() throws PersistenceException ;
     public void setSubService(SubjInterface newValue) throws PersistenceException ;
     public PersistentCustomerManager getThis() throws PersistenceException ;

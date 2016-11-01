@@ -30,9 +30,11 @@ public interface AnythingReturnExceptionVisitor<R, E extends model.UserException
     public R handleNewlyAdded(PersistentNewlyAdded newlyAdded) throws PersistenceException, E;
     public R handleOfferedFSale(PersistentOfferedFSale offeredFSale) throws PersistenceException, E;
     public R handleOrderCommand(PersistentOrderCommand orderCommand) throws PersistenceException, E;
+    public R handleOrderManager(PersistentOrderManager orderManager) throws PersistenceException, E;
     public R handleQuantifiedArticles(PersistentQuantifiedArticles quantifiedArticles) throws PersistenceException, E;
     public R handleRemoveFCartCommand(PersistentRemoveFCartCommand removeFCartCommand) throws PersistenceException, E;
     public R handleRemovedFSale(PersistentRemovedFSale removedFSale) throws PersistenceException, E;
+    public R handleRetoureDeliveryCommand(PersistentRetoureDeliveryCommand retoureDeliveryCommand) throws PersistenceException, E;
     public R handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException, E;
     public R handleServer(PersistentServer server) throws PersistenceException, E;
     public R handleShopManager(PersistentShopManager shopManager) throws PersistenceException, E;

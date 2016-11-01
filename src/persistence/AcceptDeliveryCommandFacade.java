@@ -49,13 +49,13 @@ public class AcceptDeliveryCommandFacade{
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         
     }
-    public void customerOrderSet(long AcceptDeliveryCommandId, PersistentCustomerOrder customerOrderVal) throws PersistenceException {
+    public void arrivedOrderSet(long AcceptDeliveryCommandId, PersistentArrivedOrder arrivedOrderVal) throws PersistenceException {
         
     }
     public void invokerSet(long AcceptDeliveryCommandId, Invoker invokerVal) throws PersistenceException {
         
     }
-    public void commandReceiverSet(long AcceptDeliveryCommandId, PersistentCustomerManager commandReceiverVal) throws PersistenceException {
+    public void commandReceiverSet(long AcceptDeliveryCommandId, PersistentOrderManager commandReceiverVal) throws PersistenceException {
         
     }
     public void myCommonDateSet(long AcceptDeliveryCommandId, PersistentCommonDate myCommonDateVal) throws PersistenceException {

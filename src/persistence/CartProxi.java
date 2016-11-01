@@ -127,7 +127,7 @@ public class CartProxi extends PersistentProxi implements PersistentCart{
         ((PersistentCart)this.getTheObject()).initializeOnInstantiation();
     }
     public void order() 
-				throws PersistenceException{
+				throws model.FirstCheckOut, model.InsufficientFunds, PersistenceException{
         ((PersistentCart)this.getTheObject()).order();
     }
     public void removeArticle(final PersistentQuantifiedArticles article) 

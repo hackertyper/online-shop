@@ -12,6 +12,7 @@ public interface SubjInterfaceExceptionVisitor<E extends model.UserException> ex
     public void handleCustomerManager(PersistentCustomerManager customerManager) throws PersistenceException, E;
     public void handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException, E;
     public void handleManufacturer(PersistentManufacturer manufacturer) throws PersistenceException, E;
+    public void handleOrderManager(PersistentOrderManager orderManager) throws PersistenceException, E;
     public void handleQuantifiedArticles(PersistentQuantifiedArticles quantifiedArticles) throws PersistenceException, E;
     public void handleServer(PersistentServer server) throws PersistenceException, E;
     public void handleShopManager(PersistentShopManager shopManager) throws PersistenceException, E;

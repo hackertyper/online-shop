@@ -359,6 +359,12 @@ public class Article extends model.Item implements PersistentArticle{
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }
+    /**
+     * Reverses the reservation of an article.
+     * @see {@link #reserve(long) reserve }
+     * 
+     * @param amount - amount which was reserved and is freed.
+     */
     public void deleteReserve(final long amount) 
 				throws PersistenceException{
     	getThis().setStock(getThis().getStock() + amount);
@@ -372,6 +378,9 @@ public class Article extends model.Item implements PersistentArticle{
 				throws PersistenceException{
         super.initializeOnInstantiation();
     }
+    /**
+     * Models the packing of the articles. Causes {@link OfferedFSale#reorder(long, long) reorder} if stock < minimum.
+     */
     public void pack(final long amount) 
 				throws PersistenceException{
         if(getThis().getStock() < getThis().getMinStock()) {
@@ -388,9 +397,15 @@ public class Article extends model.Item implements PersistentArticle{
 			});
         }
     }
+    /**
+     * Reserves a given amount of this article through reducing the stock.
+     * 
+     * @param amount - the amount by which the stock should be reduced
+     * @throws InsufficientStock if amount > stock
+     */
     public void reserve(final long amount) 
 				throws model.InsufficientStock, PersistenceException{
-    	if(amount > getThis().getStock() || getThis().getStock() - amount < getThis().getMinStock()) {
+    	if(amount > getThis().getStock()) {
     		throw new InsufficientStock(serverConstants.ErrorMessages.InsufficientStock);
     	}
     	getThis().setStock(getThis().getStock() - amount);

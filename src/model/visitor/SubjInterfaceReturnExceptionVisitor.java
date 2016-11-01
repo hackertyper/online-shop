@@ -12,6 +12,7 @@ public interface SubjInterfaceReturnExceptionVisitor<R, E extends model.UserExce
     public R handleCustomerManager(PersistentCustomerManager customerManager) throws PersistenceException, E;
     public R handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException, E;
     public R handleManufacturer(PersistentManufacturer manufacturer) throws PersistenceException, E;
+    public R handleOrderManager(PersistentOrderManager orderManager) throws PersistenceException, E;
     public R handleQuantifiedArticles(PersistentQuantifiedArticles quantifiedArticles) throws PersistenceException, E;
     public R handleServer(PersistentServer server) throws PersistenceException, E;
     public R handleShopManager(PersistentShopManager shopManager) throws PersistenceException, E;

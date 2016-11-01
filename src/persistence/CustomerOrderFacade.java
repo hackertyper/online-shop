@@ -10,17 +10,17 @@ public class CustomerOrderFacade{
 	}
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
-    public PersistentCustomerOrder newCustomerOrder(long remainingTimeToDelivery,long idCreateIfLessZero) throws PersistenceException {
+    public PersistentCustomerOrder newCustomerOrder(long remainingTimeToDelivery,java.sql.Timestamp sendDate,long idCreateIfLessZero) throws PersistenceException {
         if(idCreateIfLessZero > 0) return (PersistentCustomerOrder)PersistentProxi.createProxi(idCreateIfLessZero, 111);
         long id = ConnectionHandler.getTheConnectionHandler().theDeliveryFacade.getNextId();
-        CustomerOrder result = new CustomerOrder(remainingTimeToDelivery,null,null,null,id);
+        CustomerOrder result = new CustomerOrder(remainingTimeToDelivery,sendDate,null,null,null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentCustomerOrder)PersistentProxi.createProxi(id, 111);
     }
     
-    public PersistentCustomerOrder newDelayedCustomerOrder(long remainingTimeToDelivery) throws PersistenceException {
+    public PersistentCustomerOrder newDelayedCustomerOrder(long remainingTimeToDelivery,java.sql.Timestamp sendDate) throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theDeliveryFacade.getNextId();
-        CustomerOrder result = new CustomerOrder(remainingTimeToDelivery,null,null,null,id);
+        CustomerOrder result = new CustomerOrder(remainingTimeToDelivery,sendDate,null,null,null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentCustomerOrder)PersistentProxi.createProxi(id, 111);
     }
@@ -36,6 +36,9 @@ public class CustomerOrderFacade{
     }
     public QuantifiedArticlesList articleListGet(long CustomerOrderId) throws PersistenceException {
         return new QuantifiedArticlesList(); // remote access for initialization only!
+    }
+    public void ordermngrSet(long CustomerOrderId, PersistentOrderManager ordermngrVal) throws PersistenceException {
+        
     }
     public void myStateSet(long CustomerOrderId, CustomerOrderState myStateVal) throws PersistenceException {
         

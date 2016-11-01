@@ -17,6 +17,7 @@ public interface CommonDateVisitor {
     public void handleFindArticleCommand(PersistentFindArticleCommand findArticleCommand) throws PersistenceException;
     public void handleOrderCommand(PersistentOrderCommand orderCommand) throws PersistenceException;
     public void handleRemoveFCartCommand(PersistentRemoveFCartCommand removeFCartCommand) throws PersistenceException;
+    public void handleRetoureDeliveryCommand(PersistentRetoureDeliveryCommand retoureDeliveryCommand) throws PersistenceException;
     public void handleStartSellingCommand(PersistentStartSellingCommand startSellingCommand) throws PersistenceException;
     public void handleWithdrawCommand(PersistentWithdrawCommand withdrawCommand) throws PersistenceException;
     public void handleCommonDate(PersistentCommonDate commonDate) throws PersistenceException;

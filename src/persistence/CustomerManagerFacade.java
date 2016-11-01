@@ -28,14 +28,14 @@ public class CustomerManagerFacade{
     public PersistentCustomerManager newCustomerManager(long idCreateIfLessZero) throws PersistenceException {
         if(idCreateIfLessZero > 0) return (PersistentCustomerManager)PersistentProxi.createProxi(idCreateIfLessZero, 184);
         long id = ConnectionHandler.getTheConnectionHandler().theCustomerManagerFacade.getNextId();
-        CustomerManager result = new CustomerManager(null,null,null,null,null,id);
+        CustomerManager result = new CustomerManager(null,null,null,null,null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentCustomerManager)PersistentProxi.createProxi(id, 184);
     }
     
     public PersistentCustomerManager newDelayedCustomerManager() throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theCustomerManagerFacade.getNextId();
-        CustomerManager result = new CustomerManager(null,null,null,null,null,id);
+        CustomerManager result = new CustomerManager(null,null,null,null,null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentCustomerManager)PersistentProxi.createProxi(id, 184);
     }
@@ -56,6 +56,9 @@ public class CustomerManagerFacade{
         
     }
     public void cartMngrSet(long CustomerManagerId, PersistentCartManager cartMngrVal) throws PersistenceException {
+        
+    }
+    public void orderMngrSet(long CustomerManagerId, PersistentOrderManager orderMngrVal) throws PersistenceException {
         
     }
     public void subServiceSet(long CustomerManagerId, SubjInterface subServiceVal) throws PersistenceException {
@@ -102,6 +105,21 @@ public class CustomerManagerFacade{
             PersistentCustomerManager current = (PersistentCustomerManager)((PersistentRoot)candidates.next()).getTheObject();
             if (current != null && !current.isDltd() && !current.isDelayed$Persistence() && current.getCartMngr() != null){
                 if (current.getCartMngr().getClassId() == classId && current.getCartMngr().getId() == objectId) {
+                    PersistentCustomerManager proxi = (PersistentCustomerManager)PersistentProxi.createProxi(current.getId(), current.getClassId());
+                    result.add((PersistentCustomerManager)proxi.getThis());
+                }
+            }
+        }
+        return result;
+    }
+    public CustomerManagerSearchList inverseGetOrderMngr(long objectId, long classId)throws PersistenceException{
+        CustomerManagerSearchList result = new CustomerManagerSearchList();
+        java.util.Iterator<PersistentInCacheProxi> candidates;
+        candidates = Cache.getTheCache().iterator(184);
+        while (candidates.hasNext()){
+            PersistentCustomerManager current = (PersistentCustomerManager)((PersistentRoot)candidates.next()).getTheObject();
+            if (current != null && !current.isDltd() && !current.isDelayed$Persistence() && current.getOrderMngr() != null){
+                if (current.getOrderMngr().getClassId() == classId && current.getOrderMngr().getId() == objectId) {
                     PersistentCustomerManager proxi = (PersistentCustomerManager)PersistentProxi.createProxi(current.getId(), current.getClassId());
                     result.add((PersistentCustomerManager)proxi.getThis());
                 }

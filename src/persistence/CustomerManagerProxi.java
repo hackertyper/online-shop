@@ -36,6 +36,12 @@ public class CustomerManagerProxi extends PersistentProxi implements PersistentC
     public void setCartMngr(PersistentCartManager newValue) throws PersistenceException {
         ((PersistentCustomerManager)this.getTheObject()).setCartMngr(newValue);
     }
+    public PersistentOrderManager getOrderMngr() throws PersistenceException {
+        return ((PersistentCustomerManager)this.getTheObject()).getOrderMngr();
+    }
+    public void setOrderMngr(PersistentOrderManager newValue) throws PersistenceException {
+        ((PersistentCustomerManager)this.getTheObject()).setOrderMngr(newValue);
+    }
     public SubjInterface getSubService() throws PersistenceException {
         return ((PersistentCustomerManager)this.getTheObject()).getSubService();
     }
@@ -72,10 +78,6 @@ public class CustomerManagerProxi extends PersistentProxi implements PersistentC
     }
     
     
-    public void acceptDelivery(final PersistentCustomerOrder customerOrder, final Invoker invoker) 
-				throws PersistenceException{
-        ((PersistentCustomerManager)this.getTheObject()).acceptDelivery(customerOrder, invoker);
-    }
     public void deposit(final long amount, final Invoker invoker) 
 				throws PersistenceException{
         ((PersistentCustomerManager)this.getTheObject()).deposit(amount, invoker);
@@ -108,9 +110,9 @@ public class CustomerManagerProxi extends PersistentProxi implements PersistentC
 				throws PersistenceException{
         ((PersistentCustomerManager)this.getTheObject()).withdraw(amount, invoker);
     }
-    public void acceptDelivery(final PersistentCustomerOrder customerOrder) 
+    public void addOrder(final PersistentCustomerOrder order) 
 				throws PersistenceException{
-        ((PersistentCustomerManager)this.getTheObject()).acceptDelivery(customerOrder);
+        ((PersistentCustomerManager)this.getTheObject()).addOrder(order);
     }
     public void addToCart(final PersistentArticle article, final long amount) 
 				throws PersistenceException{
@@ -137,7 +139,7 @@ public class CustomerManagerProxi extends PersistentProxi implements PersistentC
         ((PersistentCustomerManager)this.getTheObject()).initializeOnInstantiation();
     }
     public void pay(final long sum) 
-				throws PersistenceException{
+				throws model.InsufficientFunds, PersistenceException{
         ((PersistentCustomerManager)this.getTheObject()).pay(sum);
     }
     public void withdraw(final long amount) 

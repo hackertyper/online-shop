@@ -24,6 +24,9 @@ public abstract class InvokerDirectVisitor implements InvokerVisitor {
     public void handleCartService(PersistentCartService cartService) throws PersistenceException{
         this.handleService(cartService);
     }
+    public void handleOrderService(PersistentOrderService orderService) throws PersistenceException{
+        this.handleService(orderService);
+    }
     public void handleAccountService(PersistentAccountService accountService) throws PersistenceException{
         this.handleService(accountService);
     }

@@ -356,6 +356,10 @@ public class CartManager extends PersistentObject implements PersistentCartManag
 				throws PersistenceException{
         getThis().getMyCart().addArticle(QuantifiedArticles.createQuantifiedArticles(article, amount));
     }
+    public void addOrder(final PersistentCustomerOrder order) 
+				throws PersistenceException{
+        getThis().getCustomerManager().addOrder(order);
+    }
     public void addToCart(final PersistentArticle article, final long amount) 
 				throws PersistenceException{
         getThis().getMyCartServer().addToCart(article, amount);
@@ -383,9 +387,16 @@ public class CartManager extends PersistentObject implements PersistentCartManag
 				throws PersistenceException{
     }
     public void order() 
-				throws PersistenceException{
-        //TODO: implement method: order
-        
+				throws model.FirstCheckOut, model.InsufficientFunds, PersistenceException{
+        getThis().getMyCart().order();
+        getThis().setMyCart(Cart.createCart(OpenCart.getTheOpenCart()));
+        // empty the article list
+        getThis().getArticleList().filter(new Predcate<PersistentQuantifiedArticles>() {
+			@Override
+			public boolean test(PersistentQuantifiedArticles argument) throws PersistenceException {
+				return false;
+			}
+		});
     }
     public void removeFCart(final PersistentQuantifiedArticles article) 
 				throws PersistenceException{

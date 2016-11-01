@@ -23,6 +23,8 @@ public interface ArrivedOrder4Public extends CustomerOrderState, Anything, Abstr
 				throws PersistenceException;
     public void acceptDelivery() 
 				throws PersistenceException;
+    public void arrived() 
+				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
     public void initializeOnCreation() 

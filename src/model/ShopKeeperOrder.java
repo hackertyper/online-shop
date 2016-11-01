@@ -10,22 +10,23 @@ import model.visitor.*;
 public class ShopKeeperOrder extends model.Delivery implements PersistentShopKeeperOrder{
     
     
-    public static PersistentShopKeeperOrder createShopKeeperOrder(long remainingTimeToDelivery,PersistentArticle article,long amount) throws PersistenceException{
-        return createShopKeeperOrder(remainingTimeToDelivery,article,amount,false);
+    public static PersistentShopKeeperOrder createShopKeeperOrder(long remainingTimeToDelivery,java.sql.Timestamp sendDate,PersistentArticle article,long amount) throws PersistenceException{
+        return createShopKeeperOrder(remainingTimeToDelivery,sendDate,article,amount,false);
     }
     
-    public static PersistentShopKeeperOrder createShopKeeperOrder(long remainingTimeToDelivery,PersistentArticle article,long amount,boolean delayed$Persistence) throws PersistenceException {
+    public static PersistentShopKeeperOrder createShopKeeperOrder(long remainingTimeToDelivery,java.sql.Timestamp sendDate,PersistentArticle article,long amount,boolean delayed$Persistence) throws PersistenceException {
         PersistentShopKeeperOrder result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theShopKeeperOrderFacade
-                .newDelayedShopKeeperOrder(remainingTimeToDelivery,amount);
+                .newDelayedShopKeeperOrder(remainingTimeToDelivery,sendDate,amount);
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theShopKeeperOrderFacade
-                .newShopKeeperOrder(remainingTimeToDelivery,amount,-1);
+                .newShopKeeperOrder(remainingTimeToDelivery,sendDate,amount,-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         final$$Fields.put("remainingTimeToDelivery", remainingTimeToDelivery);
+        final$$Fields.put("sendDate", sendDate);
         final$$Fields.put("article", article);
         final$$Fields.put("amount", amount);
         result.initialize(result, final$$Fields);
@@ -33,18 +34,19 @@ public class ShopKeeperOrder extends model.Delivery implements PersistentShopKee
         return result;
     }
     
-    public static PersistentShopKeeperOrder createShopKeeperOrder(long remainingTimeToDelivery,PersistentArticle article,long amount,boolean delayed$Persistence,PersistentShopKeeperOrder This) throws PersistenceException {
+    public static PersistentShopKeeperOrder createShopKeeperOrder(long remainingTimeToDelivery,java.sql.Timestamp sendDate,PersistentArticle article,long amount,boolean delayed$Persistence,PersistentShopKeeperOrder This) throws PersistenceException {
         PersistentShopKeeperOrder result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theShopKeeperOrderFacade
-                .newDelayedShopKeeperOrder(remainingTimeToDelivery,amount);
+                .newDelayedShopKeeperOrder(remainingTimeToDelivery,sendDate,amount);
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theShopKeeperOrderFacade
-                .newShopKeeperOrder(remainingTimeToDelivery,amount,-1);
+                .newShopKeeperOrder(remainingTimeToDelivery,sendDate,amount,-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         final$$Fields.put("remainingTimeToDelivery", remainingTimeToDelivery);
+        final$$Fields.put("sendDate", sendDate);
         final$$Fields.put("article", article);
         final$$Fields.put("amount", amount);
         result.initialize(This, final$$Fields);
@@ -75,6 +77,7 @@ public class ShopKeeperOrder extends model.Delivery implements PersistentShopKee
     public ShopKeeperOrder provideCopy() throws PersistenceException{
         ShopKeeperOrder result = this;
         result = new ShopKeeperOrder(this.remainingTimeToDelivery, 
+                                     this.sendDate, 
                                      this.subService, 
                                      this.This, 
                                      this.article, 
@@ -90,9 +93,9 @@ public class ShopKeeperOrder extends model.Delivery implements PersistentShopKee
     protected PersistentArticle article;
     protected long amount;
     
-    public ShopKeeperOrder(long remainingTimeToDelivery,SubjInterface subService,PersistentDelivery This,PersistentArticle article,long amount,long id) throws PersistenceException {
+    public ShopKeeperOrder(long remainingTimeToDelivery,java.sql.Timestamp sendDate,SubjInterface subService,PersistentDelivery This,PersistentArticle article,long amount,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((long)remainingTimeToDelivery,(SubjInterface)subService,(PersistentDelivery)This,id);
+        super((long)remainingTimeToDelivery,(java.sql.Timestamp)sendDate,(SubjInterface)subService,(PersistentDelivery)This,id);
         this.article = article;
         this.amount = amount;        
     }
@@ -108,7 +111,7 @@ public class ShopKeeperOrder extends model.Delivery implements PersistentShopKee
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
         if (this.getClassId() == 130) ConnectionHandler.getTheConnectionHandler().theShopKeeperOrderFacade
-            .newShopKeeperOrder(remainingTimeToDelivery,amount,this.getId());
+            .newShopKeeperOrder(remainingTimeToDelivery,sendDate,amount,this.getId());
         super.store();
         if(this.getArticle() != null){
             this.getArticle().store();
@@ -202,6 +205,7 @@ public class ShopKeeperOrder extends model.Delivery implements PersistentShopKee
         this.setThis((PersistentShopKeeperOrder)This);
 		if(this.isTheSameAs(This)){
 			this.setRemainingTimeToDelivery((Long)final$$Fields.get("remainingTimeToDelivery"));
+			this.setSendDate((java.sql.Timestamp)final$$Fields.get("sendDate"));
 			this.setArticle((PersistentArticle)final$$Fields.get("article"));
 			this.setAmount((Long)final$$Fields.get("amount"));
 		}

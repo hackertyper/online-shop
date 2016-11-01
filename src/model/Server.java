@@ -410,6 +410,7 @@ public class Server extends PersistentObject implements PersistentServer{
         cs.getServices().add(ShopService.createShopService(cm));
         cs.getServices().add(CartService.createCartService(cm));
         cs.getServices().add(AccountService.createAccountService(cm));
+        cs.getServices().add(OrderService.createOrderService(cm));
     	getThis().setService(cs);
     }
     public void initializeOnInstantiation() 

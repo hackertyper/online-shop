@@ -14,6 +14,9 @@ public abstract class CustomerServiceStandardVisitor implements CustomerServiceV
     public void handleCartService(PersistentCartService cartService) throws PersistenceException{
         this.standardHandling(cartService);
     }
+    public void handleOrderService(PersistentOrderService orderService) throws PersistenceException{
+        this.standardHandling(orderService);
+    }
     public void handleAccountService(PersistentAccountService accountService) throws PersistenceException{
         this.standardHandling(accountService);
     }
