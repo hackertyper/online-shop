@@ -307,8 +307,6 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
-        
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
