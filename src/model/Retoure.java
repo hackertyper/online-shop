@@ -198,23 +198,20 @@ public class Retoure extends model.Delivery implements PersistentRetoure{
     }
     public void deliver() 
 				throws PersistenceException{
-        //TODO: implement method: deliver
-        
+    	getThis().getArticleList().applyToAll(new Procdure<PersistentQuantifiedArticles>() {
+			@Override
+			public void doItTo(PersistentQuantifiedArticles argument) throws PersistenceException {
+				argument.getArticle().receiveDelivery(argument.getAmount());
+			}
+		});
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
         super.initializeOnCreation();
-		//TODO: implement method: initializeOnCreation
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         super.initializeOnInstantiation();
-		//TODO: implement method: initializeOnInstantiation
-    }
-    public void send() 
-				throws PersistenceException{
-        //TODO: implement method: send
-        
     }
     
     

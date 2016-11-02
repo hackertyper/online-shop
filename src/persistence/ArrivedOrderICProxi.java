@@ -22,11 +22,11 @@ public class ArrivedOrderICProxi extends PersistentInCacheProxiOptimistic implem
         return 112;
     }
     
-    public long getTimtToAccept() throws PersistenceException {
-        return ((PersistentArrivedOrder)this.getTheObject()).getTimtToAccept();
+    public long getTimeToAccept() throws PersistenceException {
+        return ((PersistentArrivedOrder)this.getTheObject()).getTimeToAccept();
     }
-    public void setTimtToAccept(long newValue) throws PersistenceException {
-        ((PersistentArrivedOrder)this.getTheObject()).setTimtToAccept(newValue);
+    public void setTimeToAccept(long newValue) throws PersistenceException {
+        ((PersistentArrivedOrder)this.getTheObject()).setTimeToAccept(newValue);
     }
     public SubjInterface getSubService() throws PersistenceException {
         return ((PersistentArrivedOrder)this.getTheObject()).getSubService();
@@ -80,10 +80,6 @@ public class ArrivedOrderICProxi extends PersistentInCacheProxiOptimistic implem
 				throws PersistenceException{
         ((PersistentArrivedOrder)this.getTheObject()).deregister(observee);
     }
-    public PersistentCustomerOrder getCustomerOrder() 
-				throws PersistenceException{
-        return ((PersistentArrivedOrder)this.getTheObject()).getCustomerOrder();
-    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentArrivedOrder)this.getTheObject()).initialize(This, final$$Fields);
@@ -95,10 +91,6 @@ public class ArrivedOrderICProxi extends PersistentInCacheProxiOptimistic implem
     public void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentArrivedOrder)this.getTheObject()).updateObservers(event);
-    }
-    public void acceptDelivery() 
-				throws PersistenceException{
-        ((PersistentArrivedOrder)this.getTheObject()).acceptDelivery();
     }
     public void arrived() 
 				throws PersistenceException{

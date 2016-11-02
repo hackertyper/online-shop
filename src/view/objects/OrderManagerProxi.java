@@ -13,10 +13,8 @@ public class OrderManagerProxi extends ViewProxi implements OrderManagerView{
     
     @SuppressWarnings("unchecked")
     public OrderManagerView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
-        java.util.Vector<String> allOrders_string = (java.util.Vector<String>)resultTable.get("allOrders");
-        java.util.Vector<CustomerOrderView> allOrders = ViewProxi.getProxiVector(allOrders_string, connectionKey);
         java.util.Vector<String> orders_string = (java.util.Vector<String>)resultTable.get("orders");
-        java.util.Vector<ArrivedOrderView> orders = ViewProxi.getProxiVector(orders_string, connectionKey);
+        java.util.Vector<CustomerOrderView> orders = ViewProxi.getProxiVector(orders_string, connectionKey);
         ViewProxi customerManager = null;
         String customerManager$String = (String)resultTable.get("customerManager");
         if (customerManager$String != null) {
@@ -31,7 +29,7 @@ public class OrderManagerProxi extends ViewProxi implements OrderManagerView{
             myOrderServer = view.objects.ViewProxi.createProxi(myOrderServer$Info,connectionKey);
             myOrderServer.setToString(myOrderServer$Info.getToString());
         }
-        OrderManagerView result$$ = new OrderManager(allOrders,orders,(CustomerManagerView)customerManager,(OrderServiceView)myOrderServer, this.getId(), this.getClassId());
+        OrderManagerView result$$ = new OrderManager(orders,(CustomerManagerView)customerManager,(OrderServiceView)myOrderServer, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -64,16 +62,10 @@ public class OrderManagerProxi extends ViewProxi implements OrderManagerView{
         return -1;
     }
     
-    public java.util.Vector<CustomerOrderView> getAllOrders()throws ModelException{
-        return ((OrderManager)this.getTheObject()).getAllOrders();
-    }
-    public void setAllOrders(java.util.Vector<CustomerOrderView> newValue) throws ModelException {
-        ((OrderManager)this.getTheObject()).setAllOrders(newValue);
-    }
-    public java.util.Vector<ArrivedOrderView> getOrders()throws ModelException{
+    public java.util.Vector<CustomerOrderView> getOrders()throws ModelException{
         return ((OrderManager)this.getTheObject()).getOrders();
     }
-    public void setOrders(java.util.Vector<ArrivedOrderView> newValue) throws ModelException {
+    public void setOrders(java.util.Vector<CustomerOrderView> newValue) throws ModelException {
         ((OrderManager)this.getTheObject()).setOrders(newValue);
     }
     public CustomerManagerView getCustomerManager()throws ModelException{

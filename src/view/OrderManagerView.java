@@ -6,10 +6,8 @@ import view.visitor.*;
 
 public interface OrderManagerView extends Anything, AbstractViewRoot {
     
-    public java.util.Vector<CustomerOrderView> getAllOrders()throws ModelException;
-    public void setAllOrders(java.util.Vector<CustomerOrderView> newValue) throws ModelException ;
-    public java.util.Vector<ArrivedOrderView> getOrders()throws ModelException;
-    public void setOrders(java.util.Vector<ArrivedOrderView> newValue) throws ModelException ;
+    public java.util.Vector<CustomerOrderView> getOrders()throws ModelException;
+    public void setOrders(java.util.Vector<CustomerOrderView> newValue) throws ModelException ;
     public CustomerManagerView getCustomerManager()throws ModelException;
     public OrderServiceView getMyOrderServer()throws ModelException;
     

@@ -170,6 +170,10 @@ public class ArticleProxi extends ItemProxi implements PersistentArticle{
 				throws PersistenceException{
         ((PersistentArticle)this.getTheObject()).pack(amount);
     }
+    public void receiveDelivery(final long amount) 
+				throws PersistenceException{
+        ((PersistentArticle)this.getTheObject()).receiveDelivery(amount);
+    }
     public void reserve(final long amount) 
 				throws model.InsufficientStock, PersistenceException{
         ((PersistentArticle)this.getTheObject()).reserve(amount);

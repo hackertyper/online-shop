@@ -49,23 +49,14 @@ public class OrderManagerFacade{
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         
     }
-    public long allOrdersAdd(long OrderManagerId, PersistentCustomerOrder allOrdersVal) throws PersistenceException {
-        return 0;
-    }
-    public void allOrdersRem(long allOrdersId) throws PersistenceException {
-        
-    }
-    public CustomerOrderList allOrdersGet(long OrderManagerId) throws PersistenceException {
-        return new CustomerOrderList(); // remote access for initialization only!
-    }
-    public long ordersAdd(long OrderManagerId, PersistentArrivedOrder ordersVal) throws PersistenceException {
+    public long ordersAdd(long OrderManagerId, PersistentCustomerOrder ordersVal) throws PersistenceException {
         return 0;
     }
     public void ordersRem(long ordersId) throws PersistenceException {
         
     }
-    public ArrivedOrderList ordersGet(long OrderManagerId) throws PersistenceException {
-        return new ArrivedOrderList(); // remote access for initialization only!
+    public CustomerOrderList ordersGet(long OrderManagerId) throws PersistenceException {
+        return new CustomerOrderList(); // remote access for initialization only!
     }
     public void subServiceSet(long OrderManagerId, SubjInterface subServiceVal) throws PersistenceException {
         

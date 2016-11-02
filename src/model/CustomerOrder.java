@@ -209,8 +209,6 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
          return visitor.handleCustomerOrder(this);
     }
     public int getLeafInfo() throws PersistenceException{
-        if (this.getOrdermngr() != null && this.getOrdermngr().getTheObject().getLeafInfo() != 0) return 1;
-        if (this.getMyState() != null && this.getMyState().getTheObject().getLeafInfo() != 0) return 1;
         if (this.getArticleList().getLength() > 0) return 1;
         return 0;
     }
@@ -273,11 +271,16 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
 				throws PersistenceException{
         super.initializeOnInstantiation();
     }
-    public void send() 
+    public void retoure(final QuantifiedArticlesSearchList list) 
 				throws PersistenceException{
-    	if(getThis().getRemainingTimeToDelivery() == 0) {
-    		getThis().deliver();
-    	}
+        getThis().getMyState().accept(new CustomerOrderStateVisitor() {
+			@Override
+			public void handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException {}
+			@Override
+			public void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException {
+				arrivedOrder.retoure(list);
+			}
+		});
     }
     
     

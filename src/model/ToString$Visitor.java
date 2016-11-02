@@ -76,11 +76,12 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@SuppressWarnings("deprecation")
 	@Override
 	public void handleCustomerOrder(PersistentCustomerOrder customerOrder) throws PersistenceException {
-		result = customerOrder.getSendDate().getDate() + ". " + customerOrder.getSendDate().getMonth() + " " + customerOrder.getSendDate().getHours() + ":" + customerOrder.getSendDate().getMinutes();
+		result = "Bestellung vom: " + customerOrder.getSendDate().getDate() + "." + customerOrder.getSendDate().getMonth() + ". " + customerOrder.getSendDate().getHours() + ":" + customerOrder.getSendDate().getMinutes()
+				+ customerOrder.getMyState();
 	}
 	@Override
 	public void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException {
-		result = "Bestellung vom: " + arrivedOrder.getCustomerOrder() + " Annehmen bis: " + arrivedOrder.getTimtToAccept();
+		result = " Annehmen bis: " + arrivedOrder.getTimeToAccept();
 	}
 	@Override
 	public void handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException {}

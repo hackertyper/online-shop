@@ -194,17 +194,6 @@ public class SendOrder extends PersistentObject implements PersistentSendOrder{
 		}
 		subService.deregister(observee);
     }
-    public PersistentCustomerOrder getCustomerOrder() 
-				throws PersistenceException{
-        CustomerOrderSearchList result = null;
-		if (result == null) result = ConnectionHandler.getTheConnectionHandler().theCustomerOrderFacade
-										.inverseGetMyState(getThis().getId(), getThis().getClassId());
-		try {
-			return result.iterator().next();
-		} catch (java.util.NoSuchElementException nsee){
-			return null;
-		}
-    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentSendOrder)This);

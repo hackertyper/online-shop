@@ -232,7 +232,7 @@ public class OrderService extends model.CustomerService implements PersistentOrd
     
     public void acceptDelivery(final PersistentCustomerOrder customerOrder) 
 				throws PersistenceException{
-        getThis().getOrderMngr().acceptDelivery((PersistentArrivedOrder) customerOrder, getThis());
+        getThis().getOrderMngr().acceptDelivery(customerOrder, getThis());
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
@@ -248,7 +248,7 @@ public class OrderService extends model.CustomerService implements PersistentOrd
     }
     public void retoureDelivery(final PersistentCustomerOrder customerOrder, final QuantifiedArticlesSearchList list) 
 				throws PersistenceException{
-        getThis().getOrderMngr().retoureDelivery((PersistentArrivedOrder) customerOrder, list, getThis());
+        getThis().getOrderMngr().retoureDelivery(customerOrder, list, getThis());
     }
     
     

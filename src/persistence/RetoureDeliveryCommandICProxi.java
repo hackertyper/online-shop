@@ -22,10 +22,10 @@ public class RetoureDeliveryCommandICProxi extends PersistentInCacheProxi implem
         return 225;
     }
     
-    public PersistentArrivedOrder getArrivedOrder() throws PersistenceException {
+    public PersistentCustomerOrder getArrivedOrder() throws PersistenceException {
         return ((PersistentRetoureDeliveryCommand)this.getTheObject()).getArrivedOrder();
     }
-    public void setArrivedOrder(PersistentArrivedOrder newValue) throws PersistenceException {
+    public void setArrivedOrder(PersistentCustomerOrder newValue) throws PersistenceException {
         ((PersistentRetoureDeliveryCommand)this.getTheObject()).setArrivedOrder(newValue);
     }
     public RetoureDeliveryCommand_ListProxi getList() throws PersistenceException {

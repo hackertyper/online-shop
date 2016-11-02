@@ -22,10 +22,10 @@ public class AcceptDeliveryCommandICProxi extends PersistentInCacheProxi impleme
         return 198;
     }
     
-    public PersistentArrivedOrder getArrivedOrder() throws PersistenceException {
+    public PersistentCustomerOrder getArrivedOrder() throws PersistenceException {
         return ((PersistentAcceptDeliveryCommand)this.getTheObject()).getArrivedOrder();
     }
-    public void setArrivedOrder(PersistentArrivedOrder newValue) throws PersistenceException {
+    public void setArrivedOrder(PersistentCustomerOrder newValue) throws PersistenceException {
         ((PersistentAcceptDeliveryCommand)this.getTheObject()).setArrivedOrder(newValue);
     }
     public Invoker getInvoker() throws PersistenceException {

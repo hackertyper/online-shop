@@ -4,18 +4,18 @@ import model.*;
 
 import java.util.Iterator;
 
-public class OrderManager_OrdersProxi extends PersistentListProxi<PersistentArrivedOrder> {
+public class OrderManager_OrdersProxi extends PersistentListProxi<PersistentCustomerOrder> {
 
-  	private ArrivedOrderList list;
+  	private CustomerOrderList list;
   	private OrderManager owner;
 
   	public OrderManager_OrdersProxi(OrderManager owner) {
     	this.owner = owner;
   	}
-  	public ArrivedOrderList getList() throws PersistenceException{
+  	public CustomerOrderList getList() throws PersistenceException{
     	if (this.list == null) {
       		if (this.owner.isDelayed$Persistence()) {
-        		this.list = new ArrivedOrderList();
+        		this.list = new CustomerOrderList();
       		} else {
         		this.list = ConnectionHandler
                 		    .getTheConnectionHandler()
@@ -25,22 +25,22 @@ public class OrderManager_OrdersProxi extends PersistentListProxi<PersistentArri
     	}
     	return this.list;
   	}
-  	public Iterator<PersistentArrivedOrder> iterator() throws PersistenceException{
+  	public Iterator<PersistentCustomerOrder> iterator() throws PersistenceException{
     	return this.getList().iterator(this);
   	}
   	public long getLength() throws PersistenceException{
 	  	return this.getList().getLength();
   	}
-  	public void add(PersistentArrivedOrder entry) throws PersistenceException {
+  	public void add(PersistentCustomerOrder entry) throws PersistenceException {
     	if (entry != null) {
-      		ArrivedOrderList list = this.getList();
+      		CustomerOrderList list = this.getList();
       		long entryId = 0;
       		if (!this.owner.isDelayed$Persistence()) {
         		entry.store();  	
         		entryId = ConnectionHandler.getTheConnectionHandler().theOrderManagerFacade
         	               	.ordersAdd(owner.getId(), entry);
       		}
-      		list.add((PersistentArrivedOrder)PersistentProxi.createListEntryProxi(entry.getId(),
+      		list.add((PersistentCustomerOrder)PersistentProxi.createListEntryProxi(entry.getId(),
             		                   entry.getClassId(),
         	    	                   entryId));
       		
@@ -58,9 +58,9 @@ public class OrderManager_OrdersProxi extends PersistentListProxi<PersistentArri
   		return result;
   	}	 
   	public void store() throws PersistenceException {
-  		java.util.Iterator<PersistentArrivedOrder> entries = (this.list == null ? new java.util.Vector<PersistentArrivedOrder>().iterator() : this.list.iterator(this));
+  		java.util.Iterator<PersistentCustomerOrder> entries = (this.list == null ? new java.util.Vector<PersistentCustomerOrder>().iterator() : this.list.iterator(this));
   		while (entries.hasNext()){
-  			PersistentArrivedOrder current = entries.next();
+  			PersistentCustomerOrder current = entries.next();
   			current.store();
       		long entryId = ConnectionHandler.getTheConnectionHandler().theOrderManagerFacade
             	           .ordersAdd(owner.getId(), current);

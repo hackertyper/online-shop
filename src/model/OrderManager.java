@@ -55,7 +55,6 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
     java.util.HashMap<String,Object> result = null;
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
-            result.put("allOrders", this.getAllOrders().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, true));
             result.put("orders", this.getOrders().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, true));
             AbstractPersistentRoot customerManager = (AbstractPersistentRoot)this.getCustomerManager();
             if (customerManager != null) {
@@ -86,7 +85,6 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
         result = new OrderManager(this.subService, 
                                   this.This, 
                                   this.getId());
-        result.allOrders = this.allOrders.copy(result);
         result.orders = this.orders.copy(result);
         this.copyingPrivateUserAttributes(result);
         return result;
@@ -95,7 +93,6 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
     public boolean hasEssentialFields() throws PersistenceException{
         return false;
     }
-    protected OrderManager_AllOrdersProxi allOrders;
     protected OrderManager_OrdersProxi orders;
     protected SubjInterface subService;
     protected PersistentOrderManager This;
@@ -103,7 +100,6 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
     public OrderManager(SubjInterface subService,PersistentOrderManager This,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
-        this.allOrders = new OrderManager_AllOrdersProxi(this);
         this.orders = new OrderManager_OrdersProxi(this);
         this.subService = subService;
         if (This != null && !(this.isTheSameAs(This))) this.This = This;        
@@ -122,7 +118,6 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
         if (this.getClassId() == 224) ConnectionHandler.getTheConnectionHandler().theOrderManagerFacade
             .newOrderManager(this.getId());
         super.store();
-        this.getAllOrders().store();
         this.getOrders().store();
         if(this.getSubService() != null){
             this.getSubService().store();
@@ -135,9 +130,6 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
         
     }
     
-    public OrderManager_AllOrdersProxi getAllOrders() throws PersistenceException {
-        return this.allOrders;
-    }
     public OrderManager_OrdersProxi getOrders() throws PersistenceException {
         return this.orders;
     }
@@ -208,7 +200,7 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
     }
     
     
-    public void acceptDelivery(final PersistentArrivedOrder arrivedOrder, final Invoker invoker) 
+    public void acceptDelivery(final PersistentCustomerOrder arrivedOrder, final Invoker invoker) 
 				throws PersistenceException{
         java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
 		PersistentAcceptDeliveryCommand command = model.meta.AcceptDeliveryCommand.createAcceptDeliveryCommand(now, now);
@@ -263,7 +255,7 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
 		}
 		subService.register(observee);
     }
-    public void retoureDelivery(final PersistentArrivedOrder arrivedOrder, final QuantifiedArticlesSearchList list, final Invoker invoker) 
+    public void retoureDelivery(final PersistentCustomerOrder arrivedOrder, final QuantifiedArticlesSearchList list, final Invoker invoker) 
 				throws PersistenceException{
         java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
 		PersistentRetoureDeliveryCommand command = model.meta.RetoureDeliveryCommand.createRetoureDeliveryCommand(now, now);
@@ -289,9 +281,14 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
     
     // Start of section that contains operations that must be implemented.
     
-    public void acceptDelivery(final PersistentArrivedOrder arrivedOrder) 
+    public void acceptDelivery(final PersistentCustomerOrder arrivedOrder) 
 				throws PersistenceException{
-        arrivedOrder.acceptDelivery();
+        getThis().getOrders().filter(new Predcate<PersistentCustomerOrder>() {
+			@Override
+			public boolean test(PersistentCustomerOrder argument) throws PersistenceException {
+				return !arrivedOrder.equals(argument);
+			}
+		});
     }
     public void addOrder(final PersistentCustomerOrder order) 
 				throws PersistenceException{
@@ -301,10 +298,9 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
 			public void handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException {}
 			@Override
 			public void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException {
-				getThis().getOrders().add(arrivedOrder);
+				getThis().getOrders().add(order);
 			}
 		});
-    	getThis().getAllOrders().add(order);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
@@ -317,9 +313,15 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
     public void initializeOnInstantiation() 
 				throws PersistenceException{
     }
-    public void retoureDelivery(final PersistentArrivedOrder arrivedOrder, final QuantifiedArticlesSearchList list) 
+    public void retoureDelivery(final PersistentCustomerOrder arrivedOrder, final QuantifiedArticlesSearchList list) 
 				throws PersistenceException{
         arrivedOrder.retoure(list);
+        getThis().getOrders().filter(new Predcate<PersistentCustomerOrder>() {
+			@Override
+			public boolean test(PersistentCustomerOrder argument) throws PersistenceException {
+				return !arrivedOrder.equals(argument);
+			}
+		});
     }
     
     

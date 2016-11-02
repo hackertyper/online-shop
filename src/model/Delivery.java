@@ -131,18 +131,20 @@ public abstract class Delivery extends PersistentObject implements PersistentDel
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
-        
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnInstantiation
-        
     }
     
     
     // Start of section that contains overridden operations only.
     
+    public void send() 
+				throws PersistenceException{
+    	if(getThis().getRemainingTimeToDelivery() == 0) {
+    		getThis().deliver();
+    	}
+    }
 
     /* Start of protected part that is not overridden by persistence generator */
     

@@ -49,7 +49,7 @@ public class RetoureDeliveryCommandFacade{
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         
     }
-    public void arrivedOrderSet(long RetoureDeliveryCommandId, PersistentArrivedOrder arrivedOrderVal) throws PersistenceException {
+    public void arrivedOrderSet(long RetoureDeliveryCommandId, PersistentCustomerOrder arrivedOrderVal) throws PersistenceException {
         
     }
     public long listAdd(long RetoureDeliveryCommandId, PersistentQuantifiedArticles listVal) throws PersistenceException {

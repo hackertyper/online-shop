@@ -27,6 +27,8 @@ public interface CustomerOrder4Public extends Delivery4Public {
 				throws PersistenceException;
     public void initializeOnInstantiation() 
 				throws PersistenceException;
+    public void retoure(final QuantifiedArticlesSearchList list) 
+				throws PersistenceException;
 
 }
 

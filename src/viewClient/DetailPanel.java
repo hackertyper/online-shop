@@ -1405,8 +1405,6 @@ class CustomerOrderDefaultDetailPanel extends DefaultDetailPanel{
     protected static final String Delivery$$remainingTimeToDelivery = "Delivery$$remainingTimeToDelivery";
     protected static final String Delivery$$sendDate = "Delivery$$sendDate";
     protected static final String CustomerOrder$$articleList = "CustomerOrder$$articleList";
-    protected static final String CustomerOrder$$ordermngr = "CustomerOrder$$ordermngr";
-    protected static final String CustomerOrder$$myState = "CustomerOrder$$myState";
     
     protected CustomerOrderDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -1435,16 +1433,16 @@ class CustomerOrderDefaultDetailPanel extends DefaultDetailPanel{
 
 class ArrivedOrderDefaultDetailPanel extends DefaultDetailPanel{
     
-    protected static final String ArrivedOrder$$timtToAccept = "ArrivedOrder$$timtToAccept";
+    protected static final String ArrivedOrder$$timeToAccept = "ArrivedOrder$$timeToAccept";
     
     protected ArrivedOrderDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
     }
     protected void addFields(){
         try{
-            BaseTypePanel panel = new IntegerPanel(this, "timtToAccept", this.getAnything().getTimtToAccept());
+            BaseTypePanel panel = new IntegerPanel(this, "timeToAccept", this.getAnything().getTimeToAccept());
             this.getScrollablePane().getChildren().add(panel);
-            this.panels.put(ArrivedOrder$$timtToAccept, panel);
+            this.panels.put(ArrivedOrder$$timeToAccept, panel);
         }catch(ModelException e){
             this.getExceptionAndEventhandler().handleException(e);
         }

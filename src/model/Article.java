@@ -393,6 +393,10 @@ public class Article extends model.Item implements PersistentArticle{
 			});
         }
     }
+    public void receiveDelivery(final long amount) 
+				throws PersistenceException{
+        getThis().setStock(getThis().getStock() + amount);
+    }
     /**
      * Reserves a given amount of this article through reducing the stock.
      * 

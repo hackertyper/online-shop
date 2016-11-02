@@ -55,7 +55,7 @@ public class ArrivedOrder extends PersistentObject implements PersistentArrivedO
     java.util.HashMap<String,Object> result = null;
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
-            result.put("timtToAccept", new Long(this.getTimtToAccept()).toString());
+            result.put("timeToAccept", new Long(this.getTimeToAccept()).toString());
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
         }
@@ -64,7 +64,7 @@ public class ArrivedOrder extends PersistentObject implements PersistentArrivedO
     
     public ArrivedOrder provideCopy() throws PersistenceException{
         ArrivedOrder result = this;
-        result = new ArrivedOrder(this.timtToAccept, 
+        result = new ArrivedOrder(this.timeToAccept, 
                                   this.subService, 
                                   this.This, 
                                   this.getId());
@@ -75,14 +75,14 @@ public class ArrivedOrder extends PersistentObject implements PersistentArrivedO
     public boolean hasEssentialFields() throws PersistenceException{
         return false;
     }
-    protected long timtToAccept;
+    protected long timeToAccept;
     protected SubjInterface subService;
     protected PersistentArrivedOrder This;
     
-    public ArrivedOrder(long timtToAccept,SubjInterface subService,PersistentArrivedOrder This,long id) throws PersistenceException {
+    public ArrivedOrder(long timeToAccept,SubjInterface subService,PersistentArrivedOrder This,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
-        this.timtToAccept = timtToAccept;
+        this.timeToAccept = timeToAccept;
         this.subService = subService;
         if (This != null && !(this.isTheSameAs(This))) this.This = This;        
     }
@@ -98,7 +98,7 @@ public class ArrivedOrder extends PersistentObject implements PersistentArrivedO
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
         if (this.getClassId() == 112) ConnectionHandler.getTheConnectionHandler().theArrivedOrderFacade
-            .newArrivedOrder(timtToAccept,this.getId());
+            .newArrivedOrder(timeToAccept,this.getId());
         super.store();
         if(this.getSubService() != null){
             this.getSubService().store();
@@ -111,12 +111,12 @@ public class ArrivedOrder extends PersistentObject implements PersistentArrivedO
         
     }
     
-    public long getTimtToAccept() throws PersistenceException {
-        return this.timtToAccept;
+    public long getTimeToAccept() throws PersistenceException {
+        return this.timeToAccept;
     }
-    public void setTimtToAccept(long newValue) throws PersistenceException {
-        if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theArrivedOrderFacade.timtToAcceptSet(this.getId(), newValue);
-        this.timtToAccept = newValue;
+    public void setTimeToAccept(long newValue) throws PersistenceException {
+        if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theArrivedOrderFacade.timeToAcceptSet(this.getId(), newValue);
+        this.timeToAccept = newValue;
     }
     public SubjInterface getSubService() throws PersistenceException {
         return this.subService;
@@ -205,17 +205,6 @@ public class ArrivedOrder extends PersistentObject implements PersistentArrivedO
 		}
 		subService.deregister(observee);
     }
-    public PersistentCustomerOrder getCustomerOrder() 
-				throws PersistenceException{
-        CustomerOrderSearchList result = null;
-		if (result == null) result = ConnectionHandler.getTheConnectionHandler().theCustomerOrderFacade
-										.inverseGetMyState(getThis().getId(), getThis().getClassId());
-		try {
-			return result.iterator().next();
-		} catch (java.util.NoSuchElementException nsee){
-			return null;
-		}
-    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentArrivedOrder)This);
@@ -244,21 +233,15 @@ public class ArrivedOrder extends PersistentObject implements PersistentArrivedO
     
     // Start of section that contains operations that must be implemented.
     
-    public void acceptDelivery() 
-				throws PersistenceException{
-    	//TODO: implement method: acceptDelivery
-    }
     public void arrived() 
 				throws PersistenceException{
-    	//TODO: implement method: arrived
+    	//TODO: show information alert
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
-        
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{

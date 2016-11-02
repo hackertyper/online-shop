@@ -5,8 +5,8 @@ import model.visitor.*;
 
 public interface RetoureDeliveryCommand4Public extends Anything, OrderManagerCommand, CommonDate4Public, AbstractPersistentProxi {
     
-    public PersistentArrivedOrder getArrivedOrder() throws PersistenceException ;
-    public void setArrivedOrder(PersistentArrivedOrder newValue) throws PersistenceException ;
+    public PersistentCustomerOrder getArrivedOrder() throws PersistenceException ;
+    public void setArrivedOrder(PersistentCustomerOrder newValue) throws PersistenceException ;
     public RetoureDeliveryCommand_ListProxi getList() throws PersistenceException ;
     public Invoker getInvoker() throws PersistenceException ;
     public void setInvoker(Invoker newValue) throws PersistenceException ;

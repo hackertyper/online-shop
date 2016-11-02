@@ -9,15 +9,13 @@ import view.visitor.*;
 
 public class OrderManager extends ViewObject implements OrderManagerView{
     
-    protected java.util.Vector<CustomerOrderView> allOrders;
-    protected java.util.Vector<ArrivedOrderView> orders;
+    protected java.util.Vector<CustomerOrderView> orders;
     protected CustomerManagerView customerManager;
     protected OrderServiceView myOrderServer;
     
-    public OrderManager(java.util.Vector<CustomerOrderView> allOrders,java.util.Vector<ArrivedOrderView> orders,CustomerManagerView customerManager,OrderServiceView myOrderServer,long id, long classId) {
+    public OrderManager(java.util.Vector<CustomerOrderView> orders,CustomerManagerView customerManager,OrderServiceView myOrderServer,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
-        this.allOrders = allOrders;
         this.orders = orders;
         this.customerManager = customerManager;
         this.myOrderServer = myOrderServer;        
@@ -31,16 +29,10 @@ public class OrderManager extends ViewObject implements OrderManagerView{
         return getTypeId();
     }
     
-    public java.util.Vector<CustomerOrderView> getAllOrders()throws ModelException{
-        return this.allOrders;
-    }
-    public void setAllOrders(java.util.Vector<CustomerOrderView> newValue) throws ModelException {
-        this.allOrders = newValue;
-    }
-    public java.util.Vector<ArrivedOrderView> getOrders()throws ModelException{
+    public java.util.Vector<CustomerOrderView> getOrders()throws ModelException{
         return this.orders;
     }
-    public void setOrders(java.util.Vector<ArrivedOrderView> newValue) throws ModelException {
+    public void setOrders(java.util.Vector<CustomerOrderView> newValue) throws ModelException {
         this.orders = newValue;
     }
     public CustomerManagerView getCustomerManager()throws ModelException{
@@ -64,10 +56,6 @@ public class OrderManager extends ViewObject implements OrderManagerView{
     }
     
     public void resolveProxies(java.util.HashMap<String,Object> resultTable) throws ModelException {
-        java.util.Vector<?> allOrders = this.getAllOrders();
-        if (allOrders != null) {
-            ViewObject.resolveVectorProxies(allOrders, resultTable);
-        }
         java.util.Vector<?> orders = this.getOrders();
         if (orders != null) {
             ViewObject.resolveVectorProxies(orders, resultTable);

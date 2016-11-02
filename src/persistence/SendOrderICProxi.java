@@ -74,10 +74,6 @@ public class SendOrderICProxi extends PersistentInCacheProxiOptimistic implement
 				throws PersistenceException{
         ((PersistentSendOrder)this.getTheObject()).deregister(observee);
     }
-    public PersistentCustomerOrder getCustomerOrder() 
-				throws PersistenceException{
-        return ((PersistentSendOrder)this.getTheObject()).getCustomerOrder();
-    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentSendOrder)this.getTheObject()).initialize(This, final$$Fields);

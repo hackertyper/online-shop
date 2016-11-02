@@ -43,21 +43,6 @@ public class CustomerOrderFacade{
     public void myStateSet(long CustomerOrderId, CustomerOrderState myStateVal) throws PersistenceException {
         
     }
-    public CustomerOrderSearchList inverseGetMyState(long objectId, long classId)throws PersistenceException{
-        CustomerOrderSearchList result = new CustomerOrderSearchList();
-        java.util.Iterator<PersistentInCacheProxi> candidates;
-        candidates = Cache.getTheCache().iterator(111);
-        while (candidates.hasNext()){
-            PersistentCustomerOrder current = (PersistentCustomerOrder)((PersistentRoot)candidates.next()).getTheObject();
-            if (current != null && !current.isDltd() && !current.isDelayed$Persistence() && current.getMyState() != null){
-                if (current.getMyState().getClassId() == classId && current.getMyState().getId() == objectId) {
-                    PersistentCustomerOrder proxi = (PersistentCustomerOrder)PersistentProxi.createProxi(current.getId(), current.getClassId());
-                    result.add((PersistentCustomerOrder)proxi.getThis());
-                }
-            }
-        }
-        return result;
-    }
 
 }
 

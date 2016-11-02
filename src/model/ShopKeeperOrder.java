@@ -250,15 +250,15 @@ public class ShopKeeperOrder extends model.Delivery implements PersistentShopKee
         super.initializeOnInstantiation();
 		//TODO: implement method: initializeOnInstantiation
     }
+    
+    
+    // Start of section that contains overridden operations only.
+    
     public void send() 
 				throws PersistenceException{
         //TODO: implement method: send
         
     }
-    
-    
-    // Start of section that contains overridden operations only.
-    
 
     /* Start of protected part that is not overridden by persistence generator */
     

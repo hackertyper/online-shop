@@ -43,6 +43,8 @@ public interface Article4Public extends Item4Public {
 				throws PersistenceException;
     public void pack(final long amount) 
 				throws PersistenceException;
+    public void receiveDelivery(final long amount) 
+				throws PersistenceException;
     public void reserve(final long amount) 
 				throws model.InsufficientStock, PersistenceException;
 

@@ -15,13 +15,13 @@ public interface OrderManager4Public extends Anything, SubjInterface, AbstractPe
     public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E;
     public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     
-    public void acceptDelivery(final PersistentArrivedOrder arrivedOrder, final Invoker invoker) 
+    public void acceptDelivery(final PersistentCustomerOrder arrivedOrder, final Invoker invoker) 
 				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
-    public void retoureDelivery(final PersistentArrivedOrder arrivedOrder, final QuantifiedArticlesSearchList list, final Invoker invoker) 
+    public void retoureDelivery(final PersistentCustomerOrder arrivedOrder, final QuantifiedArticlesSearchList list, final Invoker invoker) 
 				throws PersistenceException;
-    public void acceptDelivery(final PersistentArrivedOrder arrivedOrder) 
+    public void acceptDelivery(final PersistentCustomerOrder arrivedOrder) 
 				throws PersistenceException;
     public void addOrder(final PersistentCustomerOrder order) 
 				throws PersistenceException;
@@ -31,7 +31,7 @@ public interface OrderManager4Public extends Anything, SubjInterface, AbstractPe
 				throws PersistenceException;
     public void initializeOnInstantiation() 
 				throws PersistenceException;
-    public void retoureDelivery(final PersistentArrivedOrder arrivedOrder, final QuantifiedArticlesSearchList list) 
+    public void retoureDelivery(final PersistentCustomerOrder arrivedOrder, final QuantifiedArticlesSearchList list) 
 				throws PersistenceException;
 
 }

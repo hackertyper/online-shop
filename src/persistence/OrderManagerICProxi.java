@@ -22,9 +22,6 @@ public class OrderManagerICProxi extends PersistentInCacheProxiOptimistic implem
         return 224;
     }
     
-    public OrderManager_AllOrdersProxi getAllOrders() throws PersistenceException {
-        return ((PersistentOrderManager)this.getTheObject()).getAllOrders();
-    }
     public OrderManager_OrdersProxi getOrders() throws PersistenceException {
         return ((PersistentOrderManager)this.getTheObject()).getOrders();
     }
@@ -64,7 +61,7 @@ public class OrderManagerICProxi extends PersistentInCacheProxiOptimistic implem
     }
     
     
-    public void acceptDelivery(final PersistentArrivedOrder arrivedOrder, final Invoker invoker) 
+    public void acceptDelivery(final PersistentCustomerOrder arrivedOrder, final Invoker invoker) 
 				throws PersistenceException{
         ((PersistentOrderManager)this.getTheObject()).acceptDelivery(arrivedOrder, invoker);
     }
@@ -88,7 +85,7 @@ public class OrderManagerICProxi extends PersistentInCacheProxiOptimistic implem
 				throws PersistenceException{
         ((PersistentOrderManager)this.getTheObject()).register(observee);
     }
-    public void retoureDelivery(final PersistentArrivedOrder arrivedOrder, final QuantifiedArticlesSearchList list, final Invoker invoker) 
+    public void retoureDelivery(final PersistentCustomerOrder arrivedOrder, final QuantifiedArticlesSearchList list, final Invoker invoker) 
 				throws PersistenceException{
         ((PersistentOrderManager)this.getTheObject()).retoureDelivery(arrivedOrder, list, invoker);
     }
@@ -96,7 +93,7 @@ public class OrderManagerICProxi extends PersistentInCacheProxiOptimistic implem
 				throws PersistenceException{
         ((PersistentOrderManager)this.getTheObject()).updateObservers(event);
     }
-    public void acceptDelivery(final PersistentArrivedOrder arrivedOrder) 
+    public void acceptDelivery(final PersistentCustomerOrder arrivedOrder) 
 				throws PersistenceException{
         ((PersistentOrderManager)this.getTheObject()).acceptDelivery(arrivedOrder);
     }
@@ -116,7 +113,7 @@ public class OrderManagerICProxi extends PersistentInCacheProxiOptimistic implem
 				throws PersistenceException{
         ((PersistentOrderManager)this.getTheObject()).initializeOnInstantiation();
     }
-    public void retoureDelivery(final PersistentArrivedOrder arrivedOrder, final QuantifiedArticlesSearchList list) 
+    public void retoureDelivery(final PersistentCustomerOrder arrivedOrder, final QuantifiedArticlesSearchList list) 
 				throws PersistenceException{
         ((PersistentOrderManager)this.getTheObject()).retoureDelivery(arrivedOrder, list);
     }

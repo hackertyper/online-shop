@@ -8,8 +8,6 @@ public interface PersistentSendOrder extends CustomerOrderState, Anything, Abstr
     public PersistentSendOrder getThis() throws PersistenceException ;
     
     
-    public PersistentCustomerOrder getCustomerOrder() 
-				throws PersistenceException;
 
 }
 

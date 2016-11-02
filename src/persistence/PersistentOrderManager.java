@@ -3,7 +3,6 @@ package persistence;
 
 public interface PersistentOrderManager extends Anything, SubjInterface, AbstractPersistentProxi, OrderManager4Public {
     
-    public OrderManager_AllOrdersProxi getAllOrders() throws PersistenceException ;
     public OrderManager_OrdersProxi getOrders() throws PersistenceException ;
     public SubjInterface getSubService() throws PersistenceException ;
     public void setSubService(SubjInterface newValue) throws PersistenceException ;

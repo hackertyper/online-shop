@@ -36,7 +36,7 @@ public class RetoureDeliveryCommand extends PersistentObject implements Persiste
     public boolean hasEssentialFields() throws PersistenceException{
         return true;
     }
-    protected PersistentArrivedOrder arrivedOrder;
+    protected PersistentCustomerOrder arrivedOrder;
     protected RetoureDeliveryCommand_ListProxi list;
     protected Invoker invoker;
     protected PersistentOrderManager commandReceiver;
@@ -44,7 +44,7 @@ public class RetoureDeliveryCommand extends PersistentObject implements Persiste
     
     private model.UserException commandException = null;
     
-    public RetoureDeliveryCommand(PersistentArrivedOrder arrivedOrder,Invoker invoker,PersistentOrderManager commandReceiver,PersistentCommonDate myCommonDate,long id) throws PersistenceException {
+    public RetoureDeliveryCommand(PersistentCustomerOrder arrivedOrder,Invoker invoker,PersistentOrderManager commandReceiver,PersistentCommonDate myCommonDate,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.arrivedOrder = arrivedOrder;
@@ -87,15 +87,15 @@ public class RetoureDeliveryCommand extends PersistentObject implements Persiste
         
     }
     
-    public PersistentArrivedOrder getArrivedOrder() throws PersistenceException {
+    public PersistentCustomerOrder getArrivedOrder() throws PersistenceException {
         return this.arrivedOrder;
     }
-    public void setArrivedOrder(PersistentArrivedOrder newValue) throws PersistenceException {
+    public void setArrivedOrder(PersistentCustomerOrder newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
         if(newValue.isTheSameAs(this.arrivedOrder)) return;
         long objectId = newValue.getId();
         long classId = newValue.getClassId();
-        this.arrivedOrder = (PersistentArrivedOrder)PersistentProxi.createProxi(objectId, classId);
+        this.arrivedOrder = (PersistentCustomerOrder)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
             ConnectionHandler.getTheConnectionHandler().theRetoureDeliveryCommandFacade.arrivedOrderSet(this.getId(), newValue);

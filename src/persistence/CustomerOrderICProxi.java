@@ -111,6 +111,10 @@ public class CustomerOrderICProxi extends DeliveryICProxi implements PersistentC
 				throws PersistenceException{
         ((PersistentCustomerOrder)this.getTheObject()).initializeOnInstantiation();
     }
+    public void retoure(final QuantifiedArticlesSearchList list) 
+				throws PersistenceException{
+        ((PersistentCustomerOrder)this.getTheObject()).retoure(list);
+    }
     public void send() 
 				throws PersistenceException{
         ((PersistentCustomerOrder)this.getTheObject()).send();

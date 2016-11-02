@@ -2,10 +2,11 @@ package persistence;
 
 import java.util.*;
 
-public class CustomerOrderList  extends CustomerOrderSearchList{
+public class CustomerOrderList {
 
+	protected Vector<PersistentCustomerOrder> data; //List of proxies
 	protected CustomerOrderList() {
-		super();
+		this.data = new Vector<PersistentCustomerOrder>();
 	}
 	public Iterator<PersistentCustomerOrder> iterator(PersistentListProxi<PersistentCustomerOrder> listProxi) {
 		return new PersistentListIterator<PersistentCustomerOrder>(listProxi, this.data);

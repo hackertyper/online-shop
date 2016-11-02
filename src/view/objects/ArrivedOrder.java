@@ -9,12 +9,12 @@ import view.visitor.*;
 
 public class ArrivedOrder extends ViewObject implements ArrivedOrderView{
     
-    protected long timtToAccept;
+    protected long timeToAccept;
     
-    public ArrivedOrder(long timtToAccept,long id, long classId) {
+    public ArrivedOrder(long timeToAccept,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
-        this.timtToAccept = timtToAccept;        
+        this.timeToAccept = timeToAccept;        
     }
     
     static public long getTypeId() {
@@ -25,11 +25,11 @@ public class ArrivedOrder extends ViewObject implements ArrivedOrderView{
         return getTypeId();
     }
     
-    public long getTimtToAccept()throws ModelException{
-        return this.timtToAccept;
+    public long getTimeToAccept()throws ModelException{
+        return this.timeToAccept;
     }
-    public void setTimtToAccept(long newValue) throws ModelException {
-        this.timtToAccept = newValue;
+    public void setTimeToAccept(long newValue) throws ModelException {
+        this.timeToAccept = newValue;
     }
     
     public void accept(AnythingVisitor visitor) throws ModelException {
@@ -77,7 +77,7 @@ public class ArrivedOrder extends ViewObject implements ArrivedOrderView{
         
         return -1;
     }
-    public int getTimtToAcceptIndex() throws ModelException {
+    public int getTimeToAcceptIndex() throws ModelException {
         return 0;
     }
     public int getRowCount(){
@@ -87,10 +87,10 @@ public class ArrivedOrder extends ViewObject implements ArrivedOrderView{
     public Object getValueAt(int rowIndex, int columnIndex){
         try {
             if(columnIndex == 0){
-                if(rowIndex == 0) return "timtToAccept";
+                if(rowIndex == 0) return "timeToAccept";
                 rowIndex = rowIndex - 1;
             } else {
-                if(rowIndex == 0) return new Long(getTimtToAccept());
+                if(rowIndex == 0) return new Long(getTimeToAccept());
                 rowIndex = rowIndex - 1;
             }
             throw new ModelException("Table index out of bounds!", -1);
@@ -104,7 +104,7 @@ public class ArrivedOrder extends ViewObject implements ArrivedOrderView{
     }
     public void setValueAt(String newValue, int rowIndex) throws Exception {
         if(rowIndex == 0){
-            this.setTimtToAccept(Long.parseLong(newValue));
+            this.setTimeToAccept(Long.parseLong(newValue));
             return;
         }
         rowIndex = rowIndex - 1;

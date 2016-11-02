@@ -21,8 +21,6 @@ public interface ArrivedOrder4Public extends CustomerOrderState, Anything, Abstr
     
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
-    public void acceptDelivery() 
-				throws PersistenceException;
     public void arrived() 
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 

@@ -95,25 +95,15 @@ public class CustomerOrder extends view.objects.Delivery implements CustomerOrde
         int index = originalIndex;
         if(index < this.getArticleList().size()) return new ArticleListCustomerOrderWrapper(this, originalIndex, (ViewRoot)this.getArticleList().get(index));
         index = index - this.getArticleList().size();
-        if(this.getOrdermngr() != null && index < this.getOrdermngr().getTheObject().getChildCount())
-            return this.getOrdermngr().getTheObject().getChild(index);
-        if(this.getOrdermngr() != null) index = index - this.getOrdermngr().getTheObject().getChildCount();
-        if(this.getMyState() != null && index < this.getMyState().getTheObject().getChildCount())
-            return this.getMyState().getTheObject().getChild(index);
-        if(this.getMyState() != null) index = index - this.getMyState().getTheObject().getChildCount();
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getArticleList().size())
-            + (this.getOrdermngr() == null ? 0 : this.getOrdermngr().getTheObject().getChildCount())
-            + (this.getMyState() == null ? 0 : this.getMyState().getTheObject().getChildCount());
+            + (this.getArticleList().size());
     }
     public boolean isLeaf() throws ModelException {
         return true 
-            && (this.getArticleList().size() == 0)
-            && (this.getOrdermngr() == null ? true : this.getOrdermngr().getTheObject().isLeaf())
-            && (this.getMyState() == null ? true : this.getMyState().getTheObject().isLeaf());
+            && (this.getArticleList().size() == 0);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
@@ -122,10 +112,6 @@ public class CustomerOrder extends view.objects.Delivery implements CustomerOrde
             if(getArticleListIterator.next().equals(child)) return result;
             result = result + 1;
         }
-        if(this.getOrdermngr() != null && this.getOrdermngr().equals(child)) return result;
-        if(this.getOrdermngr() != null) result = result + 1;
-        if(this.getMyState() != null && this.getMyState().equals(child)) return result;
-        if(this.getMyState() != null) result = result + 1;
         return -1;
     }
     public int getRemainingTimeToDeliveryIndex() throws ModelException {
