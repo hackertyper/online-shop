@@ -2,26 +2,29 @@ package model.meta;
 
 import persistence.*;
 
-public class CartAddArticleQuantifiedArticlesMssg implements CartDOWNMssgs,CartUPMssgs{
+public class CartManagerAddArticleArticleIntegerMssg implements CartManagerDOWNMssgs,CartManagerUPMssgs{
     
     private java.util.Date exctDte = null;
     private Exception excptn;
-    public final persistence.PersistentCart rcvr;
-    public final persistence.PersistentQuantifiedArticles article;
+    public final persistence.PersistentCartManager rcvr;
+    public final persistence.PersistentArticle article;
+    public final long amount;
     
-    public CartAddArticleQuantifiedArticlesMssg(persistence.PersistentQuantifiedArticles article,
-                                                persistence.PersistentCart rcvr){
+    public CartManagerAddArticleArticleIntegerMssg(persistence.PersistentArticle article,
+                                                   long amount,
+                                                   persistence.PersistentCartManager rcvr){
         this.article = article;
+        this.amount = amount;
         this.rcvr = rcvr;
     }
-    public void accept(CartMssgsVisitor visitor) throws PersistenceException{
-        visitor.handleCartAddArticleQuantifiedArticlesMssg(this);
+    public void accept(CartManagerMssgsVisitor visitor) throws PersistenceException{
+        visitor.handleCartManagerAddArticleArticleIntegerMssg(this);
     }
     public synchronized void execute() {
         if (this.exctDte == null){
             this.exctDte = new java.util.Date();
             try{
-                this.rcvr.addArticleImplementation(this.article);
+                this.rcvr.addArticleImplementation(this.article, this.amount);
             }catch(Exception exception){
                 this.excptn = exception;
             }

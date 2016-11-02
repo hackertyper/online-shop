@@ -42,7 +42,7 @@ public class TestCart {
 		m1 = Manufacturer.createManufacturer("M1");
 		a1 = Article.createArticle("A1", m1, 100, 10, 150, 0);
 		a1.setStock(100);
-		a1.addToCart(10, cm.getMyCart());
+		cm.addArticle(a1, 10);
 		a2 = Article.createArticle("A2", m1, 20, 5, 60, 0);
 		a2.setStock(34);
 		a3 = Article.createArticle("A3", m1, 18, 20, 100, 0);
@@ -52,16 +52,16 @@ public class TestCart {
 	@Test
 	public void testFetchCurrentSum() throws PersistenceException {
 		assertEquals(1000, cm.getMyCart().fetchCurrentSum());
-		a2.addToCart(5, cm.getMyCart());
+		cm.addArticle(a2, 5);
 		assertEquals(1100, cm.getMyCart().fetchCurrentSum());
-		a3.addToCart(22, cm.getMyCart());
+		cm.addArticle(a3, 22);
 		assertEquals(1496, cm.getMyCart().fetchCurrentSum());
 	}
 	
 	@Test
 	public void testAddToCart() throws PersistenceException {
 		testFetchCurrentSum();
-		a1.addToCart(20, cm.getMyCart());
+		cm.addArticle(a1, 20);
 		Map<PersistentArticle, PersistentQuantifiedArticles> expected = new HashMap<PersistentArticle, PersistentQuantifiedArticles>();
 		expected.put(a1, QuantifiedArticles.createQuantifiedArticles(a1, 30));
 		expected.put(a2, QuantifiedArticles.createQuantifiedArticles(a2, 5));
@@ -129,7 +129,7 @@ public class TestCart {
 	
 	@Test
 	public void testCheckOutException() throws PersistenceException {
-		a1.addToCart(100, cm.getMyCart());
+		cm.addArticle(a1, 100);
 		try {	
 			cm.checkOut();
 			fail("No expected exception occured");
@@ -151,7 +151,8 @@ public class TestCart {
 			assertTrue(cm.getMyCart().getState() instanceof PersistentOpenCart);
 		}
 		cm.checkOut();
-		a1.addToCart(10, cm.getMyCart());
+		assertEquals(90, a1.getStock());
+		cm.addArticle(a1, 10);
 		assertEquals(100, a1.getStock());
 		assertTrue(cm.getMyCart().getState() instanceof PersistentOpenCart);
 		cm.checkOut();

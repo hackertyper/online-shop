@@ -337,10 +337,6 @@ public class Article extends model.Item implements PersistentArticle{
     
     // Start of section that contains operations that must be implemented.
     
-    public void addToCart(final long amount, final PersistentCart cart) 
-				throws PersistenceException{
-    	cart.addArticle(QuantifiedArticles.createQuantifiedArticles(getThis(), amount));        
-    }
     public void changeManuDelivery(final long newManuDelivery) 
 				throws PersistenceException{
         //TODO: implement method: changeManuDelivery

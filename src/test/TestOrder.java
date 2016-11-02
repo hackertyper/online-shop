@@ -35,10 +35,10 @@ public class TestOrder {
 		m1 = Manufacturer.createManufacturer("M1");
 		a1 = Article.createArticle("A1", m1, 100, 10, 150, 0);
 		a1.setStock(100);
-		a1.addToCart(2, cm.getCartMngr().getMyCart());
+		cm.getCartMngr().addArticle(a1, 2);
 		a2 = Article.createArticle("A2", m1, 20, 5, 60, 0);
 		a2.setStock(30);
-		a2.addToCart(10, cm.getCartMngr().getMyCart());
+		cm.getCartMngr().addArticle(a2, 10);
 	}
 	
 	@Test

@@ -3,10 +3,6 @@ package model;
 
 import persistence.*;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.time.Instant;
-
 import model.visitor.*;
 
 
@@ -231,13 +227,6 @@ public class Cart extends PersistentObject implements PersistentCart{
     }
     
     
-    public void addArticle(final PersistentQuantifiedArticles article) 
-				throws PersistenceException{
-        model.meta.CartAddArticleQuantifiedArticlesMssg event = new model.meta.CartAddArticleQuantifiedArticlesMssg(article, getThis());
-		event.execute();
-		getThis().updateObservers(event);
-		event.getResult();
-    }
     public synchronized void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
@@ -287,25 +276,6 @@ public class Cart extends PersistentObject implements PersistentCart{
     
     // Start of section that contains operations that must be implemented.
     
-    /**
-     * Adds the article to the cart. If the article is already in the cart, adds the amount.
-     * Recalculates the current sum of the cart.
-     * 
-     * @param article - the article to add to the cart
-     */
-    public void addArticleImplementation(final PersistentQuantifiedArticles article) 
-				throws PersistenceException{
-    	getThis().checkOutReverse();
-    	// Check if article is already in cart
-        PersistentQuantifiedArticles oldEntry = getThis().getCartMngr().getArticleList().findFirst(x -> x.getArticle().equals(article.getArticle()));
-        if(oldEntry == null) {
-        	getThis().getCartMngr().getArticleList().add(article);
-        } else {
-        	oldEntry.changeAmount(oldEntry.getAmount() + article.getAmount());
-        }
-        // Calculation of new sum
-        getThis().setCurrentSum(getThis().fetchCurrentSum());
-    }
     /**
      * Changes the amount of article to new value. Deletes articles if amount is == 0.
      * Recalculates the current sum of the cart.
@@ -421,7 +391,7 @@ public class Cart extends PersistentObject implements PersistentCart{
 			@Override
 			public void handleCheckedOut(PersistentCheckedOut checkedOut) throws PersistenceException, InsufficientFunds {
 				// pay the sum of the articles from the account
-				getThis().getCartMngr().getCustomerManager().pay(getThis().getCurrentSum());
+				getThis().getCartMngr().pay(getThis().getCurrentSum());
 				// create order to deliver with this article list
 				PersistentCustomerOrder co = CustomerOrder.createCustomerOrder(0, serverConstants.OrderConstants.current);
 				getThis().getCartMngr().getArticleList().applyToAll(new Procdure<PersistentQuantifiedArticles>() {

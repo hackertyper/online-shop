@@ -138,10 +138,6 @@ public class ArticleICProxi extends ItemICProxi implements PersistentArticle{
 				throws PersistenceException{
         ((PersistentArticle)this.getTheObject()).updateObservers(event);
     }
-    public void addToCart(final long amount, final PersistentCart cart) 
-				throws PersistenceException{
-        ((PersistentArticle)this.getTheObject()).addToCart(amount, cart);
-    }
     public void changeDescription(final String newDescription) 
 				throws PersistenceException{
         ((PersistentArticle)this.getTheObject()).changeDescription(newDescription);

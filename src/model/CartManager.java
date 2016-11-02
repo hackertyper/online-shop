@@ -242,6 +242,13 @@ public class CartManager extends PersistentObject implements PersistentCartManag
     }
     
     
+    public void addArticle(final PersistentArticle article, final long amount) 
+				throws PersistenceException{
+        model.meta.CartManagerAddArticleArticleIntegerMssg event = new model.meta.CartManagerAddArticleArticleIntegerMssg(article, amount, getThis());
+		event.execute();
+		getThis().updateObservers(event);
+		event.getResult();
+    }
     public void addArticle(final PersistentArticle article, final long amount, final Invoker invoker) 
 				throws PersistenceException{
         java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
@@ -352,9 +359,24 @@ public class CartManager extends PersistentObject implements PersistentCartManag
     
     // Start of section that contains operations that must be implemented.
     
-    public void addArticle(final PersistentArticle article, final long amount) 
+    /**
+     * Adds the article to the cart. If the article is already in the cart, adds the amount.
+     * Recalculates the current sum of the cart.
+     * 
+     * @param article - the article to add to the cart
+     */
+    public void addArticleImplementation(final PersistentArticle article, final long amount) 
 				throws PersistenceException{
-        getThis().getMyCart().addArticle(QuantifiedArticles.createQuantifiedArticles(article, amount));
+    	getThis().getMyCart().checkOutReverse();
+    	// Check if article is already in cart
+        PersistentQuantifiedArticles oldEntry = getThis().getArticleList().findFirst(x -> x.getArticle().equals(article));
+        if(oldEntry == null) {
+        	getThis().getArticleList().add(QuantifiedArticles.createQuantifiedArticles(article, amount));
+        } else {
+        	oldEntry.changeAmount(oldEntry.getAmount() + amount);
+        }
+        // Calculation of new sum
+        getThis().getMyCart().setCurrentSum(getThis().getMyCart().fetchCurrentSum());
     }
     public void addOrder(final PersistentCustomerOrder order) 
 				throws PersistenceException{
@@ -397,6 +419,10 @@ public class CartManager extends PersistentObject implements PersistentCartManag
 				return false;
 			}
 		});
+    }
+    public void pay(final long sum) 
+				throws model.InsufficientFunds, PersistenceException{
+    	getThis().getCustomerManager().pay(sum);
     }
     public void removeFCart(final PersistentQuantifiedArticles article) 
 				throws PersistenceException{

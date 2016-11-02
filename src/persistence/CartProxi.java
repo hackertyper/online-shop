@@ -66,10 +66,6 @@ public class CartProxi extends PersistentProxi implements PersistentCart{
     }
     
     
-    public void addArticle(final PersistentQuantifiedArticles article) 
-				throws PersistenceException{
-        ((PersistentCart)this.getTheObject()).addArticle(article);
-    }
     public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentCart)this.getTheObject()).deregister(observee);
@@ -89,10 +85,6 @@ public class CartProxi extends PersistentProxi implements PersistentCart{
     public void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentCart)this.getTheObject()).updateObservers(event);
-    }
-    public void addArticleImplementation(final PersistentQuantifiedArticles article) 
-				throws PersistenceException{
-        ((PersistentCart)this.getTheObject()).addArticleImplementation(article);
     }
     public void changeAmount(final PersistentQuantifiedArticles article, final long newAmount) 
 				throws PersistenceException{

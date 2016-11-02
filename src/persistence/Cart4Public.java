@@ -15,11 +15,7 @@ public interface Cart4Public extends Anything, SubjInterface, AbstractPersistent
     public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E;
     public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     
-    public void addArticle(final PersistentQuantifiedArticles article) 
-				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
-				throws PersistenceException;
-    public void addArticleImplementation(final PersistentQuantifiedArticles article) 
 				throws PersistenceException;
     public void changeAmount(final PersistentQuantifiedArticles article, final long newAmount) 
 				throws PersistenceException;

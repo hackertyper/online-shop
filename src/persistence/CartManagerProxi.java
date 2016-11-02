@@ -63,6 +63,10 @@ public class CartManagerProxi extends PersistentProxi implements PersistentCartM
     }
     
     
+    public void addArticle(final PersistentArticle article, final long amount) 
+				throws PersistenceException{
+        ((PersistentCartManager)this.getTheObject()).addArticle(article, amount);
+    }
     public void addArticle(final PersistentArticle article, final long amount, final Invoker invoker) 
 				throws PersistenceException{
         ((PersistentCartManager)this.getTheObject()).addArticle(article, amount, invoker);
@@ -111,9 +115,9 @@ public class CartManagerProxi extends PersistentProxi implements PersistentCartM
 				throws PersistenceException{
         ((PersistentCartManager)this.getTheObject()).updateObservers(event);
     }
-    public void addArticle(final PersistentArticle article, final long amount) 
+    public void addArticleImplementation(final PersistentArticle article, final long amount) 
 				throws PersistenceException{
-        ((PersistentCartManager)this.getTheObject()).addArticle(article, amount);
+        ((PersistentCartManager)this.getTheObject()).addArticleImplementation(article, amount);
     }
     public void addOrder(final PersistentCustomerOrder order) 
 				throws PersistenceException{
@@ -150,6 +154,10 @@ public class CartManagerProxi extends PersistentProxi implements PersistentCartM
     public void order() 
 				throws model.FirstCheckOut, model.InsufficientFunds, PersistenceException{
         ((PersistentCartManager)this.getTheObject()).order();
+    }
+    public void pay(final long sum) 
+				throws model.InsufficientFunds, PersistenceException{
+        ((PersistentCartManager)this.getTheObject()).pay(sum);
     }
     public void removeFCart(final PersistentQuantifiedArticles article) 
 				throws PersistenceException{
