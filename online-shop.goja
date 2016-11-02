@@ -86,17 +86,17 @@ class CartManager {
 	active void changeAmount(QuantifiedArticles article, Integer newAmount);
 	void addToCart(Article article, Integer amount);
 	active void removeFCart(QuantifiedArticles article);
-	active void addArticle(Article article, Integer amount);
+	active event void addArticle(Article article, Integer amount);
 	active void checkOut() throws InsufficientStock;
 	active void order() throws InsufficientFunds, FirstCheckOut;
 	void addOrder(CustomerOrder order);
+	void pay(Integer sum) throws InsufficientFunds;
 }
 class OrderManager {
-	no-view CustomerOrder ** allOrders;
-	ArrivedOrder ** orders;
+	CustomerOrder ** orders;
 	void addOrder(CustomerOrder order);
-	active void acceptDelivery(ArrivedOrder arrivedOrder);
-	active void retoureDelivery(ArrivedOrder arrivedOrder, QuantifiedArticles ** list);
+	active void acceptDelivery(CustomerOrder arrivedOrder);
+	active void retoureDelivery(CustomerOrder arrivedOrder, QuantifiedArticles ** list);
 }
 class Account {
 	Integer lowerLimit;
@@ -109,7 +109,6 @@ class Cart {
 	Integer currentSum;
 	skip-view prior CartState state;
 	void changeState(CartState newState);
-	event void addArticle(QuantifiedArticles article);
 	Integer fetchCurrentSum();
 	void changeAmount(QuantifiedArticles article, Integer newAmount);
 	void removeArticle(QuantifiedArticles article);
@@ -150,7 +149,7 @@ class Article extends Item{
 	void reserve(Integer amount) throws InsufficientStock;
 	void deleteReserve(Integer amount);
 	void pack(Integer amount);
-	void addToCart(Integer amount, Cart cart);
+	void receiveDelivery(Integer amount);
 }
 class Manufacturer {
 	prior String name;
@@ -179,7 +178,7 @@ class QuantifiedArticles {
 abstract class Delivery{
 	prior Integer remainingTimeToDelivery##rmngTmDlvr;
 	prior Timestamp sendDate;
-	abstract void send();
+	void send();
 	abstract void deliver();
 }
 class ShopKeeperOrder extends Delivery {
@@ -188,8 +187,9 @@ class ShopKeeperOrder extends Delivery {
 }
 class CustomerOrder extends Delivery {
 	QuantifiedArticles ** articleList;
-	skip-view OrderManager ordermngr;
-	skip-view one-to-one (server-only customerOrder) CustomerOrderState myState;
+	no-view OrderManager ordermngr;
+	no-view CustomerOrderState myState;
+	void retoure(QuantifiedArticles ** list);
 }
 class Retoure extends Delivery {
 	QuantifiedArticles ** articleList;
@@ -199,9 +199,8 @@ interface CustomerOrderState##csOrdStt {
 }
 class SendOrder implements CustomerOrderState{}
 class ArrivedOrder implements CustomerOrderState {
-	Integer timtToAccept;
+	Integer timeToAccept;
 	void arrived();
-	void acceptDelivery();
 	void retoure(QuantifiedArticles ** list);
 }
 exception DoubleUsername{}
