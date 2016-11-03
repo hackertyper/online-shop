@@ -25,6 +25,10 @@ public class ServiceFacade{
 	}
 
     public long getClass(long objectId) throws PersistenceException{
+        if(Cache.getTheCache().contains(objectId, -185)) return -185;
+        if(Cache.getTheCache().contains(objectId, -187)) return -187;
+        if(Cache.getTheCache().contains(objectId, -223)) return -223;
+        if(Cache.getTheCache().contains(objectId, -189)) return -189;
         if(Cache.getTheCache().contains(objectId, -103)) return -103;
         if(Cache.getTheCache().contains(objectId, -115)) return -115;
         if(Cache.getTheCache().contains(objectId, -133)) return -133;
@@ -32,10 +36,7 @@ public class ServiceFacade{
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         
     }
-    public void lowerLimitPresetSet(long ServiceId, long lowerLimitPresetVal) throws PersistenceException {
-        
-    }
-    public void balancePresetSet(long ServiceId, long balancePresetVal) throws PersistenceException {
+    public void subServiceSet(long ServiceId, SubjInterface subServiceVal) throws PersistenceException {
         
     }
     public void ThisSet(long ServiceId, PersistentService ThisVal) throws PersistenceException {

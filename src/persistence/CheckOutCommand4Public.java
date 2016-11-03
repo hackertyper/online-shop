@@ -3,12 +3,12 @@ package persistence;
 
 import model.visitor.*;
 
-public interface CheckOutCommand4Public extends Anything, CustomerCommand, CommonDate4Public, AbstractPersistentProxi {
+public interface CheckOutCommand4Public extends Anything, CartManagerCommand, CommonDate4Public, AbstractPersistentProxi {
     
     public Invoker getInvoker() throws PersistenceException ;
     public void setInvoker(Invoker newValue) throws PersistenceException ;
-    public PersistentCustomer getCommandReceiver() throws PersistenceException ;
-    public void setCommandReceiver(PersistentCustomer newValue) throws PersistenceException ;
+    public PersistentCartManager getCommandReceiver() throws PersistenceException ;
+    public void setCommandReceiver(PersistentCartManager newValue) throws PersistenceException ;
     
     public void accept(CommonDateVisitor visitor) throws PersistenceException;
     public <R> R accept(CommonDateReturnVisitor<R>  visitor) throws PersistenceException;
@@ -22,10 +22,10 @@ public interface CheckOutCommand4Public extends Anything, CustomerCommand, Commo
     public <R> R accept(CommandReturnVisitor<R>  visitor) throws PersistenceException;
     public <E extends model.UserException>  void accept(CommandExceptionVisitor<E> visitor) throws PersistenceException, E;
     public <R, E extends model.UserException> R accept(CommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
-    public void accept(CustomerCommandVisitor visitor) throws PersistenceException;
-    public <R> R accept(CustomerCommandReturnVisitor<R>  visitor) throws PersistenceException;
-    public <E extends model.UserException>  void accept(CustomerCommandExceptionVisitor<E> visitor) throws PersistenceException, E;
-    public <R, E extends model.UserException> R accept(CustomerCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
+    public void accept(CartManagerCommandVisitor visitor) throws PersistenceException;
+    public <R> R accept(CartManagerCommandReturnVisitor<R>  visitor) throws PersistenceException;
+    public <E extends model.UserException>  void accept(CartManagerCommandExceptionVisitor<E> visitor) throws PersistenceException, E;
+    public <R, E extends model.UserException> R accept(CartManagerCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     
     public void checkException() 
 				throws model.UserException, PersistenceException;

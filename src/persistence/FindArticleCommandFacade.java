@@ -55,7 +55,7 @@ public class FindArticleCommandFacade{
     public void invokerSet(long FindArticleCommandId, Invoker invokerVal) throws PersistenceException {
         
     }
-    public void commandReceiverSet(long FindArticleCommandId, PersistentCustomer commandReceiverVal) throws PersistenceException {
+    public void commandReceiverSet(long FindArticleCommandId, PersistentCustomerManager commandReceiverVal) throws PersistenceException {
         
     }
     public void myCommonDateSet(long FindArticleCommandId, PersistentCommonDate myCommonDateVal) throws PersistenceException {

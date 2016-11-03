@@ -55,7 +55,7 @@ public class WithdrawCommandFacade{
     public void invokerSet(long WithdrawCommandId, Invoker invokerVal) throws PersistenceException {
         
     }
-    public void commandReceiverSet(long WithdrawCommandId, PersistentCustomer commandReceiverVal) throws PersistenceException {
+    public void commandReceiverSet(long WithdrawCommandId, PersistentCustomerManager commandReceiverVal) throws PersistenceException {
         
     }
     public void myCommonDateSet(long WithdrawCommandId, PersistentCommonDate myCommonDateVal) throws PersistenceException {

@@ -10,37 +10,39 @@ import model.visitor.*;
 public class ProductGroup extends model.Item implements PersistentProductGroup{
     
     
-    public static PersistentProductGroup createProductGroup() throws PersistenceException{
-        return createProductGroup(false);
+    public static PersistentProductGroup createProductGroup(String description) throws PersistenceException{
+        return createProductGroup(description,false);
     }
     
-    public static PersistentProductGroup createProductGroup(boolean delayed$Persistence) throws PersistenceException {
+    public static PersistentProductGroup createProductGroup(String description,boolean delayed$Persistence) throws PersistenceException {
         PersistentProductGroup result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theProductGroupFacade
-                .newDelayedProductGroup("");
+                .newDelayedProductGroup(description);
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theProductGroupFacade
-                .newProductGroup("",-1);
+                .newProductGroup(description,-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        final$$Fields.put("description", description);
         result.initialize(result, final$$Fields);
         result.initializeOnCreation();
         return result;
     }
     
-    public static PersistentProductGroup createProductGroup(boolean delayed$Persistence,PersistentProductGroup This) throws PersistenceException {
+    public static PersistentProductGroup createProductGroup(String description,boolean delayed$Persistence,PersistentProductGroup This) throws PersistenceException {
         PersistentProductGroup result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theProductGroupFacade
-                .newDelayedProductGroup("");
+                .newDelayedProductGroup(description);
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theProductGroupFacade
-                .newProductGroup("",-1);
+                .newProductGroup(description,-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        final$$Fields.put("description", description);
         result.initialize(This, final$$Fields);
         result.initializeOnCreation();
         return result;
@@ -60,6 +62,7 @@ public class ProductGroup extends model.Item implements PersistentProductGroup{
     public ProductGroup provideCopy() throws PersistenceException{
         ProductGroup result = this;
         result = new ProductGroup(this.description, 
+                                  this.subService, 
                                   this.This, 
                                   this.getId());
         result.itemList = this.itemList.copy(result);
@@ -72,9 +75,9 @@ public class ProductGroup extends model.Item implements PersistentProductGroup{
     }
     protected ProductGroup_ItemListProxi itemList;
     
-    public ProductGroup(String description,PersistentItem This,long id) throws PersistenceException {
+    public ProductGroup(String description,SubjInterface subService,PersistentItem This,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((String)description,(PersistentItem)This,id);
+        super((String)description,(SubjInterface)subService,(PersistentItem)This,id);
         this.itemList = new ProductGroup_ItemListProxi(this);        
     }
     
@@ -130,17 +133,57 @@ public class ProductGroup extends model.Item implements PersistentProductGroup{
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleProductGroup(this);
     }
+    public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
+        visitor.handleProductGroup(this);
+    }
+    public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleProductGroup(this);
+    }
+    public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleProductGroup(this);
+    }
+    public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleProductGroup(this);
+    }
     public int getLeafInfo() throws PersistenceException{
         if (this.getItemList().getLength() > 0) return 1;
         return 0;
     }
     
     
+    public synchronized void deregister(final ObsInterface observee) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.deregister(observee);
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentProductGroup)This);
 		if(this.isTheSameAs(This)){
+			this.setDescription((String)final$$Fields.get("description"));
 		}
+    }
+    public synchronized void register(final ObsInterface observee) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.register(observee);
+    }
+    public synchronized void updateObservers(final model.meta.Mssgs event) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.updateObservers(event);
     }
     
     
@@ -153,8 +196,6 @@ public class ProductGroup extends model.Item implements PersistentProductGroup{
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
@@ -172,8 +213,7 @@ public class ProductGroup extends model.Item implements PersistentProductGroup{
     
     public void changeDescription(final String newDescription) 
 				throws PersistenceException{
-		// TODO Auto-generated method stub
-		
+		getThis().setDescription(newDescription);
 	}
 
     /* Start of protected part that is not overridden by persistence generator */

@@ -274,20 +274,28 @@ public class Cache {
 	
 	private void initializeNumber2NameMap() {
 		this.number2NameMap = new Hashtable<Integer,String>();
-		this.number2NameMap.put(101, "Account");
-		this.number2NameMap.put(135, "AddToCartCommand");
+		this.number2NameMap.put(198, "AcceptDeliveryCommand");
+		this.number2NameMap.put(199, "Account");
+		this.number2NameMap.put(188, "AccountManager");
+		this.number2NameMap.put(-189, "AccountService");
+		this.number2NameMap.put(202, "AddArticleCommand");
 		this.number2NameMap.put(112, "ArrivedOrder");
 		this.number2NameMap.put(109, "Article");
 		this.number2NameMap.put(123, "Cart");
+		this.number2NameMap.put(190, "CartManager");
+		this.number2NameMap.put(213, "CartManagerArticleList");
+		this.number2NameMap.put(-187, "CartService");
+		this.number2NameMap.put(201, "ChangeAmountCommand");
 		this.number2NameMap.put(131, "ChangeDescriptionCommand");
 		this.number2NameMap.put(121, "ChangeManuDeliveryCommand");
 		this.number2NameMap.put(127, "ChangePriceCommand");
 		this.number2NameMap.put(125, "ChangeProductGroupCommand");
 		this.number2NameMap.put(137, "CheckOutCommand");
+		this.number2NameMap.put(218, "CheckedOut");
 		this.number2NameMap.put(-117, "CommandCoordinator");
 		this.number2NameMap.put(-139, "CommandExecuter");
 		this.number2NameMap.put(138, "CommonDate");
-		this.number2NameMap.put(106, "Customer");
+		this.number2NameMap.put(184, "CustomerManager");
 		this.number2NameMap.put(111, "CustomerOrder");
 		this.number2NameMap.put(-103, "CustomerService");
 		this.number2NameMap.put(122, "DepositCommand");
@@ -296,19 +304,27 @@ public class Cache {
 		this.number2NameMap.put(119, "Manufacturer");
 		this.number2NameMap.put(120, "NewlyAdded");
 		this.number2NameMap.put(110, "OfferedFSale");
+		this.number2NameMap.put(216, "OpenCart");
 		this.number2NameMap.put(104, "OrderCommand");
-		this.number2NameMap.put(114, "PayCommand");
+		this.number2NameMap.put(224, "OrderManager");
+		this.number2NameMap.put(-223, "OrderService");
 		this.number2NameMap.put(102, "ProductGroup");
 		this.number2NameMap.put(124, "QuantifiedArticles");
 		this.number2NameMap.put(-115, "RegisterService");
+		this.number2NameMap.put(215, "RemoveFCartCommand");
 		this.number2NameMap.put(132, "RemovedFSale");
 		this.number2NameMap.put(134, "Retoure");
+		this.number2NameMap.put(225, "RetoureDeliveryCommand");
 		this.number2NameMap.put(126, "SendOrder");
 		this.number2NameMap.put(-105, "Server");
 		this.number2NameMap.put(130, "ShopKeeperOrder");
+		this.number2NameMap.put(186, "ShopManager");
+		this.number2NameMap.put(204, "ShopManagerItemRange");
+		this.number2NameMap.put(-185, "ShopService");
 		this.number2NameMap.put(107, "Shopkeeper");
 		this.number2NameMap.put(-133, "ShopkeeperService");
 		this.number2NameMap.put(128, "StartSellingCommand");
+		this.number2NameMap.put(205, "Subj");
 		this.number2NameMap.put(118, "WithdrawCommand");	
 	}
 	

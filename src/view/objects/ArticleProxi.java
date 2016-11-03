@@ -42,8 +42,9 @@ public class ArticleProxi extends ItemProxi implements ArticleView{
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
         int index = originalIndex;
-        if(index == 0 && this.getManufacturer() != null) return new ManufacturerArticleWrapper(this, originalIndex, (ViewRoot)this.getManufacturer());
-        if(this.getManufacturer() != null) index = index - 1;
+        if(this.getManufacturer() != null && index < this.getManufacturer().getTheObject().getChildCount())
+            return this.getManufacturer().getTheObject().getChild(index);
+        if(this.getManufacturer() != null) index = index - this.getManufacturer().getTheObject().getChildCount();
         if(this.getState() != null && index < this.getState().getTheObject().getChildCount())
             return this.getState().getTheObject().getChild(index);
         if(this.getState() != null) index = index - this.getState().getTheObject().getChildCount();
@@ -51,13 +52,13 @@ public class ArticleProxi extends ItemProxi implements ArticleView{
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getManufacturer() == null ? 0 : 1)
+            + (this.getManufacturer() == null ? 0 : this.getManufacturer().getTheObject().getChildCount())
             + (this.getState() == null ? 0 : this.getState().getTheObject().getChildCount());
     }
     public boolean isLeaf() throws ModelException {
         if (this.object == null) return this.getLeafInfo() == 0;
         return true 
-            && (this.getManufacturer() == null ? true : false)
+            && (this.getManufacturer() == null ? true : this.getManufacturer().getTheObject().isLeaf())
             && (this.getState() == null ? true : this.getState().getTheObject().isLeaf());
     }
     public int getIndexOfChild(Object child) throws ModelException {

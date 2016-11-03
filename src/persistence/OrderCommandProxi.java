@@ -24,10 +24,10 @@ public class OrderCommandProxi extends PersistentProxi implements PersistentOrde
     public void setInvoker(Invoker newValue) throws PersistenceException {
         ((PersistentOrderCommand)this.getTheObject()).setInvoker(newValue);
     }
-    public PersistentCustomer getCommandReceiver() throws PersistenceException {
+    public PersistentCartManager getCommandReceiver() throws PersistenceException {
         return ((PersistentOrderCommand)this.getTheObject()).getCommandReceiver();
     }
-    public void setCommandReceiver(PersistentCustomer newValue) throws PersistenceException {
+    public void setCommandReceiver(PersistentCartManager newValue) throws PersistenceException {
         ((PersistentOrderCommand)this.getTheObject()).setCommandReceiver(newValue);
     }
     public PersistentCommonDate getMyCommonDate() throws PersistenceException {
@@ -85,16 +85,16 @@ public class OrderCommandProxi extends PersistentProxi implements PersistentOrde
     public <R, E extends model.UserException> R accept(CommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleOrderCommand(this);
     }
-    public void accept(CustomerCommandVisitor visitor) throws PersistenceException {
+    public void accept(CartManagerCommandVisitor visitor) throws PersistenceException {
         visitor.handleOrderCommand(this);
     }
-    public <R> R accept(CustomerCommandReturnVisitor<R>  visitor) throws PersistenceException {
+    public <R> R accept(CartManagerCommandReturnVisitor<R>  visitor) throws PersistenceException {
          return visitor.handleOrderCommand(this);
     }
-    public <E extends model.UserException>  void accept(CustomerCommandExceptionVisitor<E> visitor) throws PersistenceException, E {
+    public <E extends model.UserException>  void accept(CartManagerCommandExceptionVisitor<E> visitor) throws PersistenceException, E {
          visitor.handleOrderCommand(this);
     }
-    public <R, E extends model.UserException> R accept(CustomerCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+    public <R, E extends model.UserException> R accept(CartManagerCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleOrderCommand(this);
     }
     

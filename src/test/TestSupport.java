@@ -18,6 +18,7 @@ public class TestSupport {
 	
 	public static void prepareSingletons(){
         model.meta.CommandCoordinator.reset$For$Test = true;
+        model.OpenCart.reset$For$Test = true;
 
 	}
 

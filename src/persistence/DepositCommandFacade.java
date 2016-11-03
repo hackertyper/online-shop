@@ -55,7 +55,7 @@ public class DepositCommandFacade{
     public void invokerSet(long DepositCommandId, Invoker invokerVal) throws PersistenceException {
         
     }
-    public void commandReceiverSet(long DepositCommandId, PersistentCustomer commandReceiverVal) throws PersistenceException {
+    public void commandReceiverSet(long DepositCommandId, PersistentCustomerManager commandReceiverVal) throws PersistenceException {
         
     }
     public void myCommonDateSet(long DepositCommandId, PersistentCommonDate myCommonDateVal) throws PersistenceException {

@@ -65,17 +65,18 @@ public class QuantifiedArticles extends ViewObject implements QuantifiedArticles
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
         int index = originalIndex;
-        if(index == 0 && this.getArticle() != null) return new ArticleQuantifiedArticlesWrapper(this, originalIndex, (ViewRoot)this.getArticle());
-        if(this.getArticle() != null) index = index - 1;
+        if(this.getArticle() != null && index < this.getArticle().getTheObject().getChildCount())
+            return this.getArticle().getTheObject().getChild(index);
+        if(this.getArticle() != null) index = index - this.getArticle().getTheObject().getChildCount();
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getArticle() == null ? 0 : 1);
+            + (this.getArticle() == null ? 0 : this.getArticle().getTheObject().getChildCount());
     }
     public boolean isLeaf() throws ModelException {
         return true 
-            && (this.getArticle() == null ? true : false);
+            && (this.getArticle() == null ? true : this.getArticle().getTheObject().isLeaf());
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;

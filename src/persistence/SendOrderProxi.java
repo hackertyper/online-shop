@@ -18,6 +18,12 @@ public class SendOrderProxi extends PersistentProxi implements PersistentSendOrd
         return 126;
     }
     
+    public SubjInterface getSubService() throws PersistenceException {
+        return ((PersistentSendOrder)this.getTheObject()).getSubService();
+    }
+    public void setSubService(SubjInterface newValue) throws PersistenceException {
+        ((PersistentSendOrder)this.getTheObject()).setSubService(newValue);
+    }
     public PersistentSendOrder getThis() throws PersistenceException {
         return ((PersistentSendOrder)this.getTheObject()).getThis();
     }
@@ -46,15 +52,39 @@ public class SendOrderProxi extends PersistentProxi implements PersistentSendOrd
     public <R, E extends model.UserException> R accept(CustomerOrderStateReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleSendOrder(this);
     }
+    public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
+        visitor.handleSendOrder(this);
+    }
+    public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleSendOrder(this);
+    }
+    public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleSendOrder(this);
+    }
+    public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleSendOrder(this);
+    }
     
     
-    public PersistentCustomerOrder getCustomerOrder() 
+    public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
-        return ((PersistentSendOrder)this.getTheObject()).getCustomerOrder();
+        ((PersistentSendOrder)this.getTheObject()).deregister(observee);
     }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentSendOrder)this.getTheObject()).initialize(This, final$$Fields);
+    }
+    public void register(final ObsInterface observee) 
+				throws PersistenceException{
+        ((PersistentSendOrder)this.getTheObject()).register(observee);
+    }
+    public void updateObservers(final model.meta.Mssgs event) 
+				throws PersistenceException{
+        ((PersistentSendOrder)this.getTheObject()).updateObservers(event);
+    }
+    public void arrived() 
+				throws PersistenceException{
+        ((PersistentSendOrder)this.getTheObject()).arrived();
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{

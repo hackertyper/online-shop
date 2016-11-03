@@ -28,14 +28,14 @@ public class QuantifiedArticlesFacade{
     public PersistentQuantifiedArticles newQuantifiedArticles(long amount,long idCreateIfLessZero) throws PersistenceException {
         if(idCreateIfLessZero > 0) return (PersistentQuantifiedArticles)PersistentProxi.createProxi(idCreateIfLessZero, 124);
         long id = ConnectionHandler.getTheConnectionHandler().theQuantifiedArticlesFacade.getNextId();
-        QuantifiedArticles result = new QuantifiedArticles(null,amount,null,id);
+        QuantifiedArticles result = new QuantifiedArticles(null,amount,null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentQuantifiedArticles)PersistentProxi.createProxi(id, 124);
     }
     
     public PersistentQuantifiedArticles newDelayedQuantifiedArticles(long amount) throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theQuantifiedArticlesFacade.getNextId();
-        QuantifiedArticles result = new QuantifiedArticles(null,amount,null,id);
+        QuantifiedArticles result = new QuantifiedArticles(null,amount,null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentQuantifiedArticles)PersistentProxi.createProxi(id, 124);
     }
@@ -53,6 +53,9 @@ public class QuantifiedArticlesFacade{
         
     }
     public void amountSet(long QuantifiedArticlesId, long amountVal) throws PersistenceException {
+        
+    }
+    public void subServiceSet(long QuantifiedArticlesId, SubjInterface subServiceVal) throws PersistenceException {
         
     }
     public void ThisSet(long QuantifiedArticlesId, PersistentQuantifiedArticles ThisVal) throws PersistenceException {

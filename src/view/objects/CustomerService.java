@@ -10,11 +10,13 @@ import view.visitor.*;
 
 public class CustomerService extends view.objects.Service implements CustomerServiceView{
     
-    protected CustomerView manager;
+    protected java.util.Vector<CustomerServiceView> services;
+    protected CustomerManagerView manager;
     
-    public CustomerService(java.util.Vector<ErrorDisplayView> errors,CustomerView manager,long id, long classId) {
+    public CustomerService(java.util.Vector<ErrorDisplayView> errors,java.util.Vector<CustomerServiceView> services,CustomerManagerView manager,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(errors,id, classId);
+        this.services = services;
         this.manager = manager;        
     }
     
@@ -26,13 +28,31 @@ public class CustomerService extends view.objects.Service implements CustomerSer
         return getTypeId();
     }
     
-    public CustomerView getManager()throws ModelException{
+    public java.util.Vector<CustomerServiceView> getServices()throws ModelException{
+        return this.services;
+    }
+    public void setServices(java.util.Vector<CustomerServiceView> newValue) throws ModelException {
+        this.services = newValue;
+    }
+    public CustomerManagerView getManager()throws ModelException{
         return this.manager;
     }
-    public void setManager(CustomerView newValue) throws ModelException {
+    public void setManager(CustomerManagerView newValue) throws ModelException {
         this.manager = newValue;
     }
     
+    public void accept(CustomerServiceVisitor visitor) throws ModelException {
+        visitor.handleCustomerService(this);
+    }
+    public <R> R accept(CustomerServiceReturnVisitor<R>  visitor) throws ModelException {
+         return visitor.handleCustomerService(this);
+    }
+    public <E extends view.UserException>  void accept(CustomerServiceExceptionVisitor<E> visitor) throws ModelException, E {
+         visitor.handleCustomerService(this);
+    }
+    public <R, E extends view.UserException> R accept(CustomerServiceReturnExceptionVisitor<R, E>  visitor) throws ModelException, E {
+         return visitor.handleCustomerService(this);
+    }
     public void accept(ServiceVisitor visitor) throws ModelException {
         visitor.handleCustomerService(this);
     }
@@ -75,7 +95,11 @@ public class CustomerService extends view.objects.Service implements CustomerSer
         if (errors != null) {
             ViewObject.resolveVectorProxies(errors, resultTable);
         }
-        CustomerView manager = this.getManager();
+        java.util.Vector<?> services = this.getServices();
+        if (services != null) {
+            ViewObject.resolveVectorProxies(services, resultTable);
+        }
+        CustomerManagerView manager = this.getManager();
         if (manager != null) {
             ((ViewProxi)manager).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(manager.getClassId(), manager.getId())));
         }
@@ -86,6 +110,8 @@ public class CustomerService extends view.objects.Service implements CustomerSer
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
         int index = originalIndex;
+        if(index < this.getServices().size()) return new ServicesCustomerServiceWrapper(this, originalIndex, (ViewRoot)this.getServices().get(index));
+        index = index - this.getServices().size();
         if(this.getManager() != null && index < this.getManager().getTheObject().getChildCount())
             return this.getManager().getTheObject().getChild(index);
         if(this.getManager() != null) index = index - this.getManager().getTheObject().getChildCount();
@@ -93,14 +119,21 @@ public class CustomerService extends view.objects.Service implements CustomerSer
     }
     public int getChildCount() throws ModelException {
         return 0 
+            + (this.getServices().size())
             + (this.getManager() == null ? 0 : this.getManager().getTheObject().getChildCount());
     }
     public boolean isLeaf() throws ModelException {
         return true 
+            && (this.getServices().size() == 0)
             && (this.getManager() == null ? true : this.getManager().getTheObject().isLeaf());
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
+        java.util.Iterator<?> getServicesIterator = this.getServices().iterator();
+        while(getServicesIterator.hasNext()){
+            if(getServicesIterator.next().equals(child)) return result;
+            result = result + 1;
+        }
         if(this.getManager() != null && this.getManager().equals(child)) return result;
         if(this.getManager() != null) result = result + 1;
         return -1;

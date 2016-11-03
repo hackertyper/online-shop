@@ -37,12 +37,12 @@ public class OrderCommand extends PersistentObject implements PersistentOrderCom
         return true;
     }
     protected Invoker invoker;
-    protected PersistentCustomer commandReceiver;
+    protected PersistentCartManager commandReceiver;
     protected PersistentCommonDate myCommonDate;
     
     private model.UserException commandException = null;
     
-    public OrderCommand(Invoker invoker,PersistentCustomer commandReceiver,PersistentCommonDate myCommonDate,long id) throws PersistenceException {
+    public OrderCommand(Invoker invoker,PersistentCartManager commandReceiver,PersistentCommonDate myCommonDate,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.invoker = invoker;
@@ -92,15 +92,15 @@ public class OrderCommand extends PersistentObject implements PersistentOrderCom
             ConnectionHandler.getTheConnectionHandler().theOrderCommandFacade.invokerSet(this.getId(), newValue);
         }
     }
-    public PersistentCustomer getCommandReceiver() throws PersistenceException {
+    public PersistentCartManager getCommandReceiver() throws PersistenceException {
         return this.commandReceiver;
     }
-    public void setCommandReceiver(PersistentCustomer newValue) throws PersistenceException {
+    public void setCommandReceiver(PersistentCartManager newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
         if(newValue.isTheSameAs(this.commandReceiver)) return;
         long objectId = newValue.getId();
         long classId = newValue.getClassId();
-        this.commandReceiver = (PersistentCustomer)PersistentProxi.createProxi(objectId, classId);
+        this.commandReceiver = (PersistentCartManager)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
             ConnectionHandler.getTheConnectionHandler().theOrderCommandFacade.commandReceiverSet(this.getId(), newValue);
@@ -173,16 +173,16 @@ public class OrderCommand extends PersistentObject implements PersistentOrderCom
     public <R, E extends model.UserException> R accept(CommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleOrderCommand(this);
     }
-    public void accept(CustomerCommandVisitor visitor) throws PersistenceException {
+    public void accept(CartManagerCommandVisitor visitor) throws PersistenceException {
         visitor.handleOrderCommand(this);
     }
-    public <R> R accept(CustomerCommandReturnVisitor<R>  visitor) throws PersistenceException {
+    public <R> R accept(CartManagerCommandReturnVisitor<R>  visitor) throws PersistenceException {
          return visitor.handleOrderCommand(this);
     }
-    public <E extends model.UserException>  void accept(CustomerCommandExceptionVisitor<E> visitor) throws PersistenceException, E {
+    public <E extends model.UserException>  void accept(CartManagerCommandExceptionVisitor<E> visitor) throws PersistenceException, E {
          visitor.handleOrderCommand(this);
     }
-    public <R, E extends model.UserException> R accept(CustomerCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+    public <R, E extends model.UserException> R accept(CartManagerCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleOrderCommand(this);
     }
     public int getLeafInfo() throws PersistenceException{
@@ -201,8 +201,15 @@ public class OrderCommand extends PersistentObject implements PersistentOrderCom
     }
     public void execute() 
 				throws PersistenceException{
-        this.commandReceiver.order();
-		
+        try{
+			this.commandReceiver.order();
+		}
+		catch(model.FirstCheckOut e){
+			this.commandException = e;
+		}
+		catch(model.InsufficientFunds e){
+			this.commandException = e;
+		}
     }
     public Invoker fetchInvoker() 
 				throws PersistenceException{

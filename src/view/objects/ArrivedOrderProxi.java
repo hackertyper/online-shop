@@ -12,8 +12,8 @@ public class ArrivedOrderProxi extends ViewProxi implements ArrivedOrderView{
     }
     
     public ArrivedOrderView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
-        long timtToAccept = new Long((String)resultTable.get("timtToAccept")).longValue();
-        ArrivedOrderView result$$ = new ArrivedOrder((long)timtToAccept, this.getId(), this.getClassId());
+        long timeToAccept = new Long((String)resultTable.get("timeToAccept")).longValue();
+        ArrivedOrderView result$$ = new ArrivedOrder((long)timeToAccept, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -36,11 +36,11 @@ public class ArrivedOrderProxi extends ViewProxi implements ArrivedOrderView{
         return -1;
     }
     
-    public long getTimtToAccept()throws ModelException{
-        return ((ArrivedOrder)this.getTheObject()).getTimtToAccept();
+    public long getTimeToAccept()throws ModelException{
+        return ((ArrivedOrder)this.getTheObject()).getTimeToAccept();
     }
-    public void setTimtToAccept(long newValue) throws ModelException {
-        ((ArrivedOrder)this.getTheObject()).setTimtToAccept(newValue);
+    public void setTimeToAccept(long newValue) throws ModelException {
+        ((ArrivedOrder)this.getTheObject()).setTimeToAccept(newValue);
     }
     
     public void accept(AnythingVisitor visitor) throws ModelException {

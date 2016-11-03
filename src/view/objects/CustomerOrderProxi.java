@@ -14,8 +14,16 @@ public class CustomerOrderProxi extends DeliveryProxi implements CustomerOrderVi
     @SuppressWarnings("unchecked")
     public CustomerOrderView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
         long remainingTimeToDelivery = new Long((String)resultTable.get("remainingTimeToDelivery")).longValue();
+        java.util.Date sendDate = (java.util.Date)resultTable.get("sendDate");
         java.util.Vector<String> articleList_string = (java.util.Vector<String>)resultTable.get("articleList");
         java.util.Vector<QuantifiedArticlesView> articleList = ViewProxi.getProxiVector(articleList_string, connectionKey);
+        ViewProxi ordermngr = null;
+        String ordermngr$String = (String)resultTable.get("ordermngr");
+        if (ordermngr$String != null) {
+            common.ProxiInformation ordermngr$Info = common.RPCConstantsAndServices.createProxiInformation(ordermngr$String);
+            ordermngr = view.objects.ViewProxi.createProxi(ordermngr$Info,connectionKey);
+            ordermngr.setToString(ordermngr$Info.getToString());
+        }
         ViewProxi myState = null;
         String myState$String = (String)resultTable.get("myState");
         if (myState$String != null) {
@@ -23,7 +31,7 @@ public class CustomerOrderProxi extends DeliveryProxi implements CustomerOrderVi
             myState = view.objects.ViewProxi.createProxi(myState$Info,connectionKey);
             myState.setToString(myState$Info.getToString());
         }
-        CustomerOrderView result$$ = new CustomerOrder((long)remainingTimeToDelivery,articleList,(CustomerOrderState)myState, this.getId(), this.getClassId());
+        CustomerOrderView result$$ = new CustomerOrder((long)remainingTimeToDelivery,(java.util.Date)sendDate,articleList,(OrderManagerView)ordermngr,(CustomerOrderState)myState, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -35,21 +43,16 @@ public class CustomerOrderProxi extends DeliveryProxi implements CustomerOrderVi
         int index = originalIndex;
         if(index < this.getArticleList().size()) return new ArticleListCustomerOrderWrapper(this, originalIndex, (ViewRoot)this.getArticleList().get(index));
         index = index - this.getArticleList().size();
-        if(this.getMyState() != null && index < this.getMyState().getTheObject().getChildCount())
-            return this.getMyState().getTheObject().getChild(index);
-        if(this.getMyState() != null) index = index - this.getMyState().getTheObject().getChildCount();
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getArticleList().size())
-            + (this.getMyState() == null ? 0 : this.getMyState().getTheObject().getChildCount());
+            + (this.getArticleList().size());
     }
     public boolean isLeaf() throws ModelException {
         if (this.object == null) return this.getLeafInfo() == 0;
         return true 
-            && (this.getArticleList().size() == 0)
-            && (this.getMyState() == null ? true : this.getMyState().getTheObject().isLeaf());
+            && (this.getArticleList().size() == 0);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
@@ -58,8 +61,6 @@ public class CustomerOrderProxi extends DeliveryProxi implements CustomerOrderVi
             if(getArticleListIterator.next().equals(child)) return result;
             result = result + 1;
         }
-        if(this.getMyState() != null && this.getMyState().equals(child)) return result;
-        if(this.getMyState() != null) result = result + 1;
         return -1;
     }
     
@@ -68,6 +69,12 @@ public class CustomerOrderProxi extends DeliveryProxi implements CustomerOrderVi
     }
     public void setArticleList(java.util.Vector<QuantifiedArticlesView> newValue) throws ModelException {
         ((CustomerOrder)this.getTheObject()).setArticleList(newValue);
+    }
+    public OrderManagerView getOrdermngr()throws ModelException{
+        return ((CustomerOrder)this.getTheObject()).getOrdermngr();
+    }
+    public void setOrdermngr(OrderManagerView newValue) throws ModelException {
+        ((CustomerOrder)this.getTheObject()).setOrdermngr(newValue);
     }
     public CustomerOrderState getMyState()throws ModelException{
         return ((CustomerOrder)this.getTheObject()).getMyState();

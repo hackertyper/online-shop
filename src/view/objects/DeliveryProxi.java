@@ -16,6 +16,12 @@ public abstract class DeliveryProxi extends ViewProxi implements DeliveryView{
     public void setRemainingTimeToDelivery(long newValue) throws ModelException {
         ((Delivery)this.getTheObject()).setRemainingTimeToDelivery(newValue);
     }
+    public java.util.Date getSendDate()throws ModelException{
+        return ((Delivery)this.getTheObject()).getSendDate();
+    }
+    public void setSendDate(java.util.Date newValue) throws ModelException {
+        ((Delivery)this.getTheObject()).setSendDate(newValue);
+    }
     
     
     

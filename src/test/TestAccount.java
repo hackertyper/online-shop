@@ -15,12 +15,11 @@ public class TestAccount {
 	
 	@Before
 	public void setUp() throws Exception {
-		TestSupport.prepareSingletons();
-		TestSupport.prepareDatabase();
-		acc = Account.createAccount(100, 1000);
+			TestSupport.prepareSingletons();
+			TestSupport.prepareDatabase();
+			acc = Account.createAccount();
 	}
 
-	@Test
 	public void testAccountCreation() throws PersistenceException {
 		assertEquals(1000, acc.getBalance());
 		assertEquals(100, acc.getLowerLimit());
@@ -45,6 +44,7 @@ public class TestAccount {
 		acc.setBalance(1000);
 		try {
 			acc.withdraw(1500);
+			fail("No expected InsufficientFunds exception occured");
 		} catch (InsufficientFunds e) {
 			assertEquals(serverConstants.ErrorMessages.InsufficientFunds, e.getMessage());
 		}
@@ -55,8 +55,40 @@ public class TestAccount {
 		acc.setBalance(1000);
 		try {
 			acc.withdraw(950);
+			fail("No expected InsufficientFunds exception occured");
 		} catch (InsufficientFunds e) {
 			assertEquals(serverConstants.ErrorMessages.InsufficientFunds, e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testAccountPay() throws PersistenceException, InsufficientFunds {
+		acc.setBalance(1000);
+		acc.pay(500);
+		assertEquals(500, acc.getBalance());
+	}
+	
+	@Test
+	public void testAccountPayErrorBalanceLessAmount() throws PersistenceException {
+		acc.setBalance(1000);
+		try {
+			acc.pay(1500);
+			fail("No expected InsufficientFunds exception occured");
+		} catch (InsufficientFunds e) {
+			assertEquals(serverConstants.ErrorMessages.InsufficientFunds, e.getMessage());
+			assertEquals(1000, acc.getBalance());
+		}
+	}
+	
+	@Test
+	public void testAccountPayErrorBalanceLessLowerLimit() throws PersistenceException {
+		acc.setBalance(1000);
+		try {
+			acc.pay(950);
+			fail("No expected InsufficientFunds exception occured");
+		} catch (InsufficientFunds e) {
+			assertEquals(serverConstants.ErrorMessages.InsufficientFunds, e.getMessage());
+			assertEquals(1000, acc.getBalance());
 		}
 	}
 

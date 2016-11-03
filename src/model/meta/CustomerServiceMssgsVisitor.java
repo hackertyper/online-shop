@@ -3,7 +3,7 @@ package model.meta;
 public interface CustomerServiceMssgsVisitor extends CustomerServiceDOWNMssgsVisitor, CustomerServiceUPMssgsVisitor {}
 
 
-interface CustomerServiceDOWNMssgsVisitor  {
+interface CustomerServiceDOWNMssgsVisitor extends ShopServiceDOWNMssgsVisitor, CartServiceDOWNMssgsVisitor, OrderServiceDOWNMssgsVisitor, AccountServiceDOWNMssgsVisitor {
 
     
 }

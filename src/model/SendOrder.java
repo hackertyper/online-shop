@@ -63,7 +63,8 @@ public class SendOrder extends PersistentObject implements PersistentSendOrder{
     
     public SendOrder provideCopy() throws PersistenceException{
         SendOrder result = this;
-        result = new SendOrder(this.This, 
+        result = new SendOrder(this.subService, 
+                               this.This, 
                                this.getId());
         this.copyingPrivateUserAttributes(result);
         return result;
@@ -72,11 +73,13 @@ public class SendOrder extends PersistentObject implements PersistentSendOrder{
     public boolean hasEssentialFields() throws PersistenceException{
         return false;
     }
+    protected SubjInterface subService;
     protected PersistentSendOrder This;
     
-    public SendOrder(PersistentSendOrder This,long id) throws PersistenceException {
+    public SendOrder(SubjInterface subService,PersistentSendOrder This,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
+        this.subService = subService;
         if (This != null && !(this.isTheSameAs(This))) this.This = This;        
     }
     
@@ -93,6 +96,10 @@ public class SendOrder extends PersistentObject implements PersistentSendOrder{
         if (this.getClassId() == 126) ConnectionHandler.getTheConnectionHandler().theSendOrderFacade
             .newSendOrder(this.getId());
         super.store();
+        if(this.getSubService() != null){
+            this.getSubService().store();
+            ConnectionHandler.getTheConnectionHandler().theSendOrderFacade.subServiceSet(this.getId(), getSubService());
+        }
         if(!this.isTheSameAs(this.getThis())){
             this.getThis().store();
             ConnectionHandler.getTheConnectionHandler().theSendOrderFacade.ThisSet(this.getId(), getThis());
@@ -100,6 +107,20 @@ public class SendOrder extends PersistentObject implements PersistentSendOrder{
         
     }
     
+    public SubjInterface getSubService() throws PersistenceException {
+        return this.subService;
+    }
+    public void setSubService(SubjInterface newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.isTheSameAs(this.subService)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.subService = (SubjInterface)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theSendOrderFacade.subServiceSet(this.getId(), newValue);
+        }
+    }
     protected void setThis(PersistentSendOrder newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
         if (newValue.isTheSameAs(this)){
@@ -147,21 +168,31 @@ public class SendOrder extends PersistentObject implements PersistentSendOrder{
     public <R, E extends model.UserException> R accept(CustomerOrderStateReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleSendOrder(this);
     }
+    public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
+        visitor.handleSendOrder(this);
+    }
+    public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleSendOrder(this);
+    }
+    public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleSendOrder(this);
+    }
+    public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleSendOrder(this);
+    }
     public int getLeafInfo() throws PersistenceException{
         return 0;
     }
     
     
-    public PersistentCustomerOrder getCustomerOrder() 
+    public synchronized void deregister(final ObsInterface observee) 
 				throws PersistenceException{
-        CustomerOrderSearchList result = null;
-		if (result == null) result = ConnectionHandler.getTheConnectionHandler().theCustomerOrderFacade
-										.inverseGetMyState(getThis().getId(), getThis().getClassId());
-		try {
-			return result.iterator().next();
-		} catch (java.util.NoSuchElementException nsee){
-			return null;
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
 		}
+		subService.deregister(observee);
     }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
@@ -169,24 +200,38 @@ public class SendOrder extends PersistentObject implements PersistentSendOrder{
 		if(this.isTheSameAs(This)){
 		}
     }
+    public synchronized void register(final ObsInterface observee) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.register(observee);
+    }
+    public synchronized void updateObservers(final model.meta.Mssgs event) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.updateObservers(event);
+    }
     
     
     // Start of section that contains operations that must be implemented.
     
+    public void arrived() 
+				throws PersistenceException{}
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
-        
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnInstantiation
-        
     }
     
     

@@ -10,15 +10,15 @@ import view.visitor.*;
 public class Cart extends ViewObject implements CartView{
     
     protected long currentSum;
-    protected java.util.Vector<QuantifiedArticlesView> articleList;
-    protected CustomerView manager;
+    protected CartStateView state;
+    protected CartManagerView cartMngr;
     
-    public Cart(long currentSum,java.util.Vector<QuantifiedArticlesView> articleList,CustomerView manager,long id, long classId) {
+    public Cart(long currentSum,CartStateView state,CartManagerView cartMngr,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
         this.currentSum = currentSum;
-        this.articleList = articleList;
-        this.manager = manager;        
+        this.state = state;
+        this.cartMngr = cartMngr;        
     }
     
     static public long getTypeId() {
@@ -35,14 +35,14 @@ public class Cart extends ViewObject implements CartView{
     public void setCurrentSum(long newValue) throws ModelException {
         this.currentSum = newValue;
     }
-    public java.util.Vector<QuantifiedArticlesView> getArticleList()throws ModelException{
-        return this.articleList;
+    public CartStateView getState()throws ModelException{
+        return this.state;
     }
-    public void setArticleList(java.util.Vector<QuantifiedArticlesView> newValue) throws ModelException {
-        this.articleList = newValue;
+    public void setState(CartStateView newValue) throws ModelException {
+        this.state = newValue;
     }
-    public CustomerView getManager()throws ModelException{
-        return this.manager;
+    public CartManagerView getCartMngr()throws ModelException{
+        return this.cartMngr;
     }
     
     public void accept(AnythingVisitor visitor) throws ModelException {
@@ -59,13 +59,13 @@ public class Cart extends ViewObject implements CartView{
     }
     
     public void resolveProxies(java.util.HashMap<String,Object> resultTable) throws ModelException {
-        java.util.Vector<?> articleList = this.getArticleList();
-        if (articleList != null) {
-            ViewObject.resolveVectorProxies(articleList, resultTable);
+        CartStateView state = this.getState();
+        if (state != null) {
+            ((ViewProxi)state).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(state.getClassId(), state.getId())));
         }
-        CustomerView manager = this.getManager();
-        if (manager != null) {
-            ((ViewProxi)manager).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(manager.getClassId(), manager.getId())));
+        CartManagerView cartMngr = this.getCartMngr();
+        if (cartMngr != null) {
+            ((ViewProxi)cartMngr).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(cartMngr.getClassId(), cartMngr.getId())));
         }
         
     }
@@ -74,25 +74,23 @@ public class Cart extends ViewObject implements CartView{
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
         int index = originalIndex;
-        if(index < this.getArticleList().size()) return new ArticleListCartWrapper(this, originalIndex, (ViewRoot)this.getArticleList().get(index));
-        index = index - this.getArticleList().size();
+        if(this.getState() != null && index < this.getState().getTheObject().getChildCount())
+            return this.getState().getTheObject().getChild(index);
+        if(this.getState() != null) index = index - this.getState().getTheObject().getChildCount();
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getArticleList().size());
+            + (this.getState() == null ? 0 : this.getState().getTheObject().getChildCount());
     }
     public boolean isLeaf() throws ModelException {
         return true 
-            && (this.getArticleList().size() == 0);
+            && (this.getState() == null ? true : this.getState().getTheObject().isLeaf());
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
-        java.util.Iterator<?> getArticleListIterator = this.getArticleList().iterator();
-        while(getArticleListIterator.hasNext()){
-            if(getArticleListIterator.next().equals(child)) return result;
-            result = result + 1;
-        }
+        if(this.getState() != null && this.getState().equals(child)) return result;
+        if(this.getState() != null) result = result + 1;
         return -1;
     }
     public int getCurrentSumIndex() throws ModelException {

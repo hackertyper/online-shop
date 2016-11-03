@@ -20,6 +20,14 @@ import persistence.PersistentServer;
 import persistence.Server4Public;
 import persistence.PersistentShopkeeperService;
 import persistence.ShopkeeperService4Public;
+import persistence.PersistentShopService;
+import persistence.ShopService4Public;
+import persistence.PersistentCartService;
+import persistence.CartService4Public;
+import persistence.PersistentOrderService;
+import persistence.OrderService4Public;
+import persistence.PersistentAccountService;
+import persistence.AccountService4Public;
 
 
 import common.RPCConstantsAndServices;
@@ -63,6 +71,10 @@ public class ConnectionServer extends RemoteServerMaster {
 			if(classId == -103)return new RemoteCustomerService(connectionName, userName, (PersistentCustomerService)PersistentProxi.createProxi(objectId, classId));
 			if(classId == -105)return new RemoteServer(connectionName, userName, (PersistentServer)PersistentProxi.createProxi(objectId, classId));
 			if(classId == -133)return new RemoteShopkeeperService(connectionName, userName, (PersistentShopkeeperService)PersistentProxi.createProxi(objectId, classId));
+			if(classId == -185)return new RemoteShopService(connectionName, userName, (PersistentShopService)PersistentProxi.createProxi(objectId, classId));
+			if(classId == -187)return new RemoteCartService(connectionName, userName, (PersistentCartService)PersistentProxi.createProxi(objectId, classId));
+			if(classId == -223)return new RemoteOrderService(connectionName, userName, (PersistentOrderService)PersistentProxi.createProxi(objectId, classId));
+			if(classId == -189)return new RemoteAccountService(connectionName, userName, (PersistentAccountService)PersistentProxi.createProxi(objectId, classId));
 			
 		}catch(PersistenceException pe){
 			return null;

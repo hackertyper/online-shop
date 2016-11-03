@@ -13,14 +13,14 @@ public class ArticleFacade{
     public PersistentArticle newArticle(String description,long price,long minStock,long maxStock,long manuDelivery,long stock,long idCreateIfLessZero) throws PersistenceException {
         if(idCreateIfLessZero > 0) return (PersistentArticle)PersistentProxi.createProxi(idCreateIfLessZero, 109);
         long id = ConnectionHandler.getTheConnectionHandler().theItemFacade.getNextId();
-        Article result = new Article(description,null,null,null,price,minStock,maxStock,manuDelivery,stock,id);
+        Article result = new Article(description,null,null,null,null,price,minStock,maxStock,manuDelivery,stock,id);
         Cache.getTheCache().put(result);
         return (PersistentArticle)PersistentProxi.createProxi(id, 109);
     }
     
     public PersistentArticle newDelayedArticle(String description,long price,long minStock,long maxStock,long manuDelivery,long stock) throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theItemFacade.getNextId();
-        Article result = new Article(description,null,null,null,price,minStock,maxStock,manuDelivery,stock,id);
+        Article result = new Article(description,null,null,null,null,price,minStock,maxStock,manuDelivery,stock,id);
         Cache.getTheCache().put(result);
         return (PersistentArticle)PersistentProxi.createProxi(id, 109);
     }

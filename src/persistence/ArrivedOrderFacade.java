@@ -25,17 +25,17 @@ public class ArrivedOrderFacade{
 	}
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
-    public PersistentArrivedOrder newArrivedOrder(long timtToAccept,long idCreateIfLessZero) throws PersistenceException {
+    public PersistentArrivedOrder newArrivedOrder(long timeToAccept,long idCreateIfLessZero) throws PersistenceException {
         if(idCreateIfLessZero > 0) return (PersistentArrivedOrder)PersistentProxi.createProxi(idCreateIfLessZero, 112);
         long id = ConnectionHandler.getTheConnectionHandler().theArrivedOrderFacade.getNextId();
-        ArrivedOrder result = new ArrivedOrder(timtToAccept,null,id);
+        ArrivedOrder result = new ArrivedOrder(timeToAccept,null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentArrivedOrder)PersistentProxi.createProxi(id, 112);
     }
     
-    public PersistentArrivedOrder newDelayedArrivedOrder(long timtToAccept) throws PersistenceException {
+    public PersistentArrivedOrder newDelayedArrivedOrder(long timeToAccept) throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theArrivedOrderFacade.getNextId();
-        ArrivedOrder result = new ArrivedOrder(timtToAccept,null,id);
+        ArrivedOrder result = new ArrivedOrder(timeToAccept,null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentArrivedOrder)PersistentProxi.createProxi(id, 112);
     }
@@ -49,7 +49,10 @@ public class ArrivedOrderFacade{
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         
     }
-    public void timtToAcceptSet(long ArrivedOrderId, long timtToAcceptVal) throws PersistenceException {
+    public void timeToAcceptSet(long ArrivedOrderId, long timeToAcceptVal) throws PersistenceException {
+        
+    }
+    public void subServiceSet(long ArrivedOrderId, SubjInterface subServiceVal) throws PersistenceException {
         
     }
     public void ThisSet(long ArrivedOrderId, PersistentArrivedOrder ThisVal) throws PersistenceException {

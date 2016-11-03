@@ -4,7 +4,7 @@ import model.visitor.*;
 
 /* Additional import section end */
 
-public interface ArticleState extends AbstractPersistentProxi {
+public interface ArticleState extends  SubjInterface {
     
     
 

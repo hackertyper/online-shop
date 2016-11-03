@@ -10,21 +10,22 @@ import model.visitor.*;
 public class Article extends model.Item implements PersistentArticle{
     
     
-    public static PersistentArticle createArticle(PersistentManufacturer manufacturer,long price,long minStock,long maxStock,long manuDelivery) throws PersistenceException{
-        return createArticle(manufacturer,price,minStock,maxStock,manuDelivery,false);
+    public static PersistentArticle createArticle(String description,PersistentManufacturer manufacturer,long price,long minStock,long maxStock,long manuDelivery) throws PersistenceException{
+        return createArticle(description,manufacturer,price,minStock,maxStock,manuDelivery,false);
     }
     
-    public static PersistentArticle createArticle(PersistentManufacturer manufacturer,long price,long minStock,long maxStock,long manuDelivery,boolean delayed$Persistence) throws PersistenceException {
+    public static PersistentArticle createArticle(String description,PersistentManufacturer manufacturer,long price,long minStock,long maxStock,long manuDelivery,boolean delayed$Persistence) throws PersistenceException {
         PersistentArticle result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theArticleFacade
-                .newDelayedArticle("",price,minStock,maxStock,manuDelivery,0);
+                .newDelayedArticle(description,price,minStock,maxStock,manuDelivery,0);
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theArticleFacade
-                .newArticle("",price,minStock,maxStock,manuDelivery,0,-1);
+                .newArticle(description,price,minStock,maxStock,manuDelivery,0,-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        final$$Fields.put("description", description);
         final$$Fields.put("manufacturer", manufacturer);
         final$$Fields.put("price", price);
         final$$Fields.put("minStock", minStock);
@@ -35,17 +36,18 @@ public class Article extends model.Item implements PersistentArticle{
         return result;
     }
     
-    public static PersistentArticle createArticle(PersistentManufacturer manufacturer,long price,long minStock,long maxStock,long manuDelivery,boolean delayed$Persistence,PersistentArticle This) throws PersistenceException {
+    public static PersistentArticle createArticle(String description,PersistentManufacturer manufacturer,long price,long minStock,long maxStock,long manuDelivery,boolean delayed$Persistence,PersistentArticle This) throws PersistenceException {
         PersistentArticle result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theArticleFacade
-                .newDelayedArticle("",price,minStock,maxStock,manuDelivery,0);
+                .newDelayedArticle(description,price,minStock,maxStock,manuDelivery,0);
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theArticleFacade
-                .newArticle("",price,minStock,maxStock,manuDelivery,0,-1);
+                .newArticle(description,price,minStock,maxStock,manuDelivery,0,-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        final$$Fields.put("description", description);
         final$$Fields.put("manufacturer", manufacturer);
         final$$Fields.put("price", price);
         final$$Fields.put("minStock", minStock);
@@ -92,6 +94,7 @@ public class Article extends model.Item implements PersistentArticle{
     public Article provideCopy() throws PersistenceException{
         Article result = this;
         result = new Article(this.description, 
+                             this.subService, 
                              this.This, 
                              this.manufacturer, 
                              this.state, 
@@ -116,9 +119,9 @@ public class Article extends model.Item implements PersistentArticle{
     protected long manuDelivery;
     protected long stock;
     
-    public Article(String description,PersistentItem This,PersistentManufacturer manufacturer,ArticleState state,long price,long minStock,long maxStock,long manuDelivery,long stock,long id) throws PersistenceException {
+    public Article(String description,SubjInterface subService,PersistentItem This,PersistentManufacturer manufacturer,ArticleState state,long price,long minStock,long maxStock,long manuDelivery,long stock,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((String)description,(PersistentItem)This,id);
+        super((String)description,(SubjInterface)subService,(PersistentItem)This,id);
         this.manufacturer = manufacturer;
         this.state = state;
         this.price = price;
@@ -247,8 +250,20 @@ public class Article extends model.Item implements PersistentArticle{
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleArticle(this);
     }
+    public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
+        visitor.handleArticle(this);
+    }
+    public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleArticle(this);
+    }
+    public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleArticle(this);
+    }
+    public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleArticle(this);
+    }
     public int getLeafInfo() throws PersistenceException{
-        if (this.getManufacturer() != null) return 1;
+        if (this.getManufacturer() != null && this.getManufacturer().getTheObject().getLeafInfo() != 0) return 1;
         if (this.getState() != null && this.getState().getTheObject().getLeafInfo() != 0) return 1;
         return 0;
     }
@@ -279,10 +294,20 @@ public class Article extends model.Item implements PersistentArticle{
 		command.setCommandReceiver(getThis());
 		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
     }
+    public synchronized void deregister(final ObsInterface observee) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.deregister(observee);
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentArticle)This);
 		if(this.isTheSameAs(This)){
+			this.setDescription((String)final$$Fields.get("description"));
 			this.setManufacturer((PersistentManufacturer)final$$Fields.get("manufacturer"));
 			this.setPrice((Long)final$$Fields.get("price"));
 			this.setMinStock((Long)final$$Fields.get("minStock"));
@@ -290,17 +315,28 @@ public class Article extends model.Item implements PersistentArticle{
 			this.setManuDelivery((Long)final$$Fields.get("manuDelivery"));
 		}
     }
+    public synchronized void register(final ObsInterface observee) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.register(observee);
+    }
+    public synchronized void updateObservers(final model.meta.Mssgs event) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.updateObservers(event);
+    }
     
     
     // Start of section that contains operations that must be implemented.
     
-    public void addToCart(final long amount, final PersistentCart cart) 
-				throws model.InsufficientStock, PersistenceException{
-    	if(amount > getThis().getStock()) {
-    		throw new InsufficientStock(serverConstants.ErrorMessages.InsufficientStock);
-    	}
-        cart.addArticle(QuantifiedArticles.createQuantifiedArticles(getThis(), amount));
-    }
     public void changeManuDelivery(final long newManuDelivery) 
 				throws PersistenceException{
         //TODO: implement method: changeManuDelivery
@@ -319,24 +355,59 @@ public class Article extends model.Item implements PersistentArticle{
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }
+    /**
+     * Reverses the reservation of an article.
+     * @see {@link #reserve(long) reserve }
+     * 
+     * @param amount - amount which was reserved and is freed.
+     */
+    public void deleteReserve(final long amount) 
+				throws PersistenceException{
+    	getThis().setStock(getThis().getStock() + amount);
+    }
     public void initializeOnCreation() 
 				throws PersistenceException{
         super.initializeOnCreation();
+        getThis().setState(NewlyAdded.createNewlyAdded());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         super.initializeOnInstantiation();
     }
+    /**
+     * Models the packing of the articles. Causes {@link OfferedFSale#reorder(long, long) reorder} if stock < minimum.
+     */
     public void pack(final long amount) 
 				throws PersistenceException{
-        //TODO: implement method: pack
-        
+        if(getThis().getStock() < getThis().getMinStock()) {
+        	getThis().getState().accept(new ArticleStateVisitor() {
+				@Override
+				public void handleNewlyAdded(PersistentNewlyAdded newlyAdded) throws PersistenceException {}
+				@Override
+				public void handleRemovedFSale(PersistentRemovedFSale removedFSale) throws PersistenceException {}
+				
+				@Override
+				public void handleOfferedFSale(PersistentOfferedFSale offeredFSale) throws PersistenceException {
+					offeredFSale.reorder(getThis().getMaxStock()-getThis().getStock(), getThis().getManuDelivery());
+				}
+			});
+        }
     }
+    public void receiveDelivery(final long amount) 
+				throws PersistenceException{
+        getThis().setStock(getThis().getStock() + amount);
+    }
+    /**
+     * Reserves a given amount of this article through reducing the stock.
+     * 
+     * @param amount - the amount by which the stock should be reduced
+     * @throws InsufficientStock if amount > stock
+     */
     public void reserve(final long amount) 
 				throws model.InsufficientStock, PersistenceException{
-        if(amount > getThis().getStock() || getThis().getStock() - amount < getThis().getMinStock()) {
-        	throw new InsufficientStock(serverConstants.ErrorMessages.InsufficientStock);
-        }
+    	if(amount > getThis().getStock()) {
+    		throw new InsufficientStock(serverConstants.ErrorMessages.InsufficientStock);
+    	}
     	getThis().setStock(getThis().getStock() - amount);
     }
     
@@ -345,8 +416,7 @@ public class Article extends model.Item implements PersistentArticle{
     
     public void changeDescription(final String newDescription) 
 				throws PersistenceException{
-		// TODO Auto-generated method stub
-		
+		getThis().setDescription(newDescription);
 	}
 
     /* Start of protected part that is not overridden by persistence generator */

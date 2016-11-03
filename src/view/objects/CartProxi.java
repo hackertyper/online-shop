@@ -11,19 +11,23 @@ public class CartProxi extends ViewProxi implements CartView{
         super(objectId, classId, connectionKey);
     }
     
-    @SuppressWarnings("unchecked")
     public CartView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
         long currentSum = new Long((String)resultTable.get("currentSum")).longValue();
-        java.util.Vector<String> articleList_string = (java.util.Vector<String>)resultTable.get("articleList");
-        java.util.Vector<QuantifiedArticlesView> articleList = ViewProxi.getProxiVector(articleList_string, connectionKey);
-        ViewProxi manager = null;
-        String manager$String = (String)resultTable.get("manager");
-        if (manager$String != null) {
-            common.ProxiInformation manager$Info = common.RPCConstantsAndServices.createProxiInformation(manager$String);
-            manager = view.objects.ViewProxi.createProxi(manager$Info,connectionKey);
-            manager.setToString(manager$Info.getToString());
+        ViewProxi state = null;
+        String state$String = (String)resultTable.get("state");
+        if (state$String != null) {
+            common.ProxiInformation state$Info = common.RPCConstantsAndServices.createProxiInformation(state$String);
+            state = view.objects.ViewProxi.createProxi(state$Info,connectionKey);
+            state.setToString(state$Info.getToString());
         }
-        CartView result$$ = new Cart((long)currentSum,articleList,(CustomerView)manager, this.getId(), this.getClassId());
+        ViewProxi cartMngr = null;
+        String cartMngr$String = (String)resultTable.get("cartMngr");
+        if (cartMngr$String != null) {
+            common.ProxiInformation cartMngr$Info = common.RPCConstantsAndServices.createProxiInformation(cartMngr$String);
+            cartMngr = view.objects.ViewProxi.createProxi(cartMngr$Info,connectionKey);
+            cartMngr.setToString(cartMngr$Info.getToString());
+        }
+        CartView result$$ = new Cart((long)currentSum,(CartStateView)state,(CartManagerView)cartMngr, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -33,26 +37,24 @@ public class CartProxi extends ViewProxi implements CartView{
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
         int index = originalIndex;
-        if(index < this.getArticleList().size()) return new ArticleListCartWrapper(this, originalIndex, (ViewRoot)this.getArticleList().get(index));
-        index = index - this.getArticleList().size();
+        if(this.getState() != null && index < this.getState().getTheObject().getChildCount())
+            return this.getState().getTheObject().getChild(index);
+        if(this.getState() != null) index = index - this.getState().getTheObject().getChildCount();
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getArticleList().size());
+            + (this.getState() == null ? 0 : this.getState().getTheObject().getChildCount());
     }
     public boolean isLeaf() throws ModelException {
         if (this.object == null) return this.getLeafInfo() == 0;
         return true 
-            && (this.getArticleList().size() == 0);
+            && (this.getState() == null ? true : this.getState().getTheObject().isLeaf());
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
-        java.util.Iterator<?> getArticleListIterator = this.getArticleList().iterator();
-        while(getArticleListIterator.hasNext()){
-            if(getArticleListIterator.next().equals(child)) return result;
-            result = result + 1;
-        }
+        if(this.getState() != null && this.getState().equals(child)) return result;
+        if(this.getState() != null) result = result + 1;
         return -1;
     }
     
@@ -62,14 +64,14 @@ public class CartProxi extends ViewProxi implements CartView{
     public void setCurrentSum(long newValue) throws ModelException {
         ((Cart)this.getTheObject()).setCurrentSum(newValue);
     }
-    public java.util.Vector<QuantifiedArticlesView> getArticleList()throws ModelException{
-        return ((Cart)this.getTheObject()).getArticleList();
+    public CartStateView getState()throws ModelException{
+        return ((Cart)this.getTheObject()).getState();
     }
-    public void setArticleList(java.util.Vector<QuantifiedArticlesView> newValue) throws ModelException {
-        ((Cart)this.getTheObject()).setArticleList(newValue);
+    public void setState(CartStateView newValue) throws ModelException {
+        ((Cart)this.getTheObject()).setState(newValue);
     }
-    public CustomerView getManager()throws ModelException{
-        return ((Cart)this.getTheObject()).getManager();
+    public CartManagerView getCartMngr()throws ModelException{
+        return ((Cart)this.getTheObject()).getCartMngr();
     }
     
     public void accept(AnythingVisitor visitor) throws ModelException {

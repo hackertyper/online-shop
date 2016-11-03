@@ -14,9 +14,10 @@ public class RetoureProxi extends DeliveryProxi implements RetoureView{
     @SuppressWarnings("unchecked")
     public RetoureView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
         long remainingTimeToDelivery = new Long((String)resultTable.get("remainingTimeToDelivery")).longValue();
+        java.util.Date sendDate = (java.util.Date)resultTable.get("sendDate");
         java.util.Vector<String> articleList_string = (java.util.Vector<String>)resultTable.get("articleList");
         java.util.Vector<QuantifiedArticlesView> articleList = ViewProxi.getProxiVector(articleList_string, connectionKey);
-        RetoureView result$$ = new Retoure((long)remainingTimeToDelivery,articleList, this.getId(), this.getClassId());
+        RetoureView result$$ = new Retoure((long)remainingTimeToDelivery,(java.util.Date)sendDate,articleList, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }

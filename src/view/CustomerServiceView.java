@@ -6,9 +6,15 @@ import view.visitor.*;
 
 public interface CustomerServiceView extends ServiceView {
     
-    public CustomerView getManager()throws ModelException;
-    public void setManager(CustomerView newValue) throws ModelException ;
+    public java.util.Vector<CustomerServiceView> getServices()throws ModelException;
+    public void setServices(java.util.Vector<CustomerServiceView> newValue) throws ModelException ;
+    public CustomerManagerView getManager()throws ModelException;
+    public void setManager(CustomerManagerView newValue) throws ModelException ;
     
+    public void accept(CustomerServiceVisitor visitor) throws ModelException;
+    public <R> R accept(CustomerServiceReturnVisitor<R>  visitor) throws ModelException;
+    public <E extends view.UserException>  void accept(CustomerServiceExceptionVisitor<E> visitor) throws ModelException, E;
+    public <R, E extends view.UserException> R accept(CustomerServiceReturnExceptionVisitor<R, E>  visitor) throws ModelException, E;
     public void accept(ServiceVisitor visitor) throws ModelException;
     public <R> R accept(ServiceReturnVisitor<R>  visitor) throws ModelException;
     public <E extends view.UserException>  void accept(ServiceExceptionVisitor<E> visitor) throws ModelException, E;

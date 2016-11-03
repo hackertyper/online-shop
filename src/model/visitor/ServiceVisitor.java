@@ -3,7 +3,7 @@ package model.visitor;
 
 import persistence.*;
 
-public interface ServiceVisitor {
+public interface ServiceVisitor extends CustomerServiceVisitor{
     
     public void handleCustomerService(PersistentCustomerService customerService) throws PersistenceException;
     public void handleRegisterService(PersistentRegisterService registerService) throws PersistenceException;

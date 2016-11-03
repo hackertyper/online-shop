@@ -18,6 +18,12 @@ public class RemovedFSaleProxi extends PersistentProxi implements PersistentRemo
         return 132;
     }
     
+    public SubjInterface getSubService() throws PersistenceException {
+        return ((PersistentRemovedFSale)this.getTheObject()).getSubService();
+    }
+    public void setSubService(SubjInterface newValue) throws PersistenceException {
+        ((PersistentRemovedFSale)this.getTheObject()).setSubService(newValue);
+    }
     public PersistentRemovedFSale getThis() throws PersistenceException {
         return ((PersistentRemovedFSale)this.getTheObject()).getThis();
     }
@@ -34,6 +40,18 @@ public class RemovedFSaleProxi extends PersistentProxi implements PersistentRemo
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleRemovedFSale(this);
     }
+    public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
+        visitor.handleRemovedFSale(this);
+    }
+    public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleRemovedFSale(this);
+    }
+    public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleRemovedFSale(this);
+    }
+    public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleRemovedFSale(this);
+    }
     public void accept(ArticleStateVisitor visitor) throws PersistenceException {
         visitor.handleRemovedFSale(this);
     }
@@ -48,6 +66,10 @@ public class RemovedFSaleProxi extends PersistentProxi implements PersistentRemo
     }
     
     
+    public void deregister(final ObsInterface observee) 
+				throws PersistenceException{
+        ((PersistentRemovedFSale)this.getTheObject()).deregister(observee);
+    }
     public PersistentArticle getMyArticle() 
 				throws PersistenceException{
         return ((PersistentRemovedFSale)this.getTheObject()).getMyArticle();
@@ -55,6 +77,14 @@ public class RemovedFSaleProxi extends PersistentProxi implements PersistentRemo
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentRemovedFSale)this.getTheObject()).initialize(This, final$$Fields);
+    }
+    public void register(final ObsInterface observee) 
+				throws PersistenceException{
+        ((PersistentRemovedFSale)this.getTheObject()).register(observee);
+    }
+    public void updateObservers(final model.meta.Mssgs event) 
+				throws PersistenceException{
+        ((PersistentRemovedFSale)this.getTheObject()).updateObservers(event);
     }
     public void addToCart(final long amount, final PersistentCart cart) 
 				throws model.InsufficientStock, PersistenceException{

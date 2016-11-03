@@ -14,14 +14,14 @@ public class AccountProxi extends ViewProxi implements AccountView{
     public AccountView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
         long lowerLimit = new Long((String)resultTable.get("lowerLimit")).longValue();
         long balance = new Long((String)resultTable.get("balance")).longValue();
-        ViewProxi manager = null;
-        String manager$String = (String)resultTable.get("manager");
-        if (manager$String != null) {
-            common.ProxiInformation manager$Info = common.RPCConstantsAndServices.createProxiInformation(manager$String);
-            manager = view.objects.ViewProxi.createProxi(manager$Info,connectionKey);
-            manager.setToString(manager$Info.getToString());
+        ViewProxi accMngr = null;
+        String accMngr$String = (String)resultTable.get("accMngr");
+        if (accMngr$String != null) {
+            common.ProxiInformation accMngr$Info = common.RPCConstantsAndServices.createProxiInformation(accMngr$String);
+            accMngr = view.objects.ViewProxi.createProxi(accMngr$Info,connectionKey);
+            accMngr.setToString(accMngr$Info.getToString());
         }
-        AccountView result$$ = new Account((long)lowerLimit,(long)balance,(CustomerView)manager, this.getId(), this.getClassId());
+        AccountView result$$ = new Account((long)lowerLimit,(long)balance,(AccountManagerView)accMngr, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -56,8 +56,8 @@ public class AccountProxi extends ViewProxi implements AccountView{
     public void setBalance(long newValue) throws ModelException {
         ((Account)this.getTheObject()).setBalance(newValue);
     }
-    public CustomerView getManager()throws ModelException{
-        return ((Account)this.getTheObject()).getManager();
+    public AccountManagerView getAccMngr()throws ModelException{
+        return ((Account)this.getTheObject()).getAccMngr();
     }
     
     public void accept(AnythingVisitor visitor) throws ModelException {

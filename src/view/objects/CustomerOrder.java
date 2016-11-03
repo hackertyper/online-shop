@@ -10,12 +10,14 @@ import view.visitor.*;
 public class CustomerOrder extends view.objects.Delivery implements CustomerOrderView{
     
     protected java.util.Vector<QuantifiedArticlesView> articleList;
+    protected OrderManagerView ordermngr;
     protected CustomerOrderState myState;
     
-    public CustomerOrder(long remainingTimeToDelivery,java.util.Vector<QuantifiedArticlesView> articleList,CustomerOrderState myState,long id, long classId) {
+    public CustomerOrder(long remainingTimeToDelivery,java.util.Date sendDate,java.util.Vector<QuantifiedArticlesView> articleList,OrderManagerView ordermngr,CustomerOrderState myState,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
-        super((long)remainingTimeToDelivery,id, classId);
+        super((long)remainingTimeToDelivery,(java.util.Date)sendDate,id, classId);
         this.articleList = articleList;
+        this.ordermngr = ordermngr;
         this.myState = myState;        
     }
     
@@ -32,6 +34,12 @@ public class CustomerOrder extends view.objects.Delivery implements CustomerOrde
     }
     public void setArticleList(java.util.Vector<QuantifiedArticlesView> newValue) throws ModelException {
         this.articleList = newValue;
+    }
+    public OrderManagerView getOrdermngr()throws ModelException{
+        return this.ordermngr;
+    }
+    public void setOrdermngr(OrderManagerView newValue) throws ModelException {
+        this.ordermngr = newValue;
     }
     public CustomerOrderState getMyState()throws ModelException{
         return this.myState;
@@ -70,6 +78,10 @@ public class CustomerOrder extends view.objects.Delivery implements CustomerOrde
         if (articleList != null) {
             ViewObject.resolveVectorProxies(articleList, resultTable);
         }
+        OrderManagerView ordermngr = this.getOrdermngr();
+        if (ordermngr != null) {
+            ((ViewProxi)ordermngr).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(ordermngr.getClassId(), ordermngr.getId())));
+        }
         CustomerOrderState myState = this.getMyState();
         if (myState != null) {
             ((ViewProxi)myState).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(myState.getClassId(), myState.getId())));
@@ -83,20 +95,15 @@ public class CustomerOrder extends view.objects.Delivery implements CustomerOrde
         int index = originalIndex;
         if(index < this.getArticleList().size()) return new ArticleListCustomerOrderWrapper(this, originalIndex, (ViewRoot)this.getArticleList().get(index));
         index = index - this.getArticleList().size();
-        if(this.getMyState() != null && index < this.getMyState().getTheObject().getChildCount())
-            return this.getMyState().getTheObject().getChild(index);
-        if(this.getMyState() != null) index = index - this.getMyState().getTheObject().getChildCount();
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getArticleList().size())
-            + (this.getMyState() == null ? 0 : this.getMyState().getTheObject().getChildCount());
+            + (this.getArticleList().size());
     }
     public boolean isLeaf() throws ModelException {
         return true 
-            && (this.getArticleList().size() == 0)
-            && (this.getMyState() == null ? true : this.getMyState().getTheObject().isLeaf());
+            && (this.getArticleList().size() == 0);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
@@ -105,15 +112,17 @@ public class CustomerOrder extends view.objects.Delivery implements CustomerOrde
             if(getArticleListIterator.next().equals(child)) return result;
             result = result + 1;
         }
-        if(this.getMyState() != null && this.getMyState().equals(child)) return result;
-        if(this.getMyState() != null) result = result + 1;
         return -1;
     }
     public int getRemainingTimeToDeliveryIndex() throws ModelException {
         return 0;
     }
+    public int getSendDateIndex() throws ModelException {
+        return 0 + 1;
+    }
     public int getRowCount(){
         return 0 
+            + 1
             + 1;
     }
     public Object getValueAt(int rowIndex, int columnIndex){
@@ -121,8 +130,12 @@ public class CustomerOrder extends view.objects.Delivery implements CustomerOrde
             if(columnIndex == 0){
                 if(rowIndex == 0) return "remainingTimeToDelivery";
                 rowIndex = rowIndex - 1;
+                if(rowIndex == 0) return "sendDate";
+                rowIndex = rowIndex - 1;
             } else {
                 if(rowIndex == 0) return new Long(getRemainingTimeToDelivery());
+                rowIndex = rowIndex - 1;
+                if(rowIndex == 0) return ViewRoot.toString(getSendDate(), true );
                 rowIndex = rowIndex - 1;
             }
             throw new ModelException("Table index out of bounds!", -1);
@@ -137,6 +150,11 @@ public class CustomerOrder extends view.objects.Delivery implements CustomerOrde
     public void setValueAt(String newValue, int rowIndex) throws Exception {
         if(rowIndex == 0){
             this.setRemainingTimeToDelivery(Long.parseLong(newValue));
+            return;
+        }
+        rowIndex = rowIndex - 1;
+        if(rowIndex == 0){
+            this.setSendDate(new java.text.SimpleDateFormat(TIMESTAMPFORMAT).parse(newValue));
             return;
         }
         rowIndex = rowIndex - 1;

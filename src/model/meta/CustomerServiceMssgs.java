@@ -5,4 +5,4 @@ public interface CustomerServiceMssgs {
 }
 
 interface CustomerServiceDOWNMssgs extends ServiceDOWNMssgs, CustomerServiceMssgs{}
-interface CustomerServiceUPMssgs extends Mssgs, CustomerServiceMssgs{}
+interface CustomerServiceUPMssgs extends ShopServiceUPMssgs, CartServiceUPMssgs, OrderServiceUPMssgs, AccountServiceUPMssgs, CustomerServiceMssgs{}

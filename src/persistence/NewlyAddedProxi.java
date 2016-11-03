@@ -18,6 +18,12 @@ public class NewlyAddedProxi extends PersistentProxi implements PersistentNewlyA
         return 120;
     }
     
+    public SubjInterface getSubService() throws PersistenceException {
+        return ((PersistentNewlyAdded)this.getTheObject()).getSubService();
+    }
+    public void setSubService(SubjInterface newValue) throws PersistenceException {
+        ((PersistentNewlyAdded)this.getTheObject()).setSubService(newValue);
+    }
     public PersistentNewlyAdded getThis() throws PersistenceException {
         return ((PersistentNewlyAdded)this.getTheObject()).getThis();
     }
@@ -34,6 +40,18 @@ public class NewlyAddedProxi extends PersistentProxi implements PersistentNewlyA
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleNewlyAdded(this);
     }
+    public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
+        visitor.handleNewlyAdded(this);
+    }
+    public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleNewlyAdded(this);
+    }
+    public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleNewlyAdded(this);
+    }
+    public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleNewlyAdded(this);
+    }
     public void accept(ArticleStateVisitor visitor) throws PersistenceException {
         visitor.handleNewlyAdded(this);
     }
@@ -48,6 +66,10 @@ public class NewlyAddedProxi extends PersistentProxi implements PersistentNewlyA
     }
     
     
+    public void deregister(final ObsInterface observee) 
+				throws PersistenceException{
+        ((PersistentNewlyAdded)this.getTheObject()).deregister(observee);
+    }
     public PersistentArticle getMyArticle() 
 				throws PersistenceException{
         return ((PersistentNewlyAdded)this.getTheObject()).getMyArticle();
@@ -56,9 +78,17 @@ public class NewlyAddedProxi extends PersistentProxi implements PersistentNewlyA
 				throws PersistenceException{
         ((PersistentNewlyAdded)this.getTheObject()).initialize(This, final$$Fields);
     }
+    public void register(final ObsInterface observee) 
+				throws PersistenceException{
+        ((PersistentNewlyAdded)this.getTheObject()).register(observee);
+    }
     public void startSelling(final Invoker invoker) 
 				throws PersistenceException{
         ((PersistentNewlyAdded)this.getTheObject()).startSelling(invoker);
+    }
+    public void updateObservers(final model.meta.Mssgs event) 
+				throws PersistenceException{
+        ((PersistentNewlyAdded)this.getTheObject()).updateObservers(event);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{

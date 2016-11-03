@@ -6,8 +6,8 @@ import view.visitor.*;
 
 public interface ArrivedOrderView extends CustomerOrderState, Anything, AbstractViewRoot {
     
-    public long getTimtToAccept()throws ModelException;
-    public void setTimtToAccept(long newValue) throws ModelException ;
+    public long getTimeToAccept()throws ModelException;
+    public void setTimeToAccept(long newValue) throws ModelException ;
     
     public void accept(AnythingVisitor visitor) throws ModelException;
     public <R> R accept(AnythingReturnVisitor<R>  visitor) throws ModelException;

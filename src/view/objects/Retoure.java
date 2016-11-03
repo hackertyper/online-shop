@@ -11,9 +11,9 @@ public class Retoure extends view.objects.Delivery implements RetoureView{
     
     protected java.util.Vector<QuantifiedArticlesView> articleList;
     
-    public Retoure(long remainingTimeToDelivery,java.util.Vector<QuantifiedArticlesView> articleList,long id, long classId) {
+    public Retoure(long remainingTimeToDelivery,java.util.Date sendDate,java.util.Vector<QuantifiedArticlesView> articleList,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
-        super((long)remainingTimeToDelivery,id, classId);
+        super((long)remainingTimeToDelivery,(java.util.Date)sendDate,id, classId);
         this.articleList = articleList;        
     }
     
@@ -93,8 +93,12 @@ public class Retoure extends view.objects.Delivery implements RetoureView{
     public int getRemainingTimeToDeliveryIndex() throws ModelException {
         return 0;
     }
+    public int getSendDateIndex() throws ModelException {
+        return 0 + 1;
+    }
     public int getRowCount(){
         return 0 
+            + 1
             + 1;
     }
     public Object getValueAt(int rowIndex, int columnIndex){
@@ -102,8 +106,12 @@ public class Retoure extends view.objects.Delivery implements RetoureView{
             if(columnIndex == 0){
                 if(rowIndex == 0) return "remainingTimeToDelivery";
                 rowIndex = rowIndex - 1;
+                if(rowIndex == 0) return "sendDate";
+                rowIndex = rowIndex - 1;
             } else {
                 if(rowIndex == 0) return new Long(getRemainingTimeToDelivery());
+                rowIndex = rowIndex - 1;
+                if(rowIndex == 0) return ViewRoot.toString(getSendDate(), true );
                 rowIndex = rowIndex - 1;
             }
             throw new ModelException("Table index out of bounds!", -1);
@@ -118,6 +126,11 @@ public class Retoure extends view.objects.Delivery implements RetoureView{
     public void setValueAt(String newValue, int rowIndex) throws Exception {
         if(rowIndex == 0){
             this.setRemainingTimeToDelivery(Long.parseLong(newValue));
+            return;
+        }
+        rowIndex = rowIndex - 1;
+        if(rowIndex == 0){
+            this.setSendDate(new java.text.SimpleDateFormat(TIMESTAMPFORMAT).parse(newValue));
             return;
         }
         rowIndex = rowIndex - 1;

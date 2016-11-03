@@ -21,6 +21,12 @@ public class ShopkeeperProxi extends PersistentProxi implements PersistentShopke
     public Shopkeeper_ItemRangeProxi getItemRange() throws PersistenceException {
         return ((PersistentShopkeeper)this.getTheObject()).getItemRange();
     }
+    public SubjInterface getSubService() throws PersistenceException {
+        return ((PersistentShopkeeper)this.getTheObject()).getSubService();
+    }
+    public void setSubService(SubjInterface newValue) throws PersistenceException {
+        ((PersistentShopkeeper)this.getTheObject()).setSubService(newValue);
+    }
     public PersistentShopkeeper getThis() throws PersistenceException {
         return ((PersistentShopkeeper)this.getTheObject()).getThis();
     }
@@ -37,8 +43,24 @@ public class ShopkeeperProxi extends PersistentProxi implements PersistentShopke
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleShopkeeper(this);
     }
+    public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
+        visitor.handleShopkeeper(this);
+    }
+    public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleShopkeeper(this);
+    }
+    public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleShopkeeper(this);
+    }
+    public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleShopkeeper(this);
+    }
     
     
+    public void deregister(final ObsInterface observee) 
+				throws PersistenceException{
+        ((PersistentShopkeeper)this.getTheObject()).deregister(observee);
+    }
     public PersistentShopkeeperService getMyServer() 
 				throws PersistenceException{
         return ((PersistentShopkeeper)this.getTheObject()).getMyServer();
@@ -46,6 +68,14 @@ public class ShopkeeperProxi extends PersistentProxi implements PersistentShopke
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentShopkeeper)this.getTheObject()).initialize(This, final$$Fields);
+    }
+    public void register(final ObsInterface observee) 
+				throws PersistenceException{
+        ((PersistentShopkeeper)this.getTheObject()).register(observee);
+    }
+    public void updateObservers(final model.meta.Mssgs event) 
+				throws PersistenceException{
+        ((PersistentShopkeeper)this.getTheObject()).updateObservers(event);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
