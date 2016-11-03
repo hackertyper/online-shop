@@ -36,19 +36,17 @@ public abstract class Item extends PersistentObject implements PersistentItem{
         return false;
     }
     protected String description;
-    protected SubjInterface subService;
     protected PersistentItem This;
     
-    public Item(String description,SubjInterface subService,PersistentItem This,long id) throws PersistenceException {
+    public Item(String description,PersistentItem This,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.description = description;
-        this.subService = subService;
         if (This != null && !(this.isTheSameAs(This))) this.This = This;        
     }
     
     static public long getTypeId() {
-        return 116;
+        return 140;
     }
     
     public long getClassId() {
@@ -58,10 +56,6 @@ public abstract class Item extends PersistentObject implements PersistentItem{
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
         super.store();
-        if(this.getSubService() != null){
-            this.getSubService().store();
-            ConnectionHandler.getTheConnectionHandler().theItemFacade.subServiceSet(this.getId(), getSubService());
-        }
         if(!this.isTheSameAs(this.getThis())){
             this.getThis().store();
             ConnectionHandler.getTheConnectionHandler().theItemFacade.ThisSet(this.getId(), getThis());
@@ -76,20 +70,6 @@ public abstract class Item extends PersistentObject implements PersistentItem{
         if (newValue == null) throw new PersistenceException("Null not allowed for persistent strings, since null = \"\" in Oracle!", 0);
         if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theItemFacade.descriptionSet(this.getId(), newValue);
         this.description = newValue;
-    }
-    public SubjInterface getSubService() throws PersistenceException {
-        return this.subService;
-    }
-    public void setSubService(SubjInterface newValue) throws PersistenceException {
-        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
-        if(newValue.isTheSameAs(this.subService)) return;
-        long objectId = newValue.getId();
-        long classId = newValue.getClassId();
-        this.subService = (SubjInterface)PersistentProxi.createProxi(objectId, classId);
-        if(!this.isDelayed$Persistence()){
-            newValue.store();
-            ConnectionHandler.getTheConnectionHandler().theItemFacade.subServiceSet(this.getId(), newValue);
-        }
     }
     protected void setThis(PersistentItem newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
@@ -118,6 +98,17 @@ public abstract class Item extends PersistentObject implements PersistentItem{
 		command.setCommandReceiver(getThis());
 		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
     }
+    public PersistentProductGroup getParent() 
+				throws PersistenceException{
+        ProductGroupSearchList result = null;
+		if (result == null) result = ConnectionHandler.getTheConnectionHandler().theProductGroupFacade
+										.inverseGetItemList(getThis().getId(), getThis().getClassId());
+		try {
+			return result.iterator().next();
+		} catch (java.util.NoSuchElementException nsee){
+			return null;
+		}
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentItem)This);
@@ -131,6 +122,8 @@ public abstract class Item extends PersistentObject implements PersistentItem{
     
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
+        //TODO: implement method: copyingPrivateUserAttributes
+        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{

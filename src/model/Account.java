@@ -15,37 +15,41 @@ public class Account extends PersistentObject implements PersistentAccount{
         return (PersistentAccount)PersistentProxi.createProxi(objectId, classId);
     }
     
-    public static PersistentAccount createAccount() throws PersistenceException{
-        return createAccount(false);
+    public static PersistentAccount createAccount(long lowerLimit,long balance) throws PersistenceException{
+        return createAccount(lowerLimit,balance,false);
     }
     
-    public static PersistentAccount createAccount(boolean delayed$Persistence) throws PersistenceException {
+    public static PersistentAccount createAccount(long lowerLimit,long balance,boolean delayed$Persistence) throws PersistenceException {
         PersistentAccount result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theAccountFacade
-                .newDelayedAccount(0,0);
+                .newDelayedAccount(lowerLimit,balance);
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theAccountFacade
-                .newAccount(0,0,-1);
+                .newAccount(lowerLimit,balance,-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        final$$Fields.put("lowerLimit", lowerLimit);
+        final$$Fields.put("balance", balance);
         result.initialize(result, final$$Fields);
         result.initializeOnCreation();
         return result;
     }
     
-    public static PersistentAccount createAccount(boolean delayed$Persistence,PersistentAccount This) throws PersistenceException {
+    public static PersistentAccount createAccount(long lowerLimit,long balance,boolean delayed$Persistence,PersistentAccount This) throws PersistenceException {
         PersistentAccount result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theAccountFacade
-                .newDelayedAccount(0,0);
+                .newDelayedAccount(lowerLimit,balance);
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theAccountFacade
-                .newAccount(0,0,-1);
+                .newAccount(lowerLimit,balance,-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        final$$Fields.put("lowerLimit", lowerLimit);
+        final$$Fields.put("balance", balance);
         result.initialize(This, final$$Fields);
         result.initializeOnCreation();
         return result;
@@ -57,13 +61,13 @@ public class Account extends PersistentObject implements PersistentAccount{
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
             result.put("lowerLimit", new Long(this.getLowerLimit()).toString());
             result.put("balance", new Long(this.getBalance()).toString());
-            AbstractPersistentRoot accMngr = (AbstractPersistentRoot)this.getAccMngr();
-            if (accMngr != null) {
-                result.put("accMngr", accMngr.createProxiInformation(false, essentialLevel <= 1));
+            AbstractPersistentRoot manager = (AbstractPersistentRoot)this.getManager();
+            if (manager != null) {
+                result.put("manager", manager.createProxiInformation(false, essentialLevel <= 1));
                 if(depth > 1) {
-                    accMngr.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                    manager.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
                 }else{
-                    if(forGUI && accMngr.hasEssentialFields())accMngr.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                    if(forGUI && manager.hasEssentialFields())manager.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
                 }
             }
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
@@ -76,7 +80,6 @@ public class Account extends PersistentObject implements PersistentAccount{
         Account result = this;
         result = new Account(this.lowerLimit, 
                              this.balance, 
-                             this.subService, 
                              this.This, 
                              this.getId());
         this.copyingPrivateUserAttributes(result);
@@ -88,20 +91,18 @@ public class Account extends PersistentObject implements PersistentAccount{
     }
     protected long lowerLimit;
     protected long balance;
-    protected SubjInterface subService;
     protected PersistentAccount This;
     
-    public Account(long lowerLimit,long balance,SubjInterface subService,PersistentAccount This,long id) throws PersistenceException {
+    public Account(long lowerLimit,long balance,PersistentAccount This,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.lowerLimit = lowerLimit;
         this.balance = balance;
-        this.subService = subService;
         if (This != null && !(this.isTheSameAs(This))) this.This = This;        
     }
     
     static public long getTypeId() {
-        return 199;
+        return 129;
     }
     
     public long getClassId() {
@@ -110,13 +111,9 @@ public class Account extends PersistentObject implements PersistentAccount{
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 199) ConnectionHandler.getTheConnectionHandler().theAccountFacade
+        if (this.getClassId() == 129) ConnectionHandler.getTheConnectionHandler().theAccountFacade
             .newAccount(lowerLimit,balance,this.getId());
         super.store();
-        if(this.getSubService() != null){
-            this.getSubService().store();
-            ConnectionHandler.getTheConnectionHandler().theAccountFacade.subServiceSet(this.getId(), getSubService());
-        }
         if(!this.isTheSameAs(this.getThis())){
             this.getThis().store();
             ConnectionHandler.getTheConnectionHandler().theAccountFacade.ThisSet(this.getId(), getThis());
@@ -137,20 +134,6 @@ public class Account extends PersistentObject implements PersistentAccount{
     public void setBalance(long newValue) throws PersistenceException {
         if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theAccountFacade.balanceSet(this.getId(), newValue);
         this.balance = newValue;
-    }
-    public SubjInterface getSubService() throws PersistenceException {
-        return this.subService;
-    }
-    public void setSubService(SubjInterface newValue) throws PersistenceException {
-        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
-        if(newValue.isTheSameAs(this.subService)) return;
-        long objectId = newValue.getId();
-        long classId = newValue.getClassId();
-        this.subService = (SubjInterface)PersistentProxi.createProxi(objectId, classId);
-        if(!this.isDelayed$Persistence()){
-            newValue.store();
-            ConnectionHandler.getTheConnectionHandler().theAccountFacade.subServiceSet(this.getId(), newValue);
-        }
     }
     protected void setThis(PersistentAccount newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
@@ -187,36 +170,15 @@ public class Account extends PersistentObject implements PersistentAccount{
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleAccount(this);
     }
-    public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
-        visitor.handleAccount(this);
-    }
-    public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
-         return visitor.handleAccount(this);
-    }
-    public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
-         visitor.handleAccount(this);
-    }
-    public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
-         return visitor.handleAccount(this);
-    }
     public int getLeafInfo() throws PersistenceException{
         return 0;
     }
     
     
-    public synchronized void deregister(final ObsInterface observee) 
+    public PersistentCustomer getManager() 
 				throws PersistenceException{
-        SubjInterface subService = getThis().getSubService();
-		if (subService == null) {
-			subService = model.Subj.createSubj(this.isDelayed$Persistence());
-			getThis().setSubService(subService);
-		}
-		subService.deregister(observee);
-    }
-    public PersistentAccountManager getAccMngr() 
-				throws PersistenceException{
-        AccountManagerSearchList result = null;
-		if (result == null) result = ConnectionHandler.getTheConnectionHandler().theAccountManagerFacade
+        CustomerSearchList result = null;
+		if (result == null) result = ConnectionHandler.getTheConnectionHandler().theCustomerFacade
 										.inverseGetMyAccount(getThis().getId(), getThis().getClassId());
 		try {
 			return result.iterator().next();
@@ -228,25 +190,9 @@ public class Account extends PersistentObject implements PersistentAccount{
 				throws PersistenceException{
         this.setThis((PersistentAccount)This);
 		if(this.isTheSameAs(This)){
+			this.setLowerLimit((Long)final$$Fields.get("lowerLimit"));
+			this.setBalance((Long)final$$Fields.get("balance"));
 		}
-    }
-    public synchronized void register(final ObsInterface observee) 
-				throws PersistenceException{
-        SubjInterface subService = getThis().getSubService();
-		if (subService == null) {
-			subService = model.Subj.createSubj(this.isDelayed$Persistence());
-			getThis().setSubService(subService);
-		}
-		subService.register(observee);
-    }
-    public synchronized void updateObservers(final model.meta.Mssgs event) 
-				throws PersistenceException{
-        SubjInterface subService = getThis().getSubService();
-		if (subService == null) {
-			subService = model.Subj.createSubj(this.isDelayed$Persistence());
-			getThis().setSubService(subService);
-		}
-		subService.updateObservers(event);
     }
     
     
@@ -255,52 +201,25 @@ public class Account extends PersistentObject implements PersistentAccount{
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }
-    /**
-     * Models the depositing of a given amount into the account.
-     * 
-     * @param amount - by which the account balance is increased
-     */
     public void deposit(final long amount) 
 				throws PersistenceException{
     	getThis().setBalance(getThis().getBalance() + amount);
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-    	getThis().setBalance(serverConstants.ConfigConstants.getPresetAccountBalance());
-    	getThis().setLowerLimit(serverConstants.ConfigConstants.getPresetAccountLowerLimit());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
     }
-    /**
-     * Models the paying of a sum from the account.
-     * 
-     * @param sum - by which to decrease the account balance
-     * 
-     * @throws InsufficientFunds if the account balance < sum or balance - sum < lower limit
-     */
     public void pay(final long sum) 
-				throws model.InsufficientFunds, PersistenceException{
-        if(sum > getThis().getBalance() || getThis().getBalance() - sum < getLowerLimit()) {
-        	throw new InsufficientFunds(serverConstants.ErrorMessages.InsufficientFunds);
-        }
-        getThis().setBalance(getThis().getBalance() - sum);
-    }
-    public void returnPayment(final long sum) 
 				throws PersistenceException{
-        getThis().setBalance(getThis().getBalance() + sum);
+        //TODO: implement method: pay
+        
     }
-    /**
-     * Models the withdrawing of a given amount from the account.
-     * 
-     * @param amount - by which to decrease the account balance
-     * 
-     * @throws InsufficientFunds if the account balance < amount or balance - amount < lower limit
-     */
     public void withdraw(final long amount) 
 				throws model.InsufficientFunds, PersistenceException{
-    	if(amount > getThis().getBalance() || getThis().getBalance() - amount < getLowerLimit())
-    		throw new InsufficientFunds(serverConstants.ErrorMessages.InsufficientFunds);
+    	if(amount > getBalance() || getThis().getBalance() - amount < getLowerLimit())
+    		throw new InsufficientFunds("Not enough money on account!");
         getThis().setBalance(getThis().getBalance() - amount);
     }
     

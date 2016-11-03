@@ -29,7 +29,7 @@ public class InsufficientStock extends model.UserException{
     }
     
     static public long getTypeId() {
-        return -179;
+        return -182;
     }
     
     public long getClassId() {

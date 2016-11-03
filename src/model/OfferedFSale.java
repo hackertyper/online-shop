@@ -2,9 +2,6 @@
 package model;
 
 import persistence.*;
-
-import java.sql.Timestamp;
-
 import model.visitor.*;
 
 
@@ -58,15 +55,6 @@ public class OfferedFSale extends PersistentObject implements PersistentOfferedF
     java.util.HashMap<String,Object> result = null;
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
-            AbstractPersistentRoot myArticle = (AbstractPersistentRoot)this.getMyArticle();
-            if (myArticle != null) {
-                result.put("myArticle", myArticle.createProxiInformation(false, essentialLevel <= 1));
-                if(depth > 1) {
-                    myArticle.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
-                }else{
-                    if(forGUI && myArticle.hasEssentialFields())myArticle.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
-                }
-            }
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
         }
@@ -75,8 +63,7 @@ public class OfferedFSale extends PersistentObject implements PersistentOfferedF
     
     public OfferedFSale provideCopy() throws PersistenceException{
         OfferedFSale result = this;
-        result = new OfferedFSale(this.subService, 
-                                  this.This, 
+        result = new OfferedFSale(this.This, 
                                   this.getId());
         this.copyingPrivateUserAttributes(result);
         return result;
@@ -85,18 +72,16 @@ public class OfferedFSale extends PersistentObject implements PersistentOfferedF
     public boolean hasEssentialFields() throws PersistenceException{
         return false;
     }
-    protected SubjInterface subService;
     protected PersistentOfferedFSale This;
     
-    public OfferedFSale(SubjInterface subService,PersistentOfferedFSale This,long id) throws PersistenceException {
+    public OfferedFSale(PersistentOfferedFSale This,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
-        this.subService = subService;
         if (This != null && !(this.isTheSameAs(This))) this.This = This;        
     }
     
     static public long getTypeId() {
-        return 110;
+        return 135;
     }
     
     public long getClassId() {
@@ -105,13 +90,9 @@ public class OfferedFSale extends PersistentObject implements PersistentOfferedF
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 110) ConnectionHandler.getTheConnectionHandler().theOfferedFSaleFacade
+        if (this.getClassId() == 135) ConnectionHandler.getTheConnectionHandler().theOfferedFSaleFacade
             .newOfferedFSale(this.getId());
         super.store();
-        if(this.getSubService() != null){
-            this.getSubService().store();
-            ConnectionHandler.getTheConnectionHandler().theOfferedFSaleFacade.subServiceSet(this.getId(), getSubService());
-        }
         if(!this.isTheSameAs(this.getThis())){
             this.getThis().store();
             ConnectionHandler.getTheConnectionHandler().theOfferedFSaleFacade.ThisSet(this.getId(), getThis());
@@ -119,20 +100,6 @@ public class OfferedFSale extends PersistentObject implements PersistentOfferedF
         
     }
     
-    public SubjInterface getSubService() throws PersistenceException {
-        return this.subService;
-    }
-    public void setSubService(SubjInterface newValue) throws PersistenceException {
-        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
-        if(newValue.isTheSameAs(this.subService)) return;
-        long objectId = newValue.getId();
-        long classId = newValue.getClassId();
-        this.subService = (SubjInterface)PersistentProxi.createProxi(objectId, classId);
-        if(!this.isDelayed$Persistence()){
-            newValue.store();
-            ConnectionHandler.getTheConnectionHandler().theOfferedFSaleFacade.subServiceSet(this.getId(), newValue);
-        }
-    }
     protected void setThis(PersistentOfferedFSale newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
         if (newValue.isTheSameAs(this)){
@@ -168,18 +135,6 @@ public class OfferedFSale extends PersistentObject implements PersistentOfferedF
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleOfferedFSale(this);
     }
-    public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
-        visitor.handleOfferedFSale(this);
-    }
-    public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
-         return visitor.handleOfferedFSale(this);
-    }
-    public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
-         visitor.handleOfferedFSale(this);
-    }
-    public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
-         return visitor.handleOfferedFSale(this);
-    }
     public void accept(ArticleStateVisitor visitor) throws PersistenceException {
         visitor.handleOfferedFSale(this);
     }
@@ -197,15 +152,6 @@ public class OfferedFSale extends PersistentObject implements PersistentOfferedF
     }
     
     
-    public synchronized void deregister(final ObsInterface observee) 
-				throws PersistenceException{
-        SubjInterface subService = getThis().getSubService();
-		if (subService == null) {
-			subService = model.Subj.createSubj(this.isDelayed$Persistence());
-			getThis().setSubService(subService);
-		}
-		subService.deregister(observee);
-    }
     public PersistentArticle getMyArticle() 
 				throws PersistenceException{
         ArticleSearchList result = null;
@@ -223,24 +169,6 @@ public class OfferedFSale extends PersistentObject implements PersistentOfferedF
 		if(this.isTheSameAs(This)){
 		}
     }
-    public synchronized void register(final ObsInterface observee) 
-				throws PersistenceException{
-        SubjInterface subService = getThis().getSubService();
-		if (subService == null) {
-			subService = model.Subj.createSubj(this.isDelayed$Persistence());
-			getThis().setSubService(subService);
-		}
-		subService.register(observee);
-    }
-    public synchronized void updateObservers(final model.meta.Mssgs event) 
-				throws PersistenceException{
-        SubjInterface subService = getThis().getSubService();
-		if (subService == null) {
-			subService = model.Subj.createSubj(this.isDelayed$Persistence());
-			getThis().setSubService(subService);
-		}
-		subService.updateObservers(event);
-    }
     
     
     // Start of section that contains operations that must be implemented.
@@ -252,18 +180,30 @@ public class OfferedFSale extends PersistentObject implements PersistentOfferedF
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
+        //TODO: implement method: copyingPrivateUserAttributes
+        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
+        //TODO: implement method: initializeOnCreation
+        
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-    	getThis().getMyArticle().setStock(0);
+        //TODO: implement method: initializeOnInstantiation
+        
     }
-    public void reorder(final long amount, final long manuDelivery) 
+    public void refillStock() 
 				throws PersistenceException{
-    	Timestamp ts = new Timestamp(System.currentTimeMillis());
-        ShopKeeperOrder.createShopKeeperOrder(manuDelivery, ts, getThis().getMyArticle(), amount).deliver();
+    	PersistentArticle myArticle = getThis().getMyArticle();
+    	if(myArticle.getStock() <= myArticle.getMinStock()) {
+    		PersistentShopKeeperOrder sko = ShopKeeperOrder.createShopKeeperOrder(myArticle.getManuDelivery(), myArticle, myArticle.getMaxStock()-myArticle.getStock());
+    		sko.send();
+    	}
+    }
+    public void stopSelling() 
+				throws PersistenceException{
+        getThis().getMyArticle().setState(RemovedFSale.createRemovedFSale());
     }
     
     

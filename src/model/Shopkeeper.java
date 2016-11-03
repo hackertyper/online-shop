@@ -55,7 +55,15 @@ public class Shopkeeper extends PersistentObject implements PersistentShopkeeper
     java.util.HashMap<String,Object> result = null;
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
-            result.put("itemRange", this.getItemRange().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, true));
+            AbstractPersistentRoot basicProductGroup = (AbstractPersistentRoot)this.getBasicProductGroup();
+            if (basicProductGroup != null) {
+                result.put("basicProductGroup", basicProductGroup.createProxiInformation(false, essentialLevel <= 1));
+                if(depth > 1) {
+                    basicProductGroup.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && basicProductGroup.hasEssentialFields())basicProductGroup.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
         }
@@ -64,10 +72,9 @@ public class Shopkeeper extends PersistentObject implements PersistentShopkeeper
     
     public Shopkeeper provideCopy() throws PersistenceException{
         Shopkeeper result = this;
-        result = new Shopkeeper(this.subService, 
+        result = new Shopkeeper(this.basicProductGroup, 
                                 this.This, 
                                 this.getId());
-        result.itemRange = this.itemRange.copy(result);
         this.copyingPrivateUserAttributes(result);
         return result;
     }
@@ -75,20 +82,18 @@ public class Shopkeeper extends PersistentObject implements PersistentShopkeeper
     public boolean hasEssentialFields() throws PersistenceException{
         return false;
     }
-    protected Shopkeeper_ItemRangeProxi itemRange;
-    protected SubjInterface subService;
+    protected PersistentProductGroup basicProductGroup;
     protected PersistentShopkeeper This;
     
-    public Shopkeeper(SubjInterface subService,PersistentShopkeeper This,long id) throws PersistenceException {
+    public Shopkeeper(PersistentProductGroup basicProductGroup,PersistentShopkeeper This,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
-        this.itemRange = new Shopkeeper_ItemRangeProxi(this);
-        this.subService = subService;
+        this.basicProductGroup = basicProductGroup;
         if (This != null && !(this.isTheSameAs(This))) this.This = This;        
     }
     
     static public long getTypeId() {
-        return 107;
+        return 133;
     }
     
     public long getClassId() {
@@ -97,13 +102,12 @@ public class Shopkeeper extends PersistentObject implements PersistentShopkeeper
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 107) ConnectionHandler.getTheConnectionHandler().theShopkeeperFacade
+        if (this.getClassId() == 133) ConnectionHandler.getTheConnectionHandler().theShopkeeperFacade
             .newShopkeeper(this.getId());
         super.store();
-        this.getItemRange().store();
-        if(this.getSubService() != null){
-            this.getSubService().store();
-            ConnectionHandler.getTheConnectionHandler().theShopkeeperFacade.subServiceSet(this.getId(), getSubService());
+        if(this.getBasicProductGroup() != null){
+            this.getBasicProductGroup().store();
+            ConnectionHandler.getTheConnectionHandler().theShopkeeperFacade.basicProductGroupSet(this.getId(), getBasicProductGroup());
         }
         if(!this.isTheSameAs(this.getThis())){
             this.getThis().store();
@@ -112,21 +116,18 @@ public class Shopkeeper extends PersistentObject implements PersistentShopkeeper
         
     }
     
-    public Shopkeeper_ItemRangeProxi getItemRange() throws PersistenceException {
-        return this.itemRange;
+    public PersistentProductGroup getBasicProductGroup() throws PersistenceException {
+        return this.basicProductGroup;
     }
-    public SubjInterface getSubService() throws PersistenceException {
-        return this.subService;
-    }
-    public void setSubService(SubjInterface newValue) throws PersistenceException {
+    public void setBasicProductGroup(PersistentProductGroup newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
-        if(newValue.isTheSameAs(this.subService)) return;
+        if(newValue.isTheSameAs(this.basicProductGroup)) return;
         long objectId = newValue.getId();
         long classId = newValue.getClassId();
-        this.subService = (SubjInterface)PersistentProxi.createProxi(objectId, classId);
+        this.basicProductGroup = (PersistentProductGroup)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
-            ConnectionHandler.getTheConnectionHandler().theShopkeeperFacade.subServiceSet(this.getId(), newValue);
+            ConnectionHandler.getTheConnectionHandler().theShopkeeperFacade.basicProductGroupSet(this.getId(), newValue);
         }
     }
     protected void setThis(PersistentShopkeeper newValue) throws PersistenceException {
@@ -164,33 +165,12 @@ public class Shopkeeper extends PersistentObject implements PersistentShopkeeper
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleShopkeeper(this);
     }
-    public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
-        visitor.handleShopkeeper(this);
-    }
-    public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
-         return visitor.handleShopkeeper(this);
-    }
-    public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
-         visitor.handleShopkeeper(this);
-    }
-    public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
-         return visitor.handleShopkeeper(this);
-    }
     public int getLeafInfo() throws PersistenceException{
-        if (this.getItemRange().getLength() > 0) return 1;
+        if (this.getBasicProductGroup() != null) return 1;
         return 0;
     }
     
     
-    public synchronized void deregister(final ObsInterface observee) 
-				throws PersistenceException{
-        SubjInterface subService = getThis().getSubService();
-		if (subService == null) {
-			subService = model.Subj.createSubj(this.isDelayed$Persistence());
-			getThis().setSubService(subService);
-		}
-		subService.deregister(observee);
-    }
     public PersistentShopkeeperService getMyServer() 
 				throws PersistenceException{
         ShopkeeperServiceSearchList result = null;
@@ -208,35 +188,26 @@ public class Shopkeeper extends PersistentObject implements PersistentShopkeeper
 		if(this.isTheSameAs(This)){
 		}
     }
-    public synchronized void register(final ObsInterface observee) 
-				throws PersistenceException{
-        SubjInterface subService = getThis().getSubService();
-		if (subService == null) {
-			subService = model.Subj.createSubj(this.isDelayed$Persistence());
-			getThis().setSubService(subService);
-		}
-		subService.register(observee);
-    }
-    public synchronized void updateObservers(final model.meta.Mssgs event) 
-				throws PersistenceException{
-        SubjInterface subService = getThis().getSubService();
-		if (subService == null) {
-			subService = model.Subj.createSubj(this.isDelayed$Persistence());
-			getThis().setSubService(subService);
-		}
-		subService.updateObservers(event);
-    }
     
     
     // Start of section that contains operations that must be implemented.
     
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
+        //TODO: implement method: copyingPrivateUserAttributes
+        
+    }
+    public void createArticle(final PersistentProductGroup parent, final String description, final String manufacturer, final long price, final long maxStock, final long minStock, final long manuDelivery) 
+				throws PersistenceException{
+        parent.addItem(Article.createArticle(description, Manufacturer.createManufacturer(manufacturer), price, minStock, maxStock, manuDelivery));        
+    }
+    public void createProductGroup(final PersistentProductGroup parent, final String description) 
+				throws PersistenceException{
+        parent.addItem(ProductGroup.createProductGroup(description));
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
-        
+        getThis().setBasicProductGroup(ProductGroup.createProductGroup("Produkte"));
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{

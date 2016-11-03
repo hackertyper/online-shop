@@ -10,23 +10,22 @@ import model.visitor.*;
 public class ShopKeeperOrder extends model.Delivery implements PersistentShopKeeperOrder{
     
     
-    public static PersistentShopKeeperOrder createShopKeeperOrder(long remainingTimeToDelivery,java.sql.Timestamp sendDate,PersistentArticle article,long amount) throws PersistenceException{
-        return createShopKeeperOrder(remainingTimeToDelivery,sendDate,article,amount,false);
+    public static PersistentShopKeeperOrder createShopKeeperOrder(long remainingTimeToDelivery,PersistentArticle article,long amount) throws PersistenceException{
+        return createShopKeeperOrder(remainingTimeToDelivery,article,amount,false);
     }
     
-    public static PersistentShopKeeperOrder createShopKeeperOrder(long remainingTimeToDelivery,java.sql.Timestamp sendDate,PersistentArticle article,long amount,boolean delayed$Persistence) throws PersistenceException {
+    public static PersistentShopKeeperOrder createShopKeeperOrder(long remainingTimeToDelivery,PersistentArticle article,long amount,boolean delayed$Persistence) throws PersistenceException {
         PersistentShopKeeperOrder result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theShopKeeperOrderFacade
-                .newDelayedShopKeeperOrder(remainingTimeToDelivery,sendDate,amount);
+                .newDelayedShopKeeperOrder(remainingTimeToDelivery,amount);
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theShopKeeperOrderFacade
-                .newShopKeeperOrder(remainingTimeToDelivery,sendDate,amount,-1);
+                .newShopKeeperOrder(remainingTimeToDelivery,amount,-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         final$$Fields.put("remainingTimeToDelivery", remainingTimeToDelivery);
-        final$$Fields.put("sendDate", sendDate);
         final$$Fields.put("article", article);
         final$$Fields.put("amount", amount);
         result.initialize(result, final$$Fields);
@@ -34,19 +33,18 @@ public class ShopKeeperOrder extends model.Delivery implements PersistentShopKee
         return result;
     }
     
-    public static PersistentShopKeeperOrder createShopKeeperOrder(long remainingTimeToDelivery,java.sql.Timestamp sendDate,PersistentArticle article,long amount,boolean delayed$Persistence,PersistentShopKeeperOrder This) throws PersistenceException {
+    public static PersistentShopKeeperOrder createShopKeeperOrder(long remainingTimeToDelivery,PersistentArticle article,long amount,boolean delayed$Persistence,PersistentShopKeeperOrder This) throws PersistenceException {
         PersistentShopKeeperOrder result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theShopKeeperOrderFacade
-                .newDelayedShopKeeperOrder(remainingTimeToDelivery,sendDate,amount);
+                .newDelayedShopKeeperOrder(remainingTimeToDelivery,amount);
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theShopKeeperOrderFacade
-                .newShopKeeperOrder(remainingTimeToDelivery,sendDate,amount,-1);
+                .newShopKeeperOrder(remainingTimeToDelivery,amount,-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         final$$Fields.put("remainingTimeToDelivery", remainingTimeToDelivery);
-        final$$Fields.put("sendDate", sendDate);
         final$$Fields.put("article", article);
         final$$Fields.put("amount", amount);
         result.initialize(This, final$$Fields);
@@ -77,8 +75,6 @@ public class ShopKeeperOrder extends model.Delivery implements PersistentShopKee
     public ShopKeeperOrder provideCopy() throws PersistenceException{
         ShopKeeperOrder result = this;
         result = new ShopKeeperOrder(this.remainingTimeToDelivery, 
-                                     this.sendDate, 
-                                     this.subService, 
                                      this.This, 
                                      this.article, 
                                      this.amount, 
@@ -93,15 +89,15 @@ public class ShopKeeperOrder extends model.Delivery implements PersistentShopKee
     protected PersistentArticle article;
     protected long amount;
     
-    public ShopKeeperOrder(long remainingTimeToDelivery,java.sql.Timestamp sendDate,SubjInterface subService,PersistentDelivery This,PersistentArticle article,long amount,long id) throws PersistenceException {
+    public ShopKeeperOrder(long remainingTimeToDelivery,PersistentDelivery This,PersistentArticle article,long amount,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((long)remainingTimeToDelivery,(java.sql.Timestamp)sendDate,(SubjInterface)subService,(PersistentDelivery)This,id);
+        super((long)remainingTimeToDelivery,(PersistentDelivery)This,id);
         this.article = article;
         this.amount = amount;        
     }
     
     static public long getTypeId() {
-        return 130;
+        return 152;
     }
     
     public long getClassId() {
@@ -110,8 +106,8 @@ public class ShopKeeperOrder extends model.Delivery implements PersistentShopKee
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 130) ConnectionHandler.getTheConnectionHandler().theShopKeeperOrderFacade
-            .newShopKeeperOrder(remainingTimeToDelivery,sendDate,amount,this.getId());
+        if (this.getClassId() == 152) ConnectionHandler.getTheConnectionHandler().theShopKeeperOrderFacade
+            .newShopKeeperOrder(remainingTimeToDelivery,amount,this.getId());
         super.store();
         if(this.getArticle() != null){
             this.getArticle().store();
@@ -173,60 +169,20 @@ public class ShopKeeperOrder extends model.Delivery implements PersistentShopKee
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleShopKeeperOrder(this);
     }
-    public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
-        visitor.handleShopKeeperOrder(this);
-    }
-    public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
-         return visitor.handleShopKeeperOrder(this);
-    }
-    public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
-         visitor.handleShopKeeperOrder(this);
-    }
-    public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
-         return visitor.handleShopKeeperOrder(this);
-    }
     public int getLeafInfo() throws PersistenceException{
         if (this.getArticle() != null) return 1;
         return 0;
     }
     
     
-    public synchronized void deregister(final ObsInterface observee) 
-				throws PersistenceException{
-        SubjInterface subService = getThis().getSubService();
-		if (subService == null) {
-			subService = model.Subj.createSubj(this.isDelayed$Persistence());
-			getThis().setSubService(subService);
-		}
-		subService.deregister(observee);
-    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentShopKeeperOrder)This);
 		if(this.isTheSameAs(This)){
 			this.setRemainingTimeToDelivery((Long)final$$Fields.get("remainingTimeToDelivery"));
-			this.setSendDate((java.sql.Timestamp)final$$Fields.get("sendDate"));
 			this.setArticle((PersistentArticle)final$$Fields.get("article"));
 			this.setAmount((Long)final$$Fields.get("amount"));
 		}
-    }
-    public synchronized void register(final ObsInterface observee) 
-				throws PersistenceException{
-        SubjInterface subService = getThis().getSubService();
-		if (subService == null) {
-			subService = model.Subj.createSubj(this.isDelayed$Persistence());
-			getThis().setSubService(subService);
-		}
-		subService.register(observee);
-    }
-    public synchronized void updateObservers(final model.meta.Mssgs event) 
-				throws PersistenceException{
-        SubjInterface subService = getThis().getSubService();
-		if (subService == null) {
-			subService = model.Subj.createSubj(this.isDelayed$Persistence());
-			getThis().setSubService(subService);
-		}
-		subService.updateObservers(event);
     }
     
     
@@ -234,6 +190,8 @@ public class ShopKeeperOrder extends model.Delivery implements PersistentShopKee
     
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
+        //TODO: implement method: copyingPrivateUserAttributes
+        
     }
     public void deliver() 
 				throws PersistenceException{
@@ -250,15 +208,15 @@ public class ShopKeeperOrder extends model.Delivery implements PersistentShopKee
         super.initializeOnInstantiation();
 		//TODO: implement method: initializeOnInstantiation
     }
-    
-    
-    // Start of section that contains overridden operations only.
-    
     public void send() 
 				throws PersistenceException{
         //TODO: implement method: send
         
     }
+    
+    
+    // Start of section that contains overridden operations only.
+    
 
     /* Start of protected part that is not overridden by persistence generator */
     

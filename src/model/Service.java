@@ -34,20 +34,22 @@ public abstract class Service extends PersistentObject implements PersistentServ
     protected model.UserException userException = null;
     protected boolean changed = false;
     
-    protected SubjInterface subService;
+    protected long lowerLimitPreset;
+    protected long balancePreset;
     protected PersistentService This;
     protected Service_ErrorsProxi errors;
     
-    public Service(SubjInterface subService,PersistentService This,long id) throws PersistenceException {
+    public Service(long lowerLimitPreset,long balancePreset,PersistentService This,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
-        this.subService = subService;
+        this.lowerLimitPreset = lowerLimitPreset;
+        this.balancePreset = balancePreset;
         if (This != null && !(this.isTheSameAs(This))) this.This = This;
         this.errors = new Service_ErrorsProxi(this);        
     }
     
     static public long getTypeId() {
-        return -129;
+        return -107;
     }
     
     public long getClassId() {
@@ -57,10 +59,6 @@ public abstract class Service extends PersistentObject implements PersistentServ
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
         super.store();
-        if(this.getSubService() != null){
-            this.getSubService().store();
-            ConnectionHandler.getTheConnectionHandler().theServiceFacade.subServiceSet(this.getId(), getSubService());
-        }
         if(!this.isTheSameAs(this.getThis())){
             this.getThis().store();
             ConnectionHandler.getTheConnectionHandler().theServiceFacade.ThisSet(this.getId(), getThis());
@@ -68,19 +66,19 @@ public abstract class Service extends PersistentObject implements PersistentServ
         
     }
     
-    public SubjInterface getSubService() throws PersistenceException {
-        return this.subService;
+    public long getLowerLimitPreset() throws PersistenceException {
+        return this.lowerLimitPreset;
     }
-    public void setSubService(SubjInterface newValue) throws PersistenceException {
-        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
-        if(newValue.isTheSameAs(this.subService)) return;
-        long objectId = newValue.getId();
-        long classId = newValue.getClassId();
-        this.subService = (SubjInterface)PersistentProxi.createProxi(objectId, classId);
-        if(!this.isDelayed$Persistence()){
-            newValue.store();
-            ConnectionHandler.getTheConnectionHandler().theServiceFacade.subServiceSet(this.getId(), newValue);
-        }
+    public void setLowerLimitPreset(long newValue) throws PersistenceException {
+        if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theServiceFacade.lowerLimitPresetSet(this.getId(), newValue);
+        this.lowerLimitPreset = newValue;
+    }
+    public long getBalancePreset() throws PersistenceException {
+        return this.balancePreset;
+    }
+    public void setBalancePreset(long newValue) throws PersistenceException {
+        if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theServiceFacade.balancePresetSet(this.getId(), newValue);
+        this.balancePreset = newValue;
     }
     protected void setThis(PersistentService newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
@@ -120,12 +118,18 @@ public abstract class Service extends PersistentObject implements PersistentServ
     
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
+        //TODO: implement method: copyingPrivateUserAttributes
+        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
+        //TODO: implement method: initializeOnCreation
+        
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
+        //TODO: implement method: initializeOnInstantiation
+        
     }
     
     
@@ -133,7 +137,7 @@ public abstract class Service extends PersistentObject implements PersistentServ
     
     public void handleException(final Command command, final PersistenceException exception) 
 				throws PersistenceException{
-		new Thread(new Runnable(){
+	    new Thread(new Runnable(){
 			public /*INTERNAL*/ void run() {
 				//Handle exception!
 			}
