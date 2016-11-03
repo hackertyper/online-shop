@@ -266,8 +266,8 @@ public class Account extends PersistentObject implements PersistentAccount{
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-    	getThis().setBalance(1000);
-    	getThis().setLowerLimit(100);
+    	getThis().setBalance(serverConstants.ConfigConstants.getPresetAccountBalance());
+    	getThis().setLowerLimit(serverConstants.ConfigConstants.getPresetAccountLowerLimit());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
