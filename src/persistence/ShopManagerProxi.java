@@ -65,6 +65,10 @@ public class ShopManagerProxi extends PersistentProxi implements PersistentShopM
 				throws PersistenceException{
         ((PersistentShopManager)this.getTheObject()).deregister(observee);
     }
+    public void findArticle(final String description, final Invoker invoker) 
+				throws PersistenceException{
+        ((PersistentShopManager)this.getTheObject()).findArticle(description, invoker);
+    }
     public PersistentCustomerManager getCustomerManager() 
 				throws PersistenceException{
         return ((PersistentShopManager)this.getTheObject()).getCustomerManager();

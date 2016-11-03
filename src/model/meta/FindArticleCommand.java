@@ -39,12 +39,12 @@ public class FindArticleCommand extends PersistentObject implements PersistentFi
     }
     protected String description;
     protected Invoker invoker;
-    protected PersistentCustomerManager commandReceiver;
+    protected PersistentShopManager commandReceiver;
     protected PersistentCommonDate myCommonDate;
     
     private model.UserException commandException = null;
     
-    public FindArticleCommand(String description,Invoker invoker,PersistentCustomerManager commandReceiver,PersistentCommonDate myCommonDate,long id) throws PersistenceException {
+    public FindArticleCommand(String description,Invoker invoker,PersistentShopManager commandReceiver,PersistentCommonDate myCommonDate,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.description = description;
@@ -103,15 +103,15 @@ public class FindArticleCommand extends PersistentObject implements PersistentFi
             ConnectionHandler.getTheConnectionHandler().theFindArticleCommandFacade.invokerSet(this.getId(), newValue);
         }
     }
-    public PersistentCustomerManager getCommandReceiver() throws PersistenceException {
+    public PersistentShopManager getCommandReceiver() throws PersistenceException {
         return this.commandReceiver;
     }
-    public void setCommandReceiver(PersistentCustomerManager newValue) throws PersistenceException {
+    public void setCommandReceiver(PersistentShopManager newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
         if(newValue.isTheSameAs(this.commandReceiver)) return;
         long objectId = newValue.getId();
         long classId = newValue.getClassId();
-        this.commandReceiver = (PersistentCustomerManager)PersistentProxi.createProxi(objectId, classId);
+        this.commandReceiver = (PersistentShopManager)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
             ConnectionHandler.getTheConnectionHandler().theFindArticleCommandFacade.commandReceiverSet(this.getId(), newValue);
@@ -172,16 +172,16 @@ public class FindArticleCommand extends PersistentObject implements PersistentFi
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleFindArticleCommand(this);
     }
-    public void accept(CustomerManagerCommandVisitor visitor) throws PersistenceException {
+    public void accept(ShopManagerCommandVisitor visitor) throws PersistenceException {
         visitor.handleFindArticleCommand(this);
     }
-    public <R> R accept(CustomerManagerCommandReturnVisitor<R>  visitor) throws PersistenceException {
+    public <R> R accept(ShopManagerCommandReturnVisitor<R>  visitor) throws PersistenceException {
          return visitor.handleFindArticleCommand(this);
     }
-    public <E extends model.UserException>  void accept(CustomerManagerCommandExceptionVisitor<E> visitor) throws PersistenceException, E {
+    public <E extends model.UserException>  void accept(ShopManagerCommandExceptionVisitor<E> visitor) throws PersistenceException, E {
          visitor.handleFindArticleCommand(this);
     }
-    public <R, E extends model.UserException> R accept(CustomerManagerCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+    public <R, E extends model.UserException> R accept(ShopManagerCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleFindArticleCommand(this);
     }
     public void accept(CommandVisitor visitor) throws PersistenceException {

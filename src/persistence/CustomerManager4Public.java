@@ -17,8 +17,6 @@ public interface CustomerManager4Public extends Anything, SubjInterface, Abstrac
     
     public void deposit(final long amount, final Invoker invoker) 
 				throws PersistenceException;
-    public void findArticle(final String description, final Invoker invoker) 
-				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
     public void withdraw(final long amount, final Invoker invoker) 
@@ -30,8 +28,6 @@ public interface CustomerManager4Public extends Anything, SubjInterface, Abstrac
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
     public void deposit(final long amount) 
-				throws PersistenceException;
-    public void findArticle(final String description) 
 				throws PersistenceException;
     public void initializeOnCreation() 
 				throws PersistenceException;

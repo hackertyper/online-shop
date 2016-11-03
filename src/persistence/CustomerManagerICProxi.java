@@ -90,10 +90,6 @@ public class CustomerManagerICProxi extends PersistentInCacheProxiOptimistic imp
 				throws PersistenceException{
         ((PersistentCustomerManager)this.getTheObject()).deregister(observee);
     }
-    public void findArticle(final String description, final Invoker invoker) 
-				throws PersistenceException{
-        ((PersistentCustomerManager)this.getTheObject()).findArticle(description, invoker);
-    }
     public PersistentCustomerService getMyCustomerServer() 
 				throws PersistenceException{
         return ((PersistentCustomerManager)this.getTheObject()).getMyCustomerServer();
@@ -129,10 +125,6 @@ public class CustomerManagerICProxi extends PersistentInCacheProxiOptimistic imp
     public void deposit(final long amount) 
 				throws PersistenceException{
         ((PersistentCustomerManager)this.getTheObject()).deposit(amount);
-    }
-    public void findArticle(final String description) 
-				throws PersistenceException{
-        ((PersistentCustomerManager)this.getTheObject()).findArticle(description);
     }
     public void initializeOnCreation() 
 				throws PersistenceException{

@@ -297,13 +297,13 @@ public class ShopkeeperService extends model.Service implements PersistentShopke
     }
     public void presetBalance(final long amount) 
 				throws PersistenceException{
-    	//TODO: ersetze 1000 durch amount
-        getThis().setBalancePreset(1000);
+        //TODO: implement method: presetBalance
+        
     }
     public void presetLowerLimit(final long amount) 
 				throws PersistenceException{
-    	//TODO: ersetze 100 durch amount
-    	getThis().setLowerLimitPreset(100);
+        //TODO: implement method: presetLowerLimit
+        
     }
     public void startSelling(final PersistentNewlyAdded article) 
 				throws PersistenceException{

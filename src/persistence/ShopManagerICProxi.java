@@ -69,6 +69,10 @@ public class ShopManagerICProxi extends PersistentInCacheProxiOptimistic impleme
 				throws PersistenceException{
         ((PersistentShopManager)this.getTheObject()).deregister(observee);
     }
+    public void findArticle(final String description, final Invoker invoker) 
+				throws PersistenceException{
+        ((PersistentShopManager)this.getTheObject()).findArticle(description, invoker);
+    }
     public PersistentCustomerManager getCustomerManager() 
 				throws PersistenceException{
         return ((PersistentShopManager)this.getTheObject()).getCustomerManager();

@@ -239,8 +239,7 @@ public class ShopService extends model.CustomerService implements PersistentShop
     }
     public void findArticle(final String description) 
 				throws PersistenceException{
-        //TODO: implement method: findArticle
-        
+        getThis().getShopMngr().findArticle(description, getThis());
     }
     public void initializeOnCreation() 
 				throws PersistenceException{

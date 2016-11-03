@@ -283,14 +283,6 @@ public class CustomerManager extends PersistentObject implements PersistentCusto
 		}
 		subService.deregister(observee);
     }
-    public void findArticle(final String description, final Invoker invoker) 
-				throws PersistenceException{
-        java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
-		PersistentFindArticleCommand command = model.meta.FindArticleCommand.createFindArticleCommand(description, now, now);
-		command.setInvoker(invoker);
-		command.setCommandReceiver(getThis());
-		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
-    }
     public PersistentCustomerService getMyCustomerServer() 
 				throws PersistenceException{
         CustomerServiceSearchList result = null;
@@ -352,11 +344,6 @@ public class CustomerManager extends PersistentObject implements PersistentCusto
     public void deposit(final long amount) 
 				throws PersistenceException{
         getThis().getAccMngr().deposit(amount);
-    }
-    public void findArticle(final String description) 
-				throws PersistenceException{
-        //TODO: implement method: findArticle
-        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{

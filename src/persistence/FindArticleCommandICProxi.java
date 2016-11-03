@@ -34,10 +34,10 @@ public class FindArticleCommandICProxi extends PersistentInCacheProxi implements
     public void setInvoker(Invoker newValue) throws PersistenceException {
         ((PersistentFindArticleCommand)this.getTheObject()).setInvoker(newValue);
     }
-    public PersistentCustomerManager getCommandReceiver() throws PersistenceException {
+    public PersistentShopManager getCommandReceiver() throws PersistenceException {
         return ((PersistentFindArticleCommand)this.getTheObject()).getCommandReceiver();
     }
-    public void setCommandReceiver(PersistentCustomerManager newValue) throws PersistenceException {
+    public void setCommandReceiver(PersistentShopManager newValue) throws PersistenceException {
         ((PersistentFindArticleCommand)this.getTheObject()).setCommandReceiver(newValue);
     }
     public PersistentCommonDate getMyCommonDate() throws PersistenceException {
@@ -83,16 +83,16 @@ public class FindArticleCommandICProxi extends PersistentInCacheProxi implements
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleFindArticleCommand(this);
     }
-    public void accept(CustomerManagerCommandVisitor visitor) throws PersistenceException {
+    public void accept(ShopManagerCommandVisitor visitor) throws PersistenceException {
         visitor.handleFindArticleCommand(this);
     }
-    public <R> R accept(CustomerManagerCommandReturnVisitor<R>  visitor) throws PersistenceException {
+    public <R> R accept(ShopManagerCommandReturnVisitor<R>  visitor) throws PersistenceException {
          return visitor.handleFindArticleCommand(this);
     }
-    public <E extends model.UserException>  void accept(CustomerManagerCommandExceptionVisitor<E> visitor) throws PersistenceException, E {
+    public <E extends model.UserException>  void accept(ShopManagerCommandExceptionVisitor<E> visitor) throws PersistenceException, E {
          visitor.handleFindArticleCommand(this);
     }
-    public <R, E extends model.UserException> R accept(CustomerManagerCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+    public <R, E extends model.UserException> R accept(ShopManagerCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleFindArticleCommand(this);
     }
     public void accept(CommandVisitor visitor) throws PersistenceException {

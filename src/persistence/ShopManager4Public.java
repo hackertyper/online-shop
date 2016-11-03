@@ -17,6 +17,8 @@ public interface ShopManager4Public extends Anything, SubjInterface, AbstractPer
     
     public void addToCart(final PersistentArticle article, final long amount) 
 				throws PersistenceException;
+    public void findArticle(final String description, final Invoker invoker) 
+				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
     public void addToCartImplementation(final PersistentArticle article, final long amount) 
