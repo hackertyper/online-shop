@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.sql.Timestamp;
 import java.time.Instant;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,6 +17,7 @@ import model.InsufficientStock;
 import model.Manufacturer;
 import model.QuantifiedArticles;
 import model.Retoure;
+import model.UserException;
 import persistence.PersistenceException;
 import persistence.PersistentArrivedOrder;
 import persistence.PersistentArticle;
@@ -26,8 +26,11 @@ import persistence.PersistentCustomerOrder;
 import persistence.PersistentCustomerService;
 import persistence.PersistentManufacturer;
 import persistence.PersistentOpenCart;
+import persistence.PersistentQuantifiedArticles;
 import persistence.PersistentRetoure;
 import persistence.PersistentSendOrder;
+import persistence.Predcate;
+import persistence.QuantifiedArticlesList;
 
 public class TestOrder {
 	PersistentCustomerService cs;
@@ -100,8 +103,61 @@ public class TestOrder {
 		assertEquals(1, cm.getOrderMngr().getOrders().getLength());
 		cm.getOrderMngr().retoureDelivery(co, co.getArticleList().getList());
 		assertEquals(110, a1.getStock());
-		assertEquals(900, cm.getAccMngr().getMyAccount().getBalance());
 		assertEquals(0, cm.getOrderMngr().getOrders().getLength());
 	}
-
+	
+	@Test
+	public void testFullOrderAccept() throws PersistenceException, UserException {	
+		cm.getAccMngr().deposit(2000);
+		assertEquals(3000, cm.getAccMngr().getMyAccount().getBalance());
+		cm.getCartMngr().addArticle(a1, 8);
+		assertEquals(1200, cm.getCartMngr().getMyCart().fetchCurrentSum());
+		cm.getCartMngr().addArticle(a2, 10);
+		assertEquals(1400, cm.getCartMngr().getMyCart().fetchCurrentSum());
+		cm.getCartMngr().checkOut();
+		assertEquals(90, a1.getStock());
+		assertEquals(10, a2.getStock());
+		cm.getCartMngr().order();
+		assertEquals(1600, cm.getAccMngr().getMyAccount().getBalance());
+		assertEquals(1, cm.getOrderMngr().getOrders().getLength());
+		cm.getOrderMngr().acceptDelivery(cm.getOrderMngr().getOrders().findFirst(new Predcate<PersistentCustomerOrder>() {
+			@Override
+			public boolean test(PersistentCustomerOrder argument) throws PersistenceException {
+				return true;
+			}
+		}));
+		assertEquals(0, cm.getOrderMngr().getOrders().getLength());
+	}
+	
+	@Test
+	public void testFullOrderRetoure() throws PersistenceException, UserException {	
+		cm.getAccMngr().deposit(2000);
+		assertEquals(3000, cm.getAccMngr().getMyAccount().getBalance());
+		cm.getCartMngr().addArticle(a1, 8);
+		assertEquals(1200, cm.getCartMngr().getMyCart().fetchCurrentSum());
+		cm.getCartMngr().addArticle(a2, 10);
+		assertEquals(1400, cm.getCartMngr().getMyCart().fetchCurrentSum());
+		cm.getCartMngr().checkOut();
+		assertEquals(90, a1.getStock());
+		assertEquals(10, a2.getStock());
+		cm.getCartMngr().order();
+		assertEquals(1600, cm.getAccMngr().getMyAccount().getBalance());
+		assertEquals(1, cm.getOrderMngr().getOrders().getLength());
+		PersistentCustomerOrder ao = cm.getOrderMngr().getOrders().findFirst(new Predcate<PersistentCustomerOrder>() {
+			@Override
+			public boolean test(PersistentCustomerOrder argument) throws PersistenceException {
+				return true;
+			}
+		});
+		QuantifiedArticlesList list = ao.getArticleList().getList();
+		list.filter(new Predcate<PersistentQuantifiedArticles>() {
+			@Override
+			public boolean test(PersistentQuantifiedArticles argument) throws PersistenceException {
+				return argument.getArticle().equals(a1);
+			}
+		});
+		cm.getOrderMngr().retoureDelivery(ao, list);
+		assertEquals(2500, cm.getAccMngr().getMyAccount().getBalance());
+		assertEquals(0, cm.getOrderMngr().getOrders().getLength());
+	}
 }

@@ -288,8 +288,7 @@ public class Account extends PersistentObject implements PersistentAccount{
     }
     public void returnPayment(final long sum) 
 				throws PersistenceException{
-        //TODO: implement method: returnPayment
-        
+        getThis().setBalance(getThis().getBalance() + sum);
     }
     /**
      * Models the withdrawing of a given amount from the account.

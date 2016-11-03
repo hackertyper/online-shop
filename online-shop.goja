@@ -63,21 +63,22 @@ class CustomerManager {
 	server-only one-to-one (no-view customerManager) CartManager cartMngr;
 	server-only one-to-one (no-view customerManager) OrderManager orderMngr;
 	void addToCart(Article article, Integer amount);
-	active void findArticle(String description);
 	active void deposit(Integer amount);
 	active void withdraw(Integer amount) throws InsufficientFunds;
+	void returnPayment(Integer sum);
 	void pay(Integer sum) throws InsufficientFunds;
 	void addOrder(CustomerOrder order);
 }
 class ShopManager {
 	observe Item ** itemRange;
 	event void addToCart(Article article, Integer amount);
-	void findArticle(String description);
+	active void findArticle(String description);
 }
 class AccountManager {
 	one-to-one (no-view accMngr) Account myAccount;
 	void deposit(Integer amount);
 	void withdraw(Integer amount) throws InsufficientFunds;
+	void returnPayment(Integer sum);
 	void pay(Integer sum) throws InsufficientFunds;
 }
 class CartManager {
@@ -94,15 +95,17 @@ class CartManager {
 }
 class OrderManager {
 	CustomerOrder ** orders;
+	Integer retourePrice;
 	void addOrder(CustomerOrder order);
 	active void acceptDelivery(CustomerOrder arrivedOrder);
-	active void retoureDelivery(CustomerOrder arrivedOrder, QuantifiedArticles ** list);
+	active void retoureDelivery(CustomerOrder arrivedOrder, QuantifiedArticles ** list) throws InsufficientFunds;
 }
 class Account {
 	Integer lowerLimit;
 	Integer balance;
 	void deposit(Integer amount);
 	void withdraw(Integer amount) throws InsufficientFunds;
+	void returnPayment(Integer sum);
 	void pay(Integer sum) throws InsufficientFunds;
 }
 class Cart {

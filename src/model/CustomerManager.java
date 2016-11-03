@@ -361,8 +361,7 @@ public class CustomerManager extends PersistentObject implements PersistentCusto
     }
     public void returnPayment(final long sum) 
 				throws PersistenceException{
-        //TODO: implement method: returnPayment
-        
+        getThis().getAccMngr().returnPayment(sum);
     }
     public void withdraw(final long amount) 
 				throws model.InsufficientFunds, PersistenceException{
