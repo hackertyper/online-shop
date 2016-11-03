@@ -146,6 +146,10 @@ public class CustomerManagerICProxi extends PersistentInCacheProxiOptimistic imp
 				throws model.InsufficientFunds, PersistenceException{
         ((PersistentCustomerManager)this.getTheObject()).pay(sum);
     }
+    public void returnPayment(final long sum) 
+				throws PersistenceException{
+        ((PersistentCustomerManager)this.getTheObject()).returnPayment(sum);
+    }
     public void withdraw(final long amount) 
 				throws model.InsufficientFunds, PersistenceException{
         ((PersistentCustomerManager)this.getTheObject()).withdraw(amount);

@@ -365,7 +365,7 @@ public class Cart extends PersistentObject implements PersistentCart{
 
 			@Override
 			public Long compose(Long result, PersistentQuantifiedArticles argument) throws PersistenceException {
-				return result + (argument.getAmount() * argument.fetchPrice());
+				return result + argument.fetchPrice();
 			}
 		});
     }

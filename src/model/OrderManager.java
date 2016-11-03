@@ -23,11 +23,11 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
         PersistentOrderManager result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theOrderManagerFacade
-                .newDelayedOrderManager();
+                .newDelayedOrderManager(0);
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theOrderManagerFacade
-                .newOrderManager(-1);
+                .newOrderManager(0,-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         result.initialize(result, final$$Fields);
@@ -39,11 +39,11 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
         PersistentOrderManager result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theOrderManagerFacade
-                .newDelayedOrderManager();
+                .newDelayedOrderManager(0);
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theOrderManagerFacade
-                .newOrderManager(-1);
+                .newOrderManager(0,-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         result.initialize(This, final$$Fields);
@@ -56,6 +56,7 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
             result.put("orders", this.getOrders().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, true));
+            result.put("retourePrice", new Long(this.getRetourePrice()).toString());
             AbstractPersistentRoot customerManager = (AbstractPersistentRoot)this.getCustomerManager();
             if (customerManager != null) {
                 result.put("customerManager", customerManager.createProxiInformation(false, essentialLevel <= 1));
@@ -82,7 +83,8 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
     
     public OrderManager provideCopy() throws PersistenceException{
         OrderManager result = this;
-        result = new OrderManager(this.subService, 
+        result = new OrderManager(this.retourePrice, 
+                                  this.subService, 
                                   this.This, 
                                   this.getId());
         result.orders = this.orders.copy(result);
@@ -94,13 +96,15 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
         return false;
     }
     protected OrderManager_OrdersProxi orders;
+    protected long retourePrice;
     protected SubjInterface subService;
     protected PersistentOrderManager This;
     
-    public OrderManager(SubjInterface subService,PersistentOrderManager This,long id) throws PersistenceException {
+    public OrderManager(long retourePrice,SubjInterface subService,PersistentOrderManager This,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.orders = new OrderManager_OrdersProxi(this);
+        this.retourePrice = retourePrice;
         this.subService = subService;
         if (This != null && !(this.isTheSameAs(This))) this.This = This;        
     }
@@ -116,7 +120,7 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
         if (this.getClassId() == 224) ConnectionHandler.getTheConnectionHandler().theOrderManagerFacade
-            .newOrderManager(this.getId());
+            .newOrderManager(retourePrice,this.getId());
         super.store();
         this.getOrders().store();
         if(this.getSubService() != null){
@@ -132,6 +136,13 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
     
     public OrderManager_OrdersProxi getOrders() throws PersistenceException {
         return this.orders;
+    }
+    public long getRetourePrice() throws PersistenceException {
+        return this.retourePrice;
+    }
+    public void setRetourePrice(long newValue) throws PersistenceException {
+        if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theOrderManagerFacade.retourePriceSet(this.getId(), newValue);
+        this.retourePrice = newValue;
     }
     public SubjInterface getSubService() throws PersistenceException {
         return this.subService;
@@ -312,8 +323,17 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
 				throws PersistenceException{
     }
     public void retoureDelivery(final PersistentCustomerOrder arrivedOrder, final QuantifiedArticlesSearchList list) 
-				throws PersistenceException{
+				throws model.InsufficientFunds, PersistenceException{
         arrivedOrder.retoure(list);
+        list.applyToAll(new Procdure<PersistentQuantifiedArticles>() {
+			@Override
+			public void doItTo(PersistentQuantifiedArticles argument) throws PersistenceException {
+				getThis().setRetourePrice(getThis().getRetourePrice() + argument.fetchPrice());
+			}
+		});
+        getThis().getCustomerManager().returnPayment(getThis().getRetourePrice());
+        getThis().setRetourePrice((getThis().getRetourePrice() * serverConstants.ConfigConstants.getRetourePercentage())/100);
+        getThis().getCustomerManager().pay(getThis().getRetourePrice());
         getThis().getOrders().filter(new Predcate<PersistentCustomerOrder>() {
 			@Override
 			public boolean test(PersistentCustomerOrder argument) throws PersistenceException {

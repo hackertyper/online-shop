@@ -32,7 +32,7 @@ public interface OrderManager4Public extends Anything, SubjInterface, AbstractPe
     public void initializeOnInstantiation() 
 				throws PersistenceException;
     public void retoureDelivery(final PersistentCustomerOrder arrivedOrder, final QuantifiedArticlesSearchList list) 
-				throws PersistenceException;
+				throws model.InsufficientFunds, PersistenceException;
 
 }
 

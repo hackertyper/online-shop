@@ -229,8 +229,12 @@ public class RetoureDeliveryCommand extends PersistentObject implements Persiste
     }
     public void execute() 
 				throws PersistenceException{
-        this.commandReceiver.retoureDelivery(this.getArrivedOrder(), this.getList().getList());
-		
+        try{
+			this.commandReceiver.retoureDelivery(this.getArrivedOrder(), this.getList().getList());
+		}
+		catch(model.InsufficientFunds e){
+			this.commandException = e;
+		}
     }
     public Invoker fetchInvoker() 
 				throws PersistenceException{

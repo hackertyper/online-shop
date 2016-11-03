@@ -25,6 +25,12 @@ public class OrderManagerICProxi extends PersistentInCacheProxiOptimistic implem
     public OrderManager_OrdersProxi getOrders() throws PersistenceException {
         return ((PersistentOrderManager)this.getTheObject()).getOrders();
     }
+    public long getRetourePrice() throws PersistenceException {
+        return ((PersistentOrderManager)this.getTheObject()).getRetourePrice();
+    }
+    public void setRetourePrice(long newValue) throws PersistenceException {
+        ((PersistentOrderManager)this.getTheObject()).setRetourePrice(newValue);
+    }
     public SubjInterface getSubService() throws PersistenceException {
         return ((PersistentOrderManager)this.getTheObject()).getSubService();
     }
@@ -114,7 +120,7 @@ public class OrderManagerICProxi extends PersistentInCacheProxiOptimistic implem
         ((PersistentOrderManager)this.getTheObject()).initializeOnInstantiation();
     }
     public void retoureDelivery(final PersistentCustomerOrder arrivedOrder, final QuantifiedArticlesSearchList list) 
-				throws PersistenceException{
+				throws model.InsufficientFunds, PersistenceException{
         ((PersistentOrderManager)this.getTheObject()).retoureDelivery(arrivedOrder, list);
     }
 

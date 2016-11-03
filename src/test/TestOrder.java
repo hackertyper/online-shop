@@ -92,7 +92,7 @@ public class TestOrder {
 	}
 	
 	@Test
-	public void testOrderRetoureDelivery() throws PersistenceException {
+	public void testOrderRetoureDelivery() throws PersistenceException, InsufficientFunds {
 		co = CustomerOrder.createCustomerOrder(0, Timestamp.from(Instant.now()));
 		co.getArticleList().add(QuantifiedArticles.createQuantifiedArticles(a1, 10));
 		cm.getOrderMngr().addOrder(co);
@@ -100,6 +100,7 @@ public class TestOrder {
 		assertEquals(1, cm.getOrderMngr().getOrders().getLength());
 		cm.getOrderMngr().retoureDelivery(co, co.getArticleList().getList());
 		assertEquals(110, a1.getStock());
+		assertEquals(900, cm.getAccMngr().getMyAccount().getBalance());
 		assertEquals(0, cm.getOrderMngr().getOrders().getLength());
 	}
 

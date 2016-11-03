@@ -25,17 +25,17 @@ public class OrderManagerFacade{
 	}
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
-    public PersistentOrderManager newOrderManager(long idCreateIfLessZero) throws PersistenceException {
+    public PersistentOrderManager newOrderManager(long retourePrice,long idCreateIfLessZero) throws PersistenceException {
         if(idCreateIfLessZero > 0) return (PersistentOrderManager)PersistentProxi.createProxi(idCreateIfLessZero, 224);
         long id = ConnectionHandler.getTheConnectionHandler().theOrderManagerFacade.getNextId();
-        OrderManager result = new OrderManager(null,null,id);
+        OrderManager result = new OrderManager(retourePrice,null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentOrderManager)PersistentProxi.createProxi(id, 224);
     }
     
-    public PersistentOrderManager newDelayedOrderManager() throws PersistenceException {
+    public PersistentOrderManager newDelayedOrderManager(long retourePrice) throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theOrderManagerFacade.getNextId();
-        OrderManager result = new OrderManager(null,null,id);
+        OrderManager result = new OrderManager(retourePrice,null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentOrderManager)PersistentProxi.createProxi(id, 224);
     }
@@ -57,6 +57,9 @@ public class OrderManagerFacade{
     }
     public CustomerOrderList ordersGet(long OrderManagerId) throws PersistenceException {
         return new CustomerOrderList(); // remote access for initialization only!
+    }
+    public void retourePriceSet(long OrderManagerId, long retourePriceVal) throws PersistenceException {
+        
     }
     public void subServiceSet(long OrderManagerId, SubjInterface subServiceVal) throws PersistenceException {
         

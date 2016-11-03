@@ -106,6 +106,10 @@ public class AccountProxi extends PersistentProxi implements PersistentAccount{
 				throws model.InsufficientFunds, PersistenceException{
         ((PersistentAccount)this.getTheObject()).pay(sum);
     }
+    public void returnPayment(final long sum) 
+				throws PersistenceException{
+        ((PersistentAccount)this.getTheObject()).returnPayment(sum);
+    }
     public void withdraw(final long amount) 
 				throws model.InsufficientFunds, PersistenceException{
         ((PersistentAccount)this.getTheObject()).withdraw(amount);

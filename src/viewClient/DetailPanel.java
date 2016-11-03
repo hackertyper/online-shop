@@ -1694,11 +1694,19 @@ class AccountServiceDefaultDetailPanel extends DefaultDetailPanel{
 class OrderManagerDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String OrderManager$$orders = "OrderManager$$orders";
+    protected static final String OrderManager$$retourePrice = "OrderManager$$retourePrice";
     
     protected OrderManagerDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
     }
     protected void addFields(){
+        try{
+            BaseTypePanel panel = new IntegerPanel(this, "retourePrice", this.getAnything().getRetourePrice());
+            this.getScrollablePane().getChildren().add(panel);
+            this.panels.put(OrderManager$$retourePrice, panel);
+        }catch(ModelException e){
+            this.getExceptionAndEventhandler().handleException(e);
+        }
         
     }
     protected view.OrderManagerView getAnything(){

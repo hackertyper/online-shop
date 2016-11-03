@@ -7,19 +7,12 @@ import view.objects.ViewObjectInTree;
 import view.visitor.AnythingStandardVisitor;
 import view.visitor.ServiceVisitor;
 
-import java.awt.BorderLayout;
-import java.util.Optional;
-
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
@@ -33,8 +26,6 @@ import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
-import model.Cart;
-
 import com.sun.javafx.geom.Point2D;
 
 import javax.swing.tree.TreeModel;
@@ -55,7 +46,6 @@ public class ServerClientView extends BorderPane implements ExceptionAndEventHan
 		this.service = service;
 		this.initialize();
 	}
-	@SuppressWarnings("unused")
 	private ServerView getService(){
 		return this.service;
 	}

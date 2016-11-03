@@ -15,6 +15,7 @@ public class OrderManagerProxi extends ViewProxi implements OrderManagerView{
     public OrderManagerView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
         java.util.Vector<String> orders_string = (java.util.Vector<String>)resultTable.get("orders");
         java.util.Vector<CustomerOrderView> orders = ViewProxi.getProxiVector(orders_string, connectionKey);
+        long retourePrice = new Long((String)resultTable.get("retourePrice")).longValue();
         ViewProxi customerManager = null;
         String customerManager$String = (String)resultTable.get("customerManager");
         if (customerManager$String != null) {
@@ -29,7 +30,7 @@ public class OrderManagerProxi extends ViewProxi implements OrderManagerView{
             myOrderServer = view.objects.ViewProxi.createProxi(myOrderServer$Info,connectionKey);
             myOrderServer.setToString(myOrderServer$Info.getToString());
         }
-        OrderManagerView result$$ = new OrderManager(orders,(CustomerManagerView)customerManager,(OrderServiceView)myOrderServer, this.getId(), this.getClassId());
+        OrderManagerView result$$ = new OrderManager(orders,(long)retourePrice,(CustomerManagerView)customerManager,(OrderServiceView)myOrderServer, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -67,6 +68,12 @@ public class OrderManagerProxi extends ViewProxi implements OrderManagerView{
     }
     public void setOrders(java.util.Vector<CustomerOrderView> newValue) throws ModelException {
         ((OrderManager)this.getTheObject()).setOrders(newValue);
+    }
+    public long getRetourePrice()throws ModelException{
+        return ((OrderManager)this.getTheObject()).getRetourePrice();
+    }
+    public void setRetourePrice(long newValue) throws ModelException {
+        ((OrderManager)this.getTheObject()).setRetourePrice(newValue);
     }
     public CustomerManagerView getCustomerManager()throws ModelException{
         return ((OrderManager)this.getTheObject()).getCustomerManager();

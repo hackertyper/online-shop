@@ -299,6 +299,11 @@ public class AccountManager extends PersistentObject implements PersistentAccoun
 				throws model.InsufficientFunds, PersistenceException{
         getThis().getMyAccount().pay(sum);
     }
+    public void returnPayment(final long sum) 
+				throws PersistenceException{
+        //TODO: implement method: returnPayment
+        
+    }
     public void withdraw(final long amount) 
 				throws model.InsufficientFunds, PersistenceException{
     	getThis().getMyAccount().withdraw(amount);

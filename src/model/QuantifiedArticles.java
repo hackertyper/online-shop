@@ -271,7 +271,7 @@ public class QuantifiedArticles extends PersistentObject implements PersistentQu
     }
     public long fetchPrice() 
 				throws PersistenceException{
-        return getThis().getArticle().getPrice();
+        return getThis().getArticle().getPrice() * getThis().getAmount();
     }
     public void initializeOnCreation() 
 				throws PersistenceException{

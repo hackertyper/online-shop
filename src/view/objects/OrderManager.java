@@ -10,13 +10,15 @@ import view.visitor.*;
 public class OrderManager extends ViewObject implements OrderManagerView{
     
     protected java.util.Vector<CustomerOrderView> orders;
+    protected long retourePrice;
     protected CustomerManagerView customerManager;
     protected OrderServiceView myOrderServer;
     
-    public OrderManager(java.util.Vector<CustomerOrderView> orders,CustomerManagerView customerManager,OrderServiceView myOrderServer,long id, long classId) {
+    public OrderManager(java.util.Vector<CustomerOrderView> orders,long retourePrice,CustomerManagerView customerManager,OrderServiceView myOrderServer,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
         this.orders = orders;
+        this.retourePrice = retourePrice;
         this.customerManager = customerManager;
         this.myOrderServer = myOrderServer;        
     }
@@ -34,6 +36,12 @@ public class OrderManager extends ViewObject implements OrderManagerView{
     }
     public void setOrders(java.util.Vector<CustomerOrderView> newValue) throws ModelException {
         this.orders = newValue;
+    }
+    public long getRetourePrice()throws ModelException{
+        return this.retourePrice;
+    }
+    public void setRetourePrice(long newValue) throws ModelException {
+        this.retourePrice = newValue;
     }
     public CustomerManagerView getCustomerManager()throws ModelException{
         return this.customerManager;
@@ -96,13 +104,21 @@ public class OrderManager extends ViewObject implements OrderManagerView{
         }
         return -1;
     }
+    public int getRetourePriceIndex() throws ModelException {
+        return 0 + this.getOrders().size();
+    }
     public int getRowCount(){
-        return 0 ;
+        return 0 
+            + 1;
     }
     public Object getValueAt(int rowIndex, int columnIndex){
         try {
             if(columnIndex == 0){
+                if(rowIndex == 0) return "retourePrice";
+                rowIndex = rowIndex - 1;
             } else {
+                if(rowIndex == 0) return new Long(getRetourePrice());
+                rowIndex = rowIndex - 1;
             }
             throw new ModelException("Table index out of bounds!", -1);
         } catch (ModelException e){
@@ -114,7 +130,11 @@ public class OrderManager extends ViewObject implements OrderManagerView{
         return true;
     }
     public void setValueAt(String newValue, int rowIndex) throws Exception {
-        
+        if(rowIndex == 0){
+            this.setRetourePrice(Long.parseLong(newValue));
+            return;
+        }
+        rowIndex = rowIndex - 1;
     }
     public boolean hasTransientFields(){
         return false;

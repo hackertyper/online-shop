@@ -27,6 +27,8 @@ public interface AccountManager4Public extends Anything, SubjInterface, Abstract
 				throws PersistenceException;
     public void pay(final long sum) 
 				throws model.InsufficientFunds, PersistenceException;
+    public void returnPayment(final long sum) 
+				throws PersistenceException;
     public void withdraw(final long amount) 
 				throws model.InsufficientFunds, PersistenceException;
 

@@ -248,13 +248,13 @@ public class ArrivedOrder extends PersistentObject implements PersistentArrivedO
     }
     public void retoure(final QuantifiedArticlesSearchList list) 
 				throws PersistenceException{
-        PersistentRetoure re = Retoure.createRetoure(0, serverConstants.OrderConstants.current);
+    	PersistentRetoure re = Retoure.createRetoure(0, serverConstants.OrderConstants.current);
         try {
 			re.getArticleList().add(list);
 		} catch (UserException e) {
 			new Error(e);
 		}
-        re.send();
+        re.send();        
     }
     
     

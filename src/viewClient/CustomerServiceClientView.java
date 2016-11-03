@@ -1,24 +1,15 @@
 package viewClient;
 
-import view.*;
-import view.objects.ViewRoot;
-import view.objects.ViewObjectInTree;
+import javax.swing.tree.TreeModel;
 
-import view.visitor.AnythingStandardVisitor;
-import view.visitor.ServiceVisitor;
-
-import java.util.Optional;
+import com.sun.javafx.geom.Point2D;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
@@ -33,11 +24,20 @@ import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
-import persistence.PersistentCustomerOrder;
-
-import com.sun.javafx.geom.Point2D;
-
-import javax.swing.tree.TreeModel;
+import view.AccountServiceView;
+import view.Anything;
+import view.CartServiceView;
+import view.CustomerServiceView;
+import view.ModelException;
+import view.OrderServiceView;
+import view.RegisterServiceView;
+import view.ShopServiceView;
+import view.ShopkeeperServiceView;
+import view.UserException;
+import view.objects.ViewObjectInTree;
+import view.objects.ViewRoot;
+import view.visitor.AnythingStandardVisitor;
+import view.visitor.ServiceVisitor;
 
 
 public class CustomerServiceClientView extends BorderPane implements ExceptionAndEventHandler{
@@ -62,7 +62,7 @@ public class CustomerServiceClientView extends BorderPane implements ExceptionAn
 	private TabPane getTabs() {
 		if(this.tabs == null) {
 			this.tabs = new TabPane();
-			this.tabs.getTabs().addAll(getTabShop(), getTabAccount(), getTabCart(), getTabOrder());
+			this.tabs.getTabs().addAll(getTabShop(), getTabCart(), getTabOrder(), getTabAccount());
 		}
 		return this.tabs;
 	}
