@@ -7,7 +7,7 @@ public class ConfigConstants {
 	private static Integer PresetAccountLowerLimit = 100;
 
 	
-	public ConfigConstants() {}
+	private ConfigConstants() {}
 
 	/**
 	 * @return the retourePercentage
