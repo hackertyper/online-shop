@@ -3,7 +3,7 @@ package model.visitor;
 
 import persistence.*;
 
-public interface SubjInterfaceExceptionVisitor<E extends model.UserException> extends ArticleStateExceptionVisitor<E>,CartStateExceptionVisitor<E>,CustomerDeliveryExceptionVisitor<E>,CustomerOrderStateExceptionVisitor<E>,DeliveryExceptionVisitor<E>,ItemExceptionVisitor<E>,ServiceExceptionVisitor<E>{
+public interface SubjInterfaceExceptionVisitor<E extends model.UserException> extends ArticleStateExceptionVisitor<E>,CartStateExceptionVisitor<E>,CustomerDeliveryExceptionVisitor<E>,CustomerOrderStateExceptionVisitor<E>,ItemExceptionVisitor<E>,ServiceExceptionVisitor<E>{
     
     public void handleAccount(PersistentAccount account) throws PersistenceException, E;
     public void handleAccountManager(PersistentAccountManager accountManager) throws PersistenceException, E;

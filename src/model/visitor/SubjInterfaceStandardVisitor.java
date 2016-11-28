@@ -29,9 +29,6 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     public void handleArticle(PersistentArticle article) throws PersistenceException{
         this.standardHandling(article);
     }
-    public void handleCustomerOrder(PersistentCustomerOrder customerOrder) throws PersistenceException{
-        this.standardHandling(customerOrder);
-    }
     public void handleOverNightDelivery(PersistentOverNightDelivery overNightDelivery) throws PersistenceException{
         this.standardHandling(overNightDelivery);
     }
@@ -71,9 +68,6 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     public void handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException{
         this.standardHandling(sendOrder);
     }
-    public void handleShopKeeperOrder(PersistentShopKeeperOrder shopKeeperOrder) throws PersistenceException{
-        this.standardHandling(shopKeeperOrder);
-    }
     public void handleSubj(PersistentSubj subj) throws PersistenceException{
         this.standardHandling(subj);
     }
@@ -85,9 +79,6 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     }
     public void handleShopkeeperService(PersistentShopkeeperService shopkeeperService) throws PersistenceException{
         this.standardHandling(shopkeeperService);
-    }
-    public void handleRetoure(PersistentRetoure retoure) throws PersistenceException{
-        this.standardHandling(retoure);
     }
     public void handleCartService(PersistentCartService cartService) throws PersistenceException{
         this.standardHandling(cartService);

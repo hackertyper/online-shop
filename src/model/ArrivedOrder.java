@@ -239,6 +239,7 @@ public class ArrivedOrder extends PersistentObject implements PersistentArrivedO
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
+    	getThis().setTimeToAccept(100000);
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{

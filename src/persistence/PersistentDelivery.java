@@ -1,7 +1,7 @@
 package persistence;
 
 
-public interface PersistentDelivery extends Anything, SubjInterface, AbstractPersistentProxi, Delivery4Public {
+public interface PersistentDelivery extends Anything, java.lang.Runnable, AbstractPersistentProxi, Delivery4Public {
     
     public long getRemainingTimeToDelivery() throws PersistenceException ;
     public void setRemainingTimeToDelivery(long newValue) throws PersistenceException ;

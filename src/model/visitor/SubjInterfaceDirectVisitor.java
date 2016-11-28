@@ -83,17 +83,6 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     
     public abstract void handleAccountManager(PersistentAccountManager accountManager) throws PersistenceException;
     
-    public abstract void handleDelivery(PersistentDelivery delivery) throws PersistenceException;
-    
-    public void handleRetoure(PersistentRetoure retoure) throws PersistenceException{
-        this.handleDelivery(retoure);
-    }
-    public void handleCustomerOrder(PersistentCustomerOrder customerOrder) throws PersistenceException{
-        this.handleDelivery(customerOrder);
-    }
-    public void handleShopKeeperOrder(PersistentShopKeeperOrder shopKeeperOrder) throws PersistenceException{
-        this.handleDelivery(shopKeeperOrder);
-    }
     public abstract void handleOrderManager(PersistentOrderManager orderManager) throws PersistenceException;
     
     public abstract void handleCart(PersistentCart cart) throws PersistenceException;

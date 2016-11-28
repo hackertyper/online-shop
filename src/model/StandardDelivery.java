@@ -198,7 +198,7 @@ public class StandardDelivery extends model.CustomerDelivery implements Persiste
 				throws PersistenceException{
         super.initializeOnCreation();
         getThis().setExtraCharge(0);
-        getThis().setTime(100);
+        getThis().setTime(50000);
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{

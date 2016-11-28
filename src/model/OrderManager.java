@@ -294,12 +294,8 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
     
     public void acceptDelivery(final PersistentCustomerOrder arrivedOrder) 
 				throws PersistenceException{
-        getThis().getOrders().filter(new Predcate<PersistentCustomerOrder>() {
-			@Override
-			public boolean test(PersistentCustomerOrder argument) throws PersistenceException {
-				return !arrivedOrder.equals(argument);
-			}
-		});
+    	arrivedOrder.accepted();
+    	getThis().getMyOrderServer().signalChanged(true);
     }
     public void addOrder(final PersistentCustomerOrder order) 
 				throws PersistenceException{
@@ -312,6 +308,7 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
 				getThis().getOrders().add(order);
 			}
 		});
+    	getThis().getMyOrderServer().signalChanged(true);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{

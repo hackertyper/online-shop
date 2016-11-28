@@ -31,11 +31,11 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	
 	@Override
 	public void handleAccount(PersistentAccount account) throws PersistenceException {
-		result = "Kontostand: " + account.getBalance();
+		result = serverConstants.StringConstants.AccountBalance + account.getBalance();
 	}
 	@Override
 	public void handleCart(PersistentCart cart) throws PersistenceException {
-		result = "Aktuelle Bestellsumme: " + cart.getCurrentSum();
+		result = serverConstants.StringConstants.CartSum + cart.getCurrentSum();
 	}
 	@Override
 	public void handleArticle(PersistentArticle article) throws PersistenceException {
@@ -66,7 +66,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	}
 	@Override
 	public void handleQuantifiedArticles(PersistentQuantifiedArticles quantifiedArticles) throws PersistenceException {
-		result = quantifiedArticles.getArticle() + " Menge: " + quantifiedArticles.getAmount();
+		result = quantifiedArticles.getArticle() + serverConstants.StringConstants.Amount + quantifiedArticles.getAmount();
 	}
 	@Override
 	public void handleRemovedFSale(PersistentRemovedFSale removedFSale) throws PersistenceException {
@@ -76,13 +76,12 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@SuppressWarnings("deprecation")
 	@Override
 	public void handleCustomerOrder(PersistentCustomerOrder customerOrder) throws PersistenceException {
-		result = "Bestellung vom: " + customerOrder.getSendDate().getDate() + "." + customerOrder.getSendDate().getMonth() + ". " + customerOrder.getSendDate().getHours() + ":" + customerOrder.getSendDate().getMinutes()
-				+ customerOrder.getMyState();
+		result = serverConstants.StringConstants.Order + 
+					customerOrder.getSendDate().getDate() + serverConstants.StringConstants.Point + customerOrder.getSendDate().getMonth() + serverConstants.StringConstants.PointWBlank + 
+					customerOrder.getSendDate().getHours() + serverConstants.StringConstants.ColonSeparator + customerOrder.getSendDate().getMinutes();
 	}
 	@Override
-	public void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException {
-		result = " Annehmen bis: " + arrivedOrder.getTimeToAccept();
-	}
+	public void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException {}
 	@Override
 	public void handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException {}
 	@Override
@@ -121,11 +120,11 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	public void handleOrderManager(PersistentOrderManager orderManager) throws PersistenceException {}
 	@Override
 	public void handleOverNightDelivery(PersistentOverNightDelivery overNightDelivery) throws PersistenceException {
-		result = "OverNight Versand Dauer: " + overNightDelivery.getTime() + " Kosten: " + overNightDelivery.getExtraCharge();
+		result = serverConstants.StringConstants.ONDelivery + overNightDelivery.getTime() + serverConstants.StringConstants.Charge + overNightDelivery.getExtraCharge();
 	}
 	@Override
 	public void handleStandardDelivery(PersistentStandardDelivery standardDelivery) throws PersistenceException {
-		result = "Standard Versand Dauer: " + standardDelivery.getTime() + " Kosten: " + standardDelivery.getExtraCharge();
+		result = serverConstants.StringConstants.StandardDelivery + standardDelivery.getTime() + serverConstants.StringConstants.Charge + standardDelivery.getExtraCharge();
 	}
 	@Override
 	public void handleTestDelivery(PersistentTestDelivery testDelivery) throws PersistenceException {}
