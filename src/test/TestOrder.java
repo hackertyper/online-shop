@@ -2,36 +2,24 @@ package test;
 
 import static org.junit.Assert.*;
 
-import java.sql.Timestamp;
-import java.time.Instant;
 import org.junit.Before;
 import org.junit.Test;
 
 import model.Article;
 import model.CustomerManager;
-import model.CustomerOrder;
 import model.CustomerService;
 import model.FirstCheckOut;
 import model.InsufficientFunds;
 import model.InsufficientStock;
 import model.Manufacturer;
-import model.QuantifiedArticles;
-import model.Retoure;
 import model.TestDelivery;
-import model.UserException;
 import persistence.PersistenceException;
-import persistence.PersistentArrivedOrder;
 import persistence.PersistentArticle;
 import persistence.PersistentCustomerManager;
 import persistence.PersistentCustomerOrder;
 import persistence.PersistentCustomerService;
 import persistence.PersistentManufacturer;
 import persistence.PersistentOpenCart;
-import persistence.PersistentQuantifiedArticles;
-import persistence.PersistentRetoure;
-import persistence.PersistentSendOrder;
-import persistence.Predcate;
-import persistence.QuantifiedArticlesList;
 
 public class TestOrder {
 	PersistentCustomerService cs;

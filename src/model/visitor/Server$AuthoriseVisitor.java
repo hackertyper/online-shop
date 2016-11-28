@@ -33,6 +33,7 @@ public abstract class Server$AuthoriseVisitor extends AnythingStandardVisitor{
     public abstract void handleAccountManager(PersistentAccountManager accountManager) throws PersistenceException;
     public abstract void handleOrderService(PersistentOrderService orderService) throws PersistenceException;
     public abstract void handleAccountService(PersistentAccountService accountService) throws PersistenceException;
+    public abstract void handleArticleWrapper(PersistentArticleWrapper articleWrapper) throws PersistenceException;
     public abstract void handleCheckedOut(PersistentCheckedOut checkedOut) throws PersistenceException;
     public abstract void handleOrderManager(PersistentOrderManager orderManager) throws PersistenceException;
     public abstract void handleCartManager(PersistentCartManager cartManager) throws PersistenceException;

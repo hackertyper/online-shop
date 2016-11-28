@@ -55,7 +55,7 @@ public abstract class ViewProxi extends ViewRoot {
 	
   private static ProxiFactory [] getTheProxiFactories(){
 	if (proxiFactories == null){
-		proxiFactories = new ProxiFactory [137];
+		proxiFactories = new ProxiFactory [139];
         proxiFactories[98] = new ProxiFactory(){
             ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
                 return new AccountProxi(objectId, classId, connectionKey);
@@ -174,6 +174,11 @@ public abstract class ViewProxi extends ViewRoot {
         proxiFactories[123] = new ProxiFactory(){
             ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
                 return new OrderManagerProxi(objectId, classId, connectionKey);
+            }
+        };
+        proxiFactories[137] = new ProxiFactory(){
+            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
+                return new ArticleWrapperProxi(objectId, classId, connectionKey);
             }
         };
         proxiFactories[6] = new ProxiFactory(){

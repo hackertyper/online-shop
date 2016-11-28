@@ -13,14 +13,14 @@ public class ArticleFacade{
     public PersistentArticle newArticle(String description,long price,long minStock,long maxStock,long manuDelivery,long stock,long idCreateIfLessZero) throws PersistenceException {
         if(idCreateIfLessZero > 0) return (PersistentArticle)PersistentProxi.createProxi(idCreateIfLessZero, 109);
         long id = ConnectionHandler.getTheConnectionHandler().theItemFacade.getNextId();
-        Article result = new Article(description,null,null,null,null,price,minStock,maxStock,manuDelivery,stock,id);
+        Article result = new Article(description,null,null,null,null,null,price,minStock,maxStock,manuDelivery,stock,id);
         Cache.getTheCache().put(result);
         return (PersistentArticle)PersistentProxi.createProxi(id, 109);
     }
     
     public PersistentArticle newDelayedArticle(String description,long price,long minStock,long maxStock,long manuDelivery,long stock) throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theItemFacade.getNextId();
-        Article result = new Article(description,null,null,null,null,price,minStock,maxStock,manuDelivery,stock,id);
+        Article result = new Article(description,null,null,null,null,null,price,minStock,maxStock,manuDelivery,stock,id);
         Cache.getTheCache().put(result);
         return (PersistentArticle)PersistentProxi.createProxi(id, 109);
     }
@@ -32,6 +32,9 @@ public class ArticleFacade{
         
     }
     public void stateSet(long ArticleId, ArticleState stateVal) throws PersistenceException {
+        
+    }
+    public void myWrapperSet(long ArticleId, PersistentArticleWrapper myWrapperVal) throws PersistenceException {
         
     }
     public void priceSet(long ArticleId, long priceVal) throws PersistenceException {
@@ -57,6 +60,21 @@ public class ArticleFacade{
             PersistentArticle current = (PersistentArticle)((PersistentRoot)candidates.next()).getTheObject();
             if (current != null && !current.isDltd() && !current.isDelayed$Persistence() && current.getState() != null){
                 if (current.getState().getClassId() == classId && current.getState().getId() == objectId) {
+                    PersistentArticle proxi = (PersistentArticle)PersistentProxi.createProxi(current.getId(), current.getClassId());
+                    result.add((PersistentArticle)proxi.getThis());
+                }
+            }
+        }
+        return result;
+    }
+    public ArticleSearchList inverseGetMyWrapper(long objectId, long classId)throws PersistenceException{
+        ArticleSearchList result = new ArticleSearchList();
+        java.util.Iterator<PersistentInCacheProxi> candidates;
+        candidates = Cache.getTheCache().iterator(109);
+        while (candidates.hasNext()){
+            PersistentArticle current = (PersistentArticle)((PersistentRoot)candidates.next()).getTheObject();
+            if (current != null && !current.isDltd() && !current.isDelayed$Persistence() && current.getMyWrapper() != null){
+                if (current.getMyWrapper().getClassId() == classId && current.getMyWrapper().getId() == objectId) {
                     PersistentArticle proxi = (PersistentArticle)PersistentProxi.createProxi(current.getId(), current.getClassId());
                     result.add((PersistentArticle)proxi.getThis());
                 }

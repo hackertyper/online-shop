@@ -228,6 +228,10 @@ public class OrderServiceClientView extends BorderPane implements ExceptionAndEv
 			protected void standardHandling(Anything Anything) throws ModelException {
 				this.result = null;
 			}
+			@Override
+			public void handleCustomerOrder(CustomerOrderView customerOrder) throws ModelException {
+				this.result = new StandardDetailPanel(parent);
+			}
 			//TODO Overwrite all handle methods for the types for which you intend to provide a special panel!
 		}
 		PanelDecider decider = new PanelDecider();
@@ -281,7 +285,6 @@ public class OrderServiceClientView extends BorderPane implements ExceptionAndEv
 				}			
 			}
 		});
-		//TODO adjust implementation: handleRefresh()!
 	}
 	/** Is called only once after the connection has been established
 	**/
@@ -293,7 +296,6 @@ public class OrderServiceClientView extends BorderPane implements ExceptionAndEv
 				getNavigationTree().getSelectionModel().select( getNavigationTree().getRoot());
 			}
 		});
-		//TODO adjust implementation: initializeConnection
 	}
 	public void handleException(ModelException exception) {
 		this.parent.handleException(exception);

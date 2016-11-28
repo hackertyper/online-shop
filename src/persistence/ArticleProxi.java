@@ -30,6 +30,12 @@ public class ArticleProxi extends ItemProxi implements PersistentArticle{
     public void setState(ArticleState newValue) throws PersistenceException {
         ((PersistentArticle)this.getTheObject()).setState(newValue);
     }
+    public PersistentArticleWrapper getMyWrapper() throws PersistenceException {
+        return ((PersistentArticle)this.getTheObject()).getMyWrapper();
+    }
+    public void setMyWrapper(PersistentArticleWrapper newValue) throws PersistenceException {
+        ((PersistentArticle)this.getTheObject()).setMyWrapper(newValue);
+    }
     public long getPrice() throws PersistenceException {
         return ((PersistentArticle)this.getTheObject()).getPrice();
     }

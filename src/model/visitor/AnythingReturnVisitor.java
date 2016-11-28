@@ -10,6 +10,7 @@ public interface AnythingReturnVisitor<R> extends CartStateReturnVisitor<R> ,Com
     public R handleAccountManager(PersistentAccountManager accountManager) throws PersistenceException;
     public R handleAddArticleCommand(PersistentAddArticleCommand addArticleCommand) throws PersistenceException;
     public R handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException;
+    public R handleArticleWrapper(PersistentArticleWrapper articleWrapper) throws PersistenceException;
     public R handleCart(PersistentCart cart) throws PersistenceException;
     public R handleCartManager(PersistentCartManager cartManager) throws PersistenceException;
     public R handleCartManagerArticleList(PersistentCartManagerArticleList cartManagerArticleList) throws PersistenceException;

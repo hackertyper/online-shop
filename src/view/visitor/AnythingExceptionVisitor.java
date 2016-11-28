@@ -8,6 +8,7 @@ public interface AnythingExceptionVisitor<E extends view.UserException> extends 
     public void handleAccount(AccountView account) throws ModelException, E;
     public void handleAccountManager(AccountManagerView accountManager) throws ModelException, E;
     public void handleArrivedOrder(ArrivedOrderView arrivedOrder) throws ModelException, E;
+    public void handleArticleWrapper(ArticleWrapperView articleWrapper) throws ModelException, E;
     public void handleCart(CartView cart) throws ModelException, E;
     public void handleCartManager(CartManagerView cartManager) throws ModelException, E;
     public void handleCustomerManager(CustomerManagerView customerManager) throws ModelException, E;

@@ -85,6 +85,8 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     
     public abstract void handleOrderManager(PersistentOrderManager orderManager) throws PersistenceException;
     
+    public abstract void handleArticleWrapper(PersistentArticleWrapper articleWrapper) throws PersistenceException;
+    
     public abstract void handleCart(PersistentCart cart) throws PersistenceException;
     
     public abstract void handleQuantifiedArticles(PersistentQuantifiedArticles quantifiedArticles) throws PersistenceException;

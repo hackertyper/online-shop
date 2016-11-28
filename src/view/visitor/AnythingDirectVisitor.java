@@ -98,6 +98,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     }
     public abstract void handleOrderManager(OrderManagerView orderManager) throws ModelException;
     
+    public abstract void handleArticleWrapper(ArticleWrapperView articleWrapper) throws ModelException;
+    
     public abstract void handleCartManager(CartManagerView cartManager) throws ModelException;
     
     

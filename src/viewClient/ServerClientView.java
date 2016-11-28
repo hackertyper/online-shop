@@ -273,7 +273,6 @@ public class ServerClientView extends BorderPane implements ExceptionAndEventHan
 				}			
 			}
 		});
-		//TODO adjust implementation: handleRefresh()!
 	}
 	/** Is called only once after the connection has been established
 	**/

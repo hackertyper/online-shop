@@ -10,6 +10,7 @@ public interface AnythingReturnExceptionVisitor<R, E extends model.UserException
     public R handleAccountManager(PersistentAccountManager accountManager) throws PersistenceException, E;
     public R handleAddArticleCommand(PersistentAddArticleCommand addArticleCommand) throws PersistenceException, E;
     public R handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException, E;
+    public R handleArticleWrapper(PersistentArticleWrapper articleWrapper) throws PersistenceException, E;
     public R handleCart(PersistentCart cart) throws PersistenceException, E;
     public R handleCartManager(PersistentCartManager cartManager) throws PersistenceException, E;
     public R handleCartManagerArticleList(PersistentCartManagerArticleList cartManagerArticleList) throws PersistenceException, E;

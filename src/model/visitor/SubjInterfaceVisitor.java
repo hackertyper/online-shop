@@ -7,6 +7,7 @@ public interface SubjInterfaceVisitor extends ArticleStateVisitor,CartStateVisit
     
     public void handleAccount(PersistentAccount account) throws PersistenceException;
     public void handleAccountManager(PersistentAccountManager accountManager) throws PersistenceException;
+    public void handleArticleWrapper(PersistentArticleWrapper articleWrapper) throws PersistenceException;
     public void handleCart(PersistentCart cart) throws PersistenceException;
     public void handleCartManager(PersistentCartManager cartManager) throws PersistenceException;
     public void handleCustomerManager(PersistentCustomerManager customerManager) throws PersistenceException;

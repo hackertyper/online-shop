@@ -281,6 +281,7 @@ public class Cache {
 		this.number2NameMap.put(202, "AddArticleCommand");
 		this.number2NameMap.put(112, "ArrivedOrder");
 		this.number2NameMap.put(109, "Article");
+		this.number2NameMap.put(238, "ArticleWrapper");
 		this.number2NameMap.put(123, "Cart");
 		this.number2NameMap.put(190, "CartManager");
 		this.number2NameMap.put(213, "CartManagerArticleList");

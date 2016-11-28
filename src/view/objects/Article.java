@@ -11,17 +11,19 @@ public class Article extends view.objects.Item implements ArticleView{
     
     protected ManufacturerView manufacturer;
     protected ArticleState state;
+    protected ArticleWrapperView myWrapper;
     protected long price;
     protected long minStock;
     protected long maxStock;
     protected long manuDelivery;
     protected long stock;
     
-    public Article(String description,ManufacturerView manufacturer,ArticleState state,long price,long minStock,long maxStock,long manuDelivery,long stock,long id, long classId) {
+    public Article(String description,ManufacturerView manufacturer,ArticleState state,ArticleWrapperView myWrapper,long price,long minStock,long maxStock,long manuDelivery,long stock,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super((String)description,id, classId);
         this.manufacturer = manufacturer;
         this.state = state;
+        this.myWrapper = myWrapper;
         this.price = price;
         this.minStock = minStock;
         this.maxStock = maxStock;
@@ -48,6 +50,12 @@ public class Article extends view.objects.Item implements ArticleView{
     }
     public void setState(ArticleState newValue) throws ModelException {
         this.state = newValue;
+    }
+    public ArticleWrapperView getMyWrapper()throws ModelException{
+        return this.myWrapper;
+    }
+    public void setMyWrapper(ArticleWrapperView newValue) throws ModelException {
+        this.myWrapper = newValue;
     }
     public long getPrice()throws ModelException{
         return this.price;
@@ -114,6 +122,10 @@ public class Article extends view.objects.Item implements ArticleView{
         if (state != null) {
             ((ViewProxi)state).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(state.getClassId(), state.getId())));
         }
+        ArticleWrapperView myWrapper = this.getMyWrapper();
+        if (myWrapper != null) {
+            ((ViewProxi)myWrapper).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(myWrapper.getClassId(), myWrapper.getId())));
+        }
         
     }
     public void sortSetValuedFields() throws ModelException {
@@ -127,17 +139,22 @@ public class Article extends view.objects.Item implements ArticleView{
         if(this.getState() != null && index < this.getState().getTheObject().getChildCount())
             return this.getState().getTheObject().getChild(index);
         if(this.getState() != null) index = index - this.getState().getTheObject().getChildCount();
+        if(this.getMyWrapper() != null && index < this.getMyWrapper().getTheObject().getChildCount())
+            return this.getMyWrapper().getTheObject().getChild(index);
+        if(this.getMyWrapper() != null) index = index - this.getMyWrapper().getTheObject().getChildCount();
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
             + (this.getManufacturer() == null ? 0 : this.getManufacturer().getTheObject().getChildCount())
-            + (this.getState() == null ? 0 : this.getState().getTheObject().getChildCount());
+            + (this.getState() == null ? 0 : this.getState().getTheObject().getChildCount())
+            + (this.getMyWrapper() == null ? 0 : this.getMyWrapper().getTheObject().getChildCount());
     }
     public boolean isLeaf() throws ModelException {
         return true 
             && (this.getManufacturer() == null ? true : this.getManufacturer().getTheObject().isLeaf())
-            && (this.getState() == null ? true : this.getState().getTheObject().isLeaf());
+            && (this.getState() == null ? true : this.getState().getTheObject().isLeaf())
+            && (this.getMyWrapper() == null ? true : this.getMyWrapper().getTheObject().isLeaf());
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
@@ -145,25 +162,27 @@ public class Article extends view.objects.Item implements ArticleView{
         if(this.getManufacturer() != null) result = result + 1;
         if(this.getState() != null && this.getState().equals(child)) return result;
         if(this.getState() != null) result = result + 1;
+        if(this.getMyWrapper() != null && this.getMyWrapper().equals(child)) return result;
+        if(this.getMyWrapper() != null) result = result + 1;
         return -1;
     }
     public int getDescriptionIndex() throws ModelException {
         return 0;
     }
     public int getPriceIndex() throws ModelException {
-        return 0 + 1 + (this.getManufacturer() == null ? 0 : 1) + (this.getState() == null ? 0 : 1);
+        return 0 + 1 + (this.getManufacturer() == null ? 0 : 1) + (this.getState() == null ? 0 : 1) + (this.getMyWrapper() == null ? 0 : 1);
     }
     public int getMinStockIndex() throws ModelException {
-        return 0 + 1 + (this.getManufacturer() == null ? 0 : 1) + (this.getState() == null ? 0 : 1) + 1;
+        return 0 + 1 + (this.getManufacturer() == null ? 0 : 1) + (this.getState() == null ? 0 : 1) + (this.getMyWrapper() == null ? 0 : 1) + 1;
     }
     public int getMaxStockIndex() throws ModelException {
-        return 0 + 1 + (this.getManufacturer() == null ? 0 : 1) + (this.getState() == null ? 0 : 1) + 1 + 1;
+        return 0 + 1 + (this.getManufacturer() == null ? 0 : 1) + (this.getState() == null ? 0 : 1) + (this.getMyWrapper() == null ? 0 : 1) + 1 + 1;
     }
     public int getManuDeliveryIndex() throws ModelException {
-        return 0 + 1 + (this.getManufacturer() == null ? 0 : 1) + (this.getState() == null ? 0 : 1) + 1 + 1 + 1;
+        return 0 + 1 + (this.getManufacturer() == null ? 0 : 1) + (this.getState() == null ? 0 : 1) + (this.getMyWrapper() == null ? 0 : 1) + 1 + 1 + 1;
     }
     public int getStockIndex() throws ModelException {
-        return 0 + 1 + (this.getManufacturer() == null ? 0 : 1) + (this.getState() == null ? 0 : 1) + 1 + 1 + 1 + 1;
+        return 0 + 1 + (this.getManufacturer() == null ? 0 : 1) + (this.getState() == null ? 0 : 1) + (this.getMyWrapper() == null ? 0 : 1) + 1 + 1 + 1 + 1;
     }
     public int getRowCount(){
         return 0 

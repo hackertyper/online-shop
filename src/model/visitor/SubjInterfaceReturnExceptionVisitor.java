@@ -7,6 +7,7 @@ public interface SubjInterfaceReturnExceptionVisitor<R, E extends model.UserExce
     
     public R handleAccount(PersistentAccount account) throws PersistenceException, E;
     public R handleAccountManager(PersistentAccountManager accountManager) throws PersistenceException, E;
+    public R handleArticleWrapper(PersistentArticleWrapper articleWrapper) throws PersistenceException, E;
     public R handleCart(PersistentCart cart) throws PersistenceException, E;
     public R handleCartManager(PersistentCartManager cartManager) throws PersistenceException, E;
     public R handleCustomerManager(PersistentCustomerManager customerManager) throws PersistenceException, E;

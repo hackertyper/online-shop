@@ -1260,6 +1260,9 @@ class DetailPanelFactory implements AnythingVisitor {
     public void handleOrderManager(view.OrderManagerView object){
         result = new OrderManagerDefaultDetailPanel(handler, object);
     }
+    public void handleArticleWrapper(view.ArticleWrapperView object){
+        result = new ArticleWrapperDefaultDetailPanel(handler, object);
+    }
     public void handleShopkeeper(view.ShopkeeperView object){
         result = new ShopkeeperDefaultDetailPanel(handler, object);
     }
@@ -1813,6 +1816,36 @@ class OrderManagerDefaultDetailPanel extends DefaultDetailPanel{
     }
 }
 
+class ArticleWrapperDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String ArticleWrapper$$price = "ArticleWrapper$$price";
+    protected static final String ArticleWrapper$$stock = "ArticleWrapper$$stock";
+    
+    protected ArticleWrapperDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        try{
+            BaseTypePanel panel = new IntegerPanel(this, "price", this.getAnything().getPrice());
+            this.getScrollablePane().getChildren().add(panel);
+            this.panels.put(ArticleWrapper$$price, panel);
+        }catch(ModelException e){
+            this.getExceptionAndEventhandler().handleException(e);
+        }
+        try{
+            BaseTypePanel panel = new IntegerPanel(this, "stock", this.getAnything().getStock());
+            this.getScrollablePane().getChildren().add(panel);
+            this.panels.put(ArticleWrapper$$stock, panel);
+        }catch(ModelException e){
+            this.getExceptionAndEventhandler().handleException(e);
+        }
+        
+    }
+    protected view.ArticleWrapperView getAnything(){
+        return (view.ArticleWrapperView)this.anything;
+    }
+}
+
 class ShopkeeperDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String Shopkeeper$$itemRange = "Shopkeeper$$itemRange";
@@ -1835,6 +1868,7 @@ class ArticleDefaultDetailPanel extends DefaultDetailPanel{
     protected static final String Item$$description = "Item$$description";
     protected static final String Article$$manufacturer = "Article$$manufacturer";
     protected static final String Article$$state = "Article$$state";
+    protected static final String Article$$myWrapper = "Article$$myWrapper";
     protected static final String Article$$price = "Article$$price";
     protected static final String Article$$minStock = "Article$$minStock";
     protected static final String Article$$maxStock = "Article$$maxStock";

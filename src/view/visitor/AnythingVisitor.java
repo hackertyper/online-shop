@@ -8,6 +8,7 @@ public interface AnythingVisitor extends CartStateVisitor,CustomerDeliveryVisito
     public void handleAccount(AccountView account) throws ModelException;
     public void handleAccountManager(AccountManagerView accountManager) throws ModelException;
     public void handleArrivedOrder(ArrivedOrderView arrivedOrder) throws ModelException;
+    public void handleArticleWrapper(ArticleWrapperView articleWrapper) throws ModelException;
     public void handleCart(CartView cart) throws ModelException;
     public void handleCartManager(CartManagerView cartManager) throws ModelException;
     public void handleCustomerManager(CustomerManagerView customerManager) throws ModelException;

@@ -80,6 +80,15 @@ public class Article extends model.Item implements PersistentArticle{
                     if(forGUI && state.hasEssentialFields())state.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
                 }
             }
+            AbstractPersistentRoot myWrapper = (AbstractPersistentRoot)this.getMyWrapper();
+            if (myWrapper != null) {
+                result.put("myWrapper", myWrapper.createProxiInformation(false, essentialLevel <= 1));
+                if(depth > 1) {
+                    myWrapper.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && myWrapper.hasEssentialFields())myWrapper.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
             result.put("price", new Long(this.getPrice()).toString());
             result.put("minStock", new Long(this.getMinStock()).toString());
             result.put("maxStock", new Long(this.getMaxStock()).toString());
@@ -98,6 +107,7 @@ public class Article extends model.Item implements PersistentArticle{
                              this.This, 
                              this.manufacturer, 
                              this.state, 
+                             this.myWrapper, 
                              this.price, 
                              this.minStock, 
                              this.maxStock, 
@@ -113,17 +123,19 @@ public class Article extends model.Item implements PersistentArticle{
     }
     protected PersistentManufacturer manufacturer;
     protected ArticleState state;
+    protected PersistentArticleWrapper myWrapper;
     protected long price;
     protected long minStock;
     protected long maxStock;
     protected long manuDelivery;
     protected long stock;
     
-    public Article(String description,SubjInterface subService,PersistentItem This,PersistentManufacturer manufacturer,ArticleState state,long price,long minStock,long maxStock,long manuDelivery,long stock,long id) throws PersistenceException {
+    public Article(String description,SubjInterface subService,PersistentItem This,PersistentManufacturer manufacturer,ArticleState state,PersistentArticleWrapper myWrapper,long price,long minStock,long maxStock,long manuDelivery,long stock,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super((String)description,(SubjInterface)subService,(PersistentItem)This,id);
         this.manufacturer = manufacturer;
         this.state = state;
+        this.myWrapper = myWrapper;
         this.price = price;
         this.minStock = minStock;
         this.maxStock = maxStock;
@@ -151,6 +163,10 @@ public class Article extends model.Item implements PersistentArticle{
         if(this.getState() != null){
             this.getState().store();
             ConnectionHandler.getTheConnectionHandler().theArticleFacade.stateSet(this.getId(), getState());
+        }
+        if(this.getMyWrapper() != null){
+            this.getMyWrapper().store();
+            ConnectionHandler.getTheConnectionHandler().theArticleFacade.myWrapperSet(this.getId(), getMyWrapper());
         }
         
     }
@@ -181,6 +197,20 @@ public class Article extends model.Item implements PersistentArticle{
         if(!this.isDelayed$Persistence()){
             newValue.store();
             ConnectionHandler.getTheConnectionHandler().theArticleFacade.stateSet(this.getId(), newValue);
+        }
+    }
+    public PersistentArticleWrapper getMyWrapper() throws PersistenceException {
+        return this.myWrapper;
+    }
+    public void setMyWrapper(PersistentArticleWrapper newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.isTheSameAs(this.myWrapper)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.myWrapper = (PersistentArticleWrapper)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theArticleFacade.myWrapperSet(this.getId(), newValue);
         }
     }
     public long getPrice() throws PersistenceException {
@@ -265,6 +295,7 @@ public class Article extends model.Item implements PersistentArticle{
     public int getLeafInfo() throws PersistenceException{
         if (this.getManufacturer() != null && this.getManufacturer().getTheObject().getLeafInfo() != 0) return 1;
         if (this.getState() != null && this.getState().getTheObject().getLeafInfo() != 0) return 1;
+        if (this.getMyWrapper() != null && this.getMyWrapper().getTheObject().getLeafInfo() != 0) return 1;
         return 0;
     }
     
@@ -369,6 +400,7 @@ public class Article extends model.Item implements PersistentArticle{
 				throws PersistenceException{
         super.initializeOnCreation();
         getThis().setState(NewlyAdded.createNewlyAdded());
+        getThis().setMyWrapper(ArticleWrapper.createArticleWrapper());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{

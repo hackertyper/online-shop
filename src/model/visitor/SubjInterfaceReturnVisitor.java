@@ -7,6 +7,7 @@ public interface SubjInterfaceReturnVisitor<R> extends ArticleStateReturnVisitor
     
     public R handleAccount(PersistentAccount account) throws PersistenceException;
     public R handleAccountManager(PersistentAccountManager accountManager) throws PersistenceException;
+    public R handleArticleWrapper(PersistentArticleWrapper articleWrapper) throws PersistenceException;
     public R handleCart(PersistentCart cart) throws PersistenceException;
     public R handleCartManager(PersistentCartManager cartManager) throws PersistenceException;
     public R handleCustomerManager(PersistentCustomerManager customerManager) throws PersistenceException;

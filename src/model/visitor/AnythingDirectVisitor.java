@@ -159,6 +159,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     }
     public abstract void handleOrderManager(PersistentOrderManager orderManager) throws PersistenceException;
     
+    public abstract void handleArticleWrapper(PersistentArticleWrapper articleWrapper) throws PersistenceException;
+    
     public abstract void handleCommandExecuter(PersistentCommandExecuter commandExecuter) throws PersistenceException;
     
     public abstract void handleCartManager(PersistentCartManager cartManager) throws PersistenceException;

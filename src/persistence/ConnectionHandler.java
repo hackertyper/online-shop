@@ -98,6 +98,7 @@ public class ConnectionHandler {
     public AccountServiceFacade theAccountServiceFacade;
     public CommonDateFacade theCommonDateFacade;
     public OrderManagerFacade theOrderManagerFacade;
+    public ArticleWrapperFacade theArticleWrapperFacade;
     public ShopManagerItemRangeFacade theShopManagerItemRangeFacade;
     public OrderCommandFacade theOrderCommandFacade;
     public ShopkeeperFacade theShopkeeperFacade;
@@ -164,6 +165,7 @@ public class ConnectionHandler {
             this.theAccountServiceFacade= new AccountServiceFacade();
             this.theCommonDateFacade= new CommonDateFacade();
             this.theOrderManagerFacade= new OrderManagerFacade();
+            this.theArticleWrapperFacade= new ArticleWrapperFacade();
             this.theShopManagerItemRangeFacade= new ShopManagerItemRangeFacade();
             this.theOrderCommandFacade= new OrderCommandFacade();
             this.theShopkeeperFacade= new ShopkeeperFacade();

@@ -300,7 +300,6 @@ public class CustomerServiceClientView extends BorderPane implements ExceptionAn
 				}			
 			}
 		});
-		//TODO adjust implementation: handleRefresh()!
 	}
 	/** Is called only once after the connection has been established
 	**/

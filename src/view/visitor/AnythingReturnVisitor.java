@@ -8,6 +8,7 @@ public interface AnythingReturnVisitor<R> extends CartStateReturnVisitor<R> ,Cus
     public R handleAccount(AccountView account) throws ModelException;
     public R handleAccountManager(AccountManagerView accountManager) throws ModelException;
     public R handleArrivedOrder(ArrivedOrderView arrivedOrder) throws ModelException;
+    public R handleArticleWrapper(ArticleWrapperView articleWrapper) throws ModelException;
     public R handleCart(CartView cart) throws ModelException;
     public R handleCartManager(CartManagerView cartManager) throws ModelException;
     public R handleCustomerManager(CustomerManagerView customerManager) throws ModelException;

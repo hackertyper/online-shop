@@ -10,6 +10,7 @@ public interface AnythingVisitor extends CartStateVisitor,CommonDateVisitor,Cust
     public void handleAccountManager(PersistentAccountManager accountManager) throws PersistenceException;
     public void handleAddArticleCommand(PersistentAddArticleCommand addArticleCommand) throws PersistenceException;
     public void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException;
+    public void handleArticleWrapper(PersistentArticleWrapper articleWrapper) throws PersistenceException;
     public void handleCart(PersistentCart cart) throws PersistenceException;
     public void handleCartManager(PersistentCartManager cartManager) throws PersistenceException;
     public void handleCartManagerArticleList(PersistentCartManagerArticleList cartManagerArticleList) throws PersistenceException;

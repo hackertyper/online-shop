@@ -128,6 +128,10 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	}
 	@Override
 	public void handleTestDelivery(PersistentTestDelivery testDelivery) throws PersistenceException {}
+	@Override
+	public void handleArticleWrapper(PersistentArticleWrapper articleWrapper) throws PersistenceException {
+		result = articleWrapper.getMyArticle().toString();
+	}
 	
 
 }

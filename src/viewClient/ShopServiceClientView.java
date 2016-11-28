@@ -26,7 +26,7 @@ import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
-
+import persistence.PersistentArticle;
 
 import com.sun.javafx.geom.Point2D;
 
@@ -223,6 +223,14 @@ public class ShopServiceClientView extends BorderPane implements ExceptionAndEve
 			protected void standardHandling(Anything Anything) throws ModelException {
 				this.result = null;
 			}
+			@Override
+			public void handleArticle(ArticleView article) throws ModelException {
+				this.result = DefaultDetailPanel.getStandardDetailPanel(article.getMyWrapper(), parent);
+			}
+			@Override
+			public void handleProductGroup(ProductGroupView productGroup) throws ModelException {
+				this.result = new StandardDetailPanel(parent);
+			}
 			//TODO Overwrite all handle methods for the types for which you intend to provide a special panel!
 		}
 		PanelDecider decider = new PanelDecider();
@@ -276,7 +284,6 @@ public class ShopServiceClientView extends BorderPane implements ExceptionAndEve
 				}			
 			}
 		});
-		//TODO adjust implementation: handleRefresh()!
 	}
 	/** Is called only once after the connection has been established
 	**/
@@ -288,7 +295,6 @@ public class ShopServiceClientView extends BorderPane implements ExceptionAndEve
 				getNavigationTree().getSelectionModel().select( getNavigationTree().getRoot());
 			}
 		});
-		//TODO adjust implementation: initializeConnection
 	}
 	public void handleException(ModelException exception) {
 		this.parent.handleException(exception);

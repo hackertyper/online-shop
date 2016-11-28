@@ -10,6 +10,7 @@ public interface AnythingExceptionVisitor<E extends model.UserException> extends
     public void handleAccountManager(PersistentAccountManager accountManager) throws PersistenceException, E;
     public void handleAddArticleCommand(PersistentAddArticleCommand addArticleCommand) throws PersistenceException, E;
     public void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException, E;
+    public void handleArticleWrapper(PersistentArticleWrapper articleWrapper) throws PersistenceException, E;
     public void handleCart(PersistentCart cart) throws PersistenceException, E;
     public void handleCartManager(PersistentCartManager cartManager) throws PersistenceException, E;
     public void handleCartManagerArticleList(PersistentCartManagerArticleList cartManagerArticleList) throws PersistenceException, E;

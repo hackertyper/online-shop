@@ -198,7 +198,6 @@ public class TestDelivery extends model.CustomerDelivery implements PersistentTe
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         super.initializeOnInstantiation();
-		//TODO: implement method: initializeOnInstantiation
     }
     
     

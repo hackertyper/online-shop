@@ -7,6 +7,7 @@ public interface SubjInterfaceExceptionVisitor<E extends model.UserException> ex
     
     public void handleAccount(PersistentAccount account) throws PersistenceException, E;
     public void handleAccountManager(PersistentAccountManager accountManager) throws PersistenceException, E;
+    public void handleArticleWrapper(PersistentArticleWrapper articleWrapper) throws PersistenceException, E;
     public void handleCart(PersistentCart cart) throws PersistenceException, E;
     public void handleCartManager(PersistentCartManager cartManager) throws PersistenceException, E;
     public void handleCustomerManager(PersistentCustomerManager customerManager) throws PersistenceException, E;
