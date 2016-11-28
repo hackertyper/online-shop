@@ -3,7 +3,7 @@ package model.visitor;
 
 import persistence.*;
 
-public interface AnythingVisitor extends CartStateVisitor,CommonDateVisitor,DeliveryVisitor,ItemVisitor,ServiceVisitor{
+public interface AnythingVisitor extends CartStateVisitor,CommonDateVisitor,CustomerDeliveryVisitor,DeliveryVisitor,ItemVisitor,ServiceVisitor{
     
     public void handleAcceptDeliveryCommand(PersistentAcceptDeliveryCommand acceptDeliveryCommand) throws PersistenceException;
     public void handleAccount(PersistentAccount account) throws PersistenceException;
@@ -14,10 +14,12 @@ public interface AnythingVisitor extends CartStateVisitor,CommonDateVisitor,Deli
     public void handleCartManager(PersistentCartManager cartManager) throws PersistenceException;
     public void handleCartManagerArticleList(PersistentCartManagerArticleList cartManagerArticleList) throws PersistenceException;
     public void handleChangeAmountCommand(PersistentChangeAmountCommand changeAmountCommand) throws PersistenceException;
+    public void handleChangeChargeCommand(PersistentChangeChargeCommand changeChargeCommand) throws PersistenceException;
     public void handleChangeDescriptionCommand(PersistentChangeDescriptionCommand changeDescriptionCommand) throws PersistenceException;
     public void handleChangeManuDeliveryCommand(PersistentChangeManuDeliveryCommand changeManuDeliveryCommand) throws PersistenceException;
     public void handleChangePriceCommand(PersistentChangePriceCommand changePriceCommand) throws PersistenceException;
     public void handleChangeProductGroupCommand(PersistentChangeProductGroupCommand changeProductGroupCommand) throws PersistenceException;
+    public void handleChangeTimeCommand(PersistentChangeTimeCommand changeTimeCommand) throws PersistenceException;
     public void handleCheckOutCommand(PersistentCheckOutCommand checkOutCommand) throws PersistenceException;
     public void handleCommandCoordinator(PersistentCommandCoordinator commandCoordinator) throws PersistenceException;
     public void handleCommandExecuter(PersistentCommandExecuter commandExecuter) throws PersistenceException;

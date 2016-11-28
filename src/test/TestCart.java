@@ -18,6 +18,7 @@ import model.InsufficientFunds;
 import model.InsufficientStock;
 import model.Manufacturer;
 import model.QuantifiedArticles;
+import model.TestDelivery;
 import persistence.PersistenceException;
 import persistence.PersistentArticle;
 import persistence.PersistentCartManager;
@@ -167,7 +168,7 @@ public class TestCart {
 	@Test
 	public void testOrderException() throws PersistenceException {
 		try {
-			cm.order();
+			cm.order(TestDelivery.getTheTestDelivery());
 		} catch (FirstCheckOut | InsufficientFunds e) {
 			assertEquals(serverConstants.ErrorMessages.FirstCheckOut, e.getMessage());
 		}

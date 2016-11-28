@@ -23,6 +23,12 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleCustomerOrder(CustomerOrderView customerOrder) throws ModelException{
         this.standardHandling(customerOrder);
     }
+    public void handleOverNightDelivery(OverNightDeliveryView overNightDelivery) throws ModelException{
+        this.standardHandling(overNightDelivery);
+    }
+    public void handleStandardDelivery(StandardDeliveryView standardDelivery) throws ModelException{
+        this.standardHandling(standardDelivery);
+    }
     public void handleArrivedOrder(ArrivedOrderView arrivedOrder) throws ModelException{
         this.standardHandling(arrivedOrder);
     }
@@ -49,6 +55,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     }
     public void handleShopKeeperOrder(ShopKeeperOrderView shopKeeperOrder) throws ModelException{
         this.standardHandling(shopKeeperOrder);
+    }
+    public void handleTestDelivery(TestDeliveryView testDelivery) throws ModelException{
+        this.standardHandling(testDelivery);
     }
     public void handleRemovedFSale(RemovedFSaleView removedFSale) throws ModelException{
         this.standardHandling(removedFSale);

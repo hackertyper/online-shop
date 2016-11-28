@@ -2,6 +2,10 @@
 package model;
 
 import persistence.*;
+
+import java.sql.Timestamp;
+import java.time.Instant;
+
 import model.visitor.*;
 
 
@@ -253,6 +257,11 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
     
     // Start of section that contains operations that must be implemented.
     
+    public void arrived() 
+				throws PersistenceException{
+        //TODO: implement method: arrived
+        
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }
@@ -260,7 +269,7 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
 				throws PersistenceException{
         getThis().setMyState(ArrivedOrder.createArrivedOrder());
         getThis().getOrdermngr().addOrder(getThis());
-        getThis().getMyState().arrived();
+        getThis().arrived();
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
@@ -278,7 +287,13 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
 			public void handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException {}
 			@Override
 			public void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException {
-				arrivedOrder.retoure(list);
+				PersistentRetoure re = Retoure.createRetoure(0, serverConstants.OrderConstants.current);
+		        try {
+					re.getArticleList().add(list);
+				} catch (UserException e) {
+					new Error(e);
+				}
+		        re.send();
 			}
 		});
     }

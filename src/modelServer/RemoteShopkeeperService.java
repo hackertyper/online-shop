@@ -34,6 +34,17 @@ public  class RemoteShopkeeperService extends RemoteService {
         }
     }
     
+    public synchronized java.util.HashMap<?,?> changeExtraCharge(String cdProxiString, String newChargeAsString){
+        try {
+            PersistentCustomerDelivery cd = (PersistentCustomerDelivery)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(cdProxiString));
+            long newCharge = new Long(newChargeAsString).longValue();
+            ((PersistentShopkeeperService)this.server).changeExtraCharge(cd, newCharge);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
     public synchronized java.util.HashMap<?,?> changeManufacturerDelivery(String newManuDeliveryAsString){
         try {
             long newManuDelivery = new Long(newManuDeliveryAsString).longValue();
@@ -60,6 +71,17 @@ public  class RemoteShopkeeperService extends RemoteService {
             PersistentArticle article = (PersistentArticle)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(articleProxiString));
             PersistentProductGroup newPG = (PersistentProductGroup)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(newPGProxiString));
             ((PersistentShopkeeperService)this.server).changeProductGroup(article, newPG);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
+    public synchronized java.util.HashMap<?,?> changeTime(String cdProxiString, String newTimeAsString){
+        try {
+            PersistentCustomerDelivery cd = (PersistentCustomerDelivery)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(cdProxiString));
+            long newTime = new Long(newTimeAsString).longValue();
+            ((PersistentShopkeeperService)this.server).changeTime(cd, newTime);
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);

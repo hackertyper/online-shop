@@ -26,6 +26,12 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleCustomerOrder(PersistentCustomerOrder customerOrder) throws PersistenceException{
         this.standardHandling(customerOrder);
     }
+    public void handleOverNightDelivery(PersistentOverNightDelivery overNightDelivery) throws PersistenceException{
+        this.standardHandling(overNightDelivery);
+    }
+    public void handleStandardDelivery(PersistentStandardDelivery standardDelivery) throws PersistenceException{
+        this.standardHandling(standardDelivery);
+    }
     public void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException{
         this.standardHandling(arrivedOrder);
     }
@@ -74,11 +80,20 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleAcceptDeliveryCommand(PersistentAcceptDeliveryCommand acceptDeliveryCommand) throws PersistenceException{
         this.standardHandling(acceptDeliveryCommand);
     }
+    public void handleTestDelivery(PersistentTestDelivery testDelivery) throws PersistenceException{
+        this.standardHandling(testDelivery);
+    }
     public void handleRemovedFSale(PersistentRemovedFSale removedFSale) throws PersistenceException{
         this.standardHandling(removedFSale);
     }
     public void handleRetoure(PersistentRetoure retoure) throws PersistenceException{
         this.standardHandling(retoure);
+    }
+    public void handleChangeChargeCommand(PersistentChangeChargeCommand changeChargeCommand) throws PersistenceException{
+        this.standardHandling(changeChargeCommand);
+    }
+    public void handleChangeTimeCommand(PersistentChangeTimeCommand changeTimeCommand) throws PersistenceException{
+        this.standardHandling(changeTimeCommand);
     }
     public void handleAccountManager(PersistentAccountManager accountManager) throws PersistenceException{
         this.standardHandling(accountManager);

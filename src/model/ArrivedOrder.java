@@ -2,6 +2,7 @@
 package model;
 
 import persistence.*;
+
 import model.visitor.*;
 
 
@@ -233,10 +234,6 @@ public class ArrivedOrder extends PersistentObject implements PersistentArrivedO
     
     // Start of section that contains operations that must be implemented.
     
-    public void arrived() 
-				throws PersistenceException{
-    	//TODO: show information alert
-    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }
@@ -245,16 +242,6 @@ public class ArrivedOrder extends PersistentObject implements PersistentArrivedO
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-    }
-    public void retoure(final QuantifiedArticlesSearchList list) 
-				throws PersistenceException{
-    	PersistentRetoure re = Retoure.createRetoure(0, serverConstants.OrderConstants.current);
-        try {
-			re.getArticleList().add(list);
-		} catch (UserException e) {
-			new Error(e);
-		}
-        re.send();        
     }
     
     

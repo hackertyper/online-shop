@@ -55,7 +55,7 @@ public abstract class ViewProxi extends ViewRoot {
 	
   private static ProxiFactory [] getTheProxiFactories(){
 	if (proxiFactories == null){
-		proxiFactories = new ProxiFactory [127];
+		proxiFactories = new ProxiFactory [137];
         proxiFactories[98] = new ProxiFactory(){
             ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
                 return new AccountProxi(objectId, classId, connectionKey);
@@ -84,6 +84,16 @@ public abstract class ViewProxi extends ViewRoot {
         proxiFactories[10] = new ProxiFactory(){
             ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
                 return new CustomerOrderProxi(objectId, classId, connectionKey);
+            }
+        };
+        proxiFactories[127] = new ProxiFactory(){
+            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
+                return new OverNightDeliveryProxi(objectId, classId, connectionKey);
+            }
+        };
+        proxiFactories[128] = new ProxiFactory(){
+            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
+                return new StandardDeliveryProxi(objectId, classId, connectionKey);
             }
         };
         proxiFactories[11] = new ProxiFactory(){
@@ -129,6 +139,11 @@ public abstract class ViewProxi extends ViewRoot {
         proxiFactories[29] = new ProxiFactory(){
             ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
                 return new ShopKeeperOrderProxi(objectId, classId, connectionKey);
+            }
+        };
+        proxiFactories[130] = new ProxiFactory(){
+            ViewProxi create(long objectId, long classId, ExceptionAndEventHandler connectionKey){
+                return new TestDeliveryProxi(objectId, classId, connectionKey);
             }
         };
         proxiFactories[31] = new ProxiFactory(){

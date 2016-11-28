@@ -263,6 +263,10 @@ public class ShopkeeperService extends model.Service implements PersistentShopke
         //TODO: implement method: changeDescription
         
     }
+    public void changeExtraCharge(final PersistentCustomerDelivery cd, final long newCharge) 
+				throws PersistenceException{
+        getThis().getManager().changeCharge(cd, newCharge, getThis());
+    }
     public void changeManufacturerDelivery(final long newManuDelivery) 
 				throws PersistenceException{
         //TODO: implement method: changeManufacturerDelivery
@@ -278,6 +282,10 @@ public class ShopkeeperService extends model.Service implements PersistentShopke
         //TODO: implement method: changeProductGroup
         
     }
+    public void changeTime(final PersistentCustomerDelivery cd, final long newTime) 
+				throws PersistenceException{
+    	getThis().getManager().changeTime(cd, newTime, getThis());
+    }
     public void connected(final String user) 
 				throws PersistenceException{
     }
@@ -290,6 +298,7 @@ public class ShopkeeperService extends model.Service implements PersistentShopke
     public void initializeOnCreation() 
 				throws PersistenceException{
         super.initializeOnCreation();
+        getThis().setManager(Shopkeeper.createShopkeeper());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{

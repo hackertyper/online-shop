@@ -25,7 +25,7 @@ public interface CartManager4Public extends Anything, SubjInterface, AbstractPer
 				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
-    public void order(final Invoker invoker) 
+    public void order(final PersistentCustomerDelivery deliveryMethod, final Invoker invoker) 
 				throws PersistenceException;
     public void removeFCart(final PersistentQuantifiedArticles article, final Invoker invoker) 
 				throws PersistenceException;
@@ -45,7 +45,7 @@ public interface CartManager4Public extends Anything, SubjInterface, AbstractPer
 				throws PersistenceException;
     public void initializeOnInstantiation() 
 				throws PersistenceException;
-    public void order() 
+    public void order(final PersistentCustomerDelivery deliveryMethod) 
 				throws model.FirstCheckOut, model.InsufficientFunds, PersistenceException;
     public void pay(final long sum) 
 				throws model.InsufficientFunds, PersistenceException;

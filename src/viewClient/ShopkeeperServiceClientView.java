@@ -316,6 +316,8 @@ public class ShopkeeperServiceClientView extends BorderPane implements Exception
         ImageView handle(ChangeManufacturerDeliveryPRMTRIntegerPRMTRMenuItem menuItem);
         ImageView handle(PresetBalancePRMTRIntegerPRMTRMenuItem menuItem);
         ImageView handle(PresetLowerLimitPRMTRIntegerPRMTRMenuItem menuItem);
+        ImageView handle(ChangeTimePRMTRCustomerDeliveryPRMTRIntegerPRMTRMenuItem menuItem);
+        ImageView handle(ChangeExtraChargePRMTRCustomerDeliveryPRMTRIntegerPRMTRMenuItem menuItem);
         ImageView handle(ChangeProductGroupPRMTRArticlePRMTRProductGroupPRMTRMenuItem menuItem);
         ImageView handle(StartSellingPRMTRNewlyAddedPRMTRMenuItem menuItem);
     }
@@ -346,6 +348,16 @@ public class ShopkeeperServiceClientView extends BorderPane implements Exception
         }
     }
     private class PresetLowerLimitPRMTRIntegerPRMTRMenuItem extends ShopkeeperServiceMenuItem{
+        protected ImageView accept(MenuItemVisitor visitor){
+            return visitor.handle(this);
+        }
+    }
+    private class ChangeTimePRMTRCustomerDeliveryPRMTRIntegerPRMTRMenuItem extends ShopkeeperServiceMenuItem{
+        protected ImageView accept(MenuItemVisitor visitor){
+            return visitor.handle(this);
+        }
+    }
+    private class ChangeExtraChargePRMTRCustomerDeliveryPRMTRIntegerPRMTRMenuItem extends ShopkeeperServiceMenuItem{
         protected ImageView accept(MenuItemVisitor visitor){
             return visitor.handle(this);
         }
@@ -495,6 +507,30 @@ public class ShopkeeperServiceClientView extends BorderPane implements Exception
                 });
                 result.getItems().add(item);
             }
+            if (selected instanceof CustomerDeliveryView){
+                item = new ChangeTimePRMTRCustomerDeliveryPRMTRIntegerPRMTRMenuItem();
+                item.setText("Kundenlieferzeit:Dauer ändern ... ");
+                item.setOnAction(new EventHandler<ActionEvent>(){
+                    public void handle(javafx.event.ActionEvent e) {
+                        final ShopkeeperServiceChangeTimeCustomerDeliveryIntegerMssgWizard wizard = new ShopkeeperServiceChangeTimeCustomerDeliveryIntegerMssgWizard("Kundenlieferzeit:Dauer ändern");
+                        wizard.setFirstArgument((CustomerDeliveryView)selected);
+                        wizard.setWidth(getNavigationPanel().getWidth());
+                        wizard.showAndWait();
+                    }
+                });
+                result.getItems().add(item);
+                item = new ChangeExtraChargePRMTRCustomerDeliveryPRMTRIntegerPRMTRMenuItem();
+                item.setText("Kundenlieferzeit:Kosten ändern ... ");
+                item.setOnAction(new EventHandler<ActionEvent>(){
+                    public void handle(javafx.event.ActionEvent e) {
+                        final ShopkeeperServiceChangeExtraChargeCustomerDeliveryIntegerMssgWizard wizard = new ShopkeeperServiceChangeExtraChargeCustomerDeliveryIntegerMssgWizard("Kundenlieferzeit:Kosten ändern");
+                        wizard.setFirstArgument((CustomerDeliveryView)selected);
+                        wizard.setWidth(getNavigationPanel().getWidth());
+                        wizard.showAndWait();
+                    }
+                });
+                result.getItems().add(item);
+            }
             
         }
         this.addNotGeneratedItems(result,selected);
@@ -547,6 +583,53 @@ public class ShopkeeperServiceClientView extends BorderPane implements Exception
 		private ItemView firstArgument; 
 	
 		public void setFirstArgument(ItemView firstArgument){
+			this.firstArgument = firstArgument;
+			this.setTitle(this.firstArgument.toString());
+			this.check();
+		}
+		
+		
+	}
+
+	class ShopkeeperServiceChangeExtraChargeCustomerDeliveryIntegerMssgWizard extends Wizard {
+
+		protected ShopkeeperServiceChangeExtraChargeCustomerDeliveryIntegerMssgWizard(String operationName){
+			super(ShopkeeperServiceClientView.this);
+			getOkButton().setText(operationName);
+			getOkButton().setGraphic(new ChangeExtraChargePRMTRCustomerDeliveryPRMTRIntegerPRMTRMenuItem ().getGraphic());
+		}
+		protected void initialize(){
+			this.helpFileName = "ShopkeeperServiceChangeExtraChargeCustomerDeliveryIntegerMssgWizard.help";
+			super.initialize();		
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().changeExtraCharge(firstArgument, ((IntegerSelectionPanel)getParametersPanel().getChildren().get(0)).getResult().longValue());
+				getConnection().setEagerRefresh();
+				this.close();	
+			} catch(ModelException me){
+				handleException(me);
+				this.close();
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		protected boolean isModifying () {
+			return false;
+		}
+		protected void addParameters(){
+			getParametersPanel().getChildren().add(new IntegerSelectionPanel("newCharge", this));		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+		private CustomerDeliveryView firstArgument; 
+	
+		public void setFirstArgument(CustomerDeliveryView firstArgument){
 			this.firstArgument = firstArgument;
 			this.setTitle(this.firstArgument.toString());
 			this.check();
@@ -681,6 +764,53 @@ public class ShopkeeperServiceClientView extends BorderPane implements Exception
 		private ArticleView firstArgument; 
 	
 		public void setFirstArgument(ArticleView firstArgument){
+			this.firstArgument = firstArgument;
+			this.setTitle(this.firstArgument.toString());
+			this.check();
+		}
+		
+		
+	}
+
+	class ShopkeeperServiceChangeTimeCustomerDeliveryIntegerMssgWizard extends Wizard {
+
+		protected ShopkeeperServiceChangeTimeCustomerDeliveryIntegerMssgWizard(String operationName){
+			super(ShopkeeperServiceClientView.this);
+			getOkButton().setText(operationName);
+			getOkButton().setGraphic(new ChangeTimePRMTRCustomerDeliveryPRMTRIntegerPRMTRMenuItem ().getGraphic());
+		}
+		protected void initialize(){
+			this.helpFileName = "ShopkeeperServiceChangeTimeCustomerDeliveryIntegerMssgWizard.help";
+			super.initialize();		
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().changeTime(firstArgument, ((IntegerSelectionPanel)getParametersPanel().getChildren().get(0)).getResult().longValue());
+				getConnection().setEagerRefresh();
+				this.close();	
+			} catch(ModelException me){
+				handleException(me);
+				this.close();
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		protected boolean isModifying () {
+			return false;
+		}
+		protected void addParameters(){
+			getParametersPanel().getChildren().add(new IntegerSelectionPanel("newTime", this));		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+		private CustomerDeliveryView firstArgument; 
+	
+		public void setFirstArgument(CustomerDeliveryView firstArgument){
 			this.firstArgument = firstArgument;
 			this.setTitle(this.firstArgument.toString());
 			this.check();

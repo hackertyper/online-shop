@@ -134,6 +134,10 @@ public class ShopkeeperServiceICProxi extends ServiceICProxi implements Persiste
 				throws PersistenceException{
         ((PersistentShopkeeperService)this.getTheObject()).changeDescription(item, newDescription);
     }
+    public void changeExtraCharge(final PersistentCustomerDelivery cd, final long newCharge) 
+				throws PersistenceException{
+        ((PersistentShopkeeperService)this.getTheObject()).changeExtraCharge(cd, newCharge);
+    }
     public void changeManufacturerDelivery(final long newManuDelivery) 
 				throws PersistenceException{
         ((PersistentShopkeeperService)this.getTheObject()).changeManufacturerDelivery(newManuDelivery);
@@ -145,6 +149,10 @@ public class ShopkeeperServiceICProxi extends ServiceICProxi implements Persiste
     public void changeProductGroup(final PersistentArticle article, final PersistentProductGroup newPG) 
 				throws PersistenceException{
         ((PersistentShopkeeperService)this.getTheObject()).changeProductGroup(article, newPG);
+    }
+    public void changeTime(final PersistentCustomerDelivery cd, final long newTime) 
+				throws PersistenceException{
+        ((PersistentShopkeeperService)this.getTheObject()).changeTime(cd, newTime);
     }
     public void connected(final String user) 
 				throws PersistenceException{

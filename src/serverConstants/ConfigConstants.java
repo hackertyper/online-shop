@@ -4,7 +4,7 @@ public class ConfigConstants {
 	
 	private static Integer RetourePercentage = 10;
 	private static Integer PresetAccountBalance = 1000;
-	private static Integer PresetAccountLowerLimit = 100;
+	private static Integer PresetAccountLowerLimit = 0;
 
 	
 	private ConfigConstants() {}
@@ -16,14 +16,12 @@ public class ConfigConstants {
 		return RetourePercentage;
 	}
 
-
 	/**
 	 * @param retourePercentage the retourePercentage to set
 	 */
 	public static final void setRetourePercentage(Integer retourePercentage) {
 		RetourePercentage = retourePercentage;
 	}
-
 
 	/**
 	 * @return the presetAccountBalance
@@ -32,14 +30,12 @@ public class ConfigConstants {
 		return PresetAccountBalance;
 	}
 
-
 	/**
 	 * @param presetAccountBalance the presetAccountBalance to set
 	 */
 	public static final void setPresetAccountBalance(Integer presetAccountBalance) {
 		PresetAccountBalance = presetAccountBalance;
 	}
-
 
 	/**
 	 * @return the presetAccountLowerLimit
@@ -48,12 +44,10 @@ public class ConfigConstants {
 		return PresetAccountLowerLimit;
 	}
 
-
 	/**
 	 * @param presetAccountLowerLimit the presetAccountLowerLimit to set
 	 */
 	public static final void setPresetAccountLowerLimit(Integer presetAccountLowerLimit) {
 		PresetAccountLowerLimit = presetAccountLowerLimit;
 	}
-
 }

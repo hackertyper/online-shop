@@ -254,11 +254,6 @@ public class ShopKeeperOrder extends model.Delivery implements PersistentShopKee
     
     // Start of section that contains overridden operations only.
     
-    public void send() 
-				throws PersistenceException{
-        //TODO: implement method: send
-        
-    }
 
     /* Start of protected part that is not overridden by persistence generator */
     

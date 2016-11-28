@@ -21,6 +21,18 @@ public class ShopkeeperProxi extends PersistentProxi implements PersistentShopke
     public Shopkeeper_ItemRangeProxi getItemRange() throws PersistenceException {
         return ((PersistentShopkeeper)this.getTheObject()).getItemRange();
     }
+    public PersistentStandardDelivery getStandardDelivery() throws PersistenceException {
+        return ((PersistentShopkeeper)this.getTheObject()).getStandardDelivery();
+    }
+    public void setStandardDelivery(PersistentStandardDelivery newValue) throws PersistenceException {
+        ((PersistentShopkeeper)this.getTheObject()).setStandardDelivery(newValue);
+    }
+    public PersistentOverNightDelivery getOnDelivery() throws PersistenceException {
+        return ((PersistentShopkeeper)this.getTheObject()).getOnDelivery();
+    }
+    public void setOnDelivery(PersistentOverNightDelivery newValue) throws PersistenceException {
+        ((PersistentShopkeeper)this.getTheObject()).setOnDelivery(newValue);
+    }
     public SubjInterface getSubService() throws PersistenceException {
         return ((PersistentShopkeeper)this.getTheObject()).getSubService();
     }
@@ -57,6 +69,14 @@ public class ShopkeeperProxi extends PersistentProxi implements PersistentShopke
     }
     
     
+    public void changeCharge(final PersistentCustomerDelivery cd, final long newCharge, final Invoker invoker) 
+				throws PersistenceException{
+        ((PersistentShopkeeper)this.getTheObject()).changeCharge(cd, newCharge, invoker);
+    }
+    public void changeTime(final PersistentCustomerDelivery cd, final long newTime, final Invoker invoker) 
+				throws PersistenceException{
+        ((PersistentShopkeeper)this.getTheObject()).changeTime(cd, newTime, invoker);
+    }
     public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentShopkeeper)this.getTheObject()).deregister(observee);
@@ -76,6 +96,14 @@ public class ShopkeeperProxi extends PersistentProxi implements PersistentShopke
     public void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentShopkeeper)this.getTheObject()).updateObservers(event);
+    }
+    public void changeCharge(final PersistentCustomerDelivery cd, final long newCharge) 
+				throws PersistenceException{
+        ((PersistentShopkeeper)this.getTheObject()).changeCharge(cd, newCharge);
+    }
+    public void changeTime(final PersistentCustomerDelivery cd, final long newTime) 
+				throws PersistenceException{
+        ((PersistentShopkeeper)this.getTheObject()).changeTime(cd, newTime);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{

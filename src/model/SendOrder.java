@@ -222,8 +222,6 @@ public class SendOrder extends PersistentObject implements PersistentSendOrder{
     
     // Start of section that contains operations that must be implemented.
     
-    public void arrived() 
-				throws PersistenceException{}
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }

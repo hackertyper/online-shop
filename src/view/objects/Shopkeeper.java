@@ -10,11 +10,15 @@ import view.visitor.*;
 public class Shopkeeper extends ViewObject implements ShopkeeperView{
     
     protected java.util.Vector<ItemView> itemRange;
+    protected StandardDeliveryView standardDelivery;
+    protected OverNightDeliveryView onDelivery;
     
-    public Shopkeeper(java.util.Vector<ItemView> itemRange,long id, long classId) {
+    public Shopkeeper(java.util.Vector<ItemView> itemRange,StandardDeliveryView standardDelivery,OverNightDeliveryView onDelivery,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
-        this.itemRange = itemRange;        
+        this.itemRange = itemRange;
+        this.standardDelivery = standardDelivery;
+        this.onDelivery = onDelivery;        
     }
     
     static public long getTypeId() {
@@ -30,6 +34,18 @@ public class Shopkeeper extends ViewObject implements ShopkeeperView{
     }
     public void setItemRange(java.util.Vector<ItemView> newValue) throws ModelException {
         this.itemRange = newValue;
+    }
+    public StandardDeliveryView getStandardDelivery()throws ModelException{
+        return this.standardDelivery;
+    }
+    public void setStandardDelivery(StandardDeliveryView newValue) throws ModelException {
+        this.standardDelivery = newValue;
+    }
+    public OverNightDeliveryView getOnDelivery()throws ModelException{
+        return this.onDelivery;
+    }
+    public void setOnDelivery(OverNightDeliveryView newValue) throws ModelException {
+        this.onDelivery = newValue;
     }
     
     public void accept(AnythingVisitor visitor) throws ModelException {
@@ -50,6 +66,14 @@ public class Shopkeeper extends ViewObject implements ShopkeeperView{
         if (itemRange != null) {
             ViewObject.resolveVectorProxies(itemRange, resultTable);
         }
+        StandardDeliveryView standardDelivery = this.getStandardDelivery();
+        if (standardDelivery != null) {
+            ((ViewProxi)standardDelivery).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(standardDelivery.getClassId(), standardDelivery.getId())));
+        }
+        OverNightDeliveryView onDelivery = this.getOnDelivery();
+        if (onDelivery != null) {
+            ((ViewProxi)onDelivery).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(onDelivery.getClassId(), onDelivery.getId())));
+        }
         
     }
     public void sortSetValuedFields() throws ModelException {
@@ -59,15 +83,23 @@ public class Shopkeeper extends ViewObject implements ShopkeeperView{
         int index = originalIndex;
         if(index < this.getItemRange().size()) return new ItemRangeShopkeeperWrapper(this, originalIndex, (ViewRoot)this.getItemRange().get(index));
         index = index - this.getItemRange().size();
+        if(index == 0 && this.getStandardDelivery() != null) return new StandardDeliveryShopkeeperWrapper(this, originalIndex, (ViewRoot)this.getStandardDelivery());
+        if(this.getStandardDelivery() != null) index = index - 1;
+        if(index == 0 && this.getOnDelivery() != null) return new OnDeliveryShopkeeperWrapper(this, originalIndex, (ViewRoot)this.getOnDelivery());
+        if(this.getOnDelivery() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getItemRange().size());
+            + (this.getItemRange().size())
+            + (this.getStandardDelivery() == null ? 0 : 1)
+            + (this.getOnDelivery() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
         return true 
-            && (this.getItemRange().size() == 0);
+            && (this.getItemRange().size() == 0)
+            && (this.getStandardDelivery() == null ? true : false)
+            && (this.getOnDelivery() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
@@ -76,6 +108,10 @@ public class Shopkeeper extends ViewObject implements ShopkeeperView{
             if(getItemRangeIterator.next().equals(child)) return result;
             result = result + 1;
         }
+        if(this.getStandardDelivery() != null && this.getStandardDelivery().equals(child)) return result;
+        if(this.getStandardDelivery() != null) result = result + 1;
+        if(this.getOnDelivery() != null && this.getOnDelivery().equals(child)) return result;
+        if(this.getOnDelivery() != null) result = result + 1;
         return -1;
     }
     public int getRowCount(){

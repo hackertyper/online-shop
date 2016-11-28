@@ -119,6 +119,16 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	public void handleOrderService(PersistentOrderService orderService) throws PersistenceException {}
 	@Override
 	public void handleOrderManager(PersistentOrderManager orderManager) throws PersistenceException {}
+	@Override
+	public void handleOverNightDelivery(PersistentOverNightDelivery overNightDelivery) throws PersistenceException {
+		result = "OverNight Versand Dauer: " + overNightDelivery.getTime() + " Kosten: " + overNightDelivery.getExtraCharge();
+	}
+	@Override
+	public void handleStandardDelivery(PersistentStandardDelivery standardDelivery) throws PersistenceException {
+		result = "Standard Versand Dauer: " + standardDelivery.getTime() + " Kosten: " + standardDelivery.getExtraCharge();
+	}
+	@Override
+	public void handleTestDelivery(PersistentTestDelivery testDelivery) throws PersistenceException {}
 	
 
 }

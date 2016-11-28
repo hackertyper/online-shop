@@ -3,7 +3,7 @@ package view.visitor;
 
 import view.*;
 
-public interface AnythingExceptionVisitor<E extends view.UserException> extends CartStateExceptionVisitor<E>,DeliveryExceptionVisitor<E>,ItemExceptionVisitor<E>,ServiceExceptionVisitor<E>{
+public interface AnythingExceptionVisitor<E extends view.UserException> extends CartStateExceptionVisitor<E>,CustomerDeliveryExceptionVisitor<E>,DeliveryExceptionVisitor<E>,ItemExceptionVisitor<E>,ServiceExceptionVisitor<E>{
     
     public void handleAccount(AccountView account) throws ModelException, E;
     public void handleAccountManager(AccountManagerView accountManager) throws ModelException, E;

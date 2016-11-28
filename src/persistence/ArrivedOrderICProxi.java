@@ -92,10 +92,6 @@ public class ArrivedOrderICProxi extends PersistentInCacheProxiOptimistic implem
 				throws PersistenceException{
         ((PersistentArrivedOrder)this.getTheObject()).updateObservers(event);
     }
-    public void arrived() 
-				throws PersistenceException{
-        ((PersistentArrivedOrder)this.getTheObject()).arrived();
-    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentArrivedOrder)this.getTheObject()).copyingPrivateUserAttributes(copy);
@@ -107,10 +103,6 @@ public class ArrivedOrderICProxi extends PersistentInCacheProxiOptimistic implem
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         ((PersistentArrivedOrder)this.getTheObject()).initializeOnInstantiation();
-    }
-    public void retoure(final QuantifiedArticlesSearchList list) 
-				throws PersistenceException{
-        ((PersistentArrivedOrder)this.getTheObject()).retoure(list);
     }
 
     

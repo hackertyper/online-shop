@@ -5,6 +5,8 @@ import model.visitor.*;
 
 public interface OrderCommand4Public extends Anything, CartManagerCommand, CommonDate4Public, AbstractPersistentProxi {
     
+    public PersistentCustomerDelivery getDeliveryMethod() throws PersistenceException ;
+    public void setDeliveryMethod(PersistentCustomerDelivery newValue) throws PersistenceException ;
     public Invoker getInvoker() throws PersistenceException ;
     public void setInvoker(Invoker newValue) throws PersistenceException ;
     public PersistentCartManager getCommandReceiver() throws PersistenceException ;

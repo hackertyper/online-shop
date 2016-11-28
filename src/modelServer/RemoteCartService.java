@@ -54,9 +54,11 @@ public  class RemoteCartService extends RemoteCustomerService {
         }
     }
     
-    public synchronized java.util.HashMap<?,?> order(){
+    public synchronized java.util.HashMap<?,?> order(String cartProxiString, String deliveryMethodProxiString){
         try {
-            ((PersistentCartService)this.server).order();
+            PersistentCart cart = (PersistentCart)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(cartProxiString));
+            PersistentCustomerDelivery deliveryMethod = (PersistentCustomerDelivery)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(deliveryMethodProxiString));
+            ((PersistentCartService)this.server).order(cart, deliveryMethod);
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);

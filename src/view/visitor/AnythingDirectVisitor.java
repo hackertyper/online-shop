@@ -70,6 +70,17 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleAccountService(AccountServiceView accountService) throws ModelException{
         this.handleService(accountService);
     }
+    public abstract void handleCustomerDelivery(CustomerDeliveryView customerDelivery) throws ModelException;
+    
+    public void handleTestDelivery(TestDeliveryView testDelivery) throws ModelException{
+        this.handleCustomerDelivery(testDelivery);
+    }
+    public void handleOverNightDelivery(OverNightDeliveryView overNightDelivery) throws ModelException{
+        this.handleCustomerDelivery(overNightDelivery);
+    }
+    public void handleStandardDelivery(StandardDeliveryView standardDelivery) throws ModelException{
+        this.handleCustomerDelivery(standardDelivery);
+    }
     public abstract void handleRemovedFSale(RemovedFSaleView removedFSale) throws ModelException;
     
     public abstract void handleAccountManager(AccountManagerView accountManager) throws ModelException;

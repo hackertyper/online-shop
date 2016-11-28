@@ -1,6 +1,10 @@
 
 package model;
 
+import java.sql.Timestamp;
+import java.time.Instant;
+
+import common.DeliveryHandler;
 import persistence.*;
 
 
@@ -141,9 +145,8 @@ public abstract class Delivery extends PersistentObject implements PersistentDel
     
     public void send() 
 				throws PersistenceException{
-    	if(getThis().getRemainingTimeToDelivery() == 0) {
-    		getThis().deliver();
-    	}
+		Thread t = new Thread(new DeliveryHandler(getThis()));
+    	t.start();
     }
 
     /* Start of protected part that is not overridden by persistence generator */

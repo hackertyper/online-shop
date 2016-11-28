@@ -54,7 +54,7 @@ public class TestAccount {
 	public void testAccountWithdrawErrorBalanceLessLowerLimit() throws PersistenceException {
 		acc.setBalance(1000);
 		try {
-			acc.withdraw(950);
+			acc.withdraw(1050);
 			fail("No expected InsufficientFunds exception occured");
 		} catch (InsufficientFunds e) {
 			assertEquals(serverConstants.ErrorMessages.InsufficientFunds, e.getMessage());
@@ -84,7 +84,7 @@ public class TestAccount {
 	public void testAccountPayErrorBalanceLessLowerLimit() throws PersistenceException {
 		acc.setBalance(1000);
 		try {
-			acc.pay(950);
+			acc.pay(1050);
 			fail("No expected InsufficientFunds exception occured");
 		} catch (InsufficientFunds e) {
 			assertEquals(serverConstants.ErrorMessages.InsufficientFunds, e.getMessage());

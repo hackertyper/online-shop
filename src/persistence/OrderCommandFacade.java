@@ -28,14 +28,14 @@ public class OrderCommandFacade{
     public PersistentOrderCommand newOrderCommand(long idCreateIfLessZero) throws PersistenceException {
         if(idCreateIfLessZero > 0) return (PersistentOrderCommand)PersistentProxi.createProxi(idCreateIfLessZero, 104);
         long id = ConnectionHandler.getTheConnectionHandler().theOrderCommandFacade.getNextId();
-        OrderCommand result = new OrderCommand(null,null,null,id);
+        OrderCommand result = new OrderCommand(null,null,null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentOrderCommand)PersistentProxi.createProxi(id, 104);
     }
     
     public PersistentOrderCommand newDelayedOrderCommand() throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theOrderCommandFacade.getNextId();
-        OrderCommand result = new OrderCommand(null,null,null,id);
+        OrderCommand result = new OrderCommand(null,null,null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentOrderCommand)PersistentProxi.createProxi(id, 104);
     }
@@ -47,6 +47,9 @@ public class OrderCommandFacade{
         if(Cache.getTheCache().contains(objectId, 104)) return 104;
         
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
+        
+    }
+    public void deliveryMethodSet(long OrderCommandId, PersistentCustomerDelivery deliveryMethodVal) throws PersistenceException {
         
     }
     public void invokerSet(long OrderCommandId, Invoker invokerVal) throws PersistenceException {

@@ -15,7 +15,15 @@ public interface Shopkeeper4Public extends Anything, SubjInterface, AbstractPers
     public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E;
     public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     
+    public void changeCharge(final PersistentCustomerDelivery cd, final long newCharge, final Invoker invoker) 
+				throws PersistenceException;
+    public void changeTime(final PersistentCustomerDelivery cd, final long newTime, final Invoker invoker) 
+				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
+				throws PersistenceException;
+    public void changeCharge(final PersistentCustomerDelivery cd, final long newCharge) 
+				throws PersistenceException;
+    public void changeTime(final PersistentCustomerDelivery cd, final long newTime) 
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;

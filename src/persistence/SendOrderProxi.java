@@ -82,10 +82,6 @@ public class SendOrderProxi extends PersistentProxi implements PersistentSendOrd
 				throws PersistenceException{
         ((PersistentSendOrder)this.getTheObject()).updateObservers(event);
     }
-    public void arrived() 
-				throws PersistenceException{
-        ((PersistentSendOrder)this.getTheObject()).arrived();
-    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentSendOrder)this.getTheObject()).copyingPrivateUserAttributes(copy);

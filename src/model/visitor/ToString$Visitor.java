@@ -10,6 +10,8 @@ public abstract class ToString$Visitor extends AnythingStandardVisitor{
     public abstract void handleCustomerService(PersistentCustomerService customerService) throws PersistenceException;
     public abstract void handleServer(PersistentServer server) throws PersistenceException;
     public abstract void handleCustomerOrder(PersistentCustomerOrder customerOrder) throws PersistenceException;
+    public abstract void handleOverNightDelivery(PersistentOverNightDelivery overNightDelivery) throws PersistenceException;
+    public abstract void handleStandardDelivery(PersistentStandardDelivery standardDelivery) throws PersistenceException;
     public abstract void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException;
     public abstract void handleOpenCart(PersistentOpenCart openCart) throws PersistenceException;
     public abstract void handleCustomerManager(PersistentCustomerManager customerManager) throws PersistenceException;
@@ -19,6 +21,7 @@ public abstract class ToString$Visitor extends AnythingStandardVisitor{
     public abstract void handleShopManager(PersistentShopManager shopManager) throws PersistenceException;
     public abstract void handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException;
     public abstract void handleShopKeeperOrder(PersistentShopKeeperOrder shopKeeperOrder) throws PersistenceException;
+    public abstract void handleTestDelivery(PersistentTestDelivery testDelivery) throws PersistenceException;
     public abstract void handleRemovedFSale(PersistentRemovedFSale removedFSale) throws PersistenceException;
     public abstract void handleRetoure(PersistentRetoure retoure) throws PersistenceException;
     public abstract void handleAccountManager(PersistentAccountManager accountManager) throws PersistenceException;

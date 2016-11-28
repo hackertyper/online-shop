@@ -3,7 +3,7 @@ package view.visitor;
 
 import view.*;
 
-public interface AnythingReturnExceptionVisitor<R, E extends view.UserException> extends CartStateReturnExceptionVisitor<R, E> ,DeliveryReturnExceptionVisitor<R, E> ,ItemReturnExceptionVisitor<R, E> ,ServiceReturnExceptionVisitor<R, E> {
+public interface AnythingReturnExceptionVisitor<R, E extends view.UserException> extends CartStateReturnExceptionVisitor<R, E> ,CustomerDeliveryReturnExceptionVisitor<R, E> ,DeliveryReturnExceptionVisitor<R, E> ,ItemReturnExceptionVisitor<R, E> ,ServiceReturnExceptionVisitor<R, E> {
     
     public R handleAccount(AccountView account) throws ModelException, E;
     public R handleAccountManager(AccountManagerView accountManager) throws ModelException, E;

@@ -178,9 +178,9 @@ public class CartServiceICProxi extends CustomerServiceICProxi implements Persis
 				throws PersistenceException{
         ((PersistentCartService)this.getTheObject()).initializeOnInstantiation();
     }
-    public void order() 
+    public void order(final PersistentCart cart, final PersistentCustomerDelivery deliveryMethod) 
 				throws PersistenceException{
-        ((PersistentCartService)this.getTheObject()).order();
+        ((PersistentCartService)this.getTheObject()).order(cart, deliveryMethod);
     }
     public void removeFCart(final PersistentQuantifiedArticles article) 
 				throws PersistenceException{

@@ -76,6 +76,17 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleAccountService(PersistentAccountService accountService) throws PersistenceException{
         this.handleService(accountService);
     }
+    public abstract void handleCustomerDelivery(PersistentCustomerDelivery customerDelivery) throws PersistenceException;
+    
+    public void handleTestDelivery(PersistentTestDelivery testDelivery) throws PersistenceException{
+        this.handleCustomerDelivery(testDelivery);
+    }
+    public void handleOverNightDelivery(PersistentOverNightDelivery overNightDelivery) throws PersistenceException{
+        this.handleCustomerDelivery(overNightDelivery);
+    }
+    public void handleStandardDelivery(PersistentStandardDelivery standardDelivery) throws PersistenceException{
+        this.handleCustomerDelivery(standardDelivery);
+    }
     public abstract void handleSubj(PersistentSubj subj) throws PersistenceException;
     
     public abstract void handleRemovedFSale(PersistentRemovedFSale removedFSale) throws PersistenceException;
@@ -127,6 +138,12 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     }
     public void handleAddArticleCommand(PersistentAddArticleCommand addArticleCommand) throws PersistenceException{
         this.handleCommonDate(addArticleCommand);
+    }
+    public void handleChangeChargeCommand(PersistentChangeChargeCommand changeChargeCommand) throws PersistenceException{
+        this.handleCommonDate(changeChargeCommand);
+    }
+    public void handleChangeTimeCommand(PersistentChangeTimeCommand changeTimeCommand) throws PersistenceException{
+        this.handleCommonDate(changeTimeCommand);
     }
     public void handleChangeManuDeliveryCommand(PersistentChangeManuDeliveryCommand changeManuDeliveryCommand) throws PersistenceException{
         this.handleCommonDate(changeManuDeliveryCommand);

@@ -17,8 +17,11 @@ public class TestSupport {
 	private TestSupport(){}	
 	
 	public static void prepareSingletons(){
+        model.OverNightDelivery.reset$For$Test = true;
+        model.StandardDelivery.reset$For$Test = true;
         model.meta.CommandCoordinator.reset$For$Test = true;
         model.OpenCart.reset$For$Test = true;
+        model.TestDelivery.reset$For$Test = true;
 
 	}
 

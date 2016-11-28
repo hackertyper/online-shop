@@ -31,6 +31,18 @@ public class CartManagerICProxi extends PersistentInCacheProxiOptimistic impleme
     public void setArticleList(PersistentCartManagerArticleList newValue) throws PersistenceException {
         ((PersistentCartManager)this.getTheObject()).setArticleList(newValue);
     }
+    public PersistentStandardDelivery getStandardDelivery() throws PersistenceException {
+        return ((PersistentCartManager)this.getTheObject()).getStandardDelivery();
+    }
+    public void setStandardDelivery(PersistentStandardDelivery newValue) throws PersistenceException {
+        ((PersistentCartManager)this.getTheObject()).setStandardDelivery(newValue);
+    }
+    public PersistentOverNightDelivery getOnDelivery() throws PersistenceException {
+        return ((PersistentCartManager)this.getTheObject()).getOnDelivery();
+    }
+    public void setOnDelivery(PersistentOverNightDelivery newValue) throws PersistenceException {
+        ((PersistentCartManager)this.getTheObject()).setOnDelivery(newValue);
+    }
     public SubjInterface getSubService() throws PersistenceException {
         return ((PersistentCartManager)this.getTheObject()).getSubService();
     }
@@ -103,9 +115,9 @@ public class CartManagerICProxi extends PersistentInCacheProxiOptimistic impleme
 				throws PersistenceException{
         ((PersistentCartManager)this.getTheObject()).initialize(This, final$$Fields);
     }
-    public void order(final Invoker invoker) 
+    public void order(final PersistentCustomerDelivery deliveryMethod, final Invoker invoker) 
 				throws PersistenceException{
-        ((PersistentCartManager)this.getTheObject()).order(invoker);
+        ((PersistentCartManager)this.getTheObject()).order(deliveryMethod, invoker);
     }
     public void register(final ObsInterface observee) 
 				throws PersistenceException{
@@ -155,9 +167,9 @@ public class CartManagerICProxi extends PersistentInCacheProxiOptimistic impleme
 				throws PersistenceException{
         ((PersistentCartManager)this.getTheObject()).initializeOnInstantiation();
     }
-    public void order() 
+    public void order(final PersistentCustomerDelivery deliveryMethod) 
 				throws model.FirstCheckOut, model.InsufficientFunds, PersistenceException{
-        ((PersistentCartManager)this.getTheObject()).order();
+        ((PersistentCartManager)this.getTheObject()).order(deliveryMethod);
     }
     public void pay(final long sum) 
 				throws model.InsufficientFunds, PersistenceException{

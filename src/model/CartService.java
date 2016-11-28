@@ -253,9 +253,9 @@ public class CartService extends model.CustomerService implements PersistentCart
 				throws PersistenceException{
         super.initializeOnInstantiation();
     }
-    public void order() 
+    public void order(final PersistentCart cart, final PersistentCustomerDelivery deliveryMethod) 
 				throws PersistenceException{
-        getThis().getCartMngr().order(getThis());
+        getThis().getCartMngr().order(deliveryMethod, getThis());
     }
     public void removeFCart(final PersistentQuantifiedArticles article) 
 				throws PersistenceException{

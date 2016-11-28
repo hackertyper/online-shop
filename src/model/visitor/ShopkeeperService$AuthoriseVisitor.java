@@ -13,6 +13,8 @@ public abstract class ShopkeeperService$AuthoriseVisitor extends AnythingStandar
     public abstract void handleArticle(PersistentArticle article) throws PersistenceException;
     public abstract void handleOfferedFSale(PersistentOfferedFSale offeredFSale) throws PersistenceException;
     public abstract void handleManufacturer(PersistentManufacturer manufacturer) throws PersistenceException;
+    public abstract void handleOverNightDelivery(PersistentOverNightDelivery overNightDelivery) throws PersistenceException;
     public abstract void handleNewlyAdded(PersistentNewlyAdded newlyAdded) throws PersistenceException;
+    public abstract void handleStandardDelivery(PersistentStandardDelivery standardDelivery) throws PersistenceException;
     
 }

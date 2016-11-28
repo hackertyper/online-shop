@@ -3,7 +3,7 @@ package model.visitor;
 
 import persistence.*;
 
-public interface AnythingReturnVisitor<R> extends CartStateReturnVisitor<R> ,CommonDateReturnVisitor<R> ,DeliveryReturnVisitor<R> ,ItemReturnVisitor<R> ,ServiceReturnVisitor<R> {
+public interface AnythingReturnVisitor<R> extends CartStateReturnVisitor<R> ,CommonDateReturnVisitor<R> ,CustomerDeliveryReturnVisitor<R> ,DeliveryReturnVisitor<R> ,ItemReturnVisitor<R> ,ServiceReturnVisitor<R> {
     
     public R handleAcceptDeliveryCommand(PersistentAcceptDeliveryCommand acceptDeliveryCommand) throws PersistenceException;
     public R handleAccount(PersistentAccount account) throws PersistenceException;
@@ -14,10 +14,12 @@ public interface AnythingReturnVisitor<R> extends CartStateReturnVisitor<R> ,Com
     public R handleCartManager(PersistentCartManager cartManager) throws PersistenceException;
     public R handleCartManagerArticleList(PersistentCartManagerArticleList cartManagerArticleList) throws PersistenceException;
     public R handleChangeAmountCommand(PersistentChangeAmountCommand changeAmountCommand) throws PersistenceException;
+    public R handleChangeChargeCommand(PersistentChangeChargeCommand changeChargeCommand) throws PersistenceException;
     public R handleChangeDescriptionCommand(PersistentChangeDescriptionCommand changeDescriptionCommand) throws PersistenceException;
     public R handleChangeManuDeliveryCommand(PersistentChangeManuDeliveryCommand changeManuDeliveryCommand) throws PersistenceException;
     public R handleChangePriceCommand(PersistentChangePriceCommand changePriceCommand) throws PersistenceException;
     public R handleChangeProductGroupCommand(PersistentChangeProductGroupCommand changeProductGroupCommand) throws PersistenceException;
+    public R handleChangeTimeCommand(PersistentChangeTimeCommand changeTimeCommand) throws PersistenceException;
     public R handleCheckOutCommand(PersistentCheckOutCommand checkOutCommand) throws PersistenceException;
     public R handleCommandCoordinator(PersistentCommandCoordinator commandCoordinator) throws PersistenceException;
     public R handleCommandExecuter(PersistentCommandExecuter commandExecuter) throws PersistenceException;

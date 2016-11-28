@@ -68,6 +68,8 @@ public class ConnectionHandler {
     public RemoveFCartCommandFacade theRemoveFCartCommandFacade;
     public ErrorDisplayFacade theErrorDisplayFacade;
     public CustomerOrderFacade theCustomerOrderFacade;
+    public OverNightDeliveryFacade theOverNightDeliveryFacade;
+    public StandardDeliveryFacade theStandardDeliveryFacade;
     public ArrivedOrderFacade theArrivedOrderFacade;
     public ItemFacade theItemFacade;
     public CommandCoordinatorFacade theCommandCoordinatorFacade;
@@ -84,9 +86,13 @@ public class ConnectionHandler {
     public StartSellingCommandFacade theStartSellingCommandFacade;
     public ShopKeeperOrderFacade theShopKeeperOrderFacade;
     public ChangeDescriptionCommandFacade theChangeDescriptionCommandFacade;
+    public CustomerDeliveryFacade theCustomerDeliveryFacade;
     public AcceptDeliveryCommandFacade theAcceptDeliveryCommandFacade;
+    public TestDeliveryFacade theTestDeliveryFacade;
     public RemovedFSaleFacade theRemovedFSaleFacade;
     public RetoureFacade theRetoureFacade;
+    public ChangeChargeCommandFacade theChangeChargeCommandFacade;
+    public ChangeTimeCommandFacade theChangeTimeCommandFacade;
     public AccountManagerFacade theAccountManagerFacade;
     public OrderServiceFacade theOrderServiceFacade;
     public AccountServiceFacade theAccountServiceFacade;
@@ -128,6 +134,8 @@ public class ConnectionHandler {
             this.theRemoveFCartCommandFacade= new RemoveFCartCommandFacade();
             this.theErrorDisplayFacade= new ErrorDisplayFacade();
             this.theCustomerOrderFacade= new CustomerOrderFacade();
+            this.theOverNightDeliveryFacade= new OverNightDeliveryFacade();
+            this.theStandardDeliveryFacade= new StandardDeliveryFacade();
             this.theArrivedOrderFacade= new ArrivedOrderFacade();
             this.theItemFacade= new ItemFacade();
             this.theCommandCoordinatorFacade= new CommandCoordinatorFacade();
@@ -144,9 +152,13 @@ public class ConnectionHandler {
             this.theStartSellingCommandFacade= new StartSellingCommandFacade();
             this.theShopKeeperOrderFacade= new ShopKeeperOrderFacade();
             this.theChangeDescriptionCommandFacade= new ChangeDescriptionCommandFacade();
+            this.theCustomerDeliveryFacade= new CustomerDeliveryFacade();
             this.theAcceptDeliveryCommandFacade= new AcceptDeliveryCommandFacade();
+            this.theTestDeliveryFacade= new TestDeliveryFacade();
             this.theRemovedFSaleFacade= new RemovedFSaleFacade();
             this.theRetoureFacade= new RetoureFacade();
+            this.theChangeChargeCommandFacade= new ChangeChargeCommandFacade();
+            this.theChangeTimeCommandFacade= new ChangeTimeCommandFacade();
             this.theAccountManagerFacade= new AccountManagerFacade();
             this.theOrderServiceFacade= new OrderServiceFacade();
             this.theAccountServiceFacade= new AccountServiceFacade();

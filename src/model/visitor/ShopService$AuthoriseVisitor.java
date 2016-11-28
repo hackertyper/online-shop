@@ -12,6 +12,8 @@ public abstract class ShopService$AuthoriseVisitor extends AnythingStandardVisit
     public abstract void handleArticle(PersistentArticle article) throws PersistenceException;
     public abstract void handleOfferedFSale(PersistentOfferedFSale offeredFSale) throws PersistenceException;
     public abstract void handleCustomerOrder(PersistentCustomerOrder customerOrder) throws PersistenceException;
+    public abstract void handleOverNightDelivery(PersistentOverNightDelivery overNightDelivery) throws PersistenceException;
+    public abstract void handleStandardDelivery(PersistentStandardDelivery standardDelivery) throws PersistenceException;
     public abstract void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException;
     public abstract void handleOpenCart(PersistentOpenCart openCart) throws PersistenceException;
     public abstract void handleCustomerManager(PersistentCustomerManager customerManager) throws PersistenceException;

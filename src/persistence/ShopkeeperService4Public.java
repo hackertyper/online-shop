@@ -33,11 +33,15 @@ public interface ShopkeeperService4Public extends Service4Public {
 				throws PersistenceException;
     public void changeDescription(final PersistentItem item, final String newDescription) 
 				throws PersistenceException;
+    public void changeExtraCharge(final PersistentCustomerDelivery cd, final long newCharge) 
+				throws PersistenceException;
     public void changeManufacturerDelivery(final long newManuDelivery) 
 				throws PersistenceException;
     public void changePrice(final PersistentArticle article, final long newPrice) 
 				throws PersistenceException;
     public void changeProductGroup(final PersistentArticle article, final PersistentProductGroup newPG) 
+				throws PersistenceException;
+    public void changeTime(final PersistentCustomerDelivery cd, final long newTime) 
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;

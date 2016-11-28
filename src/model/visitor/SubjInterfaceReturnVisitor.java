@@ -3,7 +3,7 @@ package model.visitor;
 
 import persistence.*;
 
-public interface SubjInterfaceReturnVisitor<R> extends ArticleStateReturnVisitor<R> ,CartStateReturnVisitor<R> ,CustomerOrderStateReturnVisitor<R> ,DeliveryReturnVisitor<R> ,ItemReturnVisitor<R> ,ServiceReturnVisitor<R> {
+public interface SubjInterfaceReturnVisitor<R> extends ArticleStateReturnVisitor<R> ,CartStateReturnVisitor<R> ,CustomerDeliveryReturnVisitor<R> ,CustomerOrderStateReturnVisitor<R> ,DeliveryReturnVisitor<R> ,ItemReturnVisitor<R> ,ServiceReturnVisitor<R> {
     
     public R handleAccount(PersistentAccount account) throws PersistenceException;
     public R handleAccountManager(PersistentAccountManager accountManager) throws PersistenceException;

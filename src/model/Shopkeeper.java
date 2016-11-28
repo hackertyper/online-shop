@@ -56,6 +56,24 @@ public class Shopkeeper extends PersistentObject implements PersistentShopkeeper
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
             result.put("itemRange", this.getItemRange().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, true));
+            AbstractPersistentRoot standardDelivery = (AbstractPersistentRoot)this.getStandardDelivery();
+            if (standardDelivery != null) {
+                result.put("standardDelivery", standardDelivery.createProxiInformation(false, essentialLevel <= 1));
+                if(depth > 1) {
+                    standardDelivery.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && standardDelivery.hasEssentialFields())standardDelivery.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
+            AbstractPersistentRoot onDelivery = (AbstractPersistentRoot)this.getOnDelivery();
+            if (onDelivery != null) {
+                result.put("onDelivery", onDelivery.createProxiInformation(false, essentialLevel <= 1));
+                if(depth > 1) {
+                    onDelivery.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && onDelivery.hasEssentialFields())onDelivery.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
         }
@@ -64,7 +82,9 @@ public class Shopkeeper extends PersistentObject implements PersistentShopkeeper
     
     public Shopkeeper provideCopy() throws PersistenceException{
         Shopkeeper result = this;
-        result = new Shopkeeper(this.subService, 
+        result = new Shopkeeper(this.standardDelivery, 
+                                this.onDelivery, 
+                                this.subService, 
                                 this.This, 
                                 this.getId());
         result.itemRange = this.itemRange.copy(result);
@@ -76,13 +96,17 @@ public class Shopkeeper extends PersistentObject implements PersistentShopkeeper
         return false;
     }
     protected Shopkeeper_ItemRangeProxi itemRange;
+    protected PersistentStandardDelivery standardDelivery;
+    protected PersistentOverNightDelivery onDelivery;
     protected SubjInterface subService;
     protected PersistentShopkeeper This;
     
-    public Shopkeeper(SubjInterface subService,PersistentShopkeeper This,long id) throws PersistenceException {
+    public Shopkeeper(PersistentStandardDelivery standardDelivery,PersistentOverNightDelivery onDelivery,SubjInterface subService,PersistentShopkeeper This,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.itemRange = new Shopkeeper_ItemRangeProxi(this);
+        this.standardDelivery = standardDelivery;
+        this.onDelivery = onDelivery;
         this.subService = subService;
         if (This != null && !(this.isTheSameAs(This))) this.This = This;        
     }
@@ -101,6 +125,14 @@ public class Shopkeeper extends PersistentObject implements PersistentShopkeeper
             .newShopkeeper(this.getId());
         super.store();
         this.getItemRange().store();
+        if(this.getStandardDelivery() != null){
+            this.getStandardDelivery().store();
+            ConnectionHandler.getTheConnectionHandler().theShopkeeperFacade.standardDeliverySet(this.getId(), getStandardDelivery());
+        }
+        if(this.getOnDelivery() != null){
+            this.getOnDelivery().store();
+            ConnectionHandler.getTheConnectionHandler().theShopkeeperFacade.onDeliverySet(this.getId(), getOnDelivery());
+        }
         if(this.getSubService() != null){
             this.getSubService().store();
             ConnectionHandler.getTheConnectionHandler().theShopkeeperFacade.subServiceSet(this.getId(), getSubService());
@@ -114,6 +146,34 @@ public class Shopkeeper extends PersistentObject implements PersistentShopkeeper
     
     public Shopkeeper_ItemRangeProxi getItemRange() throws PersistenceException {
         return this.itemRange;
+    }
+    public PersistentStandardDelivery getStandardDelivery() throws PersistenceException {
+        return this.standardDelivery;
+    }
+    public void setStandardDelivery(PersistentStandardDelivery newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.isTheSameAs(this.standardDelivery)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.standardDelivery = (PersistentStandardDelivery)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theShopkeeperFacade.standardDeliverySet(this.getId(), newValue);
+        }
+    }
+    public PersistentOverNightDelivery getOnDelivery() throws PersistenceException {
+        return this.onDelivery;
+    }
+    public void setOnDelivery(PersistentOverNightDelivery newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.isTheSameAs(this.onDelivery)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.onDelivery = (PersistentOverNightDelivery)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theShopkeeperFacade.onDeliverySet(this.getId(), newValue);
+        }
     }
     public SubjInterface getSubService() throws PersistenceException {
         return this.subService;
@@ -177,11 +237,31 @@ public class Shopkeeper extends PersistentObject implements PersistentShopkeeper
          return visitor.handleShopkeeper(this);
     }
     public int getLeafInfo() throws PersistenceException{
+        if (this.getStandardDelivery() != null) return 1;
+        if (this.getOnDelivery() != null) return 1;
         if (this.getItemRange().getLength() > 0) return 1;
         return 0;
     }
     
     
+    public void changeCharge(final PersistentCustomerDelivery cd, final long newCharge, final Invoker invoker) 
+				throws PersistenceException{
+        java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
+		PersistentChangeChargeCommand command = model.meta.ChangeChargeCommand.createChangeChargeCommand(newCharge, now, now);
+		command.setCd(cd);
+		command.setInvoker(invoker);
+		command.setCommandReceiver(getThis());
+		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
+    }
+    public void changeTime(final PersistentCustomerDelivery cd, final long newTime, final Invoker invoker) 
+				throws PersistenceException{
+        java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
+		PersistentChangeTimeCommand command = model.meta.ChangeTimeCommand.createChangeTimeCommand(newTime, now, now);
+		command.setCd(cd);
+		command.setInvoker(invoker);
+		command.setCommandReceiver(getThis());
+		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
+    }
     public synchronized void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
@@ -230,13 +310,21 @@ public class Shopkeeper extends PersistentObject implements PersistentShopkeeper
     
     // Start of section that contains operations that must be implemented.
     
+    public void changeCharge(final PersistentCustomerDelivery cd, final long newCharge) 
+				throws PersistenceException{
+        cd.changeExtraCharge(newCharge);
+    }
+    public void changeTime(final PersistentCustomerDelivery cd, final long newTime) 
+				throws PersistenceException{
+        cd.changeTime(newTime);
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
-        
+        getThis().setStandardDelivery(StandardDelivery.getTheStandardDelivery());
+        getThis().setOnDelivery(OverNightDelivery.getTheOverNightDelivery());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{

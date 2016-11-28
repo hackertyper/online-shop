@@ -8,10 +8,12 @@ public interface CommonDateReturnVisitor<R> {
     public R handleAcceptDeliveryCommand(PersistentAcceptDeliveryCommand acceptDeliveryCommand) throws PersistenceException;
     public R handleAddArticleCommand(PersistentAddArticleCommand addArticleCommand) throws PersistenceException;
     public R handleChangeAmountCommand(PersistentChangeAmountCommand changeAmountCommand) throws PersistenceException;
+    public R handleChangeChargeCommand(PersistentChangeChargeCommand changeChargeCommand) throws PersistenceException;
     public R handleChangeDescriptionCommand(PersistentChangeDescriptionCommand changeDescriptionCommand) throws PersistenceException;
     public R handleChangeManuDeliveryCommand(PersistentChangeManuDeliveryCommand changeManuDeliveryCommand) throws PersistenceException;
     public R handleChangePriceCommand(PersistentChangePriceCommand changePriceCommand) throws PersistenceException;
     public R handleChangeProductGroupCommand(PersistentChangeProductGroupCommand changeProductGroupCommand) throws PersistenceException;
+    public R handleChangeTimeCommand(PersistentChangeTimeCommand changeTimeCommand) throws PersistenceException;
     public R handleCheckOutCommand(PersistentCheckOutCommand checkOutCommand) throws PersistenceException;
     public R handleDepositCommand(PersistentDepositCommand depositCommand) throws PersistenceException;
     public R handleFindArticleCommand(PersistentFindArticleCommand findArticleCommand) throws PersistenceException;

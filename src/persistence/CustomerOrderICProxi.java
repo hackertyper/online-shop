@@ -95,6 +95,10 @@ public class CustomerOrderICProxi extends DeliveryICProxi implements PersistentC
 				throws PersistenceException{
         ((PersistentCustomerOrder)this.getTheObject()).updateObservers(event);
     }
+    public void arrived() 
+				throws PersistenceException{
+        ((PersistentCustomerOrder)this.getTheObject()).arrived();
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentCustomerOrder)this.getTheObject()).copyingPrivateUserAttributes(copy);

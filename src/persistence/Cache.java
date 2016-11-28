@@ -286,10 +286,12 @@ public class Cache {
 		this.number2NameMap.put(213, "CartManagerArticleList");
 		this.number2NameMap.put(-187, "CartService");
 		this.number2NameMap.put(201, "ChangeAmountCommand");
+		this.number2NameMap.put(236, "ChangeChargeCommand");
 		this.number2NameMap.put(131, "ChangeDescriptionCommand");
 		this.number2NameMap.put(121, "ChangeManuDeliveryCommand");
 		this.number2NameMap.put(127, "ChangePriceCommand");
 		this.number2NameMap.put(125, "ChangeProductGroupCommand");
+		this.number2NameMap.put(237, "ChangeTimeCommand");
 		this.number2NameMap.put(137, "CheckOutCommand");
 		this.number2NameMap.put(218, "CheckedOut");
 		this.number2NameMap.put(-117, "CommandCoordinator");
@@ -308,6 +310,7 @@ public class Cache {
 		this.number2NameMap.put(104, "OrderCommand");
 		this.number2NameMap.put(224, "OrderManager");
 		this.number2NameMap.put(-223, "OrderService");
+		this.number2NameMap.put(228, "OverNightDelivery");
 		this.number2NameMap.put(102, "ProductGroup");
 		this.number2NameMap.put(124, "QuantifiedArticles");
 		this.number2NameMap.put(-115, "RegisterService");
@@ -323,8 +326,10 @@ public class Cache {
 		this.number2NameMap.put(-185, "ShopService");
 		this.number2NameMap.put(107, "Shopkeeper");
 		this.number2NameMap.put(-133, "ShopkeeperService");
+		this.number2NameMap.put(229, "StandardDelivery");
 		this.number2NameMap.put(128, "StartSellingCommand");
 		this.number2NameMap.put(205, "Subj");
+		this.number2NameMap.put(231, "TestDelivery");
 		this.number2NameMap.put(118, "WithdrawCommand");	
 	}
 	

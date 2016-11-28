@@ -357,12 +357,10 @@ public class Cart extends PersistentObject implements PersistentCart{
     public long fetchCurrentSum() 
 				throws PersistenceException{
     	return getThis().getCartMngr().getArticleList().aggregate(new Aggregtion<PersistentQuantifiedArticles, Long>() {
-
 			@Override
 			public Long neutral() throws PersistenceException {
 				return (long) 0;
 			}
-
 			@Override
 			public Long compose(Long result, PersistentQuantifiedArticles argument) throws PersistenceException {
 				return result + argument.fetchPrice();
@@ -375,8 +373,9 @@ public class Cart extends PersistentObject implements PersistentCart{
     public void initializeOnInstantiation() 
 				throws PersistenceException{
     }
-    public void order() 
+    public void order(final PersistentCustomerDelivery deliveryMethod) 
 				throws model.FirstCheckOut, model.InsufficientFunds, PersistenceException{
+    	// Check if cart is checked out
     	getThis().getState().accept(new CartStateExceptionVisitor<FirstCheckOut>() {
 			@Override
 			public void handleCheckedOut(PersistentCheckedOut checkedOut) throws PersistenceException {}
@@ -391,9 +390,9 @@ public class Cart extends PersistentObject implements PersistentCart{
 			@Override
 			public void handleCheckedOut(PersistentCheckedOut checkedOut) throws PersistenceException, InsufficientFunds {
 				// pay the sum of the articles from the account
-				getThis().getCartMngr().pay(getThis().getCurrentSum());
+				getThis().getCartMngr().pay(getThis().getCurrentSum() + deliveryMethod.getExtraCharge());
 				// create order to deliver with this article list
-				PersistentCustomerOrder co = CustomerOrder.createCustomerOrder(0, serverConstants.OrderConstants.current);
+				PersistentCustomerOrder co = CustomerOrder.createCustomerOrder(deliveryMethod.getTime(), serverConstants.OrderConstants.current);
 				getThis().getCartMngr().getArticleList().applyToAll(new Procdure<PersistentQuantifiedArticles>() {
 					@Override
 					public void doItTo(PersistentQuantifiedArticles argument) throws PersistenceException {
@@ -401,7 +400,6 @@ public class Cart extends PersistentObject implements PersistentCart{
 					}
 				});
 				getThis().getCartMngr().addOrder(co);
-				co.send();
 				// cause reorder if necessary
 		        getThis().getCartMngr().getArticleList().applyToAll(new Procdure<PersistentQuantifiedArticles>() {
 					@Override
@@ -409,6 +407,7 @@ public class Cart extends PersistentObject implements PersistentCart{
 						argument.pack();
 					}
 				});
+		        co.send();
 			}
 		});
     }

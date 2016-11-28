@@ -14,6 +14,7 @@ public class IconManager {
 		case common.IconNumbers.SellingArticleIconNumber: return getGreenIcon();
 		case common.IconNumbers.ProductGroupIconNumber: return getBlueIcon();
 		case common.IconNumbers.OrderIconNumber: return getOrangeIcon();
+		case common.IconNumbers.CustomerDeliveryNumber: return getBlackIcon();
 		// TODO provide images for icon info numbers!
 		default:
 			return getDefaultIcon();
@@ -58,5 +59,13 @@ public class IconManager {
 		if (redIcon == null)
 			redIcon = new Image(RedIcon);
 		return redIcon;
+	}
+	
+	private static final String BlackIcon = RESOURCE_DIR + "black.gif";
+	private static Image blackIcon = null;
+	public static Image getBlackIcon() {
+		if (blackIcon == null)
+			blackIcon = new Image(BlackIcon);
+		return blackIcon;
 	}
 }
