@@ -300,14 +300,7 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
     public void addOrder(final PersistentCustomerOrder order) 
 				throws PersistenceException{
     	order.setOrdermngr(getThis());
-    	order.getMyState().accept(new CustomerOrderStateVisitor() {
-			@Override
-			public void handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException {}
-			@Override
-			public void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException {
-				getThis().getOrders().add(order);
-			}
-		});
+    	getThis().getOrders().add(order);
     	getThis().getMyOrderServer().signalChanged(true);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
@@ -321,6 +314,7 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
     }
     public void retoureDelivery(final PersistentCustomerOrder arrivedOrder, final QuantifiedArticlesSearchList list) 
 				throws model.InsufficientFunds, PersistenceException{
+    	
         arrivedOrder.retoure(list);
         list.applyToAll(new Procdure<PersistentQuantifiedArticles>() {
 			@Override

@@ -78,12 +78,20 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	public void handleCustomerOrder(PersistentCustomerOrder customerOrder) throws PersistenceException {
 		result = serverConstants.StringConstants.Order + 
 					customerOrder.getSendDate().getDate() + serverConstants.StringConstants.Point + customerOrder.getSendDate().getMonth() + serverConstants.StringConstants.PointWBlank + 
-					customerOrder.getSendDate().getHours() + serverConstants.StringConstants.ColonSeparator + customerOrder.getSendDate().getMinutes();
+					customerOrder.getSendDate().getHours() + serverConstants.StringConstants.ColonSeparator + customerOrder.getSendDate().getMinutes() +
+					customerOrder.getMyState().toString();
 	}
 	@Override
-	public void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException {}
+	public void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException {
+		result = "";
+	}
+	@SuppressWarnings("deprecation")
 	@Override
-	public void handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException {}
+	public void handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException {
+		result = serverConstants.StringConstants.ExpectedArrivalDate +
+				sendOrder.getArrivalDate().getDate() + serverConstants.StringConstants.Point + sendOrder.getArrivalDate().getMonth() + serverConstants.StringConstants.PointWBlank + 
+				sendOrder.getArrivalDate().getHours() + serverConstants.StringConstants.ColonSeparator + sendOrder.getArrivalDate().getMinutes();
+	}
 	@Override
 	public void handleShopKeeperOrder(PersistentShopKeeperOrder shopKeeperOrder) throws PersistenceException {}
 	@Override
@@ -131,6 +139,11 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleArticleWrapper(PersistentArticleWrapper articleWrapper) throws PersistenceException {
 		result = articleWrapper.getMyArticle().toString();
+	}
+	@Override
+	public void handlePreOrder(PersistentPreOrder preOrder) throws PersistenceException {
+		// TODO Auto-generated method stub
+		
 	}
 	
 

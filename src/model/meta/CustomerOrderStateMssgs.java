@@ -5,4 +5,4 @@ public interface CustomerOrderStateMssgs {
 }
 
 interface CustomerOrderStateDOWNMssgs extends Mssgs, CustomerOrderStateMssgs{}
-interface CustomerOrderStateUPMssgs extends ArrivedOrderUPMssgs, SendOrderUPMssgs, CustomerOrderStateMssgs{}
+interface CustomerOrderStateUPMssgs extends PreOrderUPMssgs, ArrivedOrderUPMssgs, SendOrderUPMssgs, CustomerOrderStateMssgs{}

@@ -12,6 +12,7 @@ public class StringConstants {
 	public static final String Charge = " Kosten: ";
 	public static final String StandardDelivery = "Standard Versand Dauer: ";
 	public static final String ONDelivery = "OverNight Versand Dauer: ";
+	public static final String ExpectedArrivalDate = " Vorraussichtliche Lieferung: ";
 	
 	public StringConstants() {}
 

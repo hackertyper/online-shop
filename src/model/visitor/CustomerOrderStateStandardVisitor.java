@@ -8,6 +8,9 @@ public abstract class CustomerOrderStateStandardVisitor implements CustomerOrder
     public void handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException{
         this.standardHandling(sendOrder);
     }
+    public void handlePreOrder(PersistentPreOrder preOrder) throws PersistenceException{
+        this.standardHandling(preOrder);
+    }
     public void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException{
         this.standardHandling(arrivedOrder);
     }

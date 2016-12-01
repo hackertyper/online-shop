@@ -17,6 +17,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleOfferedFSale(PersistentOfferedFSale offeredFSale) throws PersistenceException;
     
+    public abstract void handlePreOrder(PersistentPreOrder preOrder) throws PersistenceException;
+    
     public abstract void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException;
     
     public abstract void handleCartState(PersistentCartState cartState) throws PersistenceException;

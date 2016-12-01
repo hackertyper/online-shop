@@ -1272,6 +1272,9 @@ class DetailPanelFactory implements AnythingVisitor {
     public void handleOfferedFSale(view.OfferedFSaleView object){
         result = new OfferedFSaleDefaultDetailPanel(handler, object);
     }
+    public void handlePreOrder(view.PreOrderView object){
+        result = new PreOrderDefaultDetailPanel(handler, object);
+    }
     public void handleRegisterService(view.RegisterServiceView object){
         result = new RegisterServiceDefaultDetailPanel(handler, object);
     }
@@ -1620,10 +1623,19 @@ class ShopManagerDefaultDetailPanel extends DefaultDetailPanel{
 
 class SendOrderDefaultDetailPanel extends DefaultDetailPanel{
     
+    protected static final String SendOrder$$arrivalDate = "SendOrder$$arrivalDate";
+    
     protected SendOrderDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
     }
     protected void addFields(){
+        try{
+            BaseTypePanel panel = new TimestampPanel(this, "arrivalDate", this.getAnything().getArrivalDate());
+            this.getScrollablePane().getChildren().add(panel);
+            this.panels.put(SendOrder$$arrivalDate, panel);
+        }catch(ModelException e){
+            this.getExceptionAndEventhandler().handleException(e);
+        }
         
     }
     protected view.SendOrderView getAnything(){
@@ -1938,6 +1950,19 @@ class OfferedFSaleDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.OfferedFSaleView getAnything(){
         return (view.OfferedFSaleView)this.anything;
+    }
+}
+
+class PreOrderDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected PreOrderDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        
+    }
+    protected view.PreOrderView getAnything(){
+        return (view.PreOrderView)this.anything;
     }
 }
 

@@ -15,6 +15,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleOfferedFSale(OfferedFSaleView offeredFSale) throws ModelException;
     
+    public abstract void handlePreOrder(PreOrderView preOrder) throws ModelException;
+    
     public abstract void handleArrivedOrder(ArrivedOrderView arrivedOrder) throws ModelException;
     
     public abstract void handleCartState(CartStateView cartState) throws ModelException;

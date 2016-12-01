@@ -17,6 +17,7 @@ public interface AnythingReturnVisitor<R> extends CartStateReturnVisitor<R> ,Cus
     public R handleNewlyAdded(NewlyAddedView newlyAdded) throws ModelException;
     public R handleOfferedFSale(OfferedFSaleView offeredFSale) throws ModelException;
     public R handleOrderManager(OrderManagerView orderManager) throws ModelException;
+    public R handlePreOrder(PreOrderView preOrder) throws ModelException;
     public R handleQuantifiedArticles(QuantifiedArticlesView quantifiedArticles) throws ModelException;
     public R handleRemovedFSale(RemovedFSaleView removedFSale) throws ModelException;
     public R handleSendOrder(SendOrderView sendOrder) throws ModelException;

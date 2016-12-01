@@ -283,6 +283,7 @@ public class AccountManager extends PersistentObject implements PersistentAccoun
     
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
+    	// do nothing
     }
     public void deposit(final long amount) 
 				throws PersistenceException{
@@ -294,6 +295,7 @@ public class AccountManager extends PersistentObject implements PersistentAccoun
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
+    	// do nothing
     }
     public void pay(final long sum) 
 				throws model.InsufficientFunds, PersistenceException{

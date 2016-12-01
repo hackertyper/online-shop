@@ -34,6 +34,7 @@ public interface AnythingReturnExceptionVisitor<R, E extends model.UserException
     public R handleOfferedFSale(PersistentOfferedFSale offeredFSale) throws PersistenceException, E;
     public R handleOrderCommand(PersistentOrderCommand orderCommand) throws PersistenceException, E;
     public R handleOrderManager(PersistentOrderManager orderManager) throws PersistenceException, E;
+    public R handlePreOrder(PersistentPreOrder preOrder) throws PersistenceException, E;
     public R handleQuantifiedArticles(PersistentQuantifiedArticles quantifiedArticles) throws PersistenceException, E;
     public R handleRemoveFCartCommand(PersistentRemoveFCartCommand removeFCartCommand) throws PersistenceException, E;
     public R handleRemovedFSale(PersistentRemovedFSale removedFSale) throws PersistenceException, E;

@@ -254,12 +254,8 @@ public class Account extends PersistentObject implements PersistentAccount{
     
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
+    	// do nothing
     }
-    /**
-     * Models the depositing of a given amount into the account.
-     * 
-     * @param amount - by which the account balance is increased
-     */
     public void deposit(final long amount) 
 				throws PersistenceException{
     	getThis().setBalance(getThis().getBalance() + amount);
@@ -271,14 +267,8 @@ public class Account extends PersistentObject implements PersistentAccount{
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
+    	// do nothing
     }
-    /**
-     * Models the paying of a sum from the account.
-     * 
-     * @param sum - by which to decrease the account balance
-     * 
-     * @throws InsufficientFunds if the account balance < sum or balance - sum < lower limit
-     */
     public void pay(final long sum) 
 				throws model.InsufficientFunds, PersistenceException{
         if(sum > getThis().getBalance() || getThis().getBalance() - sum < getLowerLimit()) {
@@ -290,13 +280,6 @@ public class Account extends PersistentObject implements PersistentAccount{
 				throws PersistenceException{
         getThis().setBalance(getThis().getBalance() + sum);
     }
-    /**
-     * Models the withdrawing of a given amount from the account.
-     * 
-     * @param amount - by which to decrease the account balance
-     * 
-     * @throws InsufficientFunds if the account balance < amount or balance - amount < lower limit
-     */
     public void withdraw(final long amount) 
 				throws model.InsufficientFunds, PersistenceException{
     	if(amount > getThis().getBalance() || getThis().getBalance() - amount < getLowerLimit())

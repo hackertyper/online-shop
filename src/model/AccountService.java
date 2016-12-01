@@ -232,6 +232,7 @@ public class AccountService extends model.CustomerService implements PersistentA
     
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
+    	// do nothing
     }
     public void deposit(final long amount) 
 				throws PersistenceException{
@@ -255,9 +256,11 @@ public class AccountService extends model.CustomerService implements PersistentA
     
     public void connected(final String user) 
 				throws PersistenceException{
+    	// do nothing
     }
     public void disconnected() 
 				throws PersistenceException{
+    	// do nothing
     }
 
     /* Start of protected part that is not overridden by persistence generator */

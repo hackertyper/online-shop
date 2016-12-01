@@ -13,6 +13,8 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     
     public abstract void handleShopkeeper(PersistentShopkeeper shopkeeper) throws PersistenceException;
     
+    public abstract void handlePreOrder(PersistentPreOrder preOrder) throws PersistenceException;
+    
     public abstract void handleOfferedFSale(PersistentOfferedFSale offeredFSale) throws PersistenceException;
     
     public abstract void handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException;

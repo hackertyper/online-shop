@@ -4,105 +4,99 @@ package persistence;
 
 import model.visitor.*;
 
-public class SendOrderICProxi extends PersistentInCacheProxiOptimistic implements PersistentSendOrder{
+public class PreOrderProxi extends PersistentProxi implements PersistentPreOrder{
     
-    public SendOrderICProxi(long objectId) {
+    public PreOrderProxi(long objectId) {
         super(objectId);
     }
-    public SendOrderICProxi(PersistentObject object) {
+    public PreOrderProxi(PersistentInCacheProxi object) {
         super(object);
     }
     
-    protected PersistentObject getRemote() throws PersistenceException {
-        return ConnectionHandler.getTheConnectionHandler().theSendOrderFacade
-            .getSendOrder(this.getId());
-    }
     
     public long getClassId() {
-        return 126;
+        return 240;
     }
     
-    public java.sql.Timestamp getArrivalDate() throws PersistenceException {
-        return ((PersistentSendOrder)this.getTheObject()).getArrivalDate();
-    }
-    public void setArrivalDate(java.sql.Timestamp newValue) throws PersistenceException {
-        ((PersistentSendOrder)this.getTheObject()).setArrivalDate(newValue);
-    }
     public SubjInterface getSubService() throws PersistenceException {
-        return ((PersistentSendOrder)this.getTheObject()).getSubService();
+        return ((PersistentPreOrder)this.getTheObject()).getSubService();
     }
     public void setSubService(SubjInterface newValue) throws PersistenceException {
-        ((PersistentSendOrder)this.getTheObject()).setSubService(newValue);
+        ((PersistentPreOrder)this.getTheObject()).setSubService(newValue);
     }
-    public PersistentSendOrder getThis() throws PersistenceException {
-        return ((PersistentSendOrder)this.getTheObject()).getThis();
+    public PersistentPreOrder getThis() throws PersistenceException {
+        return ((PersistentPreOrder)this.getTheObject()).getThis();
     }
     
     public void accept(AnythingVisitor visitor) throws PersistenceException {
-        visitor.handleSendOrder(this);
+        visitor.handlePreOrder(this);
     }
     public <R> R accept(AnythingReturnVisitor<R>  visitor) throws PersistenceException {
-         return visitor.handleSendOrder(this);
+         return visitor.handlePreOrder(this);
     }
     public <E extends model.UserException>  void accept(AnythingExceptionVisitor<E> visitor) throws PersistenceException, E {
-         visitor.handleSendOrder(this);
+         visitor.handlePreOrder(this);
     }
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
-         return visitor.handleSendOrder(this);
+         return visitor.handlePreOrder(this);
     }
     public void accept(CustomerOrderStateVisitor visitor) throws PersistenceException {
-        visitor.handleSendOrder(this);
+        visitor.handlePreOrder(this);
     }
     public <R> R accept(CustomerOrderStateReturnVisitor<R>  visitor) throws PersistenceException {
-         return visitor.handleSendOrder(this);
+         return visitor.handlePreOrder(this);
     }
     public <E extends model.UserException>  void accept(CustomerOrderStateExceptionVisitor<E> visitor) throws PersistenceException, E {
-         visitor.handleSendOrder(this);
+         visitor.handlePreOrder(this);
     }
     public <R, E extends model.UserException> R accept(CustomerOrderStateReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
-         return visitor.handleSendOrder(this);
+         return visitor.handlePreOrder(this);
     }
     public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
-        visitor.handleSendOrder(this);
+        visitor.handlePreOrder(this);
     }
     public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
-         return visitor.handleSendOrder(this);
+         return visitor.handlePreOrder(this);
     }
     public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
-         visitor.handleSendOrder(this);
+         visitor.handlePreOrder(this);
     }
     public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
-         return visitor.handleSendOrder(this);
+         return visitor.handlePreOrder(this);
     }
     
     
     public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
-        ((PersistentSendOrder)this.getTheObject()).deregister(observee);
+        ((PersistentPreOrder)this.getTheObject()).deregister(observee);
     }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
-        ((PersistentSendOrder)this.getTheObject()).initialize(This, final$$Fields);
+        ((PersistentPreOrder)this.getTheObject()).initialize(This, final$$Fields);
     }
     public void register(final ObsInterface observee) 
 				throws PersistenceException{
-        ((PersistentSendOrder)this.getTheObject()).register(observee);
+        ((PersistentPreOrder)this.getTheObject()).register(observee);
     }
     public void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
-        ((PersistentSendOrder)this.getTheObject()).updateObservers(event);
+        ((PersistentPreOrder)this.getTheObject()).updateObservers(event);
+    }
+    public void cancel() 
+				throws PersistenceException{
+        ((PersistentPreOrder)this.getTheObject()).cancel();
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        ((PersistentSendOrder)this.getTheObject()).copyingPrivateUserAttributes(copy);
+        ((PersistentPreOrder)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        ((PersistentSendOrder)this.getTheObject()).initializeOnCreation();
+        ((PersistentPreOrder)this.getTheObject()).initializeOnCreation();
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-        ((PersistentSendOrder)this.getTheObject()).initializeOnInstantiation();
+        ((PersistentPreOrder)this.getTheObject()).initializeOnInstantiation();
     }
 
     

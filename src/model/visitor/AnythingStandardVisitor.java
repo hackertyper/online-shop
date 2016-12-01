@@ -128,6 +128,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleOfferedFSale(PersistentOfferedFSale offeredFSale) throws PersistenceException{
         this.standardHandling(offeredFSale);
     }
+    public void handlePreOrder(PersistentPreOrder preOrder) throws PersistenceException{
+        this.standardHandling(preOrder);
+    }
     public void handleFindArticleCommand(PersistentFindArticleCommand findArticleCommand) throws PersistenceException{
         this.standardHandling(findArticleCommand);
     }

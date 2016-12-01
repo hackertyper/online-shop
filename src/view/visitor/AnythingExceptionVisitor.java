@@ -17,6 +17,7 @@ public interface AnythingExceptionVisitor<E extends view.UserException> extends 
     public void handleNewlyAdded(NewlyAddedView newlyAdded) throws ModelException, E;
     public void handleOfferedFSale(OfferedFSaleView offeredFSale) throws ModelException, E;
     public void handleOrderManager(OrderManagerView orderManager) throws ModelException, E;
+    public void handlePreOrder(PreOrderView preOrder) throws ModelException, E;
     public void handleQuantifiedArticles(QuantifiedArticlesView quantifiedArticles) throws ModelException, E;
     public void handleRemovedFSale(RemovedFSaleView removedFSale) throws ModelException, E;
     public void handleSendOrder(SendOrderView sendOrder) throws ModelException, E;

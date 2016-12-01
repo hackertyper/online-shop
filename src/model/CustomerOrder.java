@@ -3,6 +3,8 @@ package model;
 
 import persistence.*;
 
+import java.sql.Timestamp;
+
 import model.visitor.*;
 
 
@@ -217,6 +219,7 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
     
     public void accepted() 
 				throws PersistenceException{
+    	// Find tread of the accepted order and interrupt 
         ThreadGroup threads = Thread.currentThread().getThreadGroup();
         int noThreads = threads.activeCount();
         Thread[] listThreads = new Thread[noThreads];
@@ -230,23 +233,25 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
     }
     public void arrived() 
 				throws PersistenceException{
+    	// TODO: message anzeigen, dass Bestellung angekommen
         Thread t = new Thread(getThis());
         t.setName(getThis().toString());
         t.start();
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
+    	// do nothing
     }
     public void deliver() 
 				throws PersistenceException{
         getThis().setMyState(ArrivedOrder.createArrivedOrder());
-        getThis().getOrdermngr().addOrder(getThis());
         getThis().arrived();
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
         super.initializeOnCreation();
-		getThis().setMyState(SendOrder.createSendOrder());
+        Timestamp expectedArrival = new Timestamp(getThis().getSendDate().getTime() + getThis().getRemainingTimeToDelivery());
+		getThis().setMyState(SendOrder.createSendOrder(expectedArrival));
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
@@ -256,7 +261,9 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
 				throws PersistenceException{
         getThis().getMyState().accept(new CustomerOrderStateVisitor() {
 			@Override
-			public void handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException {}
+			public void handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException {
+				// do nothing
+			}
 			@Override
 			public void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException {
 				PersistentRetoure re = Retoure.createRetoure(0, serverConstants.OrderConstants.current);
@@ -267,6 +274,8 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
 				}
 		        re.send();
 			}
+			@Override
+			public void handlePreOrder(PersistentPreOrder preOrder) throws PersistenceException {}
 		});
     }
     
@@ -279,17 +288,27 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
 				@Override
 				public void handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException {
 					try {
+						// wait for the delivery time to run finish
 						Thread.sleep(getThis().getRemainingTimeToDelivery());
+						// deliver the order
+						getThis().deliver();
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-					getThis().deliver();
 				}
 				@Override
 				public void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException {
 					try {
+						// wait for the acception time to run out
 						Thread.sleep(arrivedOrder.getTimeToAccept());
+						// return whole order
+						try {
+							getThis().getOrdermngr().retoureDelivery(getThis(), getThis().getArticleList().getList());
+						} catch (InsufficientFunds e) {
+							throw new Error(e.getMessage());
+						}
 					} catch (InterruptedException e) {
+						// called if order is accepted
 						getThis().getOrdermngr().getOrders().filter(new Predcate<PersistentCustomerOrder>() {
 							@Override
 							public boolean test(PersistentCustomerOrder argument) throws PersistenceException {
@@ -297,11 +316,11 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
 							}
 						});
 					}
-					try {
-						getThis().getOrdermngr().retoureDelivery(getThis(), getThis().getArticleList().getList());
-					} catch (InsufficientFunds e) {
-						throw new Error(e.getMessage());
-					}
+				}
+				@Override
+				public void handlePreOrder(PersistentPreOrder preOrder) throws PersistenceException {
+					// TODO Auto-generated method stub
+					
 				}
 			});
 		} catch (PersistenceException e) {

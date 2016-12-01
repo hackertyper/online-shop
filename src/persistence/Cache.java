@@ -312,6 +312,7 @@ public class Cache {
 		this.number2NameMap.put(224, "OrderManager");
 		this.number2NameMap.put(-223, "OrderService");
 		this.number2NameMap.put(228, "OverNightDelivery");
+		this.number2NameMap.put(240, "PreOrder");
 		this.number2NameMap.put(102, "ProductGroup");
 		this.number2NameMap.put(124, "QuantifiedArticles");
 		this.number2NameMap.put(-115, "RegisterService");

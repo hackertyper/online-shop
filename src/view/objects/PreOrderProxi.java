@@ -5,15 +5,14 @@ import viewClient.*;
 
 import view.visitor.*;
 
-public class SendOrderProxi extends ViewProxi implements SendOrderView{
+public class PreOrderProxi extends ViewProxi implements PreOrderView{
     
-    public SendOrderProxi(long objectId, long classId, ExceptionAndEventHandler connectionKey) {
+    public PreOrderProxi(long objectId, long classId, ExceptionAndEventHandler connectionKey) {
         super(objectId, classId, connectionKey);
     }
     
-    public SendOrderView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
-        java.util.Date arrivalDate = (java.util.Date)resultTable.get("arrivalDate");
-        SendOrderView result$$ = new SendOrder((java.util.Date)arrivalDate, this.getId(), this.getClassId());
+    public PreOrderView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
+        PreOrderView result$$ = new PreOrder( this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -36,36 +35,30 @@ public class SendOrderProxi extends ViewProxi implements SendOrderView{
         return -1;
     }
     
-    public java.util.Date getArrivalDate()throws ModelException{
-        return ((SendOrder)this.getTheObject()).getArrivalDate();
-    }
-    public void setArrivalDate(java.util.Date newValue) throws ModelException {
-        ((SendOrder)this.getTheObject()).setArrivalDate(newValue);
-    }
     
     public void accept(AnythingVisitor visitor) throws ModelException {
-        visitor.handleSendOrder(this);
+        visitor.handlePreOrder(this);
     }
     public <R> R accept(AnythingReturnVisitor<R>  visitor) throws ModelException {
-         return visitor.handleSendOrder(this);
+         return visitor.handlePreOrder(this);
     }
     public <E extends view.UserException>  void accept(AnythingExceptionVisitor<E> visitor) throws ModelException, E {
-         visitor.handleSendOrder(this);
+         visitor.handlePreOrder(this);
     }
     public <R, E extends view.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws ModelException, E {
-         return visitor.handleSendOrder(this);
+         return visitor.handlePreOrder(this);
     }
     public void accept(CustomerOrderStateVisitor visitor) throws ModelException {
-        visitor.handleSendOrder(this);
+        visitor.handlePreOrder(this);
     }
     public <R> R accept(CustomerOrderStateReturnVisitor<R>  visitor) throws ModelException {
-         return visitor.handleSendOrder(this);
+         return visitor.handlePreOrder(this);
     }
     public <E extends view.UserException>  void accept(CustomerOrderStateExceptionVisitor<E> visitor) throws ModelException, E {
-         visitor.handleSendOrder(this);
+         visitor.handlePreOrder(this);
     }
     public <R, E extends view.UserException> R accept(CustomerOrderStateReturnExceptionVisitor<R, E>  visitor) throws ModelException, E {
-         return visitor.handleSendOrder(this);
+         return visitor.handlePreOrder(this);
     }
     
     public boolean hasTransientFields(){

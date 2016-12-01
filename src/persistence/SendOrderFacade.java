@@ -25,17 +25,17 @@ public class SendOrderFacade{
 	}
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
-    public PersistentSendOrder newSendOrder(long idCreateIfLessZero) throws PersistenceException {
+    public PersistentSendOrder newSendOrder(java.sql.Timestamp arrivalDate,long idCreateIfLessZero) throws PersistenceException {
         if(idCreateIfLessZero > 0) return (PersistentSendOrder)PersistentProxi.createProxi(idCreateIfLessZero, 126);
         long id = ConnectionHandler.getTheConnectionHandler().theSendOrderFacade.getNextId();
-        SendOrder result = new SendOrder(null,null,id);
+        SendOrder result = new SendOrder(arrivalDate,null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentSendOrder)PersistentProxi.createProxi(id, 126);
     }
     
-    public PersistentSendOrder newDelayedSendOrder() throws PersistenceException {
+    public PersistentSendOrder newDelayedSendOrder(java.sql.Timestamp arrivalDate) throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theSendOrderFacade.getNextId();
-        SendOrder result = new SendOrder(null,null,id);
+        SendOrder result = new SendOrder(arrivalDate,null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentSendOrder)PersistentProxi.createProxi(id, 126);
     }
@@ -47,6 +47,9 @@ public class SendOrderFacade{
         if(Cache.getTheCache().contains(objectId, 126)) return 126;
         
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
+        
+    }
+    public void arrivalDateSet(long SendOrderId, java.sql.Timestamp arrivalDateVal) throws PersistenceException {
         
     }
     public void subServiceSet(long SendOrderId, SubjInterface subServiceVal) throws PersistenceException {
