@@ -38,6 +38,7 @@ public interface AnythingReturnVisitor<R> extends CartStateReturnVisitor<R> ,Com
     public R handleQuantifiedArticles(PersistentQuantifiedArticles quantifiedArticles) throws PersistenceException;
     public R handleRemoveFCartCommand(PersistentRemoveFCartCommand removeFCartCommand) throws PersistenceException;
     public R handleRemovedFSale(PersistentRemovedFSale removedFSale) throws PersistenceException;
+    public R handleRetoureArticleCommand(PersistentRetoureArticleCommand retoureArticleCommand) throws PersistenceException;
     public R handleRetoureDeliveryCommand(PersistentRetoureDeliveryCommand retoureDeliveryCommand) throws PersistenceException;
     public R handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException;
     public R handleServer(PersistentServer server) throws PersistenceException;

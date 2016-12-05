@@ -51,12 +51,13 @@ server OrderService extends CustomerService {
 	skip-view one-to-one (no-view myOrderServer) OrderManager orderMngr;
 	//Lieferungenview
 	void acceptDelivery@@Lieferung_annehmen(CustomerOrder customerOrder);
-	void retoureDelivery@@Lieferung_zurückschicken(CustomerOrder customerOrder, QuantifiedArticles ** list);
+	void retoureDelivery@@Lieferung_zurückschicken(CustomerOrder customerOrder);
+	void retoureArticle@@Artikel_zurückschicken(QuantifiedArticles article, Integer amount);
 }
 server RegisterService extends Service {
 	void register@@Registrieren(String accountName, String password PASSWORD) throws DoubleUsername;
 }
-//Customer classes
+//Manager classes
 class CustomerManager {
 	server-only one-to-one (no-view customerManager) ShopManager shopMngr;
 	server-only one-to-one (no-view customerManager) AccountManager accMngr;
@@ -100,7 +101,8 @@ class OrderManager {
 	Integer retourePrice;
 	void addOrder(CustomerOrder order);
 	active void acceptDelivery(CustomerOrder arrivedOrder);
-	active void retoureDelivery(CustomerOrder arrivedOrder, QuantifiedArticles ** list) throws InsufficientFunds;
+	active void retoureDelivery(CustomerOrder arrivedOrder) throws InsufficientFunds;
+	active void retoureArticle(QuantifiedArticles article, Integer amount) throws InsufficientFunds;
 }
 class Account {
 	Integer lowerLimit;
@@ -159,6 +161,7 @@ class Article extends Item{
 	void pack(Integer amount);
 	void receiveDelivery(Integer amount);
 }
+// wrapper for display in customer view
 class ArticleWrapper {
 	derived Integer price;
 	derived Integer stock;
@@ -166,6 +169,7 @@ class ArticleWrapper {
 class Manufacturer {
 	prior String name;
 }
+// classes for article states
 interface ArticleState {}
 class NewlyAdded implements ArticleState{
 	active void startSelling();
@@ -185,14 +189,14 @@ class QuantifiedArticles {
 	void reserve() throws InsufficientStock;
 	void deleteReserve();
 	void pack();
+	void retoure(Integer amount);
 }
 //Order classes
-abstract class Delivery implements extern java.lang.Runnable{
+abstract class Delivery {
 	prior Integer remainingTimeToDelivery##rmngTmDlvr;
 	prior Timestamp sendDate;
 	void send();
 	abstract void deliver();
-	system void run();
 }
 class ShopKeeperOrder extends Delivery {
 	prior Article article;
@@ -207,8 +211,9 @@ class CustomerOrder extends Delivery {
 	no-view CustomerOrderState myState;
 	void arrived();
 	void accepted();
-	void retoure(QuantifiedArticles ** list);
+	void retoure();
 }
+// State classes for CustomerOrder
 interface CustomerOrderState##csOrdStt {}
 class PreOrder implements CustomerOrderState{
 	void cancel();
@@ -229,6 +234,7 @@ abstract class CustomerDelivery {
 singleton StandardDelivery extends CustomerDelivery {}
 singleton OverNightDelivery extends CustomerDelivery {}
 singleton TestDelivery extends CustomerDelivery {}
+
 // Exceptions
 exception DoubleUsername{}
 exception InsufficientFunds{}

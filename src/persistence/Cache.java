@@ -319,6 +319,7 @@ public class Cache {
 		this.number2NameMap.put(215, "RemoveFCartCommand");
 		this.number2NameMap.put(132, "RemovedFSale");
 		this.number2NameMap.put(134, "Retoure");
+		this.number2NameMap.put(242, "RetoureArticleCommand");
 		this.number2NameMap.put(225, "RetoureDeliveryCommand");
 		this.number2NameMap.put(126, "SendOrder");
 		this.number2NameMap.put(-105, "Server");

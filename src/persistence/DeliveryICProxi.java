@@ -34,9 +34,21 @@ public abstract class DeliveryICProxi extends PersistentInCacheProxiOptimistic i
     
     
     
+    public void deregister(final ObsInterface observee) 
+				throws PersistenceException{
+        ((PersistentDelivery)this.getTheObject()).deregister(observee);
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentDelivery)this.getTheObject()).initialize(This, final$$Fields);
+    }
+    public void register(final ObsInterface observee) 
+				throws PersistenceException{
+        ((PersistentDelivery)this.getTheObject()).register(observee);
+    }
+    public void updateObservers(final model.meta.Mssgs event) 
+				throws PersistenceException{
+        ((PersistentDelivery)this.getTheObject()).updateObservers(event);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
@@ -53,13 +65,6 @@ public abstract class DeliveryICProxi extends PersistentInCacheProxiOptimistic i
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         ((PersistentDelivery)this.getTheObject()).initializeOnInstantiation();
-    }
-    public void run() {
-        try{
-            ((PersistentDelivery)this.getTheObject()).run();
-        }catch(PersistenceException pe){
-            throw new PersistenceError(pe);
-        }
     }
     public void send() 
 				throws PersistenceException{

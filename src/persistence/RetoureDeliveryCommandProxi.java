@@ -24,9 +24,6 @@ public class RetoureDeliveryCommandProxi extends PersistentProxi implements Pers
     public void setArrivedOrder(PersistentCustomerOrder newValue) throws PersistenceException {
         ((PersistentRetoureDeliveryCommand)this.getTheObject()).setArrivedOrder(newValue);
     }
-    public RetoureDeliveryCommand_ListProxi getList() throws PersistenceException {
-        return ((PersistentRetoureDeliveryCommand)this.getTheObject()).getList();
-    }
     public Invoker getInvoker() throws PersistenceException {
         return ((PersistentRetoureDeliveryCommand)this.getTheObject()).getInvoker();
     }

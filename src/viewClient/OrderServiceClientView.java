@@ -313,8 +313,9 @@ public class OrderServiceClientView extends BorderPane implements ExceptionAndEv
 
 
     interface MenuItemVisitor{
+        ImageView handle(RetoureArticlePRMTRQuantifiedArticlesPRMTRIntegerPRMTRMenuItem menuItem);
         ImageView handle(AcceptDeliveryPRMTRCustomerOrderPRMTRMenuItem menuItem);
-        ImageView handle(RetoureDeliveryPRMTRCustomerOrderPRMTRQuantifiedArticlesLSTPRMTRMenuItem menuItem);
+        ImageView handle(RetoureDeliveryPRMTRCustomerOrderPRMTRMenuItem menuItem);
     }
     private abstract class OrderServiceMenuItem extends MenuItem{
         private OrderServiceMenuItem(){
@@ -322,12 +323,17 @@ public class OrderServiceClientView extends BorderPane implements ExceptionAndEv
         }
         abstract protected ImageView accept(MenuItemVisitor visitor);
     }
+    private class RetoureArticlePRMTRQuantifiedArticlesPRMTRIntegerPRMTRMenuItem extends OrderServiceMenuItem{
+        protected ImageView accept(MenuItemVisitor visitor){
+            return visitor.handle(this);
+        }
+    }
     private class AcceptDeliveryPRMTRCustomerOrderPRMTRMenuItem extends OrderServiceMenuItem{
         protected ImageView accept(MenuItemVisitor visitor){
             return visitor.handle(this);
         }
     }
-    private class RetoureDeliveryPRMTRCustomerOrderPRMTRQuantifiedArticlesLSTPRMTRMenuItem extends OrderServiceMenuItem{
+    private class RetoureDeliveryPRMTRCustomerOrderPRMTRMenuItem extends OrderServiceMenuItem{
         protected ImageView accept(MenuItemVisitor visitor){
             return visitor.handle(this);
         }
@@ -368,12 +374,35 @@ public class OrderServiceClientView extends BorderPane implements ExceptionAndEv
                     }
                 });
                 result.getItems().add(item);
-                item = new RetoureDeliveryPRMTRCustomerOrderPRMTRQuantifiedArticlesLSTPRMTRMenuItem();
-                item.setText("Lieferung zurückschicken ... ");
+                item = new RetoureDeliveryPRMTRCustomerOrderPRMTRMenuItem();
+                item.setText("Lieferung zurückschicken");
                 item.setOnAction(new EventHandler<ActionEvent>(){
                     public void handle(javafx.event.ActionEvent e) {
-                        final OrderServiceRetoureDeliveryCustomerOrderQuantifiedArticlesLSTMssgWizard wizard = new OrderServiceRetoureDeliveryCustomerOrderQuantifiedArticlesLSTMssgWizard("Lieferung zurückschicken");
-                        wizard.setFirstArgument((CustomerOrderView)selected);
+                        Alert confirm = new Alert(AlertType.CONFIRMATION);
+                        confirm.setTitle(GUIConstants.ConfirmButtonText);
+                        confirm.setHeaderText(null);
+                        confirm.setContentText("Lieferung zurückschicken" + GUIConstants.ConfirmQuestionMark);
+                        Optional<ButtonType> buttonResult = confirm.showAndWait();
+                        if (buttonResult.get() == ButtonType.OK) {
+                            try {
+                                getConnection().retoureDelivery((CustomerOrderView)selected);
+                                getConnection().setEagerRefresh();
+                                
+                            }catch(ModelException me){
+                                handleException(me);
+                            }
+                        }
+                    }
+                });
+                result.getItems().add(item);
+            }
+            if (selected instanceof QuantifiedArticlesView){
+                item = new RetoureArticlePRMTRQuantifiedArticlesPRMTRIntegerPRMTRMenuItem();
+                item.setText("Artikel zurückschicken ... ");
+                item.setOnAction(new EventHandler<ActionEvent>(){
+                    public void handle(javafx.event.ActionEvent e) {
+                        final OrderServiceRetoureArticleQuantifiedArticlesIntegerMssgWizard wizard = new OrderServiceRetoureArticleQuantifiedArticlesIntegerMssgWizard("Artikel zurückschicken");
+                        wizard.setFirstArgument((QuantifiedArticlesView)selected);
                         wizard.setWidth(getNavigationPanel().getWidth());
                         wizard.showAndWait();
                     }
@@ -393,21 +422,21 @@ public class OrderServiceClientView extends BorderPane implements ExceptionAndEv
         this.preCalculatedFilters = switchOff;
     }
     
-	class OrderServiceRetoureDeliveryCustomerOrderQuantifiedArticlesLSTMssgWizard extends Wizard {
+	class OrderServiceRetoureArticleQuantifiedArticlesIntegerMssgWizard extends Wizard {
 
-		protected OrderServiceRetoureDeliveryCustomerOrderQuantifiedArticlesLSTMssgWizard(String operationName){
+		protected OrderServiceRetoureArticleQuantifiedArticlesIntegerMssgWizard(String operationName){
 			super(OrderServiceClientView.this);
 			getOkButton().setText(operationName);
-			getOkButton().setGraphic(new RetoureDeliveryPRMTRCustomerOrderPRMTRQuantifiedArticlesLSTPRMTRMenuItem ().getGraphic());
+			getOkButton().setGraphic(new RetoureArticlePRMTRQuantifiedArticlesPRMTRIntegerPRMTRMenuItem ().getGraphic());
 		}
 		protected void initialize(){
-			this.helpFileName = "OrderServiceRetoureDeliveryCustomerOrderQuantifiedArticlesLSTMssgWizard.help";
+			this.helpFileName = "OrderServiceRetoureArticleQuantifiedArticlesIntegerMssgWizard.help";
 			super.initialize();		
 		}
 				
 		protected void perform() {
 			try {
-				getConnection().retoureDelivery(firstArgument, (java.util.Vector<QuantifiedArticlesView>)((ObjectCollectionSelectionPanel)getParametersPanel().getChildren().get(0)).getResult());
+				getConnection().retoureArticle(firstArgument, ((IntegerSelectionPanel)getParametersPanel().getChildren().get(0)).getResult().longValue());
 				getConnection().setEagerRefresh();
 				this.close();	
 			} catch(ModelException me){
@@ -423,19 +452,24 @@ public class OrderServiceClientView extends BorderPane implements ExceptionAndEv
 			return false;
 		}
 		protected void addParameters(){
-			final ObjectCollectionSelectionPanel panel1 = new ObjectCollectionSelectionPanel("list", "view.QuantifiedArticlesView", null, this, getMultiSelectionFor("retoureDeliveryPRMTRCustomerOrderPRMTRQuantifiedArticlesLSTPRMTRlist"));
-			getParametersPanel().getChildren().add(panel1);
-			panel1.setBrowserRoot((ViewRoot) getConnection().getOrderServiceView());		
+			getParametersPanel().getChildren().add(new IntegerSelectionPanel("amount", this));		
 		}	
 		protected void handleDependencies(int i) {
 		}
 		
 		
-		private CustomerOrderView firstArgument; 
+		private QuantifiedArticlesView firstArgument; 
 	
-		public void setFirstArgument(CustomerOrderView firstArgument){
+		public void setFirstArgument(QuantifiedArticlesView firstArgument){
 			this.firstArgument = firstArgument;
 			this.setTitle(this.firstArgument.toString());
+			try{
+				final SelectionPanel selectionPanel0 = (SelectionPanel)getParametersPanel().getChildren().get(0);
+				selectionPanel0.preset(firstArgument.getAmount());
+				if (!selectionPanel0.check()) selectionPanel0.preset("");
+			}catch(ModelException me){
+				 handleException(me);
+			}
 			this.check();
 		}
 		

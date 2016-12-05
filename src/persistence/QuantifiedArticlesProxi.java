@@ -114,6 +114,10 @@ public class QuantifiedArticlesProxi extends PersistentProxi implements Persiste
 				throws model.InsufficientStock, PersistenceException{
         ((PersistentQuantifiedArticles)this.getTheObject()).reserve();
     }
+    public void retoure(final long amount) 
+				throws PersistenceException{
+        ((PersistentQuantifiedArticles)this.getTheObject()).retoure(amount);
+    }
 
     
 }

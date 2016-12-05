@@ -43,7 +43,9 @@ public interface OrderService4Public extends CustomerService4Public {
 				throws PersistenceException;
     public void initializeOnInstantiation() 
 				throws PersistenceException;
-    public void retoureDelivery(final PersistentCustomerOrder customerOrder, final QuantifiedArticlesSearchList list) 
+    public void retoureArticle(final PersistentQuantifiedArticles article, final long amount) 
+				throws PersistenceException;
+    public void retoureDelivery(final PersistentCustomerOrder customerOrder) 
 				throws PersistenceException;
 
 }

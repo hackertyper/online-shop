@@ -3,7 +3,7 @@ package model.visitor;
 
 import persistence.*;
 
-public interface SubjInterfaceVisitor extends ArticleStateVisitor,CartStateVisitor,CustomerDeliveryVisitor,CustomerOrderStateVisitor,ItemVisitor,ServiceVisitor{
+public interface SubjInterfaceVisitor extends ArticleStateVisitor,CartStateVisitor,CustomerDeliveryVisitor,CustomerOrderStateVisitor,DeliveryVisitor,ItemVisitor,ServiceVisitor{
     
     public void handleAccount(PersistentAccount account) throws PersistenceException;
     public void handleAccountManager(PersistentAccountManager accountManager) throws PersistenceException;

@@ -173,12 +173,33 @@ public class ShopKeeperOrder extends model.Delivery implements PersistentShopKee
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleShopKeeperOrder(this);
     }
+    public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
+        visitor.handleShopKeeperOrder(this);
+    }
+    public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleShopKeeperOrder(this);
+    }
+    public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleShopKeeperOrder(this);
+    }
+    public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleShopKeeperOrder(this);
+    }
     public int getLeafInfo() throws PersistenceException{
         if (this.getArticle() != null) return 1;
         return 0;
     }
     
     
+    public synchronized void deregister(final ObsInterface observee) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.deregister(observee);
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentShopKeeperOrder)This);
@@ -188,6 +209,24 @@ public class ShopKeeperOrder extends model.Delivery implements PersistentShopKee
 			this.setArticle((PersistentArticle)final$$Fields.get("article"));
 			this.setAmount((Long)final$$Fields.get("amount"));
 		}
+    }
+    public synchronized void register(final ObsInterface observee) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.register(observee);
+    }
+    public synchronized void updateObservers(final model.meta.Mssgs event) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.updateObservers(event);
     }
     
     
@@ -215,18 +254,6 @@ public class ShopKeeperOrder extends model.Delivery implements PersistentShopKee
     
     // Start of section that contains overridden operations only.
     
-    public void run() {
-    	try {
-    		try {
-				Thread.sleep(getThis().getRemainingTimeToDelivery());
-				getThis().deliver();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-    	} catch(PersistenceException e) {
-			e.printStackTrace();
-    	}
-    }
 
     /* Start of protected part that is not overridden by persistence generator */
     

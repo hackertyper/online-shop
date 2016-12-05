@@ -4,130 +4,136 @@ package persistence;
 
 import model.visitor.*;
 
-public class RetoureDeliveryCommandICProxi extends PersistentInCacheProxi implements PersistentRetoureDeliveryCommand{
+public class RetoureArticleCommandICProxi extends PersistentInCacheProxi implements PersistentRetoureArticleCommand{
     
-    public RetoureDeliveryCommandICProxi(long objectId) {
+    public RetoureArticleCommandICProxi(long objectId) {
         super(objectId);
     }
-    public RetoureDeliveryCommandICProxi(PersistentObject object) {
+    public RetoureArticleCommandICProxi(PersistentObject object) {
         super(object);
     }
     
     protected PersistentObject getRemote() throws PersistenceException {
-        return ConnectionHandler.getTheConnectionHandler().theRetoureDeliveryCommandFacade
-            .getRetoureDeliveryCommand(this.getId());
+        return ConnectionHandler.getTheConnectionHandler().theRetoureArticleCommandFacade
+            .getRetoureArticleCommand(this.getId());
     }
     
     public long getClassId() {
-        return 225;
+        return 242;
     }
     
-    public PersistentCustomerOrder getArrivedOrder() throws PersistenceException {
-        return ((PersistentRetoureDeliveryCommand)this.getTheObject()).getArrivedOrder();
+    public PersistentQuantifiedArticles getArticle() throws PersistenceException {
+        return ((PersistentRetoureArticleCommand)this.getTheObject()).getArticle();
     }
-    public void setArrivedOrder(PersistentCustomerOrder newValue) throws PersistenceException {
-        ((PersistentRetoureDeliveryCommand)this.getTheObject()).setArrivedOrder(newValue);
+    public void setArticle(PersistentQuantifiedArticles newValue) throws PersistenceException {
+        ((PersistentRetoureArticleCommand)this.getTheObject()).setArticle(newValue);
+    }
+    public long getAmount() throws PersistenceException {
+        return ((PersistentRetoureArticleCommand)this.getTheObject()).getAmount();
+    }
+    public void setAmount(long newValue) throws PersistenceException {
+        ((PersistentRetoureArticleCommand)this.getTheObject()).setAmount(newValue);
     }
     public Invoker getInvoker() throws PersistenceException {
-        return ((PersistentRetoureDeliveryCommand)this.getTheObject()).getInvoker();
+        return ((PersistentRetoureArticleCommand)this.getTheObject()).getInvoker();
     }
     public void setInvoker(Invoker newValue) throws PersistenceException {
-        ((PersistentRetoureDeliveryCommand)this.getTheObject()).setInvoker(newValue);
+        ((PersistentRetoureArticleCommand)this.getTheObject()).setInvoker(newValue);
     }
     public PersistentOrderManager getCommandReceiver() throws PersistenceException {
-        return ((PersistentRetoureDeliveryCommand)this.getTheObject()).getCommandReceiver();
+        return ((PersistentRetoureArticleCommand)this.getTheObject()).getCommandReceiver();
     }
     public void setCommandReceiver(PersistentOrderManager newValue) throws PersistenceException {
-        ((PersistentRetoureDeliveryCommand)this.getTheObject()).setCommandReceiver(newValue);
+        ((PersistentRetoureArticleCommand)this.getTheObject()).setCommandReceiver(newValue);
     }
     public PersistentCommonDate getMyCommonDate() throws PersistenceException {
-        return ((PersistentRetoureDeliveryCommand)this.getTheObject()).getMyCommonDate();
+        return ((PersistentRetoureArticleCommand)this.getTheObject()).getMyCommonDate();
     }
     public void setMyCommonDate(PersistentCommonDate newValue) throws PersistenceException {
-        ((PersistentRetoureDeliveryCommand)this.getTheObject()).setMyCommonDate(newValue);
+        ((PersistentRetoureArticleCommand)this.getTheObject()).setMyCommonDate(newValue);
     }
     public java.sql.Date getCreateDate() throws PersistenceException {
-        return ((PersistentRetoureDeliveryCommand)this.getTheObject()).getCreateDate();
+        return ((PersistentRetoureArticleCommand)this.getTheObject()).getCreateDate();
     }
     public void setCreateDate(java.sql.Date newValue) throws PersistenceException {
-        ((PersistentRetoureDeliveryCommand)this.getTheObject()).setCreateDate(newValue);
+        ((PersistentRetoureArticleCommand)this.getTheObject()).setCreateDate(newValue);
     }
     public java.sql.Date getCommitDate() throws PersistenceException {
-        return ((PersistentRetoureDeliveryCommand)this.getTheObject()).getCommitDate();
+        return ((PersistentRetoureArticleCommand)this.getTheObject()).getCommitDate();
     }
     public void setCommitDate(java.sql.Date newValue) throws PersistenceException {
-        ((PersistentRetoureDeliveryCommand)this.getTheObject()).setCommitDate(newValue);
+        ((PersistentRetoureArticleCommand)this.getTheObject()).setCommitDate(newValue);
     }
     
     public void accept(CommonDateVisitor visitor) throws PersistenceException {
-        visitor.handleRetoureDeliveryCommand(this);
+        visitor.handleRetoureArticleCommand(this);
     }
     public <R> R accept(CommonDateReturnVisitor<R>  visitor) throws PersistenceException {
-         return visitor.handleRetoureDeliveryCommand(this);
+         return visitor.handleRetoureArticleCommand(this);
     }
     public <E extends model.UserException>  void accept(CommonDateExceptionVisitor<E> visitor) throws PersistenceException, E {
-         visitor.handleRetoureDeliveryCommand(this);
+         visitor.handleRetoureArticleCommand(this);
     }
     public <R, E extends model.UserException> R accept(CommonDateReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
-         return visitor.handleRetoureDeliveryCommand(this);
+         return visitor.handleRetoureArticleCommand(this);
     }
     public void accept(AnythingVisitor visitor) throws PersistenceException {
-        visitor.handleRetoureDeliveryCommand(this);
+        visitor.handleRetoureArticleCommand(this);
     }
     public <R> R accept(AnythingReturnVisitor<R>  visitor) throws PersistenceException {
-         return visitor.handleRetoureDeliveryCommand(this);
+         return visitor.handleRetoureArticleCommand(this);
     }
     public <E extends model.UserException>  void accept(AnythingExceptionVisitor<E> visitor) throws PersistenceException, E {
-         visitor.handleRetoureDeliveryCommand(this);
+         visitor.handleRetoureArticleCommand(this);
     }
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
-         return visitor.handleRetoureDeliveryCommand(this);
+         return visitor.handleRetoureArticleCommand(this);
     }
     public void accept(CommandVisitor visitor) throws PersistenceException {
-        visitor.handleRetoureDeliveryCommand(this);
+        visitor.handleRetoureArticleCommand(this);
     }
     public <R> R accept(CommandReturnVisitor<R>  visitor) throws PersistenceException {
-         return visitor.handleRetoureDeliveryCommand(this);
+         return visitor.handleRetoureArticleCommand(this);
     }
     public <E extends model.UserException>  void accept(CommandExceptionVisitor<E> visitor) throws PersistenceException, E {
-         visitor.handleRetoureDeliveryCommand(this);
+         visitor.handleRetoureArticleCommand(this);
     }
     public <R, E extends model.UserException> R accept(CommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
-         return visitor.handleRetoureDeliveryCommand(this);
+         return visitor.handleRetoureArticleCommand(this);
     }
     public void accept(OrderManagerCommandVisitor visitor) throws PersistenceException {
-        visitor.handleRetoureDeliveryCommand(this);
+        visitor.handleRetoureArticleCommand(this);
     }
     public <R> R accept(OrderManagerCommandReturnVisitor<R>  visitor) throws PersistenceException {
-         return visitor.handleRetoureDeliveryCommand(this);
+         return visitor.handleRetoureArticleCommand(this);
     }
     public <E extends model.UserException>  void accept(OrderManagerCommandExceptionVisitor<E> visitor) throws PersistenceException, E {
-         visitor.handleRetoureDeliveryCommand(this);
+         visitor.handleRetoureArticleCommand(this);
     }
     public <R, E extends model.UserException> R accept(OrderManagerCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
-         return visitor.handleRetoureDeliveryCommand(this);
+         return visitor.handleRetoureArticleCommand(this);
     }
     
     
     public void checkException() 
 				throws model.UserException, PersistenceException{
-        ((PersistentRetoureDeliveryCommand)this.getTheObject()).checkException();
+        ((PersistentRetoureArticleCommand)this.getTheObject()).checkException();
     }
     public void execute() 
 				throws PersistenceException{
-        ((PersistentRetoureDeliveryCommand)this.getTheObject()).execute();
+        ((PersistentRetoureArticleCommand)this.getTheObject()).execute();
     }
     public Invoker fetchInvoker() 
 				throws PersistenceException{
-        return ((PersistentRetoureDeliveryCommand)this.getTheObject()).fetchInvoker();
+        return ((PersistentRetoureArticleCommand)this.getTheObject()).fetchInvoker();
     }
     public void sendException(final PersistenceException exception) 
 				throws PersistenceException{
-        ((PersistentRetoureDeliveryCommand)this.getTheObject()).sendException(exception);
+        ((PersistentRetoureArticleCommand)this.getTheObject()).sendException(exception);
     }
     public void sendResult() 
 				throws PersistenceException{
-        ((PersistentRetoureDeliveryCommand)this.getTheObject()).sendResult();
+        ((PersistentRetoureArticleCommand)this.getTheObject()).sendResult();
     }
 
     

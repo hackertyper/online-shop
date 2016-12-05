@@ -3,10 +3,12 @@ package persistence;
 
 import model.visitor.*;
 
-public interface RetoureDeliveryCommand4Public extends Anything, OrderManagerCommand, CommonDate4Public, AbstractPersistentProxi {
+public interface RetoureArticleCommand4Public extends Anything, OrderManagerCommand, CommonDate4Public, AbstractPersistentProxi {
     
-    public PersistentCustomerOrder getArrivedOrder() throws PersistenceException ;
-    public void setArrivedOrder(PersistentCustomerOrder newValue) throws PersistenceException ;
+    public PersistentQuantifiedArticles getArticle() throws PersistenceException ;
+    public void setArticle(PersistentQuantifiedArticles newValue) throws PersistenceException ;
+    public long getAmount() throws PersistenceException ;
+    public void setAmount(long newValue) throws PersistenceException ;
     public Invoker getInvoker() throws PersistenceException ;
     public void setInvoker(Invoker newValue) throws PersistenceException ;
     public PersistentOrderManager getCommandReceiver() throws PersistenceException ;

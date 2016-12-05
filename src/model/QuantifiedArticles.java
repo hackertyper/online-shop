@@ -287,6 +287,23 @@ public class QuantifiedArticles extends PersistentObject implements PersistentQu
 				throws model.InsufficientStock, PersistenceException{
     	getThis().getArticle().reserve(getThis().getAmount());
     }
+    /**
+     * Retoures a single article in the given amount.
+     */
+    public void retoure(final long amount) 
+				throws PersistenceException{
+    	if(amount > getThis().getAmount()) {
+    		getThis().setAmount(0);
+    		PersistentRetoure re = Retoure.createRetoure(0, serverConstants.OrderConstants.current);
+            re.getArticleList().add(QuantifiedArticles.createQuantifiedArticles(getThis().getArticle(), getThis().getAmount()));
+            re.send();
+    	} else {
+	        getThis().setAmount(getThis().getAmount() - amount);
+	        PersistentRetoure re = Retoure.createRetoure(0, serverConstants.OrderConstants.current);
+	        re.getArticleList().add(QuantifiedArticles.createQuantifiedArticles(getThis().getArticle(), amount));
+	        re.send();
+    	}
+    }
     
     
     // Start of section that contains overridden operations only.

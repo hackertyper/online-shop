@@ -106,6 +106,7 @@ public class ConnectionHandler {
     public OfferedFSaleFacade theOfferedFSaleFacade;
     public PreOrderFacade thePreOrderFacade;
     public CartStateFacade theCartStateFacade;
+    public RetoureArticleCommandFacade theRetoureArticleCommandFacade;
     public FindArticleCommandFacade theFindArticleCommandFacade;
     public RegisterServiceFacade theRegisterServiceFacade;
     public WithdrawCommandFacade theWithdrawCommandFacade;
@@ -174,6 +175,7 @@ public class ConnectionHandler {
             this.theOfferedFSaleFacade= new OfferedFSaleFacade();
             this.thePreOrderFacade= new PreOrderFacade();
             this.theCartStateFacade= new CartStateFacade();
+            this.theRetoureArticleCommandFacade= new RetoureArticleCommandFacade();
             this.theFindArticleCommandFacade= new FindArticleCommandFacade();
             this.theRegisterServiceFacade= new RegisterServiceFacade();
             this.theWithdrawCommandFacade= new WithdrawCommandFacade();

@@ -38,6 +38,7 @@ public interface AnythingVisitor extends CartStateVisitor,CommonDateVisitor,Cust
     public void handleQuantifiedArticles(PersistentQuantifiedArticles quantifiedArticles) throws PersistenceException;
     public void handleRemoveFCartCommand(PersistentRemoveFCartCommand removeFCartCommand) throws PersistenceException;
     public void handleRemovedFSale(PersistentRemovedFSale removedFSale) throws PersistenceException;
+    public void handleRetoureArticleCommand(PersistentRetoureArticleCommand retoureArticleCommand) throws PersistenceException;
     public void handleRetoureDeliveryCommand(PersistentRetoureDeliveryCommand retoureDeliveryCommand) throws PersistenceException;
     public void handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException;
     public void handleServer(PersistentServer server) throws PersistenceException;

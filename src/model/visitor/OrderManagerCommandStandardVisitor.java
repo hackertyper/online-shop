@@ -11,5 +11,8 @@ public abstract class OrderManagerCommandStandardVisitor implements OrderManager
     public void handleRetoureDeliveryCommand(PersistentRetoureDeliveryCommand retoureDeliveryCommand) throws PersistenceException{
         this.standardHandling(retoureDeliveryCommand);
     }
+    public void handleRetoureArticleCommand(PersistentRetoureArticleCommand retoureArticleCommand) throws PersistenceException{
+        this.standardHandling(retoureArticleCommand);
+    }
     protected abstract void standardHandling(OrderManagerCommand orderManagerCommand) throws PersistenceException;
 }

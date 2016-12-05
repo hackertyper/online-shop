@@ -166,9 +166,13 @@ public class OrderServiceProxi extends CustomerServiceProxi implements Persisten
 				throws PersistenceException{
         ((PersistentOrderService)this.getTheObject()).initializeOnInstantiation();
     }
-    public void retoureDelivery(final PersistentCustomerOrder customerOrder, final QuantifiedArticlesSearchList list) 
+    public void retoureArticle(final PersistentQuantifiedArticles article, final long amount) 
 				throws PersistenceException{
-        ((PersistentOrderService)this.getTheObject()).retoureDelivery(customerOrder, list);
+        ((PersistentOrderService)this.getTheObject()).retoureArticle(article, amount);
+    }
+    public void retoureDelivery(final PersistentCustomerOrder customerOrder) 
+				throws PersistenceException{
+        ((PersistentOrderService)this.getTheObject()).retoureDelivery(customerOrder);
     }
 
     

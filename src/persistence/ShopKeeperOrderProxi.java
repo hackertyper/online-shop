@@ -58,11 +58,35 @@ public class ShopKeeperOrderProxi extends DeliveryProxi implements PersistentSho
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleShopKeeperOrder(this);
     }
+    public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
+        visitor.handleShopKeeperOrder(this);
+    }
+    public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleShopKeeperOrder(this);
+    }
+    public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleShopKeeperOrder(this);
+    }
+    public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleShopKeeperOrder(this);
+    }
     
     
+    public void deregister(final ObsInterface observee) 
+				throws PersistenceException{
+        ((PersistentShopKeeperOrder)this.getTheObject()).deregister(observee);
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentShopKeeperOrder)this.getTheObject()).initialize(This, final$$Fields);
+    }
+    public void register(final ObsInterface observee) 
+				throws PersistenceException{
+        ((PersistentShopKeeperOrder)this.getTheObject()).register(observee);
+    }
+    public void updateObservers(final model.meta.Mssgs event) 
+				throws PersistenceException{
+        ((PersistentShopKeeperOrder)this.getTheObject()).updateObservers(event);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
@@ -79,13 +103,6 @@ public class ShopKeeperOrderProxi extends DeliveryProxi implements PersistentSho
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         ((PersistentShopKeeperOrder)this.getTheObject()).initializeOnInstantiation();
-    }
-    public void run() {
-        try{
-            ((PersistentShopKeeperOrder)this.getTheObject()).run();
-        }catch(PersistenceException pe){
-            throw new PersistenceError(pe);
-        }
     }
     public void send() 
 				throws PersistenceException{

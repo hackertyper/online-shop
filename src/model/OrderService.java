@@ -246,9 +246,13 @@ public class OrderService extends model.CustomerService implements PersistentOrd
 				throws PersistenceException{
         super.initializeOnInstantiation();
     }
-    public void retoureDelivery(final PersistentCustomerOrder customerOrder, final QuantifiedArticlesSearchList list) 
+    public void retoureArticle(final PersistentQuantifiedArticles article, final long amount) 
 				throws PersistenceException{
-        getThis().getOrderMngr().retoureDelivery(customerOrder, list, getThis());
+        getThis().getOrderMngr().retoureArticle(article, amount, getThis());
+    }
+    public void retoureDelivery(final PersistentCustomerOrder customerOrder) 
+				throws PersistenceException{
+        getThis().getOrderMngr().retoureDelivery(customerOrder, getThis());
     }
     
     

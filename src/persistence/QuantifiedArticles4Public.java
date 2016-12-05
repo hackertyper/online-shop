@@ -33,6 +33,8 @@ public interface QuantifiedArticles4Public extends Anything, SubjInterface, Abst
 				throws PersistenceException;
     public void reserve() 
 				throws model.InsufficientStock, PersistenceException;
+    public void retoure(final long amount) 
+				throws PersistenceException;
 
 }
 

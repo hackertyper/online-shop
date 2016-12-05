@@ -129,6 +129,9 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleChangeDescriptionCommand(PersistentChangeDescriptionCommand changeDescriptionCommand) throws PersistenceException{
         this.handleCommonDate(changeDescriptionCommand);
     }
+    public void handleRetoureArticleCommand(PersistentRetoureArticleCommand retoureArticleCommand) throws PersistenceException{
+        this.handleCommonDate(retoureArticleCommand);
+    }
     public void handleFindArticleCommand(PersistentFindArticleCommand findArticleCommand) throws PersistenceException{
         this.handleCommonDate(findArticleCommand);
     }

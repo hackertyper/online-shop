@@ -38,6 +38,7 @@ public interface AnythingExceptionVisitor<E extends model.UserException> extends
     public void handleQuantifiedArticles(PersistentQuantifiedArticles quantifiedArticles) throws PersistenceException, E;
     public void handleRemoveFCartCommand(PersistentRemoveFCartCommand removeFCartCommand) throws PersistenceException, E;
     public void handleRemovedFSale(PersistentRemovedFSale removedFSale) throws PersistenceException, E;
+    public void handleRetoureArticleCommand(PersistentRetoureArticleCommand retoureArticleCommand) throws PersistenceException, E;
     public void handleRetoureDeliveryCommand(PersistentRetoureDeliveryCommand retoureDeliveryCommand) throws PersistenceException, E;
     public void handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException, E;
     public void handleServer(PersistentServer server) throws PersistenceException, E;

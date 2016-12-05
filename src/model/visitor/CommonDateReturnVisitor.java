@@ -19,6 +19,7 @@ public interface CommonDateReturnVisitor<R> {
     public R handleFindArticleCommand(PersistentFindArticleCommand findArticleCommand) throws PersistenceException;
     public R handleOrderCommand(PersistentOrderCommand orderCommand) throws PersistenceException;
     public R handleRemoveFCartCommand(PersistentRemoveFCartCommand removeFCartCommand) throws PersistenceException;
+    public R handleRetoureArticleCommand(PersistentRetoureArticleCommand retoureArticleCommand) throws PersistenceException;
     public R handleRetoureDeliveryCommand(PersistentRetoureDeliveryCommand retoureDeliveryCommand) throws PersistenceException;
     public R handleStartSellingCommand(PersistentStartSellingCommand startSellingCommand) throws PersistenceException;
     public R handleWithdrawCommand(PersistentWithdrawCommand withdrawCommand) throws PersistenceException;

@@ -19,7 +19,9 @@ public interface OrderManager4Public extends Anything, SubjInterface, AbstractPe
 				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
-    public void retoureDelivery(final PersistentCustomerOrder arrivedOrder, final QuantifiedArticlesSearchList list, final Invoker invoker) 
+    public void retoureArticle(final PersistentQuantifiedArticles article, final long amount, final Invoker invoker) 
+				throws PersistenceException;
+    public void retoureDelivery(final PersistentCustomerOrder arrivedOrder, final Invoker invoker) 
 				throws PersistenceException;
     public void acceptDelivery(final PersistentCustomerOrder arrivedOrder) 
 				throws PersistenceException;
@@ -31,7 +33,9 @@ public interface OrderManager4Public extends Anything, SubjInterface, AbstractPe
 				throws PersistenceException;
     public void initializeOnInstantiation() 
 				throws PersistenceException;
-    public void retoureDelivery(final PersistentCustomerOrder arrivedOrder, final QuantifiedArticlesSearchList list) 
+    public void retoureArticle(final PersistentQuantifiedArticles article, final long amount) 
+				throws model.InsufficientFunds, PersistenceException;
+    public void retoureDelivery(final PersistentCustomerOrder arrivedOrder) 
 				throws model.InsufficientFunds, PersistenceException;
 
 }

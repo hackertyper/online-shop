@@ -38,6 +38,7 @@ public interface AnythingReturnExceptionVisitor<R, E extends model.UserException
     public R handleQuantifiedArticles(PersistentQuantifiedArticles quantifiedArticles) throws PersistenceException, E;
     public R handleRemoveFCartCommand(PersistentRemoveFCartCommand removeFCartCommand) throws PersistenceException, E;
     public R handleRemovedFSale(PersistentRemovedFSale removedFSale) throws PersistenceException, E;
+    public R handleRetoureArticleCommand(PersistentRetoureArticleCommand retoureArticleCommand) throws PersistenceException, E;
     public R handleRetoureDeliveryCommand(PersistentRetoureDeliveryCommand retoureDeliveryCommand) throws PersistenceException, E;
     public R handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException, E;
     public R handleServer(PersistentServer server) throws PersistenceException, E;

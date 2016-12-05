@@ -61,11 +61,35 @@ public class CustomerOrderProxi extends DeliveryProxi implements PersistentCusto
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleCustomerOrder(this);
     }
+    public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
+        visitor.handleCustomerOrder(this);
+    }
+    public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleCustomerOrder(this);
+    }
+    public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleCustomerOrder(this);
+    }
+    public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleCustomerOrder(this);
+    }
     
     
+    public void deregister(final ObsInterface observee) 
+				throws PersistenceException{
+        ((PersistentCustomerOrder)this.getTheObject()).deregister(observee);
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentCustomerOrder)this.getTheObject()).initialize(This, final$$Fields);
+    }
+    public void register(final ObsInterface observee) 
+				throws PersistenceException{
+        ((PersistentCustomerOrder)this.getTheObject()).register(observee);
+    }
+    public void updateObservers(final model.meta.Mssgs event) 
+				throws PersistenceException{
+        ((PersistentCustomerOrder)this.getTheObject()).updateObservers(event);
     }
     public void accepted() 
 				throws PersistenceException{
@@ -91,16 +115,9 @@ public class CustomerOrderProxi extends DeliveryProxi implements PersistentCusto
 				throws PersistenceException{
         ((PersistentCustomerOrder)this.getTheObject()).initializeOnInstantiation();
     }
-    public void retoure(final QuantifiedArticlesSearchList list) 
+    public void retoure() 
 				throws PersistenceException{
-        ((PersistentCustomerOrder)this.getTheObject()).retoure(list);
-    }
-    public void run() {
-        try{
-            ((PersistentCustomerOrder)this.getTheObject()).run();
-        }catch(PersistenceException pe){
-            throw new PersistenceError(pe);
-        }
+        ((PersistentCustomerOrder)this.getTheObject()).retoure();
     }
     public void send() 
 				throws PersistenceException{

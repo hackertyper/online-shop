@@ -87,9 +87,13 @@ public class OrderManagerProxi extends PersistentProxi implements PersistentOrde
 				throws PersistenceException{
         ((PersistentOrderManager)this.getTheObject()).register(observee);
     }
-    public void retoureDelivery(final PersistentCustomerOrder arrivedOrder, final QuantifiedArticlesSearchList list, final Invoker invoker) 
+    public void retoureArticle(final PersistentQuantifiedArticles article, final long amount, final Invoker invoker) 
 				throws PersistenceException{
-        ((PersistentOrderManager)this.getTheObject()).retoureDelivery(arrivedOrder, list, invoker);
+        ((PersistentOrderManager)this.getTheObject()).retoureArticle(article, amount, invoker);
+    }
+    public void retoureDelivery(final PersistentCustomerOrder arrivedOrder, final Invoker invoker) 
+				throws PersistenceException{
+        ((PersistentOrderManager)this.getTheObject()).retoureDelivery(arrivedOrder, invoker);
     }
     public void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
@@ -115,9 +119,13 @@ public class OrderManagerProxi extends PersistentProxi implements PersistentOrde
 				throws PersistenceException{
         ((PersistentOrderManager)this.getTheObject()).initializeOnInstantiation();
     }
-    public void retoureDelivery(final PersistentCustomerOrder arrivedOrder, final QuantifiedArticlesSearchList list) 
+    public void retoureArticle(final PersistentQuantifiedArticles article, final long amount) 
 				throws model.InsufficientFunds, PersistenceException{
-        ((PersistentOrderManager)this.getTheObject()).retoureDelivery(arrivedOrder, list);
+        ((PersistentOrderManager)this.getTheObject()).retoureArticle(article, amount);
+    }
+    public void retoureDelivery(final PersistentCustomerOrder arrivedOrder) 
+				throws model.InsufficientFunds, PersistenceException{
+        ((PersistentOrderManager)this.getTheObject()).retoureDelivery(arrivedOrder);
     }
 
     

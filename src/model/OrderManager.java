@@ -266,15 +266,20 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
 		}
 		subService.register(observee);
     }
-    public void retoureDelivery(final PersistentCustomerOrder arrivedOrder, final QuantifiedArticlesSearchList list, final Invoker invoker) 
+    public void retoureArticle(final PersistentQuantifiedArticles article, final long amount, final Invoker invoker) 
+				throws PersistenceException{
+        java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
+		PersistentRetoureArticleCommand command = model.meta.RetoureArticleCommand.createRetoureArticleCommand(amount, now, now);
+		command.setArticle(article);
+		command.setInvoker(invoker);
+		command.setCommandReceiver(getThis());
+		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
+    }
+    public void retoureDelivery(final PersistentCustomerOrder arrivedOrder, final Invoker invoker) 
 				throws PersistenceException{
         java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
 		PersistentRetoureDeliveryCommand command = model.meta.RetoureDeliveryCommand.createRetoureDeliveryCommand(now, now);
 		command.setArrivedOrder(arrivedOrder);
-		java.util.Iterator<PersistentQuantifiedArticles> listIterator = list.iterator();
-		while(listIterator.hasNext()){
-			command.getList().add(listIterator.next());
-		}
 		command.setInvoker(invoker);
 		command.setCommandReceiver(getThis());
 		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
@@ -291,17 +296,38 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
     
     
     // Start of section that contains operations that must be implemented.
-    
+    /**
+     * Accepts the arrived delivery. Deletes the delivery from view. 
+     */
     public void acceptDelivery(final PersistentCustomerOrder arrivedOrder) 
 				throws PersistenceException{
     	arrivedOrder.accepted();
-    	getThis().getMyOrderServer().signalChanged(true);
+    	getThis().getOrders().filter(new Predcate<PersistentCustomerOrder>() {
+			@Override
+			public boolean test(PersistentCustomerOrder argument) throws PersistenceException {
+				return !arrivedOrder.equals(argument);
+			}
+		});
+    	getThis().getCustomerManager().getMyCustomerServer().getServices().applyToAll(new Procdure<PersistentCustomerService>() {
+			@Override
+			public void doItTo(PersistentCustomerService argument) throws PersistenceException {
+				argument.signalChanged(true);
+			}
+		});
     }
+    /**
+     * Adds new order to view.
+     */
     public void addOrder(final PersistentCustomerOrder order) 
 				throws PersistenceException{
     	order.setOrdermngr(getThis());
     	getThis().getOrders().add(order);
-    	getThis().getMyOrderServer().signalChanged(true);
+    	getThis().getCustomerManager().getMyCustomerServer().getServices().applyToAll(new Procdure<PersistentCustomerService>() {
+			@Override
+			public void doItTo(PersistentCustomerService argument) throws PersistenceException {
+				argument.signalChanged(true);
+			}
+		});
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
@@ -312,19 +338,28 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
     public void initializeOnInstantiation() 
 				throws PersistenceException{
     }
-    public void retoureDelivery(final PersistentCustomerOrder arrivedOrder, final QuantifiedArticlesSearchList list) 
+    /**
+     * Returns a single Article of the delivery.
+     */
+    public void retoureArticle(final PersistentQuantifiedArticles article, final long amount) 
 				throws model.InsufficientFunds, PersistenceException{
-    	
-        arrivedOrder.retoure(list);
-        list.applyToAll(new Procdure<PersistentQuantifiedArticles>() {
+        article.retoure(amount);
+        getThis().setRetourePrice(getThis().getRetourePrice() + article.fetchPrice());
+        returnPayment();
+    }
+    /**
+     * Returns the whole delivery.
+     */
+    public void retoureDelivery(final PersistentCustomerOrder arrivedOrder) 
+				throws model.InsufficientFunds, PersistenceException{
+        arrivedOrder.retoure();
+        arrivedOrder.getArticleList().applyToAll(new Procdure<PersistentQuantifiedArticles>() {
 			@Override
 			public void doItTo(PersistentQuantifiedArticles argument) throws PersistenceException {
 				getThis().setRetourePrice(getThis().getRetourePrice() + argument.fetchPrice());
 			}
 		});
-        getThis().getCustomerManager().returnPayment(getThis().getRetourePrice());
-        getThis().setRetourePrice((getThis().getRetourePrice() * serverConstants.ConfigConstants.getRetourePercentage())/100);
-        getThis().getCustomerManager().pay(getThis().getRetourePrice());
+        returnPayment();
         getThis().getOrders().filter(new Predcate<PersistentCustomerOrder>() {
 			@Override
 			public boolean test(PersistentCustomerOrder argument) throws PersistenceException {
@@ -338,7 +373,16 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
     
 
     /* Start of protected part that is not overridden by persistence generator */
-    
+    /**
+     * Returns the payment for the delivery. Charges the current retoure percentage.
+     * @throws PersistenceException
+     * @throws InsufficientFunds
+     */
+    private void returnPayment() throws PersistenceException, InsufficientFunds {
+    	getThis().getCustomerManager().returnPayment(getThis().getRetourePrice());
+        getThis().setRetourePrice((getThis().getRetourePrice() * serverConstants.ConfigConstants.getRetourePercentage())/100);
+        getThis().getCustomerManager().pay(getThis().getRetourePrice());
+    }
     /* End of protected part that is not overridden by persistence generator */
     
 }
