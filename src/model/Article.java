@@ -10,19 +10,19 @@ import model.visitor.*;
 public class Article extends model.Item implements PersistentArticle{
     
     
-    public static PersistentArticle createArticle(String description,PersistentManufacturer manufacturer,long price,long minStock,long maxStock,long manuDelivery) throws PersistenceException{
-        return createArticle(description,manufacturer,price,minStock,maxStock,manuDelivery,false);
+    public static PersistentArticle createArticle(String description,PersistentManufacturer manufacturer,long price,long minStock,long maxStock) throws PersistenceException{
+        return createArticle(description,manufacturer,price,minStock,maxStock,false);
     }
     
-    public static PersistentArticle createArticle(String description,PersistentManufacturer manufacturer,long price,long minStock,long maxStock,long manuDelivery,boolean delayed$Persistence) throws PersistenceException {
+    public static PersistentArticle createArticle(String description,PersistentManufacturer manufacturer,long price,long minStock,long maxStock,boolean delayed$Persistence) throws PersistenceException {
         PersistentArticle result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theArticleFacade
-                .newDelayedArticle(description,price,minStock,maxStock,manuDelivery,0);
+                .newDelayedArticle(description,price,minStock,maxStock,0);
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theArticleFacade
-                .newArticle(description,price,minStock,maxStock,manuDelivery,0,-1);
+                .newArticle(description,price,minStock,maxStock,0,-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         final$$Fields.put("description", description);
@@ -30,21 +30,20 @@ public class Article extends model.Item implements PersistentArticle{
         final$$Fields.put("price", price);
         final$$Fields.put("minStock", minStock);
         final$$Fields.put("maxStock", maxStock);
-        final$$Fields.put("manuDelivery", manuDelivery);
         result.initialize(result, final$$Fields);
         result.initializeOnCreation();
         return result;
     }
     
-    public static PersistentArticle createArticle(String description,PersistentManufacturer manufacturer,long price,long minStock,long maxStock,long manuDelivery,boolean delayed$Persistence,PersistentArticle This) throws PersistenceException {
+    public static PersistentArticle createArticle(String description,PersistentManufacturer manufacturer,long price,long minStock,long maxStock,boolean delayed$Persistence,PersistentArticle This) throws PersistenceException {
         PersistentArticle result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theArticleFacade
-                .newDelayedArticle(description,price,minStock,maxStock,manuDelivery,0);
+                .newDelayedArticle(description,price,minStock,maxStock,0);
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theArticleFacade
-                .newArticle(description,price,minStock,maxStock,manuDelivery,0,-1);
+                .newArticle(description,price,minStock,maxStock,0,-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         final$$Fields.put("description", description);
@@ -52,7 +51,6 @@ public class Article extends model.Item implements PersistentArticle{
         final$$Fields.put("price", price);
         final$$Fields.put("minStock", minStock);
         final$$Fields.put("maxStock", maxStock);
-        final$$Fields.put("manuDelivery", manuDelivery);
         result.initialize(This, final$$Fields);
         result.initializeOnCreation();
         return result;
@@ -92,7 +90,6 @@ public class Article extends model.Item implements PersistentArticle{
             result.put("price", new Long(this.getPrice()).toString());
             result.put("minStock", new Long(this.getMinStock()).toString());
             result.put("maxStock", new Long(this.getMaxStock()).toString());
-            result.put("manuDelivery", new Long(this.getManuDelivery()).toString());
             result.put("stock", new Long(this.getStock()).toString());
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
@@ -111,7 +108,6 @@ public class Article extends model.Item implements PersistentArticle{
                              this.price, 
                              this.minStock, 
                              this.maxStock, 
-                             this.manuDelivery, 
                              this.stock, 
                              this.getId());
         this.copyingPrivateUserAttributes(result);
@@ -127,10 +123,9 @@ public class Article extends model.Item implements PersistentArticle{
     protected long price;
     protected long minStock;
     protected long maxStock;
-    protected long manuDelivery;
     protected long stock;
     
-    public Article(String description,SubjInterface subService,PersistentItem This,PersistentManufacturer manufacturer,ArticleState state,PersistentArticleWrapper myWrapper,long price,long minStock,long maxStock,long manuDelivery,long stock,long id) throws PersistenceException {
+    public Article(String description,SubjInterface subService,PersistentItem This,PersistentManufacturer manufacturer,ArticleState state,PersistentArticleWrapper myWrapper,long price,long minStock,long maxStock,long stock,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super((String)description,(SubjInterface)subService,(PersistentItem)This,id);
         this.manufacturer = manufacturer;
@@ -139,7 +134,6 @@ public class Article extends model.Item implements PersistentArticle{
         this.price = price;
         this.minStock = minStock;
         this.maxStock = maxStock;
-        this.manuDelivery = manuDelivery;
         this.stock = stock;        
     }
     
@@ -154,7 +148,7 @@ public class Article extends model.Item implements PersistentArticle{
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
         if (this.getClassId() == 109) ConnectionHandler.getTheConnectionHandler().theArticleFacade
-            .newArticle(description,price,minStock,maxStock,manuDelivery,stock,this.getId());
+            .newArticle(description,price,minStock,maxStock,stock,this.getId());
         super.store();
         if(this.getManufacturer() != null){
             this.getManufacturer().store();
@@ -234,13 +228,6 @@ public class Article extends model.Item implements PersistentArticle{
         if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theArticleFacade.maxStockSet(this.getId(), newValue);
         this.maxStock = newValue;
     }
-    public long getManuDelivery() throws PersistenceException {
-        return this.manuDelivery;
-    }
-    public void setManuDelivery(long newValue) throws PersistenceException {
-        if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theArticleFacade.manuDeliverySet(this.getId(), newValue);
-        this.manuDelivery = newValue;
-    }
     public long getStock() throws PersistenceException {
         return this.stock;
     }
@@ -318,7 +305,6 @@ public class Article extends model.Item implements PersistentArticle{
 			this.setPrice((Long)final$$Fields.get("price"));
 			this.setMinStock((Long)final$$Fields.get("minStock"));
 			this.setMaxStock((Long)final$$Fields.get("maxStock"));
-			this.setManuDelivery((Long)final$$Fields.get("manuDelivery"));
 		}
     }
     public void receiveDelivery(final long amount) 
@@ -352,8 +338,7 @@ public class Article extends model.Item implements PersistentArticle{
     
     public void changeManuDelivery(final long newManuDelivery) 
 				throws PersistenceException{
-        //TODO: implement method: changeManuDelivery
-        
+        getThis().getManufacturer().changeManuDelivery(newManuDelivery);
     }
     public void changePrice(final long newPrice) 
 				throws PersistenceException{
@@ -401,7 +386,7 @@ public class Article extends model.Item implements PersistentArticle{
 				
 				@Override
 				public void handleOfferedFSale(PersistentOfferedFSale offeredFSale) throws PersistenceException {
-					offeredFSale.reorder(getThis().getMaxStock()-getThis().getStock(), getThis().getManuDelivery());
+					offeredFSale.reorder(getThis().getMaxStock()-getThis().getStock(), getThis().getManufacturer().getManuDelivery());
 				}
 			});
         }

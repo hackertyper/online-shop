@@ -15,10 +15,9 @@ public class Article extends view.objects.Item implements ArticleView{
     protected long price;
     protected long minStock;
     protected long maxStock;
-    protected long manuDelivery;
     protected long stock;
     
-    public Article(String description,ManufacturerView manufacturer,ArticleState state,ArticleWrapperView myWrapper,long price,long minStock,long maxStock,long manuDelivery,long stock,long id, long classId) {
+    public Article(String description,ManufacturerView manufacturer,ArticleState state,ArticleWrapperView myWrapper,long price,long minStock,long maxStock,long stock,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super((String)description,id, classId);
         this.manufacturer = manufacturer;
@@ -27,7 +26,6 @@ public class Article extends view.objects.Item implements ArticleView{
         this.price = price;
         this.minStock = minStock;
         this.maxStock = maxStock;
-        this.manuDelivery = manuDelivery;
         this.stock = stock;        
     }
     
@@ -74,12 +72,6 @@ public class Article extends view.objects.Item implements ArticleView{
     }
     public void setMaxStock(long newValue) throws ModelException {
         this.maxStock = newValue;
-    }
-    public long getManuDelivery()throws ModelException{
-        return this.manuDelivery;
-    }
-    public void setManuDelivery(long newValue) throws ModelException {
-        this.manuDelivery = newValue;
     }
     public long getStock()throws ModelException{
         return this.stock;
@@ -178,15 +170,11 @@ public class Article extends view.objects.Item implements ArticleView{
     public int getMaxStockIndex() throws ModelException {
         return 0 + 1 + (this.getManufacturer() == null ? 0 : 1) + (this.getState() == null ? 0 : 1) + (this.getMyWrapper() == null ? 0 : 1) + 1 + 1;
     }
-    public int getManuDeliveryIndex() throws ModelException {
-        return 0 + 1 + (this.getManufacturer() == null ? 0 : 1) + (this.getState() == null ? 0 : 1) + (this.getMyWrapper() == null ? 0 : 1) + 1 + 1 + 1;
-    }
     public int getStockIndex() throws ModelException {
-        return 0 + 1 + (this.getManufacturer() == null ? 0 : 1) + (this.getState() == null ? 0 : 1) + (this.getMyWrapper() == null ? 0 : 1) + 1 + 1 + 1 + 1;
+        return 0 + 1 + (this.getManufacturer() == null ? 0 : 1) + (this.getState() == null ? 0 : 1) + (this.getMyWrapper() == null ? 0 : 1) + 1 + 1 + 1;
     }
     public int getRowCount(){
         return 0 
-            + 1
             + 1
             + 1
             + 1
@@ -204,8 +192,6 @@ public class Article extends view.objects.Item implements ArticleView{
                 rowIndex = rowIndex - 1;
                 if(rowIndex == 0) return "maxStock";
                 rowIndex = rowIndex - 1;
-                if(rowIndex == 0) return "manuDelivery";
-                rowIndex = rowIndex - 1;
                 if(rowIndex == 0) return "stock";
                 rowIndex = rowIndex - 1;
             } else {
@@ -216,8 +202,6 @@ public class Article extends view.objects.Item implements ArticleView{
                 if(rowIndex == 0) return new Long(getMinStock());
                 rowIndex = rowIndex - 1;
                 if(rowIndex == 0) return new Long(getMaxStock());
-                rowIndex = rowIndex - 1;
-                if(rowIndex == 0) return new Long(getManuDelivery());
                 rowIndex = rowIndex - 1;
                 if(rowIndex == 0) return new Long(getStock());
                 rowIndex = rowIndex - 1;
@@ -249,11 +233,6 @@ public class Article extends view.objects.Item implements ArticleView{
         rowIndex = rowIndex - 1;
         if(rowIndex == 0){
             this.setMaxStock(Long.parseLong(newValue));
-            return;
-        }
-        rowIndex = rowIndex - 1;
-        if(rowIndex == 0){
-            this.setManuDelivery(Long.parseLong(newValue));
             return;
         }
         rowIndex = rowIndex - 1;

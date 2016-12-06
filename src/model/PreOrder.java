@@ -15,11 +15,11 @@ public class PreOrder extends PersistentObject implements PersistentPreOrder{
         return (PersistentPreOrder)PersistentProxi.createProxi(objectId, classId);
     }
     
-    public static PersistentPreOrder createPreOrder() throws PersistenceException{
-        return createPreOrder(false);
+    public static PersistentPreOrder createPreOrder(PersistentCustomerOrder order) throws PersistenceException{
+        return createPreOrder(order,false);
     }
     
-    public static PersistentPreOrder createPreOrder(boolean delayed$Persistence) throws PersistenceException {
+    public static PersistentPreOrder createPreOrder(PersistentCustomerOrder order,boolean delayed$Persistence) throws PersistenceException {
         PersistentPreOrder result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().thePreOrderFacade
@@ -30,12 +30,13 @@ public class PreOrder extends PersistentObject implements PersistentPreOrder{
                 .newPreOrder(-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        final$$Fields.put("order", order);
         result.initialize(result, final$$Fields);
         result.initializeOnCreation();
         return result;
     }
     
-    public static PersistentPreOrder createPreOrder(boolean delayed$Persistence,PersistentPreOrder This) throws PersistenceException {
+    public static PersistentPreOrder createPreOrder(PersistentCustomerOrder order,boolean delayed$Persistence,PersistentPreOrder This) throws PersistenceException {
         PersistentPreOrder result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().thePreOrderFacade
@@ -46,6 +47,7 @@ public class PreOrder extends PersistentObject implements PersistentPreOrder{
                 .newPreOrder(-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        final$$Fields.put("order", order);
         result.initialize(This, final$$Fields);
         result.initializeOnCreation();
         return result;
@@ -55,6 +57,15 @@ public class PreOrder extends PersistentObject implements PersistentPreOrder{
     java.util.HashMap<String,Object> result = null;
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
+            AbstractPersistentRoot order = (AbstractPersistentRoot)this.getOrder();
+            if (order != null) {
+                result.put("order", order.createProxiInformation(false, essentialLevel <= 1));
+                if(depth > 1) {
+                    order.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && order.hasEssentialFields())order.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
         }
@@ -63,7 +74,8 @@ public class PreOrder extends PersistentObject implements PersistentPreOrder{
     
     public PreOrder provideCopy() throws PersistenceException{
         PreOrder result = this;
-        result = new PreOrder(this.subService, 
+        result = new PreOrder(this.order, 
+                              this.subService, 
                               this.This, 
                               this.getId());
         this.copyingPrivateUserAttributes(result);
@@ -73,12 +85,14 @@ public class PreOrder extends PersistentObject implements PersistentPreOrder{
     public boolean hasEssentialFields() throws PersistenceException{
         return false;
     }
+    protected PersistentCustomerOrder order;
     protected SubjInterface subService;
     protected PersistentPreOrder This;
     
-    public PreOrder(SubjInterface subService,PersistentPreOrder This,long id) throws PersistenceException {
+    public PreOrder(PersistentCustomerOrder order,SubjInterface subService,PersistentPreOrder This,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
+        this.order = order;
         this.subService = subService;
         if (This != null && !(this.isTheSameAs(This))) this.This = This;        
     }
@@ -96,6 +110,10 @@ public class PreOrder extends PersistentObject implements PersistentPreOrder{
         if (this.getClassId() == 240) ConnectionHandler.getTheConnectionHandler().thePreOrderFacade
             .newPreOrder(this.getId());
         super.store();
+        if(this.getOrder() != null){
+            this.getOrder().store();
+            ConnectionHandler.getTheConnectionHandler().thePreOrderFacade.orderSet(this.getId(), getOrder());
+        }
         if(this.getSubService() != null){
             this.getSubService().store();
             ConnectionHandler.getTheConnectionHandler().thePreOrderFacade.subServiceSet(this.getId(), getSubService());
@@ -107,6 +125,20 @@ public class PreOrder extends PersistentObject implements PersistentPreOrder{
         
     }
     
+    public PersistentCustomerOrder getOrder() throws PersistenceException {
+        return this.order;
+    }
+    public void setOrder(PersistentCustomerOrder newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.isTheSameAs(this.order)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.order = (PersistentCustomerOrder)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().thePreOrderFacade.orderSet(this.getId(), newValue);
+        }
+    }
     public SubjInterface getSubService() throws PersistenceException {
         return this.subService;
     }
@@ -156,18 +188,6 @@ public class PreOrder extends PersistentObject implements PersistentPreOrder{
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handlePreOrder(this);
     }
-    public void accept(CustomerOrderStateVisitor visitor) throws PersistenceException {
-        visitor.handlePreOrder(this);
-    }
-    public <R> R accept(CustomerOrderStateReturnVisitor<R>  visitor) throws PersistenceException {
-         return visitor.handlePreOrder(this);
-    }
-    public <E extends model.UserException>  void accept(CustomerOrderStateExceptionVisitor<E> visitor) throws PersistenceException, E {
-         visitor.handlePreOrder(this);
-    }
-    public <R, E extends model.UserException> R accept(CustomerOrderStateReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
-         return visitor.handlePreOrder(this);
-    }
     public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
         visitor.handlePreOrder(this);
     }
@@ -181,6 +201,7 @@ public class PreOrder extends PersistentObject implements PersistentPreOrder{
          return visitor.handlePreOrder(this);
     }
     public int getLeafInfo() throws PersistenceException{
+        if (this.getOrder() != null) return 1;
         return 0;
     }
     
@@ -198,6 +219,7 @@ public class PreOrder extends PersistentObject implements PersistentPreOrder{
 				throws PersistenceException{
         this.setThis((PersistentPreOrder)This);
 		if(this.isTheSameAs(This)){
+			this.setOrder((PersistentCustomerOrder)final$$Fields.get("order"));
 		}
     }
     public synchronized void register(final ObsInterface observee) 

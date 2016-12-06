@@ -75,15 +75,6 @@ public  class RemoteCartService extends RemoteCustomerService {
         }
     }
     
-    public synchronized java.util.HashMap<?,?> signalChanged(){
-        try {
-            ((PersistentCartService)this.server).signalChanged();
-            return createOKResult();
-        }catch(PersistenceException pe){
-            return createExceptionResult(pe);
-        }
-    }
-    
 
 
 }

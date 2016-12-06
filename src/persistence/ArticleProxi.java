@@ -54,12 +54,6 @@ public class ArticleProxi extends ItemProxi implements PersistentArticle{
     public void setMaxStock(long newValue) throws PersistenceException {
         ((PersistentArticle)this.getTheObject()).setMaxStock(newValue);
     }
-    public long getManuDelivery() throws PersistenceException {
-        return ((PersistentArticle)this.getTheObject()).getManuDelivery();
-    }
-    public void setManuDelivery(long newValue) throws PersistenceException {
-        ((PersistentArticle)this.getTheObject()).setManuDelivery(newValue);
-    }
     public long getStock() throws PersistenceException {
         return ((PersistentArticle)this.getTheObject()).getStock();
     }

@@ -101,6 +101,10 @@ public class ShopkeeperICProxi extends PersistentInCacheProxiOptimistic implemen
 				throws PersistenceException{
         ((PersistentShopkeeper)this.getTheObject()).changeProductGroup(article, newPG, invoker);
     }
+    public void changeRetourePercentage(final long newPercentage, final Invoker invoker) 
+				throws PersistenceException{
+        ((PersistentShopkeeper)this.getTheObject()).changeRetourePercentage(newPercentage, invoker);
+    }
     public void changeTime(final PersistentCustomerDelivery cd, final long newTime) 
 				throws PersistenceException{
         ((PersistentShopkeeper)this.getTheObject()).changeTime(cd, newTime);
@@ -156,6 +160,10 @@ public class ShopkeeperICProxi extends PersistentInCacheProxiOptimistic implemen
     public void changeProductGroupImplementation(final PersistentArticle article, final PersistentProductGroup newPG) 
 				throws PersistenceException{
         ((PersistentShopkeeper)this.getTheObject()).changeProductGroupImplementation(article, newPG);
+    }
+    public void changeRetourePercentage(final long newPercentage) 
+				throws PersistenceException{
+        ((PersistentShopkeeper)this.getTheObject()).changeRetourePercentage(newPercentage);
     }
     public void changeTimeImplementation(final PersistentCustomerDelivery cd, final long newTime) 
 				throws PersistenceException{

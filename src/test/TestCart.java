@@ -30,6 +30,7 @@ import persistence.PersistentManufacturer;
 import persistence.PersistentOpenCart;
 import persistence.PersistentQuantifiedArticles;
 import persistence.Predcate;
+import persistence.Procdure;
 
 /**
  * Tests all functions for cart handling by customer
@@ -53,13 +54,13 @@ public class TestCart {
 		TestSupport.prepareDatabase();
 		cm = CustomerManager.createCustomerManager();
 		cs = CustomerService.createCustomerService(cm);
-		m1 = Manufacturer.createManufacturer("M1");
-		a1 = Article.createArticle("A1", m1, 100, 10, 150, 0);
+		m1 = Manufacturer.createManufacturer("M1", 100);
+		a1 = Article.createArticle("A1", m1, 100, 10, 150);
 		a1.setStock(100);
 		cm.getCartMngr().addArticle(a1, 10);
-		a2 = Article.createArticle("A2", m1, 20, 5, 60, 0);
+		a2 = Article.createArticle("A2", m1, 20, 5, 60);
 		a2.setStock(34);
-		a3 = Article.createArticle("A3", m1, 18, 20, 100, 0);
+		a3 = Article.createArticle("A3", m1, 18, 20, 100);
 		a3.setStock(40);
 	}
 
@@ -180,6 +181,11 @@ public class TestCart {
 	
 	@Test
 	public void testOrder() throws PersistenceException, InsufficientStock, FirstCheckOut, InsufficientFunds {
+		Iterator<PersistentQuantifiedArticles> cartIterator = cm.getCartMngr().getArticleList().iterator();
+		while(cartIterator.hasNext()) {
+			PersistentQuantifiedArticles next = cartIterator.next();
+			cm.getCartMngr().changeAmount(next, 4);
+		}
 		cm.getCartMngr().checkOut();
 		cm.getCartMngr().order(TestDelivery.getTheTestDelivery());
 		assertEquals(600, cm.getAccMngr().getMyAccount().getBalance());

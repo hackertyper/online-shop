@@ -5,7 +5,7 @@ package serverConstants;
  */
 public class ConfigConstants {
 	
-	private static Integer RetourePercentage = 10;
+	private static long RetourePercentage = 10;
 	private static long PresetAccountBalance = 1000;
 	private static long PresetAccountLowerLimit = 0;
 
@@ -15,14 +15,14 @@ public class ConfigConstants {
 	/**
 	 * @return the retourePercentage
 	 */
-	public static final Integer getRetourePercentage() {
+	public static final long getRetourePercentage() {
 		return RetourePercentage;
 	}
 
 	/**
 	 * @param retourePercentage the retourePercentage to set
 	 */
-	public static final void setRetourePercentage(Integer retourePercentage) {
+	public static final void setRetourePercentage(long retourePercentage) {
 		RetourePercentage = retourePercentage;
 	}
 

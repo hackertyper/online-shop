@@ -21,6 +21,7 @@ public interface AnythingVisitor extends CartStateVisitor,CommonDateVisitor,Cust
     public void handleChangeDescriptionCommand(PersistentChangeDescriptionCommand changeDescriptionCommand) throws PersistenceException;
     public void handleChangePriceCommand(PersistentChangePriceCommand changePriceCommand) throws PersistenceException;
     public void handleChangeProductGroupCommand(PersistentChangeProductGroupCommand changeProductGroupCommand) throws PersistenceException;
+    public void handleChangeRetourePercentageCommand(PersistentChangeRetourePercentageCommand changeRetourePercentageCommand) throws PersistenceException;
     public void handleChangeTimeCommand(PersistentChangeTimeCommand changeTimeCommand) throws PersistenceException;
     public void handleCheckOutCommand(PersistentCheckOutCommand checkOutCommand) throws PersistenceException;
     public void handleCommandCoordinator(PersistentCommandCoordinator commandCoordinator) throws PersistenceException;

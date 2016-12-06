@@ -18,6 +18,12 @@ public class PreOrderProxi extends PersistentProxi implements PersistentPreOrder
         return 240;
     }
     
+    public PersistentCustomerOrder getOrder() throws PersistenceException {
+        return ((PersistentPreOrder)this.getTheObject()).getOrder();
+    }
+    public void setOrder(PersistentCustomerOrder newValue) throws PersistenceException {
+        ((PersistentPreOrder)this.getTheObject()).setOrder(newValue);
+    }
     public SubjInterface getSubService() throws PersistenceException {
         return ((PersistentPreOrder)this.getTheObject()).getSubService();
     }
@@ -38,18 +44,6 @@ public class PreOrderProxi extends PersistentProxi implements PersistentPreOrder
          visitor.handlePreOrder(this);
     }
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
-         return visitor.handlePreOrder(this);
-    }
-    public void accept(CustomerOrderStateVisitor visitor) throws PersistenceException {
-        visitor.handlePreOrder(this);
-    }
-    public <R> R accept(CustomerOrderStateReturnVisitor<R>  visitor) throws PersistenceException {
-         return visitor.handlePreOrder(this);
-    }
-    public <E extends model.UserException>  void accept(CustomerOrderStateExceptionVisitor<E> visitor) throws PersistenceException, E {
-         visitor.handlePreOrder(this);
-    }
-    public <R, E extends model.UserException> R accept(CustomerOrderStateReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handlePreOrder(this);
     }
     public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {

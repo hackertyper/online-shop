@@ -131,6 +131,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleShopManagerItemRange(PersistentShopManagerItemRange shopManagerItemRange) throws PersistenceException{
         this.standardHandling(shopManagerItemRange);
     }
+    public void handleChangeRetourePercentageCommand(PersistentChangeRetourePercentageCommand changeRetourePercentageCommand) throws PersistenceException{
+        this.standardHandling(changeRetourePercentageCommand);
+    }
     public void handleOrderCommand(PersistentOrderCommand orderCommand) throws PersistenceException{
         this.standardHandling(orderCommand);
     }

@@ -24,7 +24,7 @@ public interface OrderManager4Public extends Anything, SubjInterface, AbstractPe
     public void retoureDelivery(final PersistentCustomerOrder arrivedOrder, final Invoker invoker) 
 				throws PersistenceException;
     public void acceptDelivery(final PersistentCustomerOrder arrivedOrder) 
-				throws PersistenceException;
+				throws model.NotArrived, PersistenceException;
     public void addOrder(final PersistentCustomerOrder order) 
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
@@ -34,9 +34,9 @@ public interface OrderManager4Public extends Anything, SubjInterface, AbstractPe
     public void initializeOnInstantiation() 
 				throws PersistenceException;
     public void retoureArticle(final PersistentQuantifiedArticles article, final long amount) 
-				throws model.InsufficientFunds, PersistenceException;
+				throws model.NotArrived, model.InsufficientFunds, PersistenceException;
     public void retoureDelivery(final PersistentCustomerOrder arrivedOrder) 
-				throws model.InsufficientFunds, PersistenceException;
+				throws model.NotArrived, model.InsufficientFunds, PersistenceException;
 
 }
 

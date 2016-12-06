@@ -234,6 +234,9 @@ public class RetoureArticleCommand extends PersistentObject implements Persisten
         try{
 			this.commandReceiver.retoureArticle(this.getArticle(), this.getAmount());
 		}
+		catch(model.NotArrived e){
+			this.commandException = e;
+		}
 		catch(model.InsufficientFunds e){
 			this.commandException = e;
 		}

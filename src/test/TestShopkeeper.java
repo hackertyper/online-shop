@@ -157,9 +157,20 @@ public class TestShopkeeper {
 		}	
 	}
 	
+	/**
+	 * Tests the configuration methods for retoure
+	 */
 	@Test
-	public void test() {
-		
+	public void testRetoureConfig() {
+		try {
+			register(srvr, common.RPCConstantsAndServices.AdministratorName, common.RPCConstantsAndServices.AdministratorName);
+			if(keeper == null) fail();
+			assertEquals(10, serverConstants.ConfigConstants.getRetourePercentage());
+			keeper.changeRetourePercentage(20);
+			assertEquals(20, serverConstants.ConfigConstants.getRetourePercentage());
+		} catch (PersistenceException e) {
+			fail();
+		}	
 	}
 
 }

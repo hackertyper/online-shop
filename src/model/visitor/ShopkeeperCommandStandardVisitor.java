@@ -11,6 +11,9 @@ public abstract class ShopkeeperCommandStandardVisitor implements ShopkeeperComm
     public void handlePresetBalanceCommand(PersistentPresetBalanceCommand presetBalanceCommand) throws PersistenceException{
         this.standardHandling(presetBalanceCommand);
     }
+    public void handleChangeRetourePercentageCommand(PersistentChangeRetourePercentageCommand changeRetourePercentageCommand) throws PersistenceException{
+        this.standardHandling(changeRetourePercentageCommand);
+    }
     public void handleChangePriceCommand(PersistentChangePriceCommand changePriceCommand) throws PersistenceException{
         this.standardHandling(changePriceCommand);
     }

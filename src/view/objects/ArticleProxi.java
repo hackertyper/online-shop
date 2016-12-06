@@ -37,9 +37,8 @@ public class ArticleProxi extends ItemProxi implements ArticleView{
         long price = new Long((String)resultTable.get("price")).longValue();
         long minStock = new Long((String)resultTable.get("minStock")).longValue();
         long maxStock = new Long((String)resultTable.get("maxStock")).longValue();
-        long manuDelivery = new Long((String)resultTable.get("manuDelivery")).longValue();
         long stock = new Long((String)resultTable.get("stock")).longValue();
-        ArticleView result$$ = new Article((String)description,(ManufacturerView)manufacturer,(ArticleState)state,(ArticleWrapperView)myWrapper,(long)price,(long)minStock,(long)maxStock,(long)manuDelivery,(long)stock, this.getId(), this.getClassId());
+        ArticleView result$$ = new Article((String)description,(ManufacturerView)manufacturer,(ArticleState)state,(ArticleWrapperView)myWrapper,(long)price,(long)minStock,(long)maxStock,(long)stock, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -119,12 +118,6 @@ public class ArticleProxi extends ItemProxi implements ArticleView{
     }
     public void setMaxStock(long newValue) throws ModelException {
         ((Article)this.getTheObject()).setMaxStock(newValue);
-    }
-    public long getManuDelivery()throws ModelException{
-        return ((Article)this.getTheObject()).getManuDelivery();
-    }
-    public void setManuDelivery(long newValue) throws ModelException {
-        ((Article)this.getTheObject()).setManuDelivery(newValue);
     }
     public long getStock()throws ModelException{
         return ((Article)this.getTheObject()).getStock();

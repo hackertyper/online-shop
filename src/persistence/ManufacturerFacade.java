@@ -25,17 +25,17 @@ public class ManufacturerFacade{
 	}
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
-    public PersistentManufacturer newManufacturer(String name,long idCreateIfLessZero) throws PersistenceException {
+    public PersistentManufacturer newManufacturer(String name,long manuDelivery,long idCreateIfLessZero) throws PersistenceException {
         if(idCreateIfLessZero > 0) return (PersistentManufacturer)PersistentProxi.createProxi(idCreateIfLessZero, 119);
         long id = ConnectionHandler.getTheConnectionHandler().theManufacturerFacade.getNextId();
-        Manufacturer result = new Manufacturer(name,null,null,id);
+        Manufacturer result = new Manufacturer(name,manuDelivery,null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentManufacturer)PersistentProxi.createProxi(id, 119);
     }
     
-    public PersistentManufacturer newDelayedManufacturer(String name) throws PersistenceException {
+    public PersistentManufacturer newDelayedManufacturer(String name,long manuDelivery) throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theManufacturerFacade.getNextId();
-        Manufacturer result = new Manufacturer(name,null,null,id);
+        Manufacturer result = new Manufacturer(name,manuDelivery,null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentManufacturer)PersistentProxi.createProxi(id, 119);
     }
@@ -50,6 +50,9 @@ public class ManufacturerFacade{
         
     }
     public void nameSet(long ManufacturerId, String nameVal) throws PersistenceException {
+        
+    }
+    public void manuDeliverySet(long ManufacturerId, long manuDeliveryVal) throws PersistenceException {
         
     }
     public void subServiceSet(long ManufacturerId, SubjInterface subServiceVal) throws PersistenceException {

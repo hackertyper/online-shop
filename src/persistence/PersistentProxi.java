@@ -19,7 +19,7 @@ public abstract class PersistentProxi extends PersistentRoot implements Persiste
 	
   private static ListProxiFactory [] getTheListProxiFactories(){
 	if (listProxiFactories == null){
-		listProxiFactories = new ListProxiFactory[161];
+		listProxiFactories = new ListProxiFactory[163];
         listProxiFactories[98] = new ListProxiFactory(){
             AbstractPersistentRoot create(long objectId, long entryId){
                 return new AccountListEntryProxi(objectId, entryId);
@@ -230,6 +230,11 @@ public abstract class PersistentProxi extends PersistentRoot implements Persiste
                 return new PresetBalanceCommandListEntryProxi(objectId, entryId);
             }
         };
+        listProxiFactories[161] = new ListProxiFactory(){
+            AbstractPersistentRoot create(long objectId, long entryId){
+                return new ChangeRetourePercentageCommandListEntryProxi(objectId, entryId);
+            }
+        };
         listProxiFactories[3] = new ListProxiFactory(){
             AbstractPersistentRoot create(long objectId, long entryId){
                 return new OrderCommandListEntryProxi(objectId, entryId);
@@ -360,7 +365,7 @@ public abstract class PersistentProxi extends PersistentRoot implements Persiste
   }
   private static ProxiFactory [] getTheProxiFactories(){
 	if (proxiFactories == null){
-		proxiFactories = new ProxiFactory [161];
+		proxiFactories = new ProxiFactory [163];
         proxiFactories[98] = new ProxiFactory(){
             AbstractPersistentRoot create(long objectId){
                 return new AccountProxi(objectId);
@@ -569,6 +574,11 @@ public abstract class PersistentProxi extends PersistentRoot implements Persiste
         proxiFactories[142] = new ProxiFactory(){
             AbstractPersistentRoot create(long objectId){
                 return new PresetBalanceCommandProxi(objectId);
+            }
+        };
+        proxiFactories[161] = new ProxiFactory(){
+            AbstractPersistentRoot create(long objectId){
+                return new ChangeRetourePercentageCommandProxi(objectId);
             }
         };
         proxiFactories[3] = new ProxiFactory(){

@@ -134,6 +134,10 @@ public class ShopkeeperServiceProxi extends ServiceProxi implements PersistentSh
 				throws PersistenceException{
         ((PersistentShopkeeperService)this.getTheObject()).changeProductGroup(article, newPG);
     }
+    public void changeRetourePercentage(final long newPercentage) 
+				throws PersistenceException{
+        ((PersistentShopkeeperService)this.getTheObject()).changeRetourePercentage(newPercentage);
+    }
     public void changeTime(final PersistentCustomerDelivery cd, final long newTime) 
 				throws PersistenceException{
         ((PersistentShopkeeperService)this.getTheObject()).changeTime(cd, newTime);

@@ -225,6 +225,9 @@ public class RetoureDeliveryCommand extends PersistentObject implements Persiste
         try{
 			this.commandReceiver.retoureDelivery(this.getArrivedOrder());
 		}
+		catch(model.NotArrived e){
+			this.commandException = e;
+		}
 		catch(model.InsufficientFunds e){
 			this.commandException = e;
 		}

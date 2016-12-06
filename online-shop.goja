@@ -8,23 +8,24 @@ abstract server Service {
 }
 server ShopkeeperService extends Service {
 	skip-view one-to-one (server-only myServer) Shopkeeper manager;
-	server-only Integer lowerLimitPreset;
-	server-only Integer balancePreset;
 	//Preset account settings
 	void presetLowerLimit@@Kundenkonto:Unteres_Limit_setzen(Integer amount);
 	void presetBalance@@Kundenkonto:Startkapital_setzen(Integer amount);
+	//Preset order settings
+	void changeTime@@Kundenlieferzeit:Dauer_ändern(CustomerDelivery cd, Integer newTime);
+	void changeExtraCharge@@Kundenlieferzeit:Kosten_ändern(CustomerDelivery cd, Integer newCharge);
+	void changeRetourePercentage@@Retoure:Prozentsatz_ändern(Integer newPercentage);
 	//data manipulating methods
 	void changePrice@@Artikelpreis_ändern(Article article, Integer newPrice);
 	void changeProductGroup@@Produktgruppe_wechseln(Article article, ProductGroup newPG);
 	void changeDescription@@Beschreibung_ändern(Item item, String newDescription);
 	void changeManufacturerDelivery@@Herstellerlieferzeit_ändern(Integer newManuDelivery);
 	void startSelling@@Verkauf_starten(NewlyAdded article);
-	void changeTime@@Kundenlieferzeit:Dauer_ändern(CustomerDelivery cd, Integer newTime);
-	void changeExtraCharge@@Kundenlieferzeit:Kosten_ändern(CustomerDelivery cd, Integer newCharge);
 }
 server CustomerService extends Service {
 	CustomerService ** services;
 	skip-view prior one-to-one (no-view myCustomerServer) CustomerManager manager;
+	server-only void signalChanged();
 }
 server ShopService extends CustomerService {
 	skip-view one-to-one (no-view myShopServer) ShopManager shopMngr;
@@ -63,6 +64,7 @@ class CustomerManager {
 	server-only one-to-one (no-view customerManager) AccountManager accMngr;
 	server-only one-to-one (no-view customerManager) CartManager cartMngr;
 	server-only one-to-one (no-view customerManager) OrderManager orderMngr;
+	void signalChanged();
 	void addToCart(Article article, Integer amount);
 	active void deposit(Integer amount);
 	active void withdraw(Integer amount) throws InsufficientFunds;
@@ -85,8 +87,8 @@ class AccountManager {
 class CartManager {
 	one-to-one (no-view cartMngr) Cart myCart;
 	observe QuantifiedArticles ** articleList;
-	StandardDelivery standardDelivery;
-	OverNightDelivery onDelivery;
+	observe StandardDelivery standardDelivery;
+	observe OverNightDelivery onDelivery;
 	active void changeAmount(QuantifiedArticles article, Integer newAmount);
 	void addToCart(Article article, Integer amount);
 	active void removeFCart(QuantifiedArticles article);
@@ -127,20 +129,26 @@ abstract class CartState (OpenCart) {}
 class CheckedOut extends CartState{}
 //Shopkeeper classes
 class Shopkeeper {
-	Item ** itemRange;
+	observe Item ** itemRange;
 	StandardDelivery standardDelivery;
 	OverNightDelivery onDelivery;
-	active void changeTime(CustomerDelivery cd, Integer newTime);
+	active event void changeTime(CustomerDelivery cd, Integer newTime);
 	active void changeCharge(CustomerDelivery cd, Integer newCharge);
+	active void presetLowerLimit(Integer amount);
+	active void presetBalance(Integer amount);
+	active event void changePrice(Article article, Integer newPrice);
+	active event void changeProductGroup##chngPG(Article article, ProductGroup newPG);
+	active event void changeDescription(Item item, String newDescription);
+	active void changeRetourePercentage##chngRtPr(Integer newPercentage);
 }
 //Article classes
 abstract class Item {
 	prior indexed String description;
-	active void changeDescription(String newDescription);
+	void changeDescription(String newDescription);
 }
 class ProductGroup extends Item {
-	Item ** itemList;
-	void addItem(Item item);
+	observe Item ** itemList;
+	event void addItem(Item item);
 }
 class Article extends Item{
 	//Attributes
@@ -153,13 +161,13 @@ class Article extends Item{
 	prior Integer manuDelivery;
 	Integer stock;
 	// Methods
-	active void changePrice(Integer newPrice);
-	active void changeManuDelivery(Integer newManuDelivery);
-	active void changeProductGroup##chngePG(ProductGroup newPG);
+	void changePrice(Integer newPrice);
+	void changeManuDelivery(Integer newManuDelivery);
+	void changeProductGroup##chngePG(ProductGroup newPG);
 	void reserve(Integer amount) throws InsufficientStock;
 	void deleteReserve(Integer amount);
 	void pack(Integer amount);
-	void receiveDelivery(Integer amount);
+	event void receiveDelivery(Integer amount);
 }
 // wrapper for display in customer view
 class ArticleWrapper {
@@ -182,14 +190,15 @@ class RemovedFSale implements ArticleState {
 	void addToCart(Integer amount, Cart cart) throws InsufficientStock;
 }
 class QuantifiedArticles {
-	skip-view prior Article article;
+	observe skip-view prior Article article;
 	prior Integer amount;
 	Integer fetchPrice();
 	void changeAmount(Integer newAmount);
 	void reserve() throws InsufficientStock;
 	void deleteReserve();
 	void pack();
-	void retoure(Integer amount);
+	event void retoure(Integer amount);
+	event void fireArticleChanged(extern model.meta.ArticleMssgs evnt);
 }
 //Order classes
 abstract class Delivery {
@@ -206,7 +215,7 @@ class Retoure extends Delivery {
 	QuantifiedArticles ** articleList;
 }
 class CustomerOrder extends Delivery {
-	QuantifiedArticles ** articleList;
+	observe QuantifiedArticles ** articleList;
 	no-view OrderManager ordermngr;
 	no-view CustomerOrderState myState;
 	void arrived();

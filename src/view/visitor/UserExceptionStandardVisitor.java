@@ -5,6 +5,9 @@ import view.*;
 
 public abstract class UserExceptionStandardVisitor implements UserExceptionVisitor {
     
+    public void handleNotArrived(NotArrived notArrived) throws ModelException{
+        this.standardHandling(notArrived);
+    }
     public void handleDoubleUsername(DoubleUsername doubleUsername) throws ModelException{
         this.standardHandling(doubleUsername);
     }

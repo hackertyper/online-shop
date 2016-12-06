@@ -100,7 +100,7 @@ public class OrderManagerProxi extends PersistentProxi implements PersistentOrde
         ((PersistentOrderManager)this.getTheObject()).updateObservers(event);
     }
     public void acceptDelivery(final PersistentCustomerOrder arrivedOrder) 
-				throws PersistenceException{
+				throws model.NotArrived, PersistenceException{
         ((PersistentOrderManager)this.getTheObject()).acceptDelivery(arrivedOrder);
     }
     public void addOrder(final PersistentCustomerOrder order) 
@@ -120,11 +120,11 @@ public class OrderManagerProxi extends PersistentProxi implements PersistentOrde
         ((PersistentOrderManager)this.getTheObject()).initializeOnInstantiation();
     }
     public void retoureArticle(final PersistentQuantifiedArticles article, final long amount) 
-				throws model.InsufficientFunds, PersistenceException{
+				throws model.NotArrived, model.InsufficientFunds, PersistenceException{
         ((PersistentOrderManager)this.getTheObject()).retoureArticle(article, amount);
     }
     public void retoureDelivery(final PersistentCustomerOrder arrivedOrder) 
-				throws model.InsufficientFunds, PersistenceException{
+				throws model.NotArrived, model.InsufficientFunds, PersistenceException{
         ((PersistentOrderManager)this.getTheObject()).retoureDelivery(arrivedOrder);
     }
 

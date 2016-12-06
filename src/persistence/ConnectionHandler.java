@@ -105,6 +105,7 @@ public class ConnectionHandler {
     public ArticleWrapperFacade theArticleWrapperFacade;
     public ShopManagerItemRangeFacade theShopManagerItemRangeFacade;
     public PresetBalanceCommandFacade thePresetBalanceCommandFacade;
+    public ChangeRetourePercentageCommandFacade theChangeRetourePercentageCommandFacade;
     public OrderCommandFacade theOrderCommandFacade;
     public ShopkeeperFacade theShopkeeperFacade;
     public ArticleFacade theArticleFacade;
@@ -181,6 +182,7 @@ public class ConnectionHandler {
             this.theArticleWrapperFacade= new ArticleWrapperFacade();
             this.theShopManagerItemRangeFacade= new ShopManagerItemRangeFacade();
             this.thePresetBalanceCommandFacade= new PresetBalanceCommandFacade();
+            this.theChangeRetourePercentageCommandFacade= new ChangeRetourePercentageCommandFacade();
             this.theOrderCommandFacade= new OrderCommandFacade();
             this.theShopkeeperFacade= new ShopkeeperFacade();
             this.theArticleFacade= new ArticleFacade();

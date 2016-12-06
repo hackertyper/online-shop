@@ -77,6 +77,16 @@ public  class RemoteShopkeeperService extends RemoteService {
         }
     }
     
+    public synchronized java.util.HashMap<?,?> changeRetourePercentage(String newPercentageAsString){
+        try {
+            long newPercentage = new Long(newPercentageAsString).longValue();
+            ((PersistentShopkeeperService)this.server).changeRetourePercentage(newPercentage);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
     public synchronized java.util.HashMap<?,?> changeTime(String cdProxiString, String newTimeAsString){
         try {
             PersistentCustomerDelivery cd = (PersistentCustomerDelivery)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(cdProxiString));

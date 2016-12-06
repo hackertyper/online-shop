@@ -5,6 +5,9 @@ import persistence.*;
 
 public abstract class UserExceptionStandardVisitor implements UserExceptionVisitor {
     
+    public void handleNotArrived(model.NotArrived notArrived) throws PersistenceException{
+        this.standardHandling(notArrived);
+    }
     public void handleDoubleUsername(model.DoubleUsername doubleUsername) throws PersistenceException{
         this.standardHandling(doubleUsername);
     }

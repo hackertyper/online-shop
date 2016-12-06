@@ -316,7 +316,6 @@ public class OrderServiceClientView extends BorderPane implements ExceptionAndEv
         ImageView handle(RetoureArticlePRMTRQuantifiedArticlesPRMTRIntegerPRMTRMenuItem menuItem);
         ImageView handle(AcceptDeliveryPRMTRCustomerOrderPRMTRMenuItem menuItem);
         ImageView handle(RetoureDeliveryPRMTRCustomerOrderPRMTRMenuItem menuItem);
-        ImageView handle(SignalChangedPRMTRMenuItem menuItem);
     }
     private abstract class OrderServiceMenuItem extends MenuItem{
         private OrderServiceMenuItem(){
@@ -339,61 +338,13 @@ public class OrderServiceClientView extends BorderPane implements ExceptionAndEv
             return visitor.handle(this);
         }
     }
-    private class SignalChangedPRMTRMenuItem extends OrderServiceMenuItem{
-        protected ImageView accept(MenuItemVisitor visitor){
-            return visitor.handle(this);
-        }
-    }
     private java.util.Vector<javafx.scene.control.Button> getToolButtonsForStaticOperations() {
         java.util.Vector<javafx.scene.control.Button> result = new java.util.Vector<javafx.scene.control.Button>();
-        javafx.scene.control.Button currentButton = null;
-        currentButton = new javafx.scene.control.Button("signalChanged");
-        currentButton.setGraphic(new SignalChangedPRMTRMenuItem().getGraphic());
-        currentButton.setOnAction(new EventHandler<ActionEvent>(){
-            public void handle(javafx.event.ActionEvent e) {
-                Alert confirm = new Alert(AlertType.CONFIRMATION);
-                confirm.setTitle(GUIConstants.ConfirmButtonText);
-                confirm.setHeaderText(null);
-                confirm.setContentText("signalChanged" + GUIConstants.ConfirmQuestionMark);
-                Optional<ButtonType> buttonResult = confirm.showAndWait();
-                if (buttonResult.get() == ButtonType.OK) {
-                    try {
-                        getConnection().signalChanged();
-                        getConnection().setEagerRefresh();
-                        
-                    }catch(ModelException me){
-                        handleException(me);
-                    }
-                }
-            }
-        });
-        result.add(currentButton);
         return result;
     }
     private ContextMenu getContextMenu(final ViewRoot selected, final boolean withStaticOperations, final Point2D menuPos) {
         final ContextMenu result = new ContextMenu();
         MenuItem item = null;
-        item = new SignalChangedPRMTRMenuItem();
-        item.setText("(S) signalChanged");
-        item.setOnAction(new EventHandler<ActionEvent>(){
-            public void handle(javafx.event.ActionEvent e) {
-                Alert confirm = new Alert(AlertType.CONFIRMATION);
-                confirm.setTitle(GUIConstants.ConfirmButtonText);
-                confirm.setHeaderText(null);
-                confirm.setContentText("signalChanged" + GUIConstants.ConfirmQuestionMark);
-                Optional<ButtonType> buttonResult = confirm.showAndWait();
-                if (buttonResult.get() == ButtonType.OK) {
-                    try {
-                        getConnection().signalChanged();
-                        getConnection().setEagerRefresh();
-                        
-                    }catch(ModelException me){
-                        handleException(me);
-                    }
-                }
-            }
-        });
-        if (withStaticOperations) result.getItems().add(item);
         if (selected != null){
             try {
                 this.setPreCalculatedFilters(this.getConnection().orderService_Menu_Filter((Anything)selected));

@@ -84,7 +84,7 @@ public class QuantifiedArticlesProxi extends PersistentProxi implements Persiste
         ((PersistentQuantifiedArticles)this.getTheObject()).register(observee);
     }
     public void retoure(final long amount) 
-				throws PersistenceException{
+				throws model.NotArrived, PersistenceException{
         ((PersistentQuantifiedArticles)this.getTheObject()).retoure(amount);
     }
     public void setArticle(final PersistentArticle article) 
@@ -136,7 +136,7 @@ public class QuantifiedArticlesProxi extends PersistentProxi implements Persiste
         ((PersistentQuantifiedArticles)this.getTheObject()).reserve();
     }
     public void retoureImplementation(final long amount) 
-				throws PersistenceException{
+				throws model.NotArrived, PersistenceException{
         ((PersistentQuantifiedArticles)this.getTheObject()).retoureImplementation(amount);
     }
 

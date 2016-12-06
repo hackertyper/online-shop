@@ -1574,6 +1574,7 @@ class ShopServiceDefaultDetailPanel extends DefaultDetailPanel{
 class ManufacturerDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String Manufacturer$$name = "Manufacturer$$name";
+    protected static final String Manufacturer$$manuDelivery = "Manufacturer$$manuDelivery";
     
     protected ManufacturerDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -1583,6 +1584,13 @@ class ManufacturerDefaultDetailPanel extends DefaultDetailPanel{
             BaseTypePanel panel = new StringPanel(this, "name", this.getAnything().getName());
             this.getScrollablePane().getChildren().add(panel);
             this.panels.put(Manufacturer$$name, panel);
+        }catch(ModelException e){
+            this.getExceptionAndEventhandler().handleException(e);
+        }
+        try{
+            BaseTypePanel panel = new IntegerPanel(this, "manuDelivery", this.getAnything().getManuDelivery());
+            this.getScrollablePane().getChildren().add(panel);
+            this.panels.put(Manufacturer$$manuDelivery, panel);
         }catch(ModelException e){
             this.getExceptionAndEventhandler().handleException(e);
         }
@@ -1884,7 +1892,6 @@ class ArticleDefaultDetailPanel extends DefaultDetailPanel{
     protected static final String Article$$price = "Article$$price";
     protected static final String Article$$minStock = "Article$$minStock";
     protected static final String Article$$maxStock = "Article$$maxStock";
-    protected static final String Article$$manuDelivery = "Article$$manuDelivery";
     protected static final String Article$$stock = "Article$$stock";
     
     protected ArticleDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
@@ -1920,13 +1927,6 @@ class ArticleDefaultDetailPanel extends DefaultDetailPanel{
             this.getExceptionAndEventhandler().handleException(e);
         }
         try{
-            BaseTypePanel panel = new IntegerPanel(this, "manuDelivery", this.getAnything().getManuDelivery());
-            this.getScrollablePane().getChildren().add(panel);
-            this.panels.put(Article$$manuDelivery, panel);
-        }catch(ModelException e){
-            this.getExceptionAndEventhandler().handleException(e);
-        }
-        try{
             BaseTypePanel panel = new IntegerPanel(this, "stock", this.getAnything().getStock());
             this.getScrollablePane().getChildren().add(panel);
             this.panels.put(Article$$stock, panel);
@@ -1954,6 +1954,8 @@ class OfferedFSaleDefaultDetailPanel extends DefaultDetailPanel{
 }
 
 class PreOrderDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String PreOrder$$order = "PreOrder$$order";
     
     protected PreOrderDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);

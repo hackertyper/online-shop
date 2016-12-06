@@ -27,8 +27,9 @@ public class QuantifiedArticlesRetoureIntegerMssg implements QuantifiedArticlesD
             }
         }
     }
-    public synchronized void getResult() throws PersistenceException {
+    public synchronized void getResult() throws model.NotArrived, PersistenceException {
         if(this.excptn != null) {
+            if(this.excptn instanceof model.NotArrived) throw (model.NotArrived) this.excptn;
             if(this.excptn instanceof PersistenceException) throw (PersistenceException) this.excptn;
             if(this.excptn instanceof RuntimeException) throw (RuntimeException) this.excptn;
             throw new Error(this.excptn);

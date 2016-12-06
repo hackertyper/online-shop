@@ -11,6 +11,9 @@ public abstract class CommonDateStandardVisitor implements CommonDateVisitor {
     public void handlePresetBalanceCommand(PersistentPresetBalanceCommand presetBalanceCommand) throws PersistenceException{
         this.standardHandling(presetBalanceCommand);
     }
+    public void handleChangeRetourePercentageCommand(PersistentChangeRetourePercentageCommand changeRetourePercentageCommand) throws PersistenceException{
+        this.standardHandling(changeRetourePercentageCommand);
+    }
     public void handleOrderCommand(PersistentOrderCommand orderCommand) throws PersistenceException{
         this.standardHandling(orderCommand);
     }

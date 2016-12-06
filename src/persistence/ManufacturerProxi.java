@@ -24,6 +24,12 @@ public class ManufacturerProxi extends PersistentProxi implements PersistentManu
     public void setName(String newValue) throws PersistenceException {
         ((PersistentManufacturer)this.getTheObject()).setName(newValue);
     }
+    public long getManuDelivery() throws PersistenceException {
+        return ((PersistentManufacturer)this.getTheObject()).getManuDelivery();
+    }
+    public void setManuDelivery(long newValue) throws PersistenceException {
+        ((PersistentManufacturer)this.getTheObject()).setManuDelivery(newValue);
+    }
     public SubjInterface getSubService() throws PersistenceException {
         return ((PersistentManufacturer)this.getTheObject()).getSubService();
     }
@@ -75,6 +81,10 @@ public class ManufacturerProxi extends PersistentProxi implements PersistentManu
     public void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentManufacturer)this.getTheObject()).updateObservers(event);
+    }
+    public void changeManuDelivery(final long newManuDelivery) 
+				throws PersistenceException{
+        ((PersistentManufacturer)this.getTheObject()).changeManuDelivery(newManuDelivery);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{

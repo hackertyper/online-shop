@@ -44,15 +44,6 @@ public  class RemoteAccountService extends RemoteCustomerService {
         }
     }
     
-    public synchronized java.util.HashMap<?,?> signalChanged(){
-        try {
-            ((PersistentAccountService)this.server).signalChanged();
-            return createOKResult();
-        }catch(PersistenceException pe){
-            return createExceptionResult(pe);
-        }
-    }
-    
     public synchronized java.util.HashMap<?,?> withdraw(String amountAsString){
         try {
             long amount = new Long(amountAsString).longValue();

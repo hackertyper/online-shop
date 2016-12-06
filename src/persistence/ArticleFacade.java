@@ -10,17 +10,17 @@ public class ArticleFacade{
 	}
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
-    public PersistentArticle newArticle(String description,long price,long minStock,long maxStock,long manuDelivery,long stock,long idCreateIfLessZero) throws PersistenceException {
+    public PersistentArticle newArticle(String description,long price,long minStock,long maxStock,long stock,long idCreateIfLessZero) throws PersistenceException {
         if(idCreateIfLessZero > 0) return (PersistentArticle)PersistentProxi.createProxi(idCreateIfLessZero, 109);
         long id = ConnectionHandler.getTheConnectionHandler().theItemFacade.getNextId();
-        Article result = new Article(description,null,null,null,null,null,price,minStock,maxStock,manuDelivery,stock,id);
+        Article result = new Article(description,null,null,null,null,null,price,minStock,maxStock,stock,id);
         Cache.getTheCache().put(result);
         return (PersistentArticle)PersistentProxi.createProxi(id, 109);
     }
     
-    public PersistentArticle newDelayedArticle(String description,long price,long minStock,long maxStock,long manuDelivery,long stock) throws PersistenceException {
+    public PersistentArticle newDelayedArticle(String description,long price,long minStock,long maxStock,long stock) throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theItemFacade.getNextId();
-        Article result = new Article(description,null,null,null,null,null,price,minStock,maxStock,manuDelivery,stock,id);
+        Article result = new Article(description,null,null,null,null,null,price,minStock,maxStock,stock,id);
         Cache.getTheCache().put(result);
         return (PersistentArticle)PersistentProxi.createProxi(id, 109);
     }
@@ -44,9 +44,6 @@ public class ArticleFacade{
         
     }
     public void maxStockSet(long ArticleId, long maxStockVal) throws PersistenceException {
-        
-    }
-    public void manuDeliverySet(long ArticleId, long manuDeliveryVal) throws PersistenceException {
         
     }
     public void stockSet(long ArticleId, long stockVal) throws PersistenceException {

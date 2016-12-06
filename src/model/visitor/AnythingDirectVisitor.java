@@ -126,6 +126,9 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handlePresetBalanceCommand(PersistentPresetBalanceCommand presetBalanceCommand) throws PersistenceException{
         this.handleCommonDate(presetBalanceCommand);
     }
+    public void handleChangeRetourePercentageCommand(PersistentChangeRetourePercentageCommand changeRetourePercentageCommand) throws PersistenceException{
+        this.handleCommonDate(changeRetourePercentageCommand);
+    }
     public void handleOrderCommand(PersistentOrderCommand orderCommand) throws PersistenceException{
         this.handleCommonDate(orderCommand);
     }

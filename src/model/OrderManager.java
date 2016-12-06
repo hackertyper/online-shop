@@ -2,6 +2,9 @@
 package model;
 
 import persistence.*;
+
+import java.util.Iterator;
+
 import model.visitor.*;
 
 
@@ -301,7 +304,16 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
      * Accepts the arrived delivery. Deletes the delivery from view. 
      */
     public void acceptDelivery(final PersistentCustomerOrder arrivedOrder) 
-				throws PersistenceException{
+				throws model.NotArrived, PersistenceException{
+    	arrivedOrder.getMyState().accept(new CustomerOrderStateExceptionVisitor<NotArrived>() {
+			@Override
+			public void handleArrivedOrder(PersistentArrivedOrder arrivedOrder)
+					throws PersistenceException, NotArrived {}
+			@Override
+			public void handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException, NotArrived {
+				throw new NotArrived(serverConstants.ErrorMessages.NotArrived);
+			}
+		});
     	arrivedOrder.accepted();
     	getThis().getOrders().filter(new Predcate<PersistentCustomerOrder>() {
 			@Override
@@ -338,8 +350,28 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
      * Returns a single Article of the delivery.
      */
     public void retoureArticle(final PersistentQuantifiedArticles article, final long amount) 
-				throws model.InsufficientFunds, PersistenceException{
-        article.retoure(amount);
+				throws model.NotArrived, model.InsufficientFunds, PersistenceException{
+    	PersistentCustomerOrder order = getThis().getOrders().findFirst(new Predcate<PersistentCustomerOrder>() {
+			@Override
+			public boolean test(PersistentCustomerOrder argument) throws PersistenceException {
+				Iterator<PersistentQuantifiedArticles> iterator = argument.getArticleList().iterator();
+				while(iterator.hasNext()) {
+					PersistentQuantifiedArticles next = iterator.next();
+					return next.equals(article);
+				}
+				return false;
+			}
+		});
+    	order.getMyState().accept(new CustomerOrderStateExceptionVisitor<NotArrived>() {
+			@Override
+			public void handleArrivedOrder(PersistentArrivedOrder arrivedOrder)
+					throws PersistenceException, NotArrived {}
+			@Override
+			public void handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException, NotArrived {
+				throw new NotArrived(serverConstants.ErrorMessages.NotArrived);
+			}
+		});
+    	article.retoure(amount);
         getThis().setRetourePrice(getThis().getRetourePrice() + article.fetchPrice());
         returnPayment();
     }
@@ -347,7 +379,7 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
      * Returns the whole delivery.
      */
     public void retoureDelivery(final PersistentCustomerOrder arrivedOrder) 
-				throws model.InsufficientFunds, PersistenceException{
+				throws model.NotArrived, model.InsufficientFunds, PersistenceException{
         arrivedOrder.retoure();
         arrivedOrder.getArticleList().applyToAll(new Procdure<PersistentQuantifiedArticles>() {
 			@Override

@@ -14,6 +14,7 @@ public interface SubjInterfaceReturnVisitor<R> extends ArticleStateReturnVisitor
     public R handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException;
     public R handleManufacturer(PersistentManufacturer manufacturer) throws PersistenceException;
     public R handleOrderManager(PersistentOrderManager orderManager) throws PersistenceException;
+    public R handlePreOrder(PersistentPreOrder preOrder) throws PersistenceException;
     public R handleQuantifiedArticles(PersistentQuantifiedArticles quantifiedArticles) throws PersistenceException;
     public R handleServer(PersistentServer server) throws PersistenceException;
     public R handleShopManager(PersistentShopManager shopManager) throws PersistenceException;

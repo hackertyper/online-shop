@@ -29,6 +29,8 @@ public interface Shopkeeper4Public extends Anything, SubjInterface, AbstractPers
 				throws PersistenceException;
     public void changeProductGroup(final PersistentArticle article, final PersistentProductGroup newPG, final Invoker invoker) 
 				throws PersistenceException;
+    public void changeRetourePercentage(final long newPercentage, final Invoker invoker) 
+				throws PersistenceException;
     public void changeTime(final PersistentCustomerDelivery cd, final long newTime) 
 				throws PersistenceException;
     public void changeTime(final PersistentCustomerDelivery cd, final long newTime, final Invoker invoker) 
@@ -46,6 +48,8 @@ public interface Shopkeeper4Public extends Anything, SubjInterface, AbstractPers
     public void changePriceImplementation(final PersistentArticle article, final long newPrice) 
 				throws PersistenceException;
     public void changeProductGroupImplementation(final PersistentArticle article, final PersistentProductGroup newPG) 
+				throws PersistenceException;
+    public void changeRetourePercentage(final long newPercentage) 
 				throws PersistenceException;
     public void changeTimeImplementation(final PersistentCustomerDelivery cd, final long newTime) 
 				throws PersistenceException;

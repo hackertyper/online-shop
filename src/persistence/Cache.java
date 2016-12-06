@@ -293,6 +293,7 @@ public class Cache {
 		this.number2NameMap.put(131, "ChangeDescriptionCommand");
 		this.number2NameMap.put(127, "ChangePriceCommand");
 		this.number2NameMap.put(249, "ChangeProductGroupCommand");
+		this.number2NameMap.put(262, "ChangeRetourePercentageCommand");
 		this.number2NameMap.put(237, "ChangeTimeCommand");
 		this.number2NameMap.put(137, "CheckOutCommand");
 		this.number2NameMap.put(218, "CheckedOut");

@@ -300,8 +300,6 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
 			@Override
 			public void handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException {}
 			@Override
-			public void handlePreOrder(PersistentPreOrder preOrder) throws PersistenceException {}
-			@Override
 			public void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException {
 				OrderTimer.getInstance().deliver(new ArrivedTask(getThis()), arrivedOrder.getTimeToAccept());
 			}
@@ -348,11 +346,11 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
      * Sends a retoure of the whole order.
      */
     public void retoure() 
-				throws PersistenceException{
-        getThis().getMyState().accept(new CustomerOrderStateVisitor() {
+				throws model.NotArrived, PersistenceException{
+        getThis().getMyState().accept(new CustomerOrderStateExceptionVisitor<NotArrived>() {
 			@Override
-			public void handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException {
-				// do nothing
+			public void handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException, NotArrived {
+				throw new NotArrived(serverConstants.ErrorMessages.NotArrived);
 			}
 			@Override
 			public void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException {
@@ -365,8 +363,6 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
 				});
 		        re.send();
 			}
-			@Override
-			public void handlePreOrder(PersistentPreOrder preOrder) throws PersistenceException {}
 		});
     }
     

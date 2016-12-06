@@ -16,8 +16,6 @@ public interface ArticleView extends ItemView {
     public void setMinStock(long newValue) throws ModelException ;
     public long getMaxStock()throws ModelException;
     public void setMaxStock(long newValue) throws ModelException ;
-    public long getManuDelivery()throws ModelException;
-    public void setManuDelivery(long newValue) throws ModelException ;
     public long getStock()throws ModelException;
     public void setStock(long newValue) throws ModelException ;
     

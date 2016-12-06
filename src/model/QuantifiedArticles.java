@@ -258,7 +258,7 @@ public class QuantifiedArticles extends PersistentObject implements PersistentQu
      * Retoures a single article in the given amount.
      */
     public void retoure(final long amount) 
-				throws PersistenceException{
+				throws model.NotArrived, PersistenceException{
         model.meta.QuantifiedArticlesRetoureIntegerMssg event = new model.meta.QuantifiedArticlesRetoureIntegerMssg(amount, getThis());
 		event.execute();
 		getThis().updateObservers(event);
@@ -321,7 +321,7 @@ public class QuantifiedArticles extends PersistentObject implements PersistentQu
      * Retoures a single article in the given amount.
      */
     public void retoureImplementation(final long amount) 
-				throws PersistenceException{
+				throws model.NotArrived, PersistenceException{
     	if(amount > getThis().getAmount()) {
     		getThis().setAmount(0);
     		PersistentRetoure re = Retoure.createRetoure(0, serverConstants.OrderConstants.current);

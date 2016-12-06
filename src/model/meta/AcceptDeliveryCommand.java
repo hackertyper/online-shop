@@ -222,8 +222,12 @@ public class AcceptDeliveryCommand extends PersistentObject implements Persisten
     }
     public void execute() 
 				throws PersistenceException{
-        this.commandReceiver.acceptDelivery(this.getArrivedOrder());
-		
+        try{
+			this.commandReceiver.acceptDelivery(this.getArrivedOrder());
+		}
+		catch(model.NotArrived e){
+			this.commandException = e;
+		}
     }
     public Invoker fetchInvoker() 
 				throws PersistenceException{

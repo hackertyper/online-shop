@@ -259,6 +259,10 @@ public class ShopkeeperService extends model.Service implements PersistentShopke
 				throws PersistenceException{
         getThis().getManager().changeProductGroup(article, newPG, getThis());
     }
+    public void changeRetourePercentage(final long newPercentage) 
+				throws PersistenceException{
+        getThis().getManager().changeRetourePercentage(newPercentage, getThis());
+    }
     public void changeTime(final PersistentCustomerDelivery cd, final long newTime) 
 				throws PersistenceException{
     	getThis().getManager().changeTime(cd, newTime, getThis());

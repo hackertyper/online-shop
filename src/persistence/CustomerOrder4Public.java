@@ -32,7 +32,7 @@ public interface CustomerOrder4Public extends Delivery4Public {
     public void initializeOnInstantiation() 
 				throws PersistenceException;
     public void retoure() 
-				throws PersistenceException;
+				throws model.NotArrived, PersistenceException;
 
 }
 

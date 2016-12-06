@@ -15,8 +15,6 @@ public interface PersistentArticle extends PersistentItem, Article4Public {
     public void setMinStock(long newValue) throws PersistenceException ;
     public long getMaxStock() throws PersistenceException ;
     public void setMaxStock(long newValue) throws PersistenceException ;
-    public long getManuDelivery() throws PersistenceException ;
-    public void setManuDelivery(long newValue) throws PersistenceException ;
     public long getStock() throws PersistenceException ;
     public void setStock(long newValue) throws PersistenceException ;
     public PersistentArticle getThis() throws PersistenceException ;

@@ -20,9 +20,6 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     public void handleShopkeeper(PersistentShopkeeper shopkeeper) throws PersistenceException{
         this.standardHandling(shopkeeper);
     }
-    public void handlePreOrder(PersistentPreOrder preOrder) throws PersistenceException{
-        this.standardHandling(preOrder);
-    }
     public void handleOfferedFSale(PersistentOfferedFSale offeredFSale) throws PersistenceException{
         this.standardHandling(offeredFSale);
     }
@@ -31,6 +28,9 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     }
     public void handleArticle(PersistentArticle article) throws PersistenceException{
         this.standardHandling(article);
+    }
+    public void handlePreOrder(PersistentPreOrder preOrder) throws PersistenceException{
+        this.standardHandling(preOrder);
     }
     public void handleCustomerOrder(PersistentCustomerOrder customerOrder) throws PersistenceException{
         this.standardHandling(customerOrder);

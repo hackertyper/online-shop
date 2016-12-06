@@ -313,6 +313,14 @@ public class Shopkeeper extends PersistentObject implements PersistentShopkeeper
 		command.setCommandReceiver(getThis());
 		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
     }
+    public void changeRetourePercentage(final long newPercentage, final Invoker invoker) 
+				throws PersistenceException{
+        java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
+		PersistentChangeRetourePercentageCommand command = model.meta.ChangeRetourePercentageCommand.createChangeRetourePercentageCommand(newPercentage, now, now);
+		command.setInvoker(invoker);
+		command.setCommandReceiver(getThis());
+		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
+    }
     public void changeTime(final PersistentCustomerDelivery cd, final long newTime) 
 				throws PersistenceException{
         model.meta.ShopkeeperChangeTimeCustomerDeliveryIntegerMssg event = new model.meta.ShopkeeperChangeTimeCustomerDeliveryIntegerMssg(cd, newTime, getThis());
@@ -416,6 +424,10 @@ public class Shopkeeper extends PersistentObject implements PersistentShopkeeper
     public void changeProductGroupImplementation(final PersistentArticle article, final PersistentProductGroup newPG) 
 				throws PersistenceException{
         article.changeProductGroup(newPG);
+    }
+    public void changeRetourePercentage(final long newPercentage) 
+				throws PersistenceException{
+        serverConstants.ConfigConstants.setRetourePercentage(newPercentage);
     }
     public void changeTimeImplementation(final PersistentCustomerDelivery cd, final long newTime) 
 				throws PersistenceException{

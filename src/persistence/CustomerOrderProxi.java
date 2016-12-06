@@ -124,7 +124,7 @@ public class CustomerOrderProxi extends DeliveryProxi implements PersistentCusto
         ((PersistentCustomerOrder)this.getTheObject()).initializeOnInstantiation();
     }
     public void retoure() 
-				throws PersistenceException{
+				throws model.NotArrived, PersistenceException{
         ((PersistentCustomerOrder)this.getTheObject()).retoure();
     }
     public void send() 
