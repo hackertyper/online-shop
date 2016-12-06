@@ -44,6 +44,27 @@ public  class RemoteOrderService extends RemoteCustomerService {
         }
     }
     
+    public synchronized java.util.HashMap<?,?> cancel(String preOrderProxiString){
+        try {
+            PersistentPreOrder preOrder = (PersistentPreOrder)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(preOrderProxiString));
+            ((PersistentOrderService)this.server).cancel(preOrder);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
+    public synchronized java.util.HashMap<?,?> preorder(String preOrderProxiString, String deliveryMethodProxiString){
+        try {
+            PersistentPreOrder preOrder = (PersistentPreOrder)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(preOrderProxiString));
+            PersistentCustomerDelivery deliveryMethod = (PersistentCustomerDelivery)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(deliveryMethodProxiString));
+            ((PersistentOrderService)this.server).preorder(preOrder, deliveryMethod);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
     public synchronized java.util.HashMap<?,?> retoureArticle(String articleProxiString, String amountAsString){
         try {
             PersistentQuantifiedArticles article = (PersistentQuantifiedArticles)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(articleProxiString));

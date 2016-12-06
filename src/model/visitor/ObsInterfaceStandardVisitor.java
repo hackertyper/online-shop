@@ -14,6 +14,9 @@ public abstract class ObsInterfaceStandardVisitor implements ObsInterfaceVisitor
     public void handleQuantifiedArticlesArticle(PersistentQuantifiedArticlesArticle quantifiedArticlesArticle) throws PersistenceException{
         this.standardHandling(quantifiedArticlesArticle);
     }
+    public void handlePreOrderArticleList(PersistentPreOrderArticleList preOrderArticleList) throws PersistenceException{
+        this.standardHandling(preOrderArticleList);
+    }
     public void handleProductGroupItemList(PersistentProductGroupItemList productGroupItemList) throws PersistenceException{
         this.standardHandling(productGroupItemList);
     }

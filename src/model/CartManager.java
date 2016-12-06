@@ -83,6 +83,15 @@ public class CartManager extends PersistentObject implements PersistentCartManag
                     if(forGUI && onDelivery.hasEssentialFields())onDelivery.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
                 }
             }
+            AbstractPersistentRoot preOrder = (AbstractPersistentRoot)this.getPreOrder();
+            if (preOrder != null) {
+                result.put("preOrder", preOrder.createProxiInformation(false, essentialLevel <= 1));
+                if(depth > 1) {
+                    preOrder.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && preOrder.hasEssentialFields())preOrder.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
             AbstractPersistentRoot customerManager = (AbstractPersistentRoot)this.getCustomerManager();
             if (customerManager != null) {
                 result.put("customerManager", customerManager.createProxiInformation(false, essentialLevel <= 1));
@@ -113,6 +122,7 @@ public class CartManager extends PersistentObject implements PersistentCartManag
                                  this.articleList, 
                                  this.standardDelivery, 
                                  this.onDelivery, 
+                                 this.preOrder, 
                                  this.subService, 
                                  this.This, 
                                  this.getId());
@@ -127,16 +137,18 @@ public class CartManager extends PersistentObject implements PersistentCartManag
     protected PersistentCartManagerArticleList articleList;
     protected PersistentCartManagerStandardDelivery standardDelivery;
     protected PersistentCartManagerOnDelivery onDelivery;
+    protected PersistentPreOrder preOrder;
     protected SubjInterface subService;
     protected PersistentCartManager This;
     
-    public CartManager(PersistentCart myCart,PersistentCartManagerArticleList articleList,PersistentCartManagerStandardDelivery standardDelivery,PersistentCartManagerOnDelivery onDelivery,SubjInterface subService,PersistentCartManager This,long id) throws PersistenceException {
+    public CartManager(PersistentCart myCart,PersistentCartManagerArticleList articleList,PersistentCartManagerStandardDelivery standardDelivery,PersistentCartManagerOnDelivery onDelivery,PersistentPreOrder preOrder,SubjInterface subService,PersistentCartManager This,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.myCart = myCart;
         this.articleList = articleList;
         this.standardDelivery = standardDelivery;
         this.onDelivery = onDelivery;
+        this.preOrder = preOrder;
         this.subService = subService;
         if (This != null && !(this.isTheSameAs(This))) this.This = This;        
     }
@@ -169,6 +181,10 @@ public class CartManager extends PersistentObject implements PersistentCartManag
         if(this.onDelivery != null){
             this.onDelivery.store();
             ConnectionHandler.getTheConnectionHandler().theCartManagerFacade.onDeliverySet(this.getId(), onDelivery);
+        }
+        if(this.getPreOrder() != null){
+            this.getPreOrder().store();
+            ConnectionHandler.getTheConnectionHandler().theCartManagerFacade.preOrderSet(this.getId(), getPreOrder());
         }
         if(this.getSubService() != null){
             this.getSubService().store();
@@ -226,6 +242,20 @@ public class CartManager extends PersistentObject implements PersistentCartManag
         if(!this.isDelayed$Persistence()){
             newValue.store();
             ConnectionHandler.getTheConnectionHandler().theCartManagerFacade.onDeliverySet(this.getId(), newValue);
+        }
+    }
+    public PersistentPreOrder getPreOrder() throws PersistenceException {
+        return this.preOrder;
+    }
+    public void setPreOrder(PersistentPreOrder newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.isTheSameAs(this.preOrder)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.preOrder = (PersistentPreOrder)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theCartManagerFacade.preOrderSet(this.getId(), newValue);
         }
     }
     public SubjInterface getSubService() throws PersistenceException {
@@ -465,6 +495,11 @@ public class CartManager extends PersistentObject implements PersistentCartManag
 				throws PersistenceException{
         getThis().getCustomerManager().addOrder(order);
     }
+    public void addPreOrder(final PersistentPreOrder preOrder) 
+				throws PersistenceException{
+        getThis().getCustomerManager().addPreOrder(preOrder);
+        getThis().setPreOrder(preOrder);
+    }
     public void addToCart(final PersistentArticle article, final long amount) 
 				throws PersistenceException{
         getThis().getMyCartServer().addToCart(article, amount);
@@ -478,8 +513,19 @@ public class CartManager extends PersistentObject implements PersistentCartManag
         getThis().getMyCart().changeAmount(article, newAmount);
     }
     public void checkOut() 
-				throws model.InsufficientStock, PersistenceException{
+				throws PersistenceException{
         getThis().getMyCart().checkOut();
+        if(getThis().getPreOrder() != null) {
+        	//TODO: Meldung ausgeben dass vorbestellt
+        	getThis().setMyCart(Cart.createCart(OpenCart.getTheOpenCart()));
+        	// empty the article list
+	        getThis().getArticleList().filter(new Predcate<PersistentQuantifiedArticles>() {
+				@Override
+				public boolean test(PersistentQuantifiedArticles argument) throws PersistenceException {
+					return false;
+				}
+			});
+        }
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{

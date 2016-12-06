@@ -7,6 +7,7 @@ public interface CommonDateVisitor {
     
     public void handleAcceptDeliveryCommand(PersistentAcceptDeliveryCommand acceptDeliveryCommand) throws PersistenceException;
     public void handleAddArticleCommand(PersistentAddArticleCommand addArticleCommand) throws PersistenceException;
+    public void handleCancelCommand(PersistentCancelCommand cancelCommand) throws PersistenceException;
     public void handleChangeAmountCommand(PersistentChangeAmountCommand changeAmountCommand) throws PersistenceException;
     public void handleChangeChargeCommand(PersistentChangeChargeCommand changeChargeCommand) throws PersistenceException;
     public void handleChangeDescriptionCommand(PersistentChangeDescriptionCommand changeDescriptionCommand) throws PersistenceException;
@@ -18,6 +19,7 @@ public interface CommonDateVisitor {
     public void handleDepositCommand(PersistentDepositCommand depositCommand) throws PersistenceException;
     public void handleFindArticleCommand(PersistentFindArticleCommand findArticleCommand) throws PersistenceException;
     public void handleOrderCommand(PersistentOrderCommand orderCommand) throws PersistenceException;
+    public void handlePreorderCommand(PersistentPreorderCommand preorderCommand) throws PersistenceException;
     public void handlePresetBalanceCommand(PersistentPresetBalanceCommand presetBalanceCommand) throws PersistenceException;
     public void handlePresetLowerLimitCommand(PersistentPresetLowerLimitCommand presetLowerLimitCommand) throws PersistenceException;
     public void handleRemoveFCartCommand(PersistentRemoveFCartCommand removeFCartCommand) throws PersistenceException;

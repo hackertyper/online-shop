@@ -11,15 +11,33 @@ public class PreOrderProxi extends ViewProxi implements PreOrderView{
         super(objectId, classId, connectionKey);
     }
     
+    @SuppressWarnings("unchecked")
     public PreOrderView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
-        ViewProxi order = null;
-        String order$String = (String)resultTable.get("order");
-        if (order$String != null) {
-            common.ProxiInformation order$Info = common.RPCConstantsAndServices.createProxiInformation(order$String);
-            order = view.objects.ViewProxi.createProxi(order$Info,connectionKey);
-            order.setToString(order$Info.getToString());
+        ViewProxi cartManager = null;
+        String cartManager$String = (String)resultTable.get("cartManager");
+        if (cartManager$String != null) {
+            common.ProxiInformation cartManager$Info = common.RPCConstantsAndServices.createProxiInformation(cartManager$String);
+            cartManager = view.objects.ViewProxi.createProxi(cartManager$Info,connectionKey);
+            cartManager.setToString(cartManager$Info.getToString());
         }
-        PreOrderView result$$ = new PreOrder((CustomerOrderView)order, this.getId(), this.getClassId());
+        long sum = new Long((String)resultTable.get("sum")).longValue();
+        java.util.Vector<String> articleList_string = (java.util.Vector<String>)resultTable.get("articleList");
+        java.util.Vector<QuantifiedArticlesView> articleList = ViewProxi.getProxiVector(articleList_string, connectionKey);
+        ViewProxi standardDelivery = null;
+        String standardDelivery$String = (String)resultTable.get("standardDelivery");
+        if (standardDelivery$String != null) {
+            common.ProxiInformation standardDelivery$Info = common.RPCConstantsAndServices.createProxiInformation(standardDelivery$String);
+            standardDelivery = view.objects.ViewProxi.createProxi(standardDelivery$Info,connectionKey);
+            standardDelivery.setToString(standardDelivery$Info.getToString());
+        }
+        ViewProxi onDelivery = null;
+        String onDelivery$String = (String)resultTable.get("onDelivery");
+        if (onDelivery$String != null) {
+            common.ProxiInformation onDelivery$Info = common.RPCConstantsAndServices.createProxiInformation(onDelivery$String);
+            onDelivery = view.objects.ViewProxi.createProxi(onDelivery$Info,connectionKey);
+            onDelivery.setToString(onDelivery$Info.getToString());
+        }
+        PreOrderView result$$ = new PreOrder((CartManagerView)cartManager,(long)sum,articleList,(StandardDeliveryView)standardDelivery,(OverNightDeliveryView)onDelivery, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -29,31 +47,58 @@ public class PreOrderProxi extends ViewProxi implements PreOrderView{
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
         int index = originalIndex;
-        if(index == 0 && this.getOrder() != null) return new OrderPreOrderWrapper(this, originalIndex, (ViewRoot)this.getOrder());
-        if(this.getOrder() != null) index = index - 1;
+        if(index < this.getArticleList().size()) return new ArticleListPreOrderWrapper(this, originalIndex, (ViewRoot)this.getArticleList().get(index));
+        index = index - this.getArticleList().size();
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getOrder() == null ? 0 : 1);
+            + (this.getArticleList().size());
     }
     public boolean isLeaf() throws ModelException {
         if (this.object == null) return this.getLeafInfo() == 0;
         return true 
-            && (this.getOrder() == null ? true : false);
+            && (this.getArticleList().size() == 0);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
-        if(this.getOrder() != null && this.getOrder().equals(child)) return result;
-        if(this.getOrder() != null) result = result + 1;
+        java.util.Iterator<?> getArticleListIterator = this.getArticleList().iterator();
+        while(getArticleListIterator.hasNext()){
+            if(getArticleListIterator.next().equals(child)) return result;
+            result = result + 1;
+        }
         return -1;
     }
     
-    public CustomerOrderView getOrder()throws ModelException{
-        return ((PreOrder)this.getTheObject()).getOrder();
+    public CartManagerView getCartManager()throws ModelException{
+        return ((PreOrder)this.getTheObject()).getCartManager();
     }
-    public void setOrder(CustomerOrderView newValue) throws ModelException {
-        ((PreOrder)this.getTheObject()).setOrder(newValue);
+    public void setCartManager(CartManagerView newValue) throws ModelException {
+        ((PreOrder)this.getTheObject()).setCartManager(newValue);
+    }
+    public long getSum()throws ModelException{
+        return ((PreOrder)this.getTheObject()).getSum();
+    }
+    public void setSum(long newValue) throws ModelException {
+        ((PreOrder)this.getTheObject()).setSum(newValue);
+    }
+    public java.util.Vector<QuantifiedArticlesView> getArticleList()throws ModelException{
+        return ((PreOrder)this.getTheObject()).getArticleList();
+    }
+    public void setArticleList(java.util.Vector<QuantifiedArticlesView> newValue) throws ModelException {
+        ((PreOrder)this.getTheObject()).setArticleList(newValue);
+    }
+    public StandardDeliveryView getStandardDelivery()throws ModelException{
+        return ((PreOrder)this.getTheObject()).getStandardDelivery();
+    }
+    public void setStandardDelivery(StandardDeliveryView newValue) throws ModelException {
+        ((PreOrder)this.getTheObject()).setStandardDelivery(newValue);
+    }
+    public OverNightDeliveryView getOnDelivery()throws ModelException{
+        return ((PreOrder)this.getTheObject()).getOnDelivery();
+    }
+    public void setOnDelivery(OverNightDeliveryView newValue) throws ModelException {
+        ((PreOrder)this.getTheObject()).setOnDelivery(newValue);
     }
     
     public void accept(AnythingVisitor visitor) throws ModelException {

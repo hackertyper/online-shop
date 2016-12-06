@@ -99,7 +99,7 @@ public class CartProxi extends PersistentProxi implements PersistentCart{
         ((PersistentCart)this.getTheObject()).checkOutReverse();
     }
     public void checkOut() 
-				throws model.InsufficientStock, PersistenceException{
+				throws PersistenceException{
         ((PersistentCart)this.getTheObject()).checkOut();
     }
     public void copyingPrivateUserAttributes(final Anything copy) 

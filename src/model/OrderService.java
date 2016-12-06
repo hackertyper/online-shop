@@ -234,6 +234,10 @@ public class OrderService extends model.CustomerService implements PersistentOrd
 				throws PersistenceException{
         getThis().getOrderMngr().acceptDelivery(customerOrder, getThis());
     }
+    public void cancel(final PersistentPreOrder preOrder) 
+				throws PersistenceException{
+        getThis().getOrderMngr().cancel(preOrder, getThis());
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }
@@ -245,6 +249,10 @@ public class OrderService extends model.CustomerService implements PersistentOrd
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         super.initializeOnInstantiation();
+    }
+    public void preorder(final PersistentPreOrder preOrder, final PersistentCustomerDelivery deliveryMethod) 
+				throws PersistenceException{
+        getThis().getOrderMngr().preorder(preOrder, deliveryMethod, getThis());
     }
     public void retoureArticle(final PersistentQuantifiedArticles article, final long amount) 
 				throws PersistenceException{

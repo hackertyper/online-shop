@@ -8,6 +8,8 @@ public interface PersistentCartManager extends Anything, SubjInterface, Abstract
     public void setArticleList(PersistentCartManagerArticleList newValue) throws PersistenceException ;
     public void setStandardDelivery(PersistentCartManagerStandardDelivery newValue) throws PersistenceException ;
     public void setOnDelivery(PersistentCartManagerOnDelivery newValue) throws PersistenceException ;
+    public PersistentPreOrder getPreOrder() throws PersistenceException ;
+    public void setPreOrder(PersistentPreOrder newValue) throws PersistenceException ;
     public SubjInterface getSubService() throws PersistenceException ;
     public void setSubService(SubjInterface newValue) throws PersistenceException ;
     public PersistentCartManager getThis() throws PersistenceException ;

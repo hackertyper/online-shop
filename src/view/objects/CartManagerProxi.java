@@ -36,6 +36,13 @@ public class CartManagerProxi extends ViewProxi implements CartManagerView{
             onDelivery = view.objects.ViewProxi.createProxi(onDelivery$Info,connectionKey);
             onDelivery.setToString(onDelivery$Info.getToString());
         }
+        ViewProxi preOrder = null;
+        String preOrder$String = (String)resultTable.get("preOrder");
+        if (preOrder$String != null) {
+            common.ProxiInformation preOrder$Info = common.RPCConstantsAndServices.createProxiInformation(preOrder$String);
+            preOrder = view.objects.ViewProxi.createProxi(preOrder$Info,connectionKey);
+            preOrder.setToString(preOrder$Info.getToString());
+        }
         ViewProxi customerManager = null;
         String customerManager$String = (String)resultTable.get("customerManager");
         if (customerManager$String != null) {
@@ -50,7 +57,7 @@ public class CartManagerProxi extends ViewProxi implements CartManagerView{
             myCartServer = view.objects.ViewProxi.createProxi(myCartServer$Info,connectionKey);
             myCartServer.setToString(myCartServer$Info.getToString());
         }
-        CartManagerView result$$ = new CartManager((CartView)myCart,articleList,(StandardDeliveryView)standardDelivery,(OverNightDeliveryView)onDelivery,(CustomerManagerView)customerManager,(CartServiceView)myCartServer, this.getId(), this.getClassId());
+        CartManagerView result$$ = new CartManager((CartView)myCart,articleList,(StandardDeliveryView)standardDelivery,(OverNightDeliveryView)onDelivery,(PreOrderView)preOrder,(CustomerManagerView)customerManager,(CartServiceView)myCartServer, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -124,6 +131,12 @@ public class CartManagerProxi extends ViewProxi implements CartManagerView{
     }
     public void setOnDelivery(OverNightDeliveryView newValue) throws ModelException {
         ((CartManager)this.getTheObject()).setOnDelivery(newValue);
+    }
+    public PreOrderView getPreOrder()throws ModelException{
+        return ((CartManager)this.getTheObject()).getPreOrder();
+    }
+    public void setPreOrder(PreOrderView newValue) throws ModelException {
+        ((CartManager)this.getTheObject()).setPreOrder(newValue);
     }
     public CustomerManagerView getCustomerManager()throws ModelException{
         return ((CartManager)this.getTheObject()).getCustomerManager();

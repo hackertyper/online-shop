@@ -7,6 +7,7 @@ public interface CommonDateReturnExceptionVisitor<R, E extends model.UserExcepti
     
     public R handleAcceptDeliveryCommand(PersistentAcceptDeliveryCommand acceptDeliveryCommand) throws PersistenceException, E;
     public R handleAddArticleCommand(PersistentAddArticleCommand addArticleCommand) throws PersistenceException, E;
+    public R handleCancelCommand(PersistentCancelCommand cancelCommand) throws PersistenceException, E;
     public R handleChangeAmountCommand(PersistentChangeAmountCommand changeAmountCommand) throws PersistenceException, E;
     public R handleChangeChargeCommand(PersistentChangeChargeCommand changeChargeCommand) throws PersistenceException, E;
     public R handleChangeDescriptionCommand(PersistentChangeDescriptionCommand changeDescriptionCommand) throws PersistenceException, E;
@@ -18,6 +19,7 @@ public interface CommonDateReturnExceptionVisitor<R, E extends model.UserExcepti
     public R handleDepositCommand(PersistentDepositCommand depositCommand) throws PersistenceException, E;
     public R handleFindArticleCommand(PersistentFindArticleCommand findArticleCommand) throws PersistenceException, E;
     public R handleOrderCommand(PersistentOrderCommand orderCommand) throws PersistenceException, E;
+    public R handlePreorderCommand(PersistentPreorderCommand preorderCommand) throws PersistenceException, E;
     public R handlePresetBalanceCommand(PersistentPresetBalanceCommand presetBalanceCommand) throws PersistenceException, E;
     public R handlePresetLowerLimitCommand(PersistentPresetLowerLimitCommand presetLowerLimitCommand) throws PersistenceException, E;
     public R handleRemoveFCartCommand(PersistentRemoveFCartCommand removeFCartCommand) throws PersistenceException, E;

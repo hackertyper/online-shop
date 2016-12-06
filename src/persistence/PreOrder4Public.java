@@ -25,6 +25,8 @@ public interface PreOrder4Public extends Anything, SubjInterface, AbstractPersis
 				throws PersistenceException;
     public void initializeOnInstantiation() 
 				throws PersistenceException;
+    public PersistentCustomerOrder preorder(final PersistentCustomerDelivery deliveryMethod) 
+				throws model.InsufficientFunds, PersistenceException;
 
 }
 

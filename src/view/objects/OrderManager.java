@@ -10,14 +10,16 @@ import view.visitor.*;
 public class OrderManager extends ViewObject implements OrderManagerView{
     
     protected java.util.Vector<CustomerOrderView> orders;
+    protected java.util.Vector<PreOrderView> preOrders;
     protected long retourePrice;
     protected CustomerManagerView customerManager;
     protected OrderServiceView myOrderServer;
     
-    public OrderManager(java.util.Vector<CustomerOrderView> orders,long retourePrice,CustomerManagerView customerManager,OrderServiceView myOrderServer,long id, long classId) {
+    public OrderManager(java.util.Vector<CustomerOrderView> orders,java.util.Vector<PreOrderView> preOrders,long retourePrice,CustomerManagerView customerManager,OrderServiceView myOrderServer,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
         this.orders = orders;
+        this.preOrders = preOrders;
         this.retourePrice = retourePrice;
         this.customerManager = customerManager;
         this.myOrderServer = myOrderServer;        
@@ -36,6 +38,12 @@ public class OrderManager extends ViewObject implements OrderManagerView{
     }
     public void setOrders(java.util.Vector<CustomerOrderView> newValue) throws ModelException {
         this.orders = newValue;
+    }
+    public java.util.Vector<PreOrderView> getPreOrders()throws ModelException{
+        return this.preOrders;
+    }
+    public void setPreOrders(java.util.Vector<PreOrderView> newValue) throws ModelException {
+        this.preOrders = newValue;
     }
     public long getRetourePrice()throws ModelException{
         return this.retourePrice;
@@ -68,6 +76,10 @@ public class OrderManager extends ViewObject implements OrderManagerView{
         if (orders != null) {
             ViewObject.resolveVectorProxies(orders, resultTable);
         }
+        java.util.Vector<?> preOrders = this.getPreOrders();
+        if (preOrders != null) {
+            ViewObject.resolveVectorProxies(preOrders, resultTable);
+        }
         CustomerManagerView customerManager = this.getCustomerManager();
         if (customerManager != null) {
             ((ViewProxi)customerManager).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(customerManager.getClassId(), customerManager.getId())));
@@ -85,15 +97,19 @@ public class OrderManager extends ViewObject implements OrderManagerView{
         int index = originalIndex;
         if(index < this.getOrders().size()) return new OrdersOrderManagerWrapper(this, originalIndex, (ViewRoot)this.getOrders().get(index));
         index = index - this.getOrders().size();
+        if(index < this.getPreOrders().size()) return new PreOrdersOrderManagerWrapper(this, originalIndex, (ViewRoot)this.getPreOrders().get(index));
+        index = index - this.getPreOrders().size();
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getOrders().size());
+            + (this.getOrders().size())
+            + (this.getPreOrders().size());
     }
     public boolean isLeaf() throws ModelException {
         return true 
-            && (this.getOrders().size() == 0);
+            && (this.getOrders().size() == 0)
+            && (this.getPreOrders().size() == 0);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
@@ -102,10 +118,15 @@ public class OrderManager extends ViewObject implements OrderManagerView{
             if(getOrdersIterator.next().equals(child)) return result;
             result = result + 1;
         }
+        java.util.Iterator<?> getPreOrdersIterator = this.getPreOrders().iterator();
+        while(getPreOrdersIterator.hasNext()){
+            if(getPreOrdersIterator.next().equals(child)) return result;
+            result = result + 1;
+        }
         return -1;
     }
     public int getRetourePriceIndex() throws ModelException {
-        return 0 + this.getOrders().size();
+        return 0 + this.getOrders().size() + this.getPreOrders().size();
     }
     public int getRowCount(){
         return 0 

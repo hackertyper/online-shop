@@ -68,6 +68,15 @@ public class QuantifiedArticles extends PersistentObject implements PersistentQu
                     if(forGUI && article.hasEssentialFields())article.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
                 }
             }
+            AbstractPersistentRoot myOrder = (AbstractPersistentRoot)this.getMyOrder();
+            if (myOrder != null) {
+                result.put("myOrder", myOrder.createProxiInformation(false, essentialLevel <= 1));
+                if(depth > 1) {
+                    myOrder.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && myOrder.hasEssentialFields())myOrder.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
             result.put("amount", new Long(this.getAmount()).toString());
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
@@ -78,6 +87,7 @@ public class QuantifiedArticles extends PersistentObject implements PersistentQu
     public QuantifiedArticles provideCopy() throws PersistenceException{
         QuantifiedArticles result = this;
         result = new QuantifiedArticles(this.article, 
+                                        this.myOrder, 
                                         this.amount, 
                                         this.subService, 
                                         this.This, 
@@ -90,14 +100,16 @@ public class QuantifiedArticles extends PersistentObject implements PersistentQu
         return false;
     }
     protected PersistentQuantifiedArticlesArticle article;
+    protected PersistentCustomerOrder myOrder;
     protected long amount;
     protected SubjInterface subService;
     protected PersistentQuantifiedArticles This;
     
-    public QuantifiedArticles(PersistentQuantifiedArticlesArticle article,long amount,SubjInterface subService,PersistentQuantifiedArticles This,long id) throws PersistenceException {
+    public QuantifiedArticles(PersistentQuantifiedArticlesArticle article,PersistentCustomerOrder myOrder,long amount,SubjInterface subService,PersistentQuantifiedArticles This,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.article = article;
+        this.myOrder = myOrder;
         this.amount = amount;
         this.subService = subService;
         if (This != null && !(this.isTheSameAs(This))) this.This = This;        
@@ -120,6 +132,10 @@ public class QuantifiedArticles extends PersistentObject implements PersistentQu
             this.article.store();
             ConnectionHandler.getTheConnectionHandler().theQuantifiedArticlesFacade.articleSet(this.getId(), article);
         }
+        if(this.getMyOrder() != null){
+            this.getMyOrder().store();
+            ConnectionHandler.getTheConnectionHandler().theQuantifiedArticlesFacade.myOrderSet(this.getId(), getMyOrder());
+        }
         if(this.getSubService() != null){
             this.getSubService().store();
             ConnectionHandler.getTheConnectionHandler().theQuantifiedArticlesFacade.subServiceSet(this.getId(), getSubService());
@@ -140,6 +156,20 @@ public class QuantifiedArticles extends PersistentObject implements PersistentQu
         if(!this.isDelayed$Persistence()){
             newValue.store();
             ConnectionHandler.getTheConnectionHandler().theQuantifiedArticlesFacade.articleSet(this.getId(), newValue);
+        }
+    }
+    public PersistentCustomerOrder getMyOrder() throws PersistenceException {
+        return this.myOrder;
+    }
+    public void setMyOrder(PersistentCustomerOrder newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.isTheSameAs(this.myOrder)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.myOrder = (PersistentCustomerOrder)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theQuantifiedArticlesFacade.myOrderSet(this.getId(), newValue);
         }
     }
     public long getAmount() throws PersistenceException {
@@ -211,6 +241,7 @@ public class QuantifiedArticles extends PersistentObject implements PersistentQu
          return visitor.handleQuantifiedArticles(this);
     }
     public int getLeafInfo() throws PersistenceException{
+        if (this.getMyOrder() != null) return 1;
         if (this.getArticle() != null && this.getArticle().getTheObject().getLeafInfo() != 0) return 1;
         return 0;
     }

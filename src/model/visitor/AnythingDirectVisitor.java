@@ -67,6 +67,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException;
     
+    public abstract void handlePreOrderArticleList(PersistentPreOrderArticleList preOrderArticleList) throws PersistenceException;
+    
     public abstract void handleService(PersistentService service) throws PersistenceException;
     
     public void handleRegisterService(PersistentRegisterService registerService) throws PersistenceException{
@@ -159,11 +161,17 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleAcceptDeliveryCommand(PersistentAcceptDeliveryCommand acceptDeliveryCommand) throws PersistenceException{
         this.handleCommonDate(acceptDeliveryCommand);
     }
+    public void handleCancelCommand(PersistentCancelCommand cancelCommand) throws PersistenceException{
+        this.handleCommonDate(cancelCommand);
+    }
     public void handleWithdrawCommand(PersistentWithdrawCommand withdrawCommand) throws PersistenceException{
         this.handleCommonDate(withdrawCommand);
     }
     public void handleAddArticleCommand(PersistentAddArticleCommand addArticleCommand) throws PersistenceException{
         this.handleCommonDate(addArticleCommand);
+    }
+    public void handlePreorderCommand(PersistentPreorderCommand preorderCommand) throws PersistenceException{
+        this.handleCommonDate(preorderCommand);
     }
     public void handleChangeTimeCommand(PersistentChangeTimeCommand changeTimeCommand) throws PersistenceException{
         this.handleCommonDate(changeTimeCommand);

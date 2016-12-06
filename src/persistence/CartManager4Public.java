@@ -33,12 +33,14 @@ public interface CartManager4Public extends Anything, SubjInterface, AbstractPer
 				throws PersistenceException;
     public void addOrder(final PersistentCustomerOrder order) 
 				throws PersistenceException;
+    public void addPreOrder(final PersistentPreOrder preOrder) 
+				throws PersistenceException;
     public void addToCart(final PersistentArticle article, final long amount) 
 				throws PersistenceException;
     public void changeAmount(final PersistentQuantifiedArticles article, final long newAmount) 
 				throws PersistenceException;
     public void checkOut() 
-				throws model.InsufficientStock, PersistenceException;
+				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
     public void initializeOnCreation() 

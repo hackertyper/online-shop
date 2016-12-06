@@ -63,7 +63,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	}
 	@Override
 	public void handleQuantifiedArticles(PersistentQuantifiedArticles quantifiedArticles) throws PersistenceException {
-		result = quantifiedArticles.getArticle() + serverConstants.StringConstants.Amount + quantifiedArticles.getAmount();
+		result = quantifiedArticles.getArticle() + " " + serverConstants.StringConstants.Amount + quantifiedArticles.getAmount();
 	}
 	@Override
 	public void handleRemovedFSale(PersistentRemovedFSale removedFSale) throws PersistenceException {
@@ -139,8 +139,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	}
 	@Override
 	public void handlePreOrder(PersistentPreOrder preOrder) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		result = serverConstants.StringConstants.PreOrder + " " + serverConstants.StringConstants.CartSum + preOrder.getSum();
 	}
 	
 

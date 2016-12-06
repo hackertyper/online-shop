@@ -9,6 +9,7 @@ public interface ObsInterfaceReturnVisitor<R> {
     public R handleCartManagerOnDelivery(PersistentCartManagerOnDelivery cartManagerOnDelivery) throws PersistenceException;
     public R handleCartManagerStandardDelivery(PersistentCartManagerStandardDelivery cartManagerStandardDelivery) throws PersistenceException;
     public R handleCustomerOrderArticleList(PersistentCustomerOrderArticleList customerOrderArticleList) throws PersistenceException;
+    public R handlePreOrderArticleList(PersistentPreOrderArticleList preOrderArticleList) throws PersistenceException;
     public R handleProductGroupItemList(PersistentProductGroupItemList productGroupItemList) throws PersistenceException;
     public R handleQuantifiedArticlesArticle(PersistentQuantifiedArticlesArticle quantifiedArticlesArticle) throws PersistenceException;
     public R handleShopManagerItemRange(PersistentShopManagerItemRange shopManagerItemRange) throws PersistenceException;

@@ -44,11 +44,17 @@ public abstract class CommonDateStandardVisitor implements CommonDateVisitor {
     public void handleAcceptDeliveryCommand(PersistentAcceptDeliveryCommand acceptDeliveryCommand) throws PersistenceException{
         this.standardHandling(acceptDeliveryCommand);
     }
+    public void handleCancelCommand(PersistentCancelCommand cancelCommand) throws PersistenceException{
+        this.standardHandling(cancelCommand);
+    }
     public void handleWithdrawCommand(PersistentWithdrawCommand withdrawCommand) throws PersistenceException{
         this.standardHandling(withdrawCommand);
     }
     public void handleAddArticleCommand(PersistentAddArticleCommand addArticleCommand) throws PersistenceException{
         this.standardHandling(addArticleCommand);
+    }
+    public void handlePreorderCommand(PersistentPreorderCommand preorderCommand) throws PersistenceException{
+        this.standardHandling(preorderCommand);
     }
     public void handleChangeTimeCommand(PersistentChangeTimeCommand changeTimeCommand) throws PersistenceException{
         this.standardHandling(changeTimeCommand);

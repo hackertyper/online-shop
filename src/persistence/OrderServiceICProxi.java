@@ -138,6 +138,10 @@ public class OrderServiceICProxi extends CustomerServiceICProxi implements Persi
 				throws PersistenceException{
         ((PersistentOrderService)this.getTheObject()).acceptDelivery(customerOrder);
     }
+    public void cancel(final PersistentPreOrder preOrder) 
+				throws PersistenceException{
+        ((PersistentOrderService)this.getTheObject()).cancel(preOrder);
+    }
     public void connected(final String user) 
 				throws PersistenceException{
         ((PersistentOrderService)this.getTheObject()).connected(user);
@@ -169,6 +173,10 @@ public class OrderServiceICProxi extends CustomerServiceICProxi implements Persi
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         ((PersistentOrderService)this.getTheObject()).initializeOnInstantiation();
+    }
+    public void preorder(final PersistentPreOrder preOrder, final PersistentCustomerDelivery deliveryMethod) 
+				throws PersistenceException{
+        ((PersistentOrderService)this.getTheObject()).preorder(preOrder, deliveryMethod);
     }
     public void retoureArticle(final PersistentQuantifiedArticles article, final long amount) 
 				throws PersistenceException{

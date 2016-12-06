@@ -25,6 +25,9 @@ public class OrderManagerICProxi extends PersistentInCacheProxiOptimistic implem
     public OrderManager_OrdersProxi getOrders() throws PersistenceException {
         return ((PersistentOrderManager)this.getTheObject()).getOrders();
     }
+    public OrderManager_PreOrdersProxi getPreOrders() throws PersistenceException {
+        return ((PersistentOrderManager)this.getTheObject()).getPreOrders();
+    }
     public long getRetourePrice() throws PersistenceException {
         return ((PersistentOrderManager)this.getTheObject()).getRetourePrice();
     }
@@ -71,6 +74,10 @@ public class OrderManagerICProxi extends PersistentInCacheProxiOptimistic implem
 				throws PersistenceException{
         ((PersistentOrderManager)this.getTheObject()).acceptDelivery(arrivedOrder, invoker);
     }
+    public void cancel(final PersistentPreOrder preOrder, final Invoker invoker) 
+				throws PersistenceException{
+        ((PersistentOrderManager)this.getTheObject()).cancel(preOrder, invoker);
+    }
     public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentOrderManager)this.getTheObject()).deregister(observee);
@@ -86,6 +93,10 @@ public class OrderManagerICProxi extends PersistentInCacheProxiOptimistic implem
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentOrderManager)this.getTheObject()).initialize(This, final$$Fields);
+    }
+    public void preorder(final PersistentPreOrder preOrder, final PersistentCustomerDelivery deliveryMethod, final Invoker invoker) 
+				throws PersistenceException{
+        ((PersistentOrderManager)this.getTheObject()).preorder(preOrder, deliveryMethod, invoker);
     }
     public void register(final ObsInterface observee) 
 				throws PersistenceException{
@@ -111,6 +122,14 @@ public class OrderManagerICProxi extends PersistentInCacheProxiOptimistic implem
 				throws PersistenceException{
         ((PersistentOrderManager)this.getTheObject()).addOrder(order);
     }
+    public void addPreOrder(final PersistentPreOrder preOrder) 
+				throws PersistenceException{
+        ((PersistentOrderManager)this.getTheObject()).addPreOrder(preOrder);
+    }
+    public void cancel(final PersistentPreOrder preOrder) 
+				throws PersistenceException{
+        ((PersistentOrderManager)this.getTheObject()).cancel(preOrder);
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentOrderManager)this.getTheObject()).copyingPrivateUserAttributes(copy);
@@ -122,6 +141,10 @@ public class OrderManagerICProxi extends PersistentInCacheProxiOptimistic implem
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         ((PersistentOrderManager)this.getTheObject()).initializeOnInstantiation();
+    }
+    public void preorder(final PersistentPreOrder preOrder, final PersistentCustomerDelivery deliveryMethod) 
+				throws model.InsufficientFunds, PersistenceException{
+        ((PersistentOrderManager)this.getTheObject()).preorder(preOrder, deliveryMethod);
     }
     public void retoureArticle(final PersistentQuantifiedArticles article, final long amount) 
 				throws model.NotArrived, model.InsufficientFunds, PersistenceException{

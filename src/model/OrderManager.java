@@ -59,6 +59,7 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
             result.put("orders", this.getOrders().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, true));
+            result.put("preOrders", this.getPreOrders().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, true));
             result.put("retourePrice", new Long(this.getRetourePrice()).toString());
             AbstractPersistentRoot customerManager = (AbstractPersistentRoot)this.getCustomerManager();
             if (customerManager != null) {
@@ -91,6 +92,7 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
                                   this.This, 
                                   this.getId());
         result.orders = this.orders.copy(result);
+        result.preOrders = this.preOrders.copy(result);
         this.copyingPrivateUserAttributes(result);
         return result;
     }
@@ -99,6 +101,7 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
         return false;
     }
     protected OrderManager_OrdersProxi orders;
+    protected OrderManager_PreOrdersProxi preOrders;
     protected long retourePrice;
     protected SubjInterface subService;
     protected PersistentOrderManager This;
@@ -107,6 +110,7 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.orders = new OrderManager_OrdersProxi(this);
+        this.preOrders = new OrderManager_PreOrdersProxi(this);
         this.retourePrice = retourePrice;
         this.subService = subService;
         if (This != null && !(this.isTheSameAs(This))) this.This = This;        
@@ -126,6 +130,7 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
             .newOrderManager(retourePrice,this.getId());
         super.store();
         this.getOrders().store();
+        this.getPreOrders().store();
         if(this.getSubService() != null){
             this.getSubService().store();
             ConnectionHandler.getTheConnectionHandler().theOrderManagerFacade.subServiceSet(this.getId(), getSubService());
@@ -139,6 +144,9 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
     
     public OrderManager_OrdersProxi getOrders() throws PersistenceException {
         return this.orders;
+    }
+    public OrderManager_PreOrdersProxi getPreOrders() throws PersistenceException {
+        return this.preOrders;
     }
     public long getRetourePrice() throws PersistenceException {
         return this.retourePrice;
@@ -210,6 +218,7 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
     }
     public int getLeafInfo() throws PersistenceException{
         if (this.getOrders().getLength() > 0) return 1;
+        if (this.getPreOrders().getLength() > 0) return 1;
         return 0;
     }
     
@@ -219,6 +228,15 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
         java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
 		PersistentAcceptDeliveryCommand command = model.meta.AcceptDeliveryCommand.createAcceptDeliveryCommand(now, now);
 		command.setArrivedOrder(arrivedOrder);
+		command.setInvoker(invoker);
+		command.setCommandReceiver(getThis());
+		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
+    }
+    public void cancel(final PersistentPreOrder preOrder, final Invoker invoker) 
+				throws PersistenceException{
+        java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
+		PersistentCancelCommand command = model.meta.CancelCommand.createCancelCommand(now, now);
+		command.setPreOrder(preOrder);
 		command.setInvoker(invoker);
 		command.setCommandReceiver(getThis());
 		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
@@ -259,6 +277,16 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
         this.setThis((PersistentOrderManager)This);
 		if(this.isTheSameAs(This)){
 		}
+    }
+    public void preorder(final PersistentPreOrder preOrder, final PersistentCustomerDelivery deliveryMethod, final Invoker invoker) 
+				throws PersistenceException{
+        java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
+		PersistentPreorderCommand command = model.meta.PreorderCommand.createPreorderCommand(now, now);
+		command.setPreOrder(preOrder);
+		command.setDeliveryMethod(deliveryMethod);
+		command.setInvoker(invoker);
+		command.setCommandReceiver(getThis());
+		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
     }
     public synchronized void register(final ObsInterface observee) 
 				throws PersistenceException{
@@ -337,6 +365,22 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
     	getThis().getOrders().add(order);
     	getThis().getCustomerManager().signalChanged();
     }
+    public void addPreOrder(final PersistentPreOrder preOrder) 
+				throws PersistenceException{
+        getThis().getPreOrders().add(preOrder);
+        getThis().getCustomerManager().signalChanged();
+    }
+    public void cancel(final PersistentPreOrder preOrder) 
+				throws PersistenceException{
+        preOrder.cancel();
+        getThis().getPreOrders().removeFirstSuccess(new Predcate<PersistentPreOrder>() {
+			@Override
+			public boolean test(PersistentPreOrder argument) throws PersistenceException {
+				return argument.equals(preOrder);
+			}
+		});
+        getThis().getCustomerManager().signalChanged();
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }
@@ -346,34 +390,49 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
     public void initializeOnInstantiation() 
 				throws PersistenceException{
     }
+    public void preorder(final PersistentPreOrder preOrder, final PersistentCustomerDelivery deliveryMethod) 
+				throws model.InsufficientFunds, PersistenceException{
+    	PersistentCustomerOrder co = preOrder.preorder(deliveryMethod);
+    	co.send();
+        getThis().getOrders().add(co);
+        getThis().getPreOrders().removeFirstSuccess(new Predcate<PersistentPreOrder>() {
+			@Override
+			public boolean test(PersistentPreOrder argument) throws PersistenceException {
+				return argument.equals(preOrder);
+			}
+		});
+        getThis().getCustomerManager().signalChanged();
+    }
     /**
      * Returns a single Article of the delivery.
      */
     public void retoureArticle(final PersistentQuantifiedArticles article, final long amount) 
 				throws model.NotArrived, model.InsufficientFunds, PersistenceException{
-    	PersistentCustomerOrder order = getThis().getOrders().findFirst(new Predcate<PersistentCustomerOrder>() {
-			@Override
-			public boolean test(PersistentCustomerOrder argument) throws PersistenceException {
-				Iterator<PersistentQuantifiedArticles> iterator = argument.getArticleList().iterator();
-				while(iterator.hasNext()) {
-					PersistentQuantifiedArticles next = iterator.next();
-					return next.equals(article);
+    	if(article.getMyOrder() != null) {
+	    	PersistentCustomerOrder order = getThis().getOrders().findFirst(new Predcate<PersistentCustomerOrder>() {
+				@Override
+				public boolean test(PersistentCustomerOrder argument) throws PersistenceException {
+					Iterator<PersistentQuantifiedArticles> iterator = argument.getArticleList().iterator();
+					while(iterator.hasNext()) {
+						PersistentQuantifiedArticles next = iterator.next();
+						return next.equals(article);
+					}
+					return false;
 				}
-				return false;
-			}
-		});
-    	order.getMyState().accept(new CustomerOrderStateExceptionVisitor<NotArrived>() {
-			@Override
-			public void handleArrivedOrder(PersistentArrivedOrder arrivedOrder)
-					throws PersistenceException, NotArrived {}
-			@Override
-			public void handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException, NotArrived {
-				throw new NotArrived(serverConstants.ErrorMessages.NotArrived);
-			}
-		});
-    	article.retoure(amount);
-        getThis().setRetourePrice(getThis().getRetourePrice() + article.fetchPrice());
-        returnPayment();
+			});
+	    	order.getMyState().accept(new CustomerOrderStateExceptionVisitor<NotArrived>() {
+				@Override
+				public void handleArrivedOrder(PersistentArrivedOrder arrivedOrder)
+						throws PersistenceException, NotArrived {}
+				@Override
+				public void handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException, NotArrived {
+					throw new NotArrived(serverConstants.ErrorMessages.NotArrived);
+				}
+			});
+	    	article.retoure(amount);
+	        getThis().setRetourePrice(getThis().getRetourePrice() + article.fetchPrice());
+	        returnPayment();
+    	}
     }
     /**
      * Returns the whole delivery.

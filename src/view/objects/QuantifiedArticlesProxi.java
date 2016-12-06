@@ -19,8 +19,15 @@ public class QuantifiedArticlesProxi extends ViewProxi implements QuantifiedArti
             article = view.objects.ViewProxi.createProxi(article$Info,connectionKey);
             article.setToString(article$Info.getToString());
         }
+        ViewProxi myOrder = null;
+        String myOrder$String = (String)resultTable.get("myOrder");
+        if (myOrder$String != null) {
+            common.ProxiInformation myOrder$Info = common.RPCConstantsAndServices.createProxiInformation(myOrder$String);
+            myOrder = view.objects.ViewProxi.createProxi(myOrder$Info,connectionKey);
+            myOrder.setToString(myOrder$Info.getToString());
+        }
         long amount = new Long((String)resultTable.get("amount")).longValue();
-        QuantifiedArticlesView result$$ = new QuantifiedArticles((ArticleView)article,(long)amount, this.getId(), this.getClassId());
+        QuantifiedArticlesView result$$ = new QuantifiedArticles((ArticleView)article,(CustomerOrderView)myOrder,(long)amount, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -33,21 +40,27 @@ public class QuantifiedArticlesProxi extends ViewProxi implements QuantifiedArti
         if(this.getArticle() != null && index < this.getArticle().getTheObject().getChildCount())
             return this.getArticle().getTheObject().getChild(index);
         if(this.getArticle() != null) index = index - this.getArticle().getTheObject().getChildCount();
+        if(index == 0 && this.getMyOrder() != null) return new MyOrderQuantifiedArticlesWrapper(this, originalIndex, (ViewRoot)this.getMyOrder());
+        if(this.getMyOrder() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getArticle() == null ? 0 : this.getArticle().getTheObject().getChildCount());
+            + (this.getArticle() == null ? 0 : this.getArticle().getTheObject().getChildCount())
+            + (this.getMyOrder() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
         if (this.object == null) return this.getLeafInfo() == 0;
         return true 
-            && (this.getArticle() == null ? true : this.getArticle().getTheObject().isLeaf());
+            && (this.getArticle() == null ? true : this.getArticle().getTheObject().isLeaf())
+            && (this.getMyOrder() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
         if(this.getArticle() != null && this.getArticle().equals(child)) return result;
         if(this.getArticle() != null) result = result + 1;
+        if(this.getMyOrder() != null && this.getMyOrder().equals(child)) return result;
+        if(this.getMyOrder() != null) result = result + 1;
         return -1;
     }
     
@@ -56,6 +69,12 @@ public class QuantifiedArticlesProxi extends ViewProxi implements QuantifiedArti
     }
     public void setArticle(ArticleView newValue) throws ModelException {
         ((QuantifiedArticles)this.getTheObject()).setArticle(newValue);
+    }
+    public CustomerOrderView getMyOrder()throws ModelException{
+        return ((QuantifiedArticles)this.getTheObject()).getMyOrder();
+    }
+    public void setMyOrder(CustomerOrderView newValue) throws ModelException {
+        ((QuantifiedArticles)this.getTheObject()).setMyOrder(newValue);
     }
     public long getAmount()throws ModelException{
         return ((QuantifiedArticles)this.getTheObject()).getAmount();

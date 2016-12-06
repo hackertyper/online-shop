@@ -18,11 +18,32 @@ public class PreOrderProxi extends PersistentProxi implements PersistentPreOrder
         return 240;
     }
     
-    public PersistentCustomerOrder getOrder() throws PersistenceException {
-        return ((PersistentPreOrder)this.getTheObject()).getOrder();
+    public PersistentCartManager getCartManager() throws PersistenceException {
+        return ((PersistentPreOrder)this.getTheObject()).getCartManager();
     }
-    public void setOrder(PersistentCustomerOrder newValue) throws PersistenceException {
-        ((PersistentPreOrder)this.getTheObject()).setOrder(newValue);
+    public void setCartManager(PersistentCartManager newValue) throws PersistenceException {
+        ((PersistentPreOrder)this.getTheObject()).setCartManager(newValue);
+    }
+    public long getSum() throws PersistenceException {
+        return ((PersistentPreOrder)this.getTheObject()).getSum();
+    }
+    public void setSum(long newValue) throws PersistenceException {
+        ((PersistentPreOrder)this.getTheObject()).setSum(newValue);
+    }
+    public void setArticleList(PersistentPreOrderArticleList newValue) throws PersistenceException {
+        ((PersistentPreOrder)this.getTheObject()).setArticleList(newValue);
+    }
+    public PersistentStandardDelivery getStandardDelivery() throws PersistenceException {
+        return ((PersistentPreOrder)this.getTheObject()).getStandardDelivery();
+    }
+    public void setStandardDelivery(PersistentStandardDelivery newValue) throws PersistenceException {
+        ((PersistentPreOrder)this.getTheObject()).setStandardDelivery(newValue);
+    }
+    public PersistentOverNightDelivery getOnDelivery() throws PersistenceException {
+        return ((PersistentPreOrder)this.getTheObject()).getOnDelivery();
+    }
+    public void setOnDelivery(PersistentOverNightDelivery newValue) throws PersistenceException {
+        ((PersistentPreOrder)this.getTheObject()).setOnDelivery(newValue);
     }
     public SubjInterface getSubService() throws PersistenceException {
         return ((PersistentPreOrder)this.getTheObject()).getSubService();
@@ -64,6 +85,10 @@ public class PreOrderProxi extends PersistentProxi implements PersistentPreOrder
 				throws PersistenceException{
         ((PersistentPreOrder)this.getTheObject()).deregister(observee);
     }
+    public PersistentPreOrderArticleList getArticleList() 
+				throws PersistenceException{
+        return ((PersistentPreOrder)this.getTheObject()).getArticleList();
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentPreOrder)this.getTheObject()).initialize(This, final$$Fields);
@@ -75,6 +100,10 @@ public class PreOrderProxi extends PersistentProxi implements PersistentPreOrder
     public void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentPreOrder)this.getTheObject()).updateObservers(event);
+    }
+    public void articleList_update(final model.meta.QuantifiedArticlesMssgs event) 
+				throws PersistenceException{
+        ((PersistentPreOrder)this.getTheObject()).articleList_update(event);
     }
     public void cancel() 
 				throws PersistenceException{
@@ -91,6 +120,10 @@ public class PreOrderProxi extends PersistentProxi implements PersistentPreOrder
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         ((PersistentPreOrder)this.getTheObject()).initializeOnInstantiation();
+    }
+    public PersistentCustomerOrder preorder(final PersistentCustomerDelivery deliveryMethod) 
+				throws model.InsufficientFunds, PersistenceException{
+        return ((PersistentPreOrder)this.getTheObject()).preorder(deliveryMethod);
     }
 
     

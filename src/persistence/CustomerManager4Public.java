@@ -23,6 +23,8 @@ public interface CustomerManager4Public extends Anything, SubjInterface, Abstrac
 				throws PersistenceException;
     public void addOrder(final PersistentCustomerOrder order) 
 				throws PersistenceException;
+    public void addPreOrder(final PersistentPreOrder preOrder) 
+				throws PersistenceException;
     public void addToCart(final PersistentArticle article, final long amount) 
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 

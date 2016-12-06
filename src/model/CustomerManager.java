@@ -334,6 +334,10 @@ public class CustomerManager extends PersistentObject implements PersistentCusto
 				throws PersistenceException{
         getThis().getOrderMngr().addOrder(order);
     }
+    public void addPreOrder(final PersistentPreOrder preOrder) 
+				throws PersistenceException{
+        getThis().getOrderMngr().addPreOrder(preOrder);
+    }
     public void addToCart(final PersistentArticle article, final long amount) 
 				throws PersistenceException{
         getThis().getCartMngr().addToCart(article, amount);

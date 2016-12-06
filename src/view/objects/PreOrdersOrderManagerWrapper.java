@@ -3,9 +3,9 @@ package view.objects;
 
 /* Additional import section end */
 
-public class OrderPreOrderWrapper extends AssociationInTreeWrapper {
+public class PreOrdersOrderManagerWrapper extends AssociationInTreeWrapper {
 
-	public OrderPreOrderWrapper(ViewRoot parent, int index, ViewRoot object) {
+	public PreOrdersOrderManagerWrapper(ViewRoot parent, int index, ViewRoot object) {
 		super(parent, index, object);
 	}
     
@@ -16,7 +16,7 @@ public class OrderPreOrderWrapper extends AssociationInTreeWrapper {
 	
 	
 	public String toString(){
-    	//TODO: Implement toString in wrapper class for association order in class PreOrder
+    	//TODO: Implement toString in wrapper class for association preOrders in class OrderManager
     	return this.getWrappedObject().toString();
     }
 

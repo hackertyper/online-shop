@@ -4,6 +4,8 @@ package persistence;
 public interface PersistentQuantifiedArticles extends Anything, SubjInterface, AbstractPersistentProxi, QuantifiedArticles4Public {
     
     public void setArticle(PersistentQuantifiedArticlesArticle newValue) throws PersistenceException ;
+    public PersistentCustomerOrder getMyOrder() throws PersistenceException ;
+    public void setMyOrder(PersistentCustomerOrder newValue) throws PersistenceException ;
     public long getAmount() throws PersistenceException ;
     public void setAmount(long newValue) throws PersistenceException ;
     public SubjInterface getSubService() throws PersistenceException ;

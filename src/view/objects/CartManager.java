@@ -13,16 +13,18 @@ public class CartManager extends ViewObject implements CartManagerView{
     protected java.util.Vector<QuantifiedArticlesView> articleList;
     protected StandardDeliveryView standardDelivery;
     protected OverNightDeliveryView onDelivery;
+    protected PreOrderView preOrder;
     protected CustomerManagerView customerManager;
     protected CartServiceView myCartServer;
     
-    public CartManager(CartView myCart,java.util.Vector<QuantifiedArticlesView> articleList,StandardDeliveryView standardDelivery,OverNightDeliveryView onDelivery,CustomerManagerView customerManager,CartServiceView myCartServer,long id, long classId) {
+    public CartManager(CartView myCart,java.util.Vector<QuantifiedArticlesView> articleList,StandardDeliveryView standardDelivery,OverNightDeliveryView onDelivery,PreOrderView preOrder,CustomerManagerView customerManager,CartServiceView myCartServer,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
         this.myCart = myCart;
         this.articleList = articleList;
         this.standardDelivery = standardDelivery;
         this.onDelivery = onDelivery;
+        this.preOrder = preOrder;
         this.customerManager = customerManager;
         this.myCartServer = myCartServer;        
     }
@@ -58,6 +60,12 @@ public class CartManager extends ViewObject implements CartManagerView{
     }
     public void setOnDelivery(OverNightDeliveryView newValue) throws ModelException {
         this.onDelivery = newValue;
+    }
+    public PreOrderView getPreOrder()throws ModelException{
+        return this.preOrder;
+    }
+    public void setPreOrder(PreOrderView newValue) throws ModelException {
+        this.preOrder = newValue;
     }
     public CustomerManagerView getCustomerManager()throws ModelException{
         return this.customerManager;
@@ -95,6 +103,10 @@ public class CartManager extends ViewObject implements CartManagerView{
         OverNightDeliveryView onDelivery = this.getOnDelivery();
         if (onDelivery != null) {
             ((ViewProxi)onDelivery).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(onDelivery.getClassId(), onDelivery.getId())));
+        }
+        PreOrderView preOrder = this.getPreOrder();
+        if (preOrder != null) {
+            ((ViewProxi)preOrder).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(preOrder.getClassId(), preOrder.getId())));
         }
         CustomerManagerView customerManager = this.getCustomerManager();
         if (customerManager != null) {

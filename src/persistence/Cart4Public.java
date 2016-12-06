@@ -24,7 +24,7 @@ public interface Cart4Public extends Anything, SubjInterface, AbstractPersistent
     public void checkOutReverse() 
 				throws PersistenceException;
     public void checkOut() 
-				throws model.InsufficientStock, PersistenceException;
+				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
     public long fetchCurrentSum() 

@@ -7,6 +7,7 @@ public interface CommonDateExceptionVisitor<E extends model.UserException> {
     
     public void handleAcceptDeliveryCommand(PersistentAcceptDeliveryCommand acceptDeliveryCommand) throws PersistenceException, E;
     public void handleAddArticleCommand(PersistentAddArticleCommand addArticleCommand) throws PersistenceException, E;
+    public void handleCancelCommand(PersistentCancelCommand cancelCommand) throws PersistenceException, E;
     public void handleChangeAmountCommand(PersistentChangeAmountCommand changeAmountCommand) throws PersistenceException, E;
     public void handleChangeChargeCommand(PersistentChangeChargeCommand changeChargeCommand) throws PersistenceException, E;
     public void handleChangeDescriptionCommand(PersistentChangeDescriptionCommand changeDescriptionCommand) throws PersistenceException, E;
@@ -18,6 +19,7 @@ public interface CommonDateExceptionVisitor<E extends model.UserException> {
     public void handleDepositCommand(PersistentDepositCommand depositCommand) throws PersistenceException, E;
     public void handleFindArticleCommand(PersistentFindArticleCommand findArticleCommand) throws PersistenceException, E;
     public void handleOrderCommand(PersistentOrderCommand orderCommand) throws PersistenceException, E;
+    public void handlePreorderCommand(PersistentPreorderCommand preorderCommand) throws PersistenceException, E;
     public void handlePresetBalanceCommand(PersistentPresetBalanceCommand presetBalanceCommand) throws PersistenceException, E;
     public void handlePresetLowerLimitCommand(PersistentPresetLowerLimitCommand presetLowerLimitCommand) throws PersistenceException, E;
     public void handleRemoveFCartCommand(PersistentRemoveFCartCommand removeFCartCommand) throws PersistenceException, E;

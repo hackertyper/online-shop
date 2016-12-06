@@ -1816,6 +1816,7 @@ class AccountServiceDefaultDetailPanel extends DefaultDetailPanel{
 class OrderManagerDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String OrderManager$$orders = "OrderManager$$orders";
+    protected static final String OrderManager$$preOrders = "OrderManager$$preOrders";
     protected static final String OrderManager$$retourePrice = "OrderManager$$retourePrice";
     
     protected OrderManagerDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
@@ -1955,7 +1956,7 @@ class OfferedFSaleDefaultDetailPanel extends DefaultDetailPanel{
 
 class PreOrderDefaultDetailPanel extends DefaultDetailPanel{
     
-    protected static final String PreOrder$$order = "PreOrder$$order";
+    protected static final String PreOrder$$articleList = "PreOrder$$articleList";
     
     protected PreOrderDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -2007,6 +2008,7 @@ class CartDefaultDetailPanel extends DefaultDetailPanel{
 class QuantifiedArticlesDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String QuantifiedArticles$$article = "QuantifiedArticles$$article";
+    protected static final String QuantifiedArticles$$myOrder = "QuantifiedArticles$$myOrder";
     protected static final String QuantifiedArticles$$amount = "QuantifiedArticles$$amount";
     
     protected QuantifiedArticlesDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {

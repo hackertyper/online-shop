@@ -37,11 +37,15 @@ public interface OrderService4Public extends CustomerService4Public {
 				throws PersistenceException;
     public void acceptDelivery(final PersistentCustomerOrder customerOrder) 
 				throws PersistenceException;
+    public void cancel(final PersistentPreOrder preOrder) 
+				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
     public void initializeOnCreation() 
 				throws PersistenceException;
     public void initializeOnInstantiation() 
+				throws PersistenceException;
+    public void preorder(final PersistentPreOrder preOrder, final PersistentCustomerDelivery deliveryMethod) 
 				throws PersistenceException;
     public void retoureArticle(final PersistentQuantifiedArticles article, final long amount) 
 				throws PersistenceException;

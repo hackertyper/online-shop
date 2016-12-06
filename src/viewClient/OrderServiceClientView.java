@@ -314,6 +314,8 @@ public class OrderServiceClientView extends BorderPane implements ExceptionAndEv
 
     interface MenuItemVisitor{
         ImageView handle(RetoureArticlePRMTRQuantifiedArticlesPRMTRIntegerPRMTRMenuItem menuItem);
+        ImageView handle(PreorderPRMTRPreOrderPRMTRCustomerDeliveryPRMTRMenuItem menuItem);
+        ImageView handle(CancelPRMTRPreOrderPRMTRMenuItem menuItem);
         ImageView handle(AcceptDeliveryPRMTRCustomerOrderPRMTRMenuItem menuItem);
         ImageView handle(RetoureDeliveryPRMTRCustomerOrderPRMTRMenuItem menuItem);
     }
@@ -324,6 +326,16 @@ public class OrderServiceClientView extends BorderPane implements ExceptionAndEv
         abstract protected ImageView accept(MenuItemVisitor visitor);
     }
     private class RetoureArticlePRMTRQuantifiedArticlesPRMTRIntegerPRMTRMenuItem extends OrderServiceMenuItem{
+        protected ImageView accept(MenuItemVisitor visitor){
+            return visitor.handle(this);
+        }
+    }
+    private class PreorderPRMTRPreOrderPRMTRCustomerDeliveryPRMTRMenuItem extends OrderServiceMenuItem{
+        protected ImageView accept(MenuItemVisitor visitor){
+            return visitor.handle(this);
+        }
+    }
+    private class CancelPRMTRPreOrderPRMTRMenuItem extends OrderServiceMenuItem{
         protected ImageView accept(MenuItemVisitor visitor){
             return visitor.handle(this);
         }
@@ -351,6 +363,40 @@ public class OrderServiceClientView extends BorderPane implements ExceptionAndEv
             } catch (ModelException me){
                 this.handleException(me);
                 return result;
+            }
+            if (selected instanceof PreOrderView){
+                item = new PreorderPRMTRPreOrderPRMTRCustomerDeliveryPRMTRMenuItem();
+                item.setText("Bestellen ... ");
+                item.setOnAction(new EventHandler<ActionEvent>(){
+                    public void handle(javafx.event.ActionEvent e) {
+                        final OrderServicePreorderPreOrderCustomerDeliveryMssgWizard wizard = new OrderServicePreorderPreOrderCustomerDeliveryMssgWizard("Bestellen");
+                        wizard.setFirstArgument((PreOrderView)selected);
+                        wizard.setWidth(getNavigationPanel().getWidth());
+                        wizard.showAndWait();
+                    }
+                });
+                result.getItems().add(item);
+                item = new CancelPRMTRPreOrderPRMTRMenuItem();
+                item.setText("Bestellung stornieren");
+                item.setOnAction(new EventHandler<ActionEvent>(){
+                    public void handle(javafx.event.ActionEvent e) {
+                        Alert confirm = new Alert(AlertType.CONFIRMATION);
+                        confirm.setTitle(GUIConstants.ConfirmButtonText);
+                        confirm.setHeaderText(null);
+                        confirm.setContentText("Bestellung stornieren" + GUIConstants.ConfirmQuestionMark);
+                        Optional<ButtonType> buttonResult = confirm.showAndWait();
+                        if (buttonResult.get() == ButtonType.OK) {
+                            try {
+                                getConnection().cancel((PreOrderView)selected);
+                                getConnection().setEagerRefresh();
+                                
+                            }catch(ModelException me){
+                                handleException(me);
+                            }
+                        }
+                    }
+                });
+                result.getItems().add(item);
             }
             if (selected instanceof CustomerOrderView){
                 item = new AcceptDeliveryPRMTRCustomerOrderPRMTRMenuItem();
@@ -422,6 +468,55 @@ public class OrderServiceClientView extends BorderPane implements ExceptionAndEv
         this.preCalculatedFilters = switchOff;
     }
     
+	class OrderServicePreorderPreOrderCustomerDeliveryMssgWizard extends Wizard {
+
+		protected OrderServicePreorderPreOrderCustomerDeliveryMssgWizard(String operationName){
+			super(OrderServiceClientView.this);
+			getOkButton().setText(operationName);
+			getOkButton().setGraphic(new PreorderPRMTRPreOrderPRMTRCustomerDeliveryPRMTRMenuItem ().getGraphic());
+		}
+		protected void initialize(){
+			this.helpFileName = "OrderServicePreorderPreOrderCustomerDeliveryMssgWizard.help";
+			super.initialize();		
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().preorder(firstArgument, (CustomerDeliveryView)((ObjectSelectionPanel)getParametersPanel().getChildren().get(0)).getResult());
+				getConnection().setEagerRefresh();
+				this.close();	
+			} catch(ModelException me){
+				handleException(me);
+				this.close();
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		protected boolean isModifying () {
+			return false;
+		}
+		protected void addParameters(){
+			final ObjectSelectionPanel panel1 = new ObjectSelectionPanel("deliveryMethod", "view.CustomerDeliveryView", null, this);
+			getParametersPanel().getChildren().add(panel1);
+			panel1.setBrowserRoot((ViewRoot) getConnection().getOrderServiceView());		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+		private PreOrderView firstArgument; 
+	
+		public void setFirstArgument(PreOrderView firstArgument){
+			this.firstArgument = firstArgument;
+			this.setTitle(this.firstArgument.toString());
+			this.check();
+		}
+		
+		
+	}
+
 	class OrderServiceRetoureArticleQuantifiedArticlesIntegerMssgWizard extends Wizard {
 
 		protected OrderServiceRetoureArticleQuantifiedArticlesIntegerMssgWizard(String operationName){

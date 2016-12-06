@@ -15,6 +15,8 @@ public class OrderManagerProxi extends ViewProxi implements OrderManagerView{
     public OrderManagerView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
         java.util.Vector<String> orders_string = (java.util.Vector<String>)resultTable.get("orders");
         java.util.Vector<CustomerOrderView> orders = ViewProxi.getProxiVector(orders_string, connectionKey);
+        java.util.Vector<String> preOrders_string = (java.util.Vector<String>)resultTable.get("preOrders");
+        java.util.Vector<PreOrderView> preOrders = ViewProxi.getProxiVector(preOrders_string, connectionKey);
         long retourePrice = new Long((String)resultTable.get("retourePrice")).longValue();
         ViewProxi customerManager = null;
         String customerManager$String = (String)resultTable.get("customerManager");
@@ -30,7 +32,7 @@ public class OrderManagerProxi extends ViewProxi implements OrderManagerView{
             myOrderServer = view.objects.ViewProxi.createProxi(myOrderServer$Info,connectionKey);
             myOrderServer.setToString(myOrderServer$Info.getToString());
         }
-        OrderManagerView result$$ = new OrderManager(orders,(long)retourePrice,(CustomerManagerView)customerManager,(OrderServiceView)myOrderServer, this.getId(), this.getClassId());
+        OrderManagerView result$$ = new OrderManager(orders,preOrders,(long)retourePrice,(CustomerManagerView)customerManager,(OrderServiceView)myOrderServer, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -42,22 +44,31 @@ public class OrderManagerProxi extends ViewProxi implements OrderManagerView{
         int index = originalIndex;
         if(index < this.getOrders().size()) return new OrdersOrderManagerWrapper(this, originalIndex, (ViewRoot)this.getOrders().get(index));
         index = index - this.getOrders().size();
+        if(index < this.getPreOrders().size()) return new PreOrdersOrderManagerWrapper(this, originalIndex, (ViewRoot)this.getPreOrders().get(index));
+        index = index - this.getPreOrders().size();
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getOrders().size());
+            + (this.getOrders().size())
+            + (this.getPreOrders().size());
     }
     public boolean isLeaf() throws ModelException {
         if (this.object == null) return this.getLeafInfo() == 0;
         return true 
-            && (this.getOrders().size() == 0);
+            && (this.getOrders().size() == 0)
+            && (this.getPreOrders().size() == 0);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
         java.util.Iterator<?> getOrdersIterator = this.getOrders().iterator();
         while(getOrdersIterator.hasNext()){
             if(getOrdersIterator.next().equals(child)) return result;
+            result = result + 1;
+        }
+        java.util.Iterator<?> getPreOrdersIterator = this.getPreOrders().iterator();
+        while(getPreOrdersIterator.hasNext()){
+            if(getPreOrdersIterator.next().equals(child)) return result;
             result = result + 1;
         }
         return -1;
@@ -68,6 +79,12 @@ public class OrderManagerProxi extends ViewProxi implements OrderManagerView{
     }
     public void setOrders(java.util.Vector<CustomerOrderView> newValue) throws ModelException {
         ((OrderManager)this.getTheObject()).setOrders(newValue);
+    }
+    public java.util.Vector<PreOrderView> getPreOrders()throws ModelException{
+        return ((OrderManager)this.getTheObject()).getPreOrders();
+    }
+    public void setPreOrders(java.util.Vector<PreOrderView> newValue) throws ModelException {
+        ((OrderManager)this.getTheObject()).setPreOrders(newValue);
     }
     public long getRetourePrice()throws ModelException{
         return ((OrderManager)this.getTheObject()).getRetourePrice();

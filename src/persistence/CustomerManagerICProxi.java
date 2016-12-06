@@ -114,6 +114,10 @@ public class CustomerManagerICProxi extends PersistentInCacheProxiOptimistic imp
 				throws PersistenceException{
         ((PersistentCustomerManager)this.getTheObject()).addOrder(order);
     }
+    public void addPreOrder(final PersistentPreOrder preOrder) 
+				throws PersistenceException{
+        ((PersistentCustomerManager)this.getTheObject()).addPreOrder(preOrder);
+    }
     public void addToCart(final PersistentArticle article, final long amount) 
 				throws PersistenceException{
         ((PersistentCustomerManager)this.getTheObject()).addToCart(article, amount);

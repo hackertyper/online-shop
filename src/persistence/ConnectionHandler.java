@@ -82,11 +82,13 @@ public class ConnectionHandler {
     public AddArticleCommandFacade theAddArticleCommandFacade;
     public ManufacturerFacade theManufacturerFacade;
     public NewlyAddedFacade theNewlyAddedFacade;
+    public PreorderCommandFacade thePreorderCommandFacade;
     public ShopManagerFacade theShopManagerFacade;
     public CartManagerStandardDeliveryFacade theCartManagerStandardDeliveryFacade;
     public DepositCommandFacade theDepositCommandFacade;
     public ChangeProductGroupCommandFacade theChangeProductGroupCommandFacade;
     public SendOrderFacade theSendOrderFacade;
+    public PreOrderArticleListFacade thePreOrderArticleListFacade;
     public StartSellingCommandFacade theStartSellingCommandFacade;
     public ShopKeeperOrderFacade theShopKeeperOrderFacade;
     public ChangeDescriptionCommandFacade theChangeDescriptionCommandFacade;
@@ -126,6 +128,7 @@ public class ConnectionHandler {
     public RetoureDeliveryCommandFacade theRetoureDeliveryCommandFacade;
     public ServiceFacade theServiceFacade;
     public SubjFacade theSubjFacade;
+    public CancelCommandFacade theCancelCommandFacade;
     public ShopkeeperServiceFacade theShopkeeperServiceFacade;
     public CartServiceFacade theCartServiceFacade;
     public DeliveryFacade theDeliveryFacade;
@@ -159,11 +162,13 @@ public class ConnectionHandler {
             this.theAddArticleCommandFacade= new AddArticleCommandFacade();
             this.theManufacturerFacade= new ManufacturerFacade();
             this.theNewlyAddedFacade= new NewlyAddedFacade();
+            this.thePreorderCommandFacade= new PreorderCommandFacade();
             this.theShopManagerFacade= new ShopManagerFacade();
             this.theCartManagerStandardDeliveryFacade= new CartManagerStandardDeliveryFacade();
             this.theDepositCommandFacade= new DepositCommandFacade();
             this.theChangeProductGroupCommandFacade= new ChangeProductGroupCommandFacade();
             this.theSendOrderFacade= new SendOrderFacade();
+            this.thePreOrderArticleListFacade= new PreOrderArticleListFacade();
             this.theStartSellingCommandFacade= new StartSellingCommandFacade();
             this.theShopKeeperOrderFacade= new ShopKeeperOrderFacade();
             this.theChangeDescriptionCommandFacade= new ChangeDescriptionCommandFacade();
@@ -203,6 +208,7 @@ public class ConnectionHandler {
             this.theRetoureDeliveryCommandFacade= new RetoureDeliveryCommandFacade();
             this.theServiceFacade= new ServiceFacade();
             this.theSubjFacade= new SubjFacade();
+            this.theCancelCommandFacade= new CancelCommandFacade();
             this.theShopkeeperServiceFacade= new ShopkeeperServiceFacade();
             this.theCartServiceFacade= new CartServiceFacade();
             this.theDeliveryFacade= new DeliveryFacade();

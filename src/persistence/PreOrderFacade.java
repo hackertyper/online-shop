@@ -25,17 +25,17 @@ public class PreOrderFacade{
 	}
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
-    public PersistentPreOrder newPreOrder(long idCreateIfLessZero) throws PersistenceException {
+    public PersistentPreOrder newPreOrder(long sum,long idCreateIfLessZero) throws PersistenceException {
         if(idCreateIfLessZero > 0) return (PersistentPreOrder)PersistentProxi.createProxi(idCreateIfLessZero, 240);
         long id = ConnectionHandler.getTheConnectionHandler().thePreOrderFacade.getNextId();
-        PreOrder result = new PreOrder(null,null,null,id);
+        PreOrder result = new PreOrder(null,sum,null,null,null,null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentPreOrder)PersistentProxi.createProxi(id, 240);
     }
     
-    public PersistentPreOrder newDelayedPreOrder() throws PersistenceException {
+    public PersistentPreOrder newDelayedPreOrder(long sum) throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().thePreOrderFacade.getNextId();
-        PreOrder result = new PreOrder(null,null,null,id);
+        PreOrder result = new PreOrder(null,sum,null,null,null,null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentPreOrder)PersistentProxi.createProxi(id, 240);
     }
@@ -49,7 +49,19 @@ public class PreOrderFacade{
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         
     }
-    public void orderSet(long PreOrderId, PersistentCustomerOrder orderVal) throws PersistenceException {
+    public void cartManagerSet(long PreOrderId, PersistentCartManager cartManagerVal) throws PersistenceException {
+        
+    }
+    public void sumSet(long PreOrderId, long sumVal) throws PersistenceException {
+        
+    }
+    public void articleListSet(long PreOrderId, PersistentPreOrderArticleList articleListVal) throws PersistenceException {
+        
+    }
+    public void standardDeliverySet(long PreOrderId, PersistentStandardDelivery standardDeliveryVal) throws PersistenceException {
+        
+    }
+    public void onDeliverySet(long PreOrderId, PersistentOverNightDelivery onDeliveryVal) throws PersistenceException {
         
     }
     public void subServiceSet(long PreOrderId, SubjInterface subServiceVal) throws PersistenceException {

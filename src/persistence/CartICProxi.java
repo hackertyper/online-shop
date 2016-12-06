@@ -103,7 +103,7 @@ public class CartICProxi extends PersistentInCacheProxiOptimistic implements Per
         ((PersistentCart)this.getTheObject()).checkOutReverse();
     }
     public void checkOut() 
-				throws model.InsufficientStock, PersistenceException{
+				throws PersistenceException{
         ((PersistentCart)this.getTheObject()).checkOut();
     }
     public void copyingPrivateUserAttributes(final Anything copy) 

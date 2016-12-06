@@ -37,6 +37,12 @@ public class CartManagerICProxi extends PersistentInCacheProxiOptimistic impleme
     public void setOnDelivery(PersistentCartManagerOnDelivery newValue) throws PersistenceException {
         ((PersistentCartManager)this.getTheObject()).setOnDelivery(newValue);
     }
+    public PersistentPreOrder getPreOrder() throws PersistenceException {
+        return ((PersistentCartManager)this.getTheObject()).getPreOrder();
+    }
+    public void setPreOrder(PersistentPreOrder newValue) throws PersistenceException {
+        ((PersistentCartManager)this.getTheObject()).setPreOrder(newValue);
+    }
     public SubjInterface getSubService() throws PersistenceException {
         return ((PersistentCartManager)this.getTheObject()).getSubService();
     }
@@ -149,6 +155,10 @@ public class CartManagerICProxi extends PersistentInCacheProxiOptimistic impleme
 				throws PersistenceException{
         ((PersistentCartManager)this.getTheObject()).addOrder(order);
     }
+    public void addPreOrder(final PersistentPreOrder preOrder) 
+				throws PersistenceException{
+        ((PersistentCartManager)this.getTheObject()).addPreOrder(preOrder);
+    }
     public void addToCart(final PersistentArticle article, final long amount) 
 				throws PersistenceException{
         ((PersistentCartManager)this.getTheObject()).addToCart(article, amount);
@@ -162,7 +172,7 @@ public class CartManagerICProxi extends PersistentInCacheProxiOptimistic impleme
         ((PersistentCartManager)this.getTheObject()).changeAmount(article, newAmount);
     }
     public void checkOut() 
-				throws model.InsufficientStock, PersistenceException{
+				throws PersistenceException{
         ((PersistentCartManager)this.getTheObject()).checkOut();
     }
     public void copyingPrivateUserAttributes(final Anything copy) 

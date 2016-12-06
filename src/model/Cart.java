@@ -323,23 +323,35 @@ public class Cart extends PersistentObject implements PersistentCart{
 		});
     }
     /**
-     * Checks out the current cart through reservation of the chosen articles amount.
+     * Checks out the current cart through reservation of the chosen articles amount. Creates a preOrder if exception is thrown.
      * 
      * @throws InsufficientStock if article can not be reserved
      */
     public void checkOut() 
-				throws model.InsufficientStock, PersistenceException{
-        getThis().getState().accept(new CartStateExceptionVisitor<InsufficientStock>() {
+				throws PersistenceException{
+        getThis().getState().accept(new CartStateVisitor() {
 			@Override
-			public void handleOpenCart(PersistentOpenCart openCart) throws PersistenceException, InsufficientStock {
+			public void handleOpenCart(PersistentOpenCart openCart) throws PersistenceException {
 				// Reserve all articles in the cart
-				getThis().getCartMngr().getArticleList().applyToAllException(new ProcdureException<PersistentQuantifiedArticles, InsufficientStock>() {
+				getThis().getCartMngr().getArticleList().applyToAll(new Procdure<PersistentQuantifiedArticles>() {
 					@Override
-					public void doItTo(PersistentQuantifiedArticles argument) throws PersistenceException, InsufficientStock {
-						argument.reserve();
+					public void doItTo(PersistentQuantifiedArticles argument) throws PersistenceException {
+						try {
+							argument.reserve();
+							getThis().changeState(CheckedOut.createCheckedOut());
+						} catch (InsufficientStock e) {
+							// if not enough articles in stock, create preOrder
+							PersistentPreOrder preOrder = PreOrder.createPreOrder(getThis().getCartMngr(), getThis().getCurrentSum());
+							getThis().getCartMngr().getArticleList().applyToAll(new Procdure<PersistentQuantifiedArticles>() {
+								@Override
+								public void doItTo(PersistentQuantifiedArticles argument) throws PersistenceException {
+									preOrder.getArticleList().add(argument);
+								}
+							});
+							getThis().getCartMngr().addPreOrder(preOrder);
+						}
 					}
 				});
-		        getThis().changeState(CheckedOut.createCheckedOut());
 			}
 			@Override
 			public void handleCheckedOut(PersistentCheckedOut checkedOut) throws PersistenceException {}
@@ -396,6 +408,7 @@ public class Cart extends PersistentObject implements PersistentCart{
 				getThis().getCartMngr().getArticleList().applyToAll(new Procdure<PersistentQuantifiedArticles>() {
 					@Override
 					public void doItTo(PersistentQuantifiedArticles argument) throws PersistenceException {
+						argument.setMyOrder(co);
 						co.getArticleList().add(argument);
 					}
 				});

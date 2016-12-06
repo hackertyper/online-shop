@@ -282,6 +282,7 @@ public class Cache {
 		this.number2NameMap.put(112, "ArrivedOrder");
 		this.number2NameMap.put(109, "Article");
 		this.number2NameMap.put(238, "ArticleWrapper");
+		this.number2NameMap.put(266, "CancelCommand");
 		this.number2NameMap.put(123, "Cart");
 		this.number2NameMap.put(190, "CartManager");
 		this.number2NameMap.put(213, "CartManagerArticleList");
@@ -316,6 +317,8 @@ public class Cache {
 		this.number2NameMap.put(-223, "OrderService");
 		this.number2NameMap.put(228, "OverNightDelivery");
 		this.number2NameMap.put(240, "PreOrder");
+		this.number2NameMap.put(264, "PreOrderArticleList");
+		this.number2NameMap.put(267, "PreorderCommand");
 		this.number2NameMap.put(243, "PresetBalanceCommand");
 		this.number2NameMap.put(244, "PresetLowerLimitCommand");
 		this.number2NameMap.put(102, "ProductGroup");

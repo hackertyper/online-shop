@@ -201,12 +201,8 @@ public class CheckOutCommand extends PersistentObject implements PersistentCheck
     }
     public void execute() 
 				throws PersistenceException{
-        try{
-			this.commandReceiver.checkOut();
-		}
-		catch(model.InsufficientStock e){
-			this.commandException = e;
-		}
+        this.commandReceiver.checkOut();
+		
     }
     public Invoker fetchInvoker() 
 				throws PersistenceException{

@@ -8,6 +8,8 @@ public interface OrderManagerView extends Anything, AbstractViewRoot {
     
     public java.util.Vector<CustomerOrderView> getOrders()throws ModelException;
     public void setOrders(java.util.Vector<CustomerOrderView> newValue) throws ModelException ;
+    public java.util.Vector<PreOrderView> getPreOrders()throws ModelException;
+    public void setPreOrders(java.util.Vector<PreOrderView> newValue) throws ModelException ;
     public long getRetourePrice()throws ModelException;
     public void setRetourePrice(long newValue) throws ModelException ;
     public CustomerManagerView getCustomerManager()throws ModelException;

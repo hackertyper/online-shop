@@ -136,27 +136,21 @@ public class TestCart {
 	}
 	
 	@Test
-	public void testCheckOut() throws PersistenceException, InsufficientStock {
+	public void testCheckOut() throws PersistenceException {
 		cm.getCartMngr().checkOut();
 		assertEquals(90, a1.getStock());
 		assertTrue(cm.getCartMngr().getMyCart().getState() instanceof PersistentCheckedOut);
 	}
 	
 	@Test
-	public void testCheckOutException() throws PersistenceException {
-		cm.getCartMngr().addArticle(a1, 100);
-		try {	
-			cm.getCartMngr().checkOut();
-			fail("No expected exception occured");
-		} catch (InsufficientStock e) {
-			assertEquals(100, a1.getStock());
-			assertTrue(cm.getCartMngr().getMyCart().getState() instanceof PersistentOpenCart);
-			assertEquals(serverConstants.ErrorMessages.InsufficientStock, e.getMessage());
-		}
+	public void testCheckOutPreOrder() throws PersistenceException {
+		cm.getCartMngr().addArticle(a1, 100);	
+		cm.getCartMngr().checkOut();
+		assertEquals(1, cm.getOrderMngr().getPreOrders().getLength());
 	}
 	
 	@Test
-	public void testToOpenCart() throws PersistenceException, InsufficientStock {
+	public void testToOpenCart() throws PersistenceException {
 		cm.getCartMngr().checkOut();
 		Iterator<PersistentQuantifiedArticles> cartIterator = cm.getCartMngr().getArticleList().iterator();
 		while(cartIterator.hasNext()) {
@@ -180,7 +174,7 @@ public class TestCart {
 	}
 	
 	@Test
-	public void testOrder() throws PersistenceException, InsufficientStock, FirstCheckOut, InsufficientFunds {
+	public void testOrder() throws PersistenceException, FirstCheckOut, InsufficientFunds {
 		Iterator<PersistentQuantifiedArticles> cartIterator = cm.getCartMngr().getArticleList().iterator();
 		while(cartIterator.hasNext()) {
 			PersistentQuantifiedArticles next = cartIterator.next();

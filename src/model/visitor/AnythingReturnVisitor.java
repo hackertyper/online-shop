@@ -11,6 +11,7 @@ public interface AnythingReturnVisitor<R> extends CartStateReturnVisitor<R> ,Com
     public R handleAddArticleCommand(PersistentAddArticleCommand addArticleCommand) throws PersistenceException;
     public R handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException;
     public R handleArticleWrapper(PersistentArticleWrapper articleWrapper) throws PersistenceException;
+    public R handleCancelCommand(PersistentCancelCommand cancelCommand) throws PersistenceException;
     public R handleCart(PersistentCart cart) throws PersistenceException;
     public R handleCartManager(PersistentCartManager cartManager) throws PersistenceException;
     public R handleCartManagerArticleList(PersistentCartManagerArticleList cartManagerArticleList) throws PersistenceException;
@@ -38,6 +39,8 @@ public interface AnythingReturnVisitor<R> extends CartStateReturnVisitor<R> ,Com
     public R handleOrderCommand(PersistentOrderCommand orderCommand) throws PersistenceException;
     public R handleOrderManager(PersistentOrderManager orderManager) throws PersistenceException;
     public R handlePreOrder(PersistentPreOrder preOrder) throws PersistenceException;
+    public R handlePreOrderArticleList(PersistentPreOrderArticleList preOrderArticleList) throws PersistenceException;
+    public R handlePreorderCommand(PersistentPreorderCommand preorderCommand) throws PersistenceException;
     public R handlePresetBalanceCommand(PersistentPresetBalanceCommand presetBalanceCommand) throws PersistenceException;
     public R handlePresetLowerLimitCommand(PersistentPresetLowerLimitCommand presetLowerLimitCommand) throws PersistenceException;
     public R handleProductGroupItemList(PersistentProductGroupItemList productGroupItemList) throws PersistenceException;

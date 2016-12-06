@@ -25,6 +25,12 @@ public class QuantifiedArticlesICProxi extends PersistentInCacheProxiOptimistic 
     public void setArticle(PersistentQuantifiedArticlesArticle newValue) throws PersistenceException {
         ((PersistentQuantifiedArticles)this.getTheObject()).setArticle(newValue);
     }
+    public PersistentCustomerOrder getMyOrder() throws PersistenceException {
+        return ((PersistentQuantifiedArticles)this.getTheObject()).getMyOrder();
+    }
+    public void setMyOrder(PersistentCustomerOrder newValue) throws PersistenceException {
+        ((PersistentQuantifiedArticles)this.getTheObject()).setMyOrder(newValue);
+    }
     public long getAmount() throws PersistenceException {
         return ((PersistentQuantifiedArticles)this.getTheObject()).getAmount();
     }

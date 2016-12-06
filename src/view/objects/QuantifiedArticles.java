@@ -10,12 +10,14 @@ import view.visitor.*;
 public class QuantifiedArticles extends ViewObject implements QuantifiedArticlesView{
     
     protected ArticleView article;
+    protected CustomerOrderView myOrder;
     protected long amount;
     
-    public QuantifiedArticles(ArticleView article,long amount,long id, long classId) {
+    public QuantifiedArticles(ArticleView article,CustomerOrderView myOrder,long amount,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
         this.article = article;
+        this.myOrder = myOrder;
         this.amount = amount;        
     }
     
@@ -32,6 +34,12 @@ public class QuantifiedArticles extends ViewObject implements QuantifiedArticles
     }
     public void setArticle(ArticleView newValue) throws ModelException {
         this.article = newValue;
+    }
+    public CustomerOrderView getMyOrder()throws ModelException{
+        return this.myOrder;
+    }
+    public void setMyOrder(CustomerOrderView newValue) throws ModelException {
+        this.myOrder = newValue;
     }
     public long getAmount()throws ModelException{
         return this.amount;
@@ -58,6 +66,10 @@ public class QuantifiedArticles extends ViewObject implements QuantifiedArticles
         if (article != null) {
             ((ViewProxi)article).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(article.getClassId(), article.getId())));
         }
+        CustomerOrderView myOrder = this.getMyOrder();
+        if (myOrder != null) {
+            ((ViewProxi)myOrder).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(myOrder.getClassId(), myOrder.getId())));
+        }
         
     }
     public void sortSetValuedFields() throws ModelException {
@@ -68,24 +80,30 @@ public class QuantifiedArticles extends ViewObject implements QuantifiedArticles
         if(this.getArticle() != null && index < this.getArticle().getTheObject().getChildCount())
             return this.getArticle().getTheObject().getChild(index);
         if(this.getArticle() != null) index = index - this.getArticle().getTheObject().getChildCount();
+        if(index == 0 && this.getMyOrder() != null) return new MyOrderQuantifiedArticlesWrapper(this, originalIndex, (ViewRoot)this.getMyOrder());
+        if(this.getMyOrder() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getArticle() == null ? 0 : this.getArticle().getTheObject().getChildCount());
+            + (this.getArticle() == null ? 0 : this.getArticle().getTheObject().getChildCount())
+            + (this.getMyOrder() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
         return true 
-            && (this.getArticle() == null ? true : this.getArticle().getTheObject().isLeaf());
+            && (this.getArticle() == null ? true : this.getArticle().getTheObject().isLeaf())
+            && (this.getMyOrder() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
         if(this.getArticle() != null && this.getArticle().equals(child)) return result;
         if(this.getArticle() != null) result = result + 1;
+        if(this.getMyOrder() != null && this.getMyOrder().equals(child)) return result;
+        if(this.getMyOrder() != null) result = result + 1;
         return -1;
     }
     public int getAmountIndex() throws ModelException {
-        return 0 + (this.getArticle() == null ? 0 : 1);
+        return 0 + (this.getArticle() == null ? 0 : 1) + (this.getMyOrder() == null ? 0 : 1);
     }
     public int getRowCount(){
         return 0 

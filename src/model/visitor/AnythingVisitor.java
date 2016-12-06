@@ -11,6 +11,7 @@ public interface AnythingVisitor extends CartStateVisitor,CommonDateVisitor,Cust
     public void handleAddArticleCommand(PersistentAddArticleCommand addArticleCommand) throws PersistenceException;
     public void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException;
     public void handleArticleWrapper(PersistentArticleWrapper articleWrapper) throws PersistenceException;
+    public void handleCancelCommand(PersistentCancelCommand cancelCommand) throws PersistenceException;
     public void handleCart(PersistentCart cart) throws PersistenceException;
     public void handleCartManager(PersistentCartManager cartManager) throws PersistenceException;
     public void handleCartManagerArticleList(PersistentCartManagerArticleList cartManagerArticleList) throws PersistenceException;
@@ -38,6 +39,8 @@ public interface AnythingVisitor extends CartStateVisitor,CommonDateVisitor,Cust
     public void handleOrderCommand(PersistentOrderCommand orderCommand) throws PersistenceException;
     public void handleOrderManager(PersistentOrderManager orderManager) throws PersistenceException;
     public void handlePreOrder(PersistentPreOrder preOrder) throws PersistenceException;
+    public void handlePreOrderArticleList(PersistentPreOrderArticleList preOrderArticleList) throws PersistenceException;
+    public void handlePreorderCommand(PersistentPreorderCommand preorderCommand) throws PersistenceException;
     public void handlePresetBalanceCommand(PersistentPresetBalanceCommand presetBalanceCommand) throws PersistenceException;
     public void handlePresetLowerLimitCommand(PersistentPresetLowerLimitCommand presetLowerLimitCommand) throws PersistenceException;
     public void handleProductGroupItemList(PersistentProductGroupItemList productGroupItemList) throws PersistenceException;

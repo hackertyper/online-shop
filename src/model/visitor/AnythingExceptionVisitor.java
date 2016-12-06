@@ -11,6 +11,7 @@ public interface AnythingExceptionVisitor<E extends model.UserException> extends
     public void handleAddArticleCommand(PersistentAddArticleCommand addArticleCommand) throws PersistenceException, E;
     public void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException, E;
     public void handleArticleWrapper(PersistentArticleWrapper articleWrapper) throws PersistenceException, E;
+    public void handleCancelCommand(PersistentCancelCommand cancelCommand) throws PersistenceException, E;
     public void handleCart(PersistentCart cart) throws PersistenceException, E;
     public void handleCartManager(PersistentCartManager cartManager) throws PersistenceException, E;
     public void handleCartManagerArticleList(PersistentCartManagerArticleList cartManagerArticleList) throws PersistenceException, E;
@@ -38,6 +39,8 @@ public interface AnythingExceptionVisitor<E extends model.UserException> extends
     public void handleOrderCommand(PersistentOrderCommand orderCommand) throws PersistenceException, E;
     public void handleOrderManager(PersistentOrderManager orderManager) throws PersistenceException, E;
     public void handlePreOrder(PersistentPreOrder preOrder) throws PersistenceException, E;
+    public void handlePreOrderArticleList(PersistentPreOrderArticleList preOrderArticleList) throws PersistenceException, E;
+    public void handlePreorderCommand(PersistentPreorderCommand preorderCommand) throws PersistenceException, E;
     public void handlePresetBalanceCommand(PersistentPresetBalanceCommand presetBalanceCommand) throws PersistenceException, E;
     public void handlePresetLowerLimitCommand(PersistentPresetLowerLimitCommand presetLowerLimitCommand) throws PersistenceException, E;
     public void handleProductGroupItemList(PersistentProductGroupItemList productGroupItemList) throws PersistenceException, E;
