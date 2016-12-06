@@ -300,31 +300,6 @@ public class Article extends model.Item implements PersistentArticle{
     }
     
     
-    public void changeManuDelivery(final long newManuDelivery, final Invoker invoker) 
-				throws PersistenceException{
-        java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
-		PersistentChangeManuDeliveryCommand command = model.meta.ChangeManuDeliveryCommand.createChangeManuDeliveryCommand(newManuDelivery, now, now);
-		command.setInvoker(invoker);
-		command.setCommandReceiver(getThis());
-		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
-    }
-    public void changePrice(final long newPrice, final Invoker invoker) 
-				throws PersistenceException{
-        java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
-		PersistentChangePriceCommand command = model.meta.ChangePriceCommand.createChangePriceCommand(newPrice, now, now);
-		command.setInvoker(invoker);
-		command.setCommandReceiver(getThis());
-		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
-    }
-    public void changeProductGroup(final PersistentProductGroup newPG, final Invoker invoker) 
-				throws PersistenceException{
-        java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
-		PersistentChangeProductGroupCommand command = model.meta.ChangeProductGroupCommand.createChangeProductGroupCommand(now, now);
-		command.setNewPG(newPG);
-		command.setInvoker(invoker);
-		command.setCommandReceiver(getThis());
-		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
-    }
     public synchronized void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
@@ -345,6 +320,13 @@ public class Article extends model.Item implements PersistentArticle{
 			this.setMaxStock((Long)final$$Fields.get("maxStock"));
 			this.setManuDelivery((Long)final$$Fields.get("manuDelivery"));
 		}
+    }
+    public void receiveDelivery(final long amount) 
+				throws PersistenceException{
+        model.meta.ArticleReceiveDeliveryIntegerMssg event = new model.meta.ArticleReceiveDeliveryIntegerMssg(amount, getThis());
+		event.execute();
+		getThis().updateObservers(event);
+		event.getResult();
     }
     public synchronized void register(final ObsInterface observee) 
 				throws PersistenceException{
@@ -375,8 +357,7 @@ public class Article extends model.Item implements PersistentArticle{
     }
     public void changePrice(final long newPrice) 
 				throws PersistenceException{
-        //TODO: implement method: changePrice
-        
+        getThis().setPrice(newPrice);
     }
     public void changeProductGroup(final PersistentProductGroup newPG) 
 				throws PersistenceException{
@@ -425,7 +406,7 @@ public class Article extends model.Item implements PersistentArticle{
 			});
         }
     }
-    public void receiveDelivery(final long amount) 
+    public void receiveDeliveryImplementation(final long amount) 
 				throws PersistenceException{
         getThis().setStock(getThis().getStock() + amount);
     }

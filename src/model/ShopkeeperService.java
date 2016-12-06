@@ -18,11 +18,11 @@ public class ShopkeeperService extends model.Service implements PersistentShopke
         PersistentShopkeeperService result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theShopkeeperServiceFacade
-                .newDelayedShopkeeperService(0,0);
+                .newDelayedShopkeeperService();
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theShopkeeperServiceFacade
-                .newShopkeeperService(0,0,-1);
+                .newShopkeeperService(-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         result.initialize(result, final$$Fields);
@@ -34,11 +34,11 @@ public class ShopkeeperService extends model.Service implements PersistentShopke
         PersistentShopkeeperService result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theShopkeeperServiceFacade
-                .newDelayedShopkeeperService(0,0);
+                .newDelayedShopkeeperService();
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theShopkeeperServiceFacade
-                .newShopkeeperService(0,0,-1);
+                .newShopkeeperService(-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         result.initialize(This, final$$Fields);
@@ -70,8 +70,6 @@ public class ShopkeeperService extends model.Service implements PersistentShopke
         result = new ShopkeeperService(this.subService, 
                                        this.This, 
                                        this.manager, 
-                                       this.lowerLimitPreset, 
-                                       this.balancePreset, 
                                        this.getId());
         result.errors = this.errors.copy(result);
         result.errors = this.errors.copy(result);
@@ -83,15 +81,11 @@ public class ShopkeeperService extends model.Service implements PersistentShopke
         return false;
     }
     protected PersistentShopkeeper manager;
-    protected long lowerLimitPreset;
-    protected long balancePreset;
     
-    public ShopkeeperService(SubjInterface subService,PersistentService This,PersistentShopkeeper manager,long lowerLimitPreset,long balancePreset,long id) throws PersistenceException {
+    public ShopkeeperService(SubjInterface subService,PersistentService This,PersistentShopkeeper manager,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super((SubjInterface)subService,(PersistentService)This,id);
-        this.manager = manager;
-        this.lowerLimitPreset = lowerLimitPreset;
-        this.balancePreset = balancePreset;        
+        this.manager = manager;        
     }
     
     static public long getTypeId() {
@@ -105,7 +99,7 @@ public class ShopkeeperService extends model.Service implements PersistentShopke
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
         if (this.getClassId() == -133) ConnectionHandler.getTheConnectionHandler().theShopkeeperServiceFacade
-            .newShopkeeperService(lowerLimitPreset,balancePreset,this.getId());
+            .newShopkeeperService(this.getId());
         super.store();
         if(this.getManager() != null){
             this.getManager().store();
@@ -127,20 +121,6 @@ public class ShopkeeperService extends model.Service implements PersistentShopke
             newValue.store();
             ConnectionHandler.getTheConnectionHandler().theShopkeeperServiceFacade.managerSet(this.getId(), newValue);
         }
-    }
-    public long getLowerLimitPreset() throws PersistenceException {
-        return this.lowerLimitPreset;
-    }
-    public void setLowerLimitPreset(long newValue) throws PersistenceException {
-        if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theShopkeeperServiceFacade.lowerLimitPresetSet(this.getId(), newValue);
-        this.lowerLimitPreset = newValue;
-    }
-    public long getBalancePreset() throws PersistenceException {
-        return this.balancePreset;
-    }
-    public void setBalancePreset(long newValue) throws PersistenceException {
-        if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theShopkeeperServiceFacade.balancePresetSet(this.getId(), newValue);
-        this.balancePreset = newValue;
     }
     public PersistentShopkeeperService getThis() throws PersistenceException {
         if(this.This == null){
@@ -260,8 +240,7 @@ public class ShopkeeperService extends model.Service implements PersistentShopke
     
     public void changeDescription(final PersistentItem item, final String newDescription) 
 				throws PersistenceException{
-        //TODO: implement method: changeDescription
-        
+        getThis().getManager().changeDescription(item, newDescription, getThis());
     }
     public void changeExtraCharge(final PersistentCustomerDelivery cd, final long newCharge) 
 				throws PersistenceException{
@@ -274,13 +253,11 @@ public class ShopkeeperService extends model.Service implements PersistentShopke
     }
     public void changePrice(final PersistentArticle article, final long newPrice) 
 				throws PersistenceException{
-        //TODO: implement method: changePrice
-        
+        getThis().getManager().changePrice(article, newPrice, getThis());
     }
     public void changeProductGroup(final PersistentArticle article, final PersistentProductGroup newPG) 
 				throws PersistenceException{
-        //TODO: implement method: changeProductGroup
-        
+        getThis().getManager().changeProductGroup(article, newPG, getThis());
     }
     public void changeTime(final PersistentCustomerDelivery cd, final long newTime) 
 				throws PersistenceException{
@@ -306,13 +283,11 @@ public class ShopkeeperService extends model.Service implements PersistentShopke
     }
     public void presetBalance(final long amount) 
 				throws PersistenceException{
-        //TODO: implement method: presetBalance
-        
+        getThis().getManager().presetBalance(amount, getThis());
     }
     public void presetLowerLimit(final long amount) 
 				throws PersistenceException{
-        //TODO: implement method: presetLowerLimit
-        
+        getThis().getManager().presetLowerLimit(amount, getThis());
     }
     public void startSelling(final PersistentNewlyAdded article) 
 				throws PersistenceException{

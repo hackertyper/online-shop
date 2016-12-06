@@ -138,6 +138,10 @@ public class CustomerManagerProxi extends PersistentProxi implements PersistentC
 				throws PersistenceException{
         ((PersistentCustomerManager)this.getTheObject()).returnPayment(sum);
     }
+    public void signalChanged() 
+				throws PersistenceException{
+        ((PersistentCustomerManager)this.getTheObject()).signalChanged();
+    }
     public void withdraw(final long amount) 
 				throws model.InsufficientFunds, PersistenceException{
         ((PersistentCustomerManager)this.getTheObject()).withdraw(amount);

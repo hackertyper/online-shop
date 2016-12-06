@@ -161,6 +161,10 @@ public class CustomerServiceProxi extends ServiceProxi implements PersistentCust
 				throws PersistenceException{
         ((PersistentCustomerService)this.getTheObject()).initializeOnInstantiation();
     }
+    public void signalChanged() 
+				throws PersistenceException{
+        ((PersistentCustomerService)this.getTheObject()).signalChanged();
+    }
 
     
 }

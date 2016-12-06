@@ -237,18 +237,15 @@ public class ShopKeeperOrder extends model.Delivery implements PersistentShopKee
     }
     public void deliver() 
 				throws PersistenceException{
-        //TODO: implement method: deliver
-        
+        getThis().getArticle().receiveDelivery(getThis().getAmount());
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
         super.initializeOnCreation();
-		//TODO: implement method: initializeOnCreation
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         super.initializeOnInstantiation();
-		//TODO: implement method: initializeOnInstantiation
     }
     
     

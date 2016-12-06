@@ -37,16 +37,18 @@ public class ChangeDescriptionCommand extends PersistentObject implements Persis
     public boolean hasEssentialFields() throws PersistenceException{
         return true;
     }
+    protected PersistentItem item;
     protected String newDescription;
     protected Invoker invoker;
-    protected PersistentItem commandReceiver;
+    protected PersistentShopkeeper commandReceiver;
     protected PersistentCommonDate myCommonDate;
     
     private model.UserException commandException = null;
     
-    public ChangeDescriptionCommand(String newDescription,Invoker invoker,PersistentItem commandReceiver,PersistentCommonDate myCommonDate,long id) throws PersistenceException {
+    public ChangeDescriptionCommand(PersistentItem item,String newDescription,Invoker invoker,PersistentShopkeeper commandReceiver,PersistentCommonDate myCommonDate,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
+        this.item = item;
         this.newDescription = newDescription;
         this.invoker = invoker;
         this.commandReceiver = commandReceiver;
@@ -66,6 +68,10 @@ public class ChangeDescriptionCommand extends PersistentObject implements Persis
         if (this.getClassId() == 131) ConnectionHandler.getTheConnectionHandler().theChangeDescriptionCommandFacade
             .newChangeDescriptionCommand(newDescription,this.getId());
         super.store();
+        if(this.getItem() != null){
+            this.getItem().store();
+            ConnectionHandler.getTheConnectionHandler().theChangeDescriptionCommandFacade.itemSet(this.getId(), getItem());
+        }
         if(this.getInvoker() != null){
             this.getInvoker().store();
             ConnectionHandler.getTheConnectionHandler().theChangeDescriptionCommandFacade.invokerSet(this.getId(), getInvoker());
@@ -81,6 +87,20 @@ public class ChangeDescriptionCommand extends PersistentObject implements Persis
         
     }
     
+    public PersistentItem getItem() throws PersistenceException {
+        return this.item;
+    }
+    public void setItem(PersistentItem newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.isTheSameAs(this.item)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.item = (PersistentItem)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theChangeDescriptionCommandFacade.itemSet(this.getId(), newValue);
+        }
+    }
     public String getNewDescription() throws PersistenceException {
         return this.newDescription;
     }
@@ -103,15 +123,15 @@ public class ChangeDescriptionCommand extends PersistentObject implements Persis
             ConnectionHandler.getTheConnectionHandler().theChangeDescriptionCommandFacade.invokerSet(this.getId(), newValue);
         }
     }
-    public PersistentItem getCommandReceiver() throws PersistenceException {
+    public PersistentShopkeeper getCommandReceiver() throws PersistenceException {
         return this.commandReceiver;
     }
-    public void setCommandReceiver(PersistentItem newValue) throws PersistenceException {
+    public void setCommandReceiver(PersistentShopkeeper newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
         if(newValue.isTheSameAs(this.commandReceiver)) return;
         long objectId = newValue.getId();
         long classId = newValue.getClassId();
-        this.commandReceiver = (PersistentItem)PersistentProxi.createProxi(objectId, classId);
+        this.commandReceiver = (PersistentShopkeeper)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
             ConnectionHandler.getTheConnectionHandler().theChangeDescriptionCommandFacade.commandReceiverSet(this.getId(), newValue);
@@ -172,18 +192,6 @@ public class ChangeDescriptionCommand extends PersistentObject implements Persis
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleChangeDescriptionCommand(this);
     }
-    public void accept(ItemCommandVisitor visitor) throws PersistenceException {
-        visitor.handleChangeDescriptionCommand(this);
-    }
-    public <R> R accept(ItemCommandReturnVisitor<R>  visitor) throws PersistenceException {
-         return visitor.handleChangeDescriptionCommand(this);
-    }
-    public <E extends model.UserException>  void accept(ItemCommandExceptionVisitor<E> visitor) throws PersistenceException, E {
-         visitor.handleChangeDescriptionCommand(this);
-    }
-    public <R, E extends model.UserException> R accept(ItemCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
-         return visitor.handleChangeDescriptionCommand(this);
-    }
     public void accept(CommandVisitor visitor) throws PersistenceException {
         visitor.handleChangeDescriptionCommand(this);
     }
@@ -196,7 +204,20 @@ public class ChangeDescriptionCommand extends PersistentObject implements Persis
     public <R, E extends model.UserException> R accept(CommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleChangeDescriptionCommand(this);
     }
+    public void accept(ShopkeeperCommandVisitor visitor) throws PersistenceException {
+        visitor.handleChangeDescriptionCommand(this);
+    }
+    public <R> R accept(ShopkeeperCommandReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleChangeDescriptionCommand(this);
+    }
+    public <E extends model.UserException>  void accept(ShopkeeperCommandExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleChangeDescriptionCommand(this);
+    }
+    public <R, E extends model.UserException> R accept(ShopkeeperCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleChangeDescriptionCommand(this);
+    }
     public int getLeafInfo() throws PersistenceException{
+        if (this.getItem() != null) return 1;
         if (this.getCommandReceiver() != null) return 1;
         return 0;
     }
@@ -212,7 +233,7 @@ public class ChangeDescriptionCommand extends PersistentObject implements Persis
     }
     public void execute() 
 				throws PersistenceException{
-        this.commandReceiver.changeDescription(this.getNewDescription());
+        this.commandReceiver.changeDescription(this.getItem(), this.getNewDescription());
 		
     }
     public Invoker fetchInvoker() 

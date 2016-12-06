@@ -7,16 +7,25 @@ import org.junit.Test;
 
 import model.Account;
 import model.InsufficientFunds;
+import persistence.Cache;
 import persistence.PersistenceException;
 import persistence.PersistentAccount;
 
+/**
+ * Tests all functions for account handling by customer
+ */
 public class TestAccount {
 	PersistentAccount acc;
 	
+	/**
+	 * Set up environment for TestCase
+	 * @throws Exception
+	 */
 	@Before
 	public void setUp() throws Exception {
 			TestSupport.prepareSingletons();
 			TestSupport.prepareDatabase();
+			Cache.getTheCache().reset$For$Test();
 			acc = Account.createAccount();
 	}
 

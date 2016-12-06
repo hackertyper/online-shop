@@ -12,7 +12,10 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
@@ -29,6 +32,8 @@ import javafx.scene.layout.BorderPane;
 import persistence.PersistentArticle;
 
 import com.sun.javafx.geom.Point2D;
+
+import java.util.Optional;
 
 import javax.swing.tree.TreeModel;
 
@@ -314,6 +319,7 @@ public class ShopServiceClientView extends BorderPane implements ExceptionAndEve
     interface MenuItemVisitor{
         ImageView handle(FindArticlePRMTRStringPRMTRMenuItem menuItem);
         ImageView handle(AddToCartPRMTRArticlePRMTRIntegerPRMTRMenuItem menuItem);
+        ImageView handle(SignalChangedPRMTRMenuItem menuItem);
     }
     private abstract class ShopServiceMenuItem extends MenuItem{
         private ShopServiceMenuItem(){
@@ -331,6 +337,11 @@ public class ShopServiceClientView extends BorderPane implements ExceptionAndEve
             return visitor.handle(this);
         }
     }
+    private class SignalChangedPRMTRMenuItem extends ShopServiceMenuItem{
+        protected ImageView accept(MenuItemVisitor visitor){
+            return visitor.handle(this);
+        }
+    }
     private java.util.Vector<javafx.scene.control.Button> getToolButtonsForStaticOperations() {
         java.util.Vector<javafx.scene.control.Button> result = new java.util.Vector<javafx.scene.control.Button>();
         javafx.scene.control.Button currentButton = null;
@@ -341,6 +352,27 @@ public class ShopServiceClientView extends BorderPane implements ExceptionAndEve
                 final ShopServiceFindArticleStringMssgWizard wizard = new ShopServiceFindArticleStringMssgWizard("Artikel suchen");
                 wizard.setWidth(getNavigationPanel().getWidth());
                 wizard.showAndWait();
+            }
+        });
+        result.add(currentButton);
+        currentButton = new javafx.scene.control.Button("signalChanged");
+        currentButton.setGraphic(new SignalChangedPRMTRMenuItem().getGraphic());
+        currentButton.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle(javafx.event.ActionEvent e) {
+                Alert confirm = new Alert(AlertType.CONFIRMATION);
+                confirm.setTitle(GUIConstants.ConfirmButtonText);
+                confirm.setHeaderText(null);
+                confirm.setContentText("signalChanged" + GUIConstants.ConfirmQuestionMark);
+                Optional<ButtonType> buttonResult = confirm.showAndWait();
+                if (buttonResult.get() == ButtonType.OK) {
+                    try {
+                        getConnection().signalChanged();
+                        getConnection().setEagerRefresh();
+                        
+                    }catch(ModelException me){
+                        handleException(me);
+                    }
+                }
             }
         });
         result.add(currentButton);
@@ -356,6 +388,27 @@ public class ShopServiceClientView extends BorderPane implements ExceptionAndEve
                 final ShopServiceFindArticleStringMssgWizard wizard = new ShopServiceFindArticleStringMssgWizard("Artikel suchen");
                 wizard.setWidth(getNavigationPanel().getWidth());
                 wizard.showAndWait();
+            }
+        });
+        if (withStaticOperations) result.getItems().add(item);
+        item = new SignalChangedPRMTRMenuItem();
+        item.setText("(S) signalChanged");
+        item.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle(javafx.event.ActionEvent e) {
+                Alert confirm = new Alert(AlertType.CONFIRMATION);
+                confirm.setTitle(GUIConstants.ConfirmButtonText);
+                confirm.setHeaderText(null);
+                confirm.setContentText("signalChanged" + GUIConstants.ConfirmQuestionMark);
+                Optional<ButtonType> buttonResult = confirm.showAndWait();
+                if (buttonResult.get() == ButtonType.OK) {
+                    try {
+                        getConnection().signalChanged();
+                        getConnection().setEagerRefresh();
+                        
+                    }catch(ModelException me){
+                        handleException(me);
+                    }
+                }
             }
         });
         if (withStaticOperations) result.getItems().add(item);

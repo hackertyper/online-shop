@@ -12,7 +12,10 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
@@ -29,6 +32,8 @@ import javafx.scene.layout.BorderPane;
 
 
 import com.sun.javafx.geom.Point2D;
+
+import java.util.Optional;
 
 import javax.swing.tree.TreeModel;
 
@@ -306,6 +311,7 @@ public class AccountServiceClientView extends BorderPane implements ExceptionAnd
     interface MenuItemVisitor{
         ImageView handle(WithdrawPRMTRIntegerPRMTRMenuItem menuItem);
         ImageView handle(DepositPRMTRIntegerPRMTRMenuItem menuItem);
+        ImageView handle(SignalChangedPRMTRMenuItem menuItem);
     }
     private abstract class AccountServiceMenuItem extends MenuItem{
         private AccountServiceMenuItem(){
@@ -319,6 +325,11 @@ public class AccountServiceClientView extends BorderPane implements ExceptionAnd
         }
     }
     private class DepositPRMTRIntegerPRMTRMenuItem extends AccountServiceMenuItem{
+        protected ImageView accept(MenuItemVisitor visitor){
+            return visitor.handle(this);
+        }
+    }
+    private class SignalChangedPRMTRMenuItem extends AccountServiceMenuItem{
         protected ImageView accept(MenuItemVisitor visitor){
             return visitor.handle(this);
         }
@@ -346,6 +357,27 @@ public class AccountServiceClientView extends BorderPane implements ExceptionAnd
             }
         });
         result.add(currentButton);
+        currentButton = new javafx.scene.control.Button("signalChanged");
+        currentButton.setGraphic(new SignalChangedPRMTRMenuItem().getGraphic());
+        currentButton.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle(javafx.event.ActionEvent e) {
+                Alert confirm = new Alert(AlertType.CONFIRMATION);
+                confirm.setTitle(GUIConstants.ConfirmButtonText);
+                confirm.setHeaderText(null);
+                confirm.setContentText("signalChanged" + GUIConstants.ConfirmQuestionMark);
+                Optional<ButtonType> buttonResult = confirm.showAndWait();
+                if (buttonResult.get() == ButtonType.OK) {
+                    try {
+                        getConnection().signalChanged();
+                        getConnection().setEagerRefresh();
+                        
+                    }catch(ModelException me){
+                        handleException(me);
+                    }
+                }
+            }
+        });
+        result.add(currentButton);
         return result;
     }
     private ContextMenu getContextMenu(final ViewRoot selected, final boolean withStaticOperations, final Point2D menuPos) {
@@ -368,6 +400,27 @@ public class AccountServiceClientView extends BorderPane implements ExceptionAnd
                 final AccountServiceDepositIntegerMssgWizard wizard = new AccountServiceDepositIntegerMssgWizard("Geld einzahlen");
                 wizard.setWidth(getNavigationPanel().getWidth());
                 wizard.showAndWait();
+            }
+        });
+        if (withStaticOperations) result.getItems().add(item);
+        item = new SignalChangedPRMTRMenuItem();
+        item.setText("(S) signalChanged");
+        item.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle(javafx.event.ActionEvent e) {
+                Alert confirm = new Alert(AlertType.CONFIRMATION);
+                confirm.setTitle(GUIConstants.ConfirmButtonText);
+                confirm.setHeaderText(null);
+                confirm.setContentText("signalChanged" + GUIConstants.ConfirmQuestionMark);
+                Optional<ButtonType> buttonResult = confirm.showAndWait();
+                if (buttonResult.get() == ButtonType.OK) {
+                    try {
+                        getConnection().signalChanged();
+                        getConnection().setEagerRefresh();
+                        
+                    }catch(ModelException me){
+                        handleException(me);
+                    }
+                }
             }
         });
         if (withStaticOperations) result.getItems().add(item);

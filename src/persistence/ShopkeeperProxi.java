@@ -18,8 +18,8 @@ public class ShopkeeperProxi extends PersistentProxi implements PersistentShopke
         return 107;
     }
     
-    public Shopkeeper_ItemRangeProxi getItemRange() throws PersistenceException {
-        return ((PersistentShopkeeper)this.getTheObject()).getItemRange();
+    public void setItemRange(PersistentShopkeeperItemRange newValue) throws PersistenceException {
+        ((PersistentShopkeeper)this.getTheObject()).setItemRange(newValue);
     }
     public PersistentStandardDelivery getStandardDelivery() throws PersistenceException {
         return ((PersistentShopkeeper)this.getTheObject()).getStandardDelivery();
@@ -73,6 +73,34 @@ public class ShopkeeperProxi extends PersistentProxi implements PersistentShopke
 				throws PersistenceException{
         ((PersistentShopkeeper)this.getTheObject()).changeCharge(cd, newCharge, invoker);
     }
+    public void changeDescription(final PersistentItem item, final String newDescription) 
+				throws PersistenceException{
+        ((PersistentShopkeeper)this.getTheObject()).changeDescription(item, newDescription);
+    }
+    public void changeDescription(final PersistentItem item, final String newDescription, final Invoker invoker) 
+				throws PersistenceException{
+        ((PersistentShopkeeper)this.getTheObject()).changeDescription(item, newDescription, invoker);
+    }
+    public void changePrice(final PersistentArticle article, final long newPrice) 
+				throws PersistenceException{
+        ((PersistentShopkeeper)this.getTheObject()).changePrice(article, newPrice);
+    }
+    public void changePrice(final PersistentArticle article, final long newPrice, final Invoker invoker) 
+				throws PersistenceException{
+        ((PersistentShopkeeper)this.getTheObject()).changePrice(article, newPrice, invoker);
+    }
+    public void changeProductGroup(final PersistentArticle article, final PersistentProductGroup newPG) 
+				throws PersistenceException{
+        ((PersistentShopkeeper)this.getTheObject()).changeProductGroup(article, newPG);
+    }
+    public void changeProductGroup(final PersistentArticle article, final PersistentProductGroup newPG, final Invoker invoker) 
+				throws PersistenceException{
+        ((PersistentShopkeeper)this.getTheObject()).changeProductGroup(article, newPG, invoker);
+    }
+    public void changeTime(final PersistentCustomerDelivery cd, final long newTime) 
+				throws PersistenceException{
+        ((PersistentShopkeeper)this.getTheObject()).changeTime(cd, newTime);
+    }
     public void changeTime(final PersistentCustomerDelivery cd, final long newTime, final Invoker invoker) 
 				throws PersistenceException{
         ((PersistentShopkeeper)this.getTheObject()).changeTime(cd, newTime, invoker);
@@ -81,6 +109,10 @@ public class ShopkeeperProxi extends PersistentProxi implements PersistentShopke
 				throws PersistenceException{
         ((PersistentShopkeeper)this.getTheObject()).deregister(observee);
     }
+    public PersistentShopkeeperItemRange getItemRange() 
+				throws PersistenceException{
+        return ((PersistentShopkeeper)this.getTheObject()).getItemRange();
+    }
     public PersistentShopkeeperService getMyServer() 
 				throws PersistenceException{
         return ((PersistentShopkeeper)this.getTheObject()).getMyServer();
@@ -88,6 +120,14 @@ public class ShopkeeperProxi extends PersistentProxi implements PersistentShopke
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentShopkeeper)this.getTheObject()).initialize(This, final$$Fields);
+    }
+    public void presetBalance(final long amount, final Invoker invoker) 
+				throws PersistenceException{
+        ((PersistentShopkeeper)this.getTheObject()).presetBalance(amount, invoker);
+    }
+    public void presetLowerLimit(final long amount, final Invoker invoker) 
+				throws PersistenceException{
+        ((PersistentShopkeeper)this.getTheObject()).presetLowerLimit(amount, invoker);
     }
     public void register(final ObsInterface observee) 
 				throws PersistenceException{
@@ -101,9 +141,21 @@ public class ShopkeeperProxi extends PersistentProxi implements PersistentShopke
 				throws PersistenceException{
         ((PersistentShopkeeper)this.getTheObject()).changeCharge(cd, newCharge);
     }
-    public void changeTime(final PersistentCustomerDelivery cd, final long newTime) 
+    public void changeDescriptionImplementation(final PersistentItem item, final String newDescription) 
 				throws PersistenceException{
-        ((PersistentShopkeeper)this.getTheObject()).changeTime(cd, newTime);
+        ((PersistentShopkeeper)this.getTheObject()).changeDescriptionImplementation(item, newDescription);
+    }
+    public void changePriceImplementation(final PersistentArticle article, final long newPrice) 
+				throws PersistenceException{
+        ((PersistentShopkeeper)this.getTheObject()).changePriceImplementation(article, newPrice);
+    }
+    public void changeProductGroupImplementation(final PersistentArticle article, final PersistentProductGroup newPG) 
+				throws PersistenceException{
+        ((PersistentShopkeeper)this.getTheObject()).changeProductGroupImplementation(article, newPG);
+    }
+    public void changeTimeImplementation(final PersistentCustomerDelivery cd, final long newTime) 
+				throws PersistenceException{
+        ((PersistentShopkeeper)this.getTheObject()).changeTimeImplementation(cd, newTime);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
@@ -116,6 +168,18 @@ public class ShopkeeperProxi extends PersistentProxi implements PersistentShopke
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         ((PersistentShopkeeper)this.getTheObject()).initializeOnInstantiation();
+    }
+    public void itemRange_update(final model.meta.ItemMssgs event) 
+				throws PersistenceException{
+        ((PersistentShopkeeper)this.getTheObject()).itemRange_update(event);
+    }
+    public void presetBalance(final long amount) 
+				throws PersistenceException{
+        ((PersistentShopkeeper)this.getTheObject()).presetBalance(amount);
+    }
+    public void presetLowerLimit(final long amount) 
+				throws PersistenceException{
+        ((PersistentShopkeeper)this.getTheObject()).presetLowerLimit(amount);
     }
 
     

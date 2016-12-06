@@ -182,6 +182,10 @@ public class CartServiceProxi extends CustomerServiceProxi implements Persistent
 				throws PersistenceException{
         ((PersistentCartService)this.getTheObject()).removeFCart(article);
     }
+    public void signalChanged() 
+				throws PersistenceException{
+        ((PersistentCartService)this.getTheObject()).signalChanged();
+    }
 
     
 }

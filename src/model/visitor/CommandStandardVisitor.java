@@ -8,6 +8,9 @@ public abstract class CommandStandardVisitor implements CommandVisitor {
     public void handleChangeProductGroupCommand(PersistentChangeProductGroupCommand changeProductGroupCommand) throws PersistenceException{
         this.standardHandling(changeProductGroupCommand);
     }
+    public void handlePresetBalanceCommand(PersistentPresetBalanceCommand presetBalanceCommand) throws PersistenceException{
+        this.standardHandling(presetBalanceCommand);
+    }
     public void handleOrderCommand(PersistentOrderCommand orderCommand) throws PersistenceException{
         this.standardHandling(orderCommand);
     }
@@ -29,6 +32,9 @@ public abstract class CommandStandardVisitor implements CommandVisitor {
     public void handleChangeDescriptionCommand(PersistentChangeDescriptionCommand changeDescriptionCommand) throws PersistenceException{
         this.standardHandling(changeDescriptionCommand);
     }
+    public void handlePresetLowerLimitCommand(PersistentPresetLowerLimitCommand presetLowerLimitCommand) throws PersistenceException{
+        this.standardHandling(presetLowerLimitCommand);
+    }
     public void handleFindArticleCommand(PersistentFindArticleCommand findArticleCommand) throws PersistenceException{
         this.standardHandling(findArticleCommand);
     }
@@ -41,17 +47,14 @@ public abstract class CommandStandardVisitor implements CommandVisitor {
     public void handleAddArticleCommand(PersistentAddArticleCommand addArticleCommand) throws PersistenceException{
         this.standardHandling(addArticleCommand);
     }
-    public void handleChangeChargeCommand(PersistentChangeChargeCommand changeChargeCommand) throws PersistenceException{
-        this.standardHandling(changeChargeCommand);
-    }
     public void handleChangeTimeCommand(PersistentChangeTimeCommand changeTimeCommand) throws PersistenceException{
         this.standardHandling(changeTimeCommand);
     }
+    public void handleChangeChargeCommand(PersistentChangeChargeCommand changeChargeCommand) throws PersistenceException{
+        this.standardHandling(changeChargeCommand);
+    }
     public void handleCheckOutCommand(PersistentCheckOutCommand checkOutCommand) throws PersistenceException{
         this.standardHandling(checkOutCommand);
-    }
-    public void handleChangeManuDeliveryCommand(PersistentChangeManuDeliveryCommand changeManuDeliveryCommand) throws PersistenceException{
-        this.standardHandling(changeManuDeliveryCommand);
     }
     public void handleChangeAmountCommand(PersistentChangeAmountCommand changeAmountCommand) throws PersistenceException{
         this.standardHandling(changeAmountCommand);

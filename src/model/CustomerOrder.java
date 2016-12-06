@@ -9,6 +9,9 @@ import java.util.TimerTask;
 import common.ArrivedTask;
 import common.DeliveryTask;
 import common.OrderTimer;
+import model.meta.QuantifiedArticlesFireArticleChangedArticleMssgsMssg;
+import model.meta.QuantifiedArticlesMssgsVisitor;
+import model.meta.QuantifiedArticlesRetoureIntegerMssg;
 import model.visitor.*;
 
 
@@ -61,7 +64,7 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
     java.util.HashMap<String,Object> result = null;
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
-            result.put("articleList", this.getArticleList().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, true));
+            result.put("articleList", this.getArticleList().getObservee().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, true));
             AbstractPersistentRoot ordermngr = (AbstractPersistentRoot)this.getOrdermngr();
             if (ordermngr != null) {
                 result.put("ordermngr", ordermngr.createProxiInformation(false, essentialLevel <= 1));
@@ -92,10 +95,10 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
                                    this.sendDate, 
                                    this.subService, 
                                    this.This, 
+                                   this.articleList, 
                                    this.ordermngr, 
                                    this.myState, 
                                    this.getId());
-        result.articleList = this.articleList.copy(result);
         this.copyingPrivateUserAttributes(result);
         return result;
     }
@@ -103,14 +106,14 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
     public boolean hasEssentialFields() throws PersistenceException{
         return false;
     }
-    protected CustomerOrder_ArticleListProxi articleList;
+    protected PersistentCustomerOrderArticleList articleList;
     protected PersistentOrderManager ordermngr;
     protected CustomerOrderState myState;
     
-    public CustomerOrder(long remainingTimeToDelivery,java.sql.Timestamp sendDate,SubjInterface subService,PersistentDelivery This,PersistentOrderManager ordermngr,CustomerOrderState myState,long id) throws PersistenceException {
+    public CustomerOrder(long remainingTimeToDelivery,java.sql.Timestamp sendDate,SubjInterface subService,PersistentDelivery This,PersistentCustomerOrderArticleList articleList,PersistentOrderManager ordermngr,CustomerOrderState myState,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super((long)remainingTimeToDelivery,(java.sql.Timestamp)sendDate,(SubjInterface)subService,(PersistentDelivery)This,id);
-        this.articleList = new CustomerOrder_ArticleListProxi(this);
+        this.articleList = articleList;
         this.ordermngr = ordermngr;
         this.myState = myState;        
     }
@@ -128,7 +131,10 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
         if (this.getClassId() == 111) ConnectionHandler.getTheConnectionHandler().theCustomerOrderFacade
             .newCustomerOrder(remainingTimeToDelivery,sendDate,this.getId());
         super.store();
-        this.getArticleList().store();
+        if(this.articleList != null){
+            this.articleList.store();
+            ConnectionHandler.getTheConnectionHandler().theCustomerOrderFacade.articleListSet(this.getId(), articleList);
+        }
         if(this.getOrdermngr() != null){
             this.getOrdermngr().store();
             ConnectionHandler.getTheConnectionHandler().theCustomerOrderFacade.ordermngrSet(this.getId(), getOrdermngr());
@@ -140,8 +146,16 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
         
     }
     
-    public CustomerOrder_ArticleListProxi getArticleList() throws PersistenceException {
-        return this.articleList;
+    public void setArticleList(PersistentCustomerOrderArticleList newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.isTheSameAs(this.articleList)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.articleList = (PersistentCustomerOrderArticleList)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theCustomerOrderFacade.articleListSet(this.getId(), newValue);
+        }
     }
     public PersistentOrderManager getOrdermngr() throws PersistenceException {
         return this.ordermngr;
@@ -216,7 +230,7 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
          return visitor.handleCustomerOrder(this);
     }
     public int getLeafInfo() throws PersistenceException{
-        if (this.getArticleList().getLength() > 0) return 1;
+        if (this.getArticleList().getObservee().getLength() > 0) return 1;
         return 0;
     }
     
@@ -229,6 +243,14 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
 			getThis().setSubService(subService);
 		}
 		subService.deregister(observee);
+    }
+    public PersistentCustomerOrderArticleList getArticleList() 
+				throws PersistenceException{
+        if (this.articleList == null) {
+			this.setArticleList(model.CustomerOrderArticleList.createCustomerOrderArticleList(this.isDelayed$Persistence()));
+			this.articleList.setObserver(this);
+		}
+		return this.articleList;
     }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
@@ -259,6 +281,7 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
     
     
     // Start of section that contains operations that must be implemented.
+    
     /**
      * Called when order accepted. Cancels time for accepting.
      */
@@ -282,6 +305,24 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
 			public void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException {
 				OrderTimer.getInstance().deliver(new ArrivedTask(getThis()), arrivedOrder.getTimeToAccept());
 			}
+		});
+    }
+    public void articleList_update(final model.meta.QuantifiedArticlesMssgs event) 
+				throws PersistenceException{
+        event.accept(new QuantifiedArticlesMssgsVisitor() {
+			@Override
+			public void handleQuantifiedArticlesRetoureIntegerMssg(QuantifiedArticlesRetoureIntegerMssg event)
+					throws PersistenceException {
+				getThis().getArticleList().filter(new Predcate<PersistentQuantifiedArticles>() {
+					@Override
+					public boolean test(PersistentQuantifiedArticles argument) throws PersistenceException {
+						return !(argument.getAmount() == 0);
+					}
+				});
+			}
+			@Override
+			public void handleQuantifiedArticlesFireArticleChangedArticleMssgsMssg(
+					QuantifiedArticlesFireArticleChangedArticleMssgsMssg event) throws PersistenceException {}
 		});
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
@@ -316,11 +357,12 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
 			@Override
 			public void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException {
 				PersistentRetoure re = Retoure.createRetoure(0, serverConstants.OrderConstants.current);
-		        try {
-					re.getArticleList().add(getThis().getArticleList());
-				} catch (UserException e) {
-					new Error(e);
-				}
+		        getThis().getArticleList().applyToAll(new Procdure<PersistentQuantifiedArticles>() {
+					@Override
+					public void doItTo(PersistentQuantifiedArticles argument) throws PersistenceException {
+						re.getArticleList().add(argument);
+					}
+				});
 		        re.send();
 			}
 			@Override

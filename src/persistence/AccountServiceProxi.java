@@ -166,6 +166,10 @@ public class AccountServiceProxi extends CustomerServiceProxi implements Persist
 				throws PersistenceException{
         ((PersistentAccountService)this.getTheObject()).initializeOnInstantiation();
     }
+    public void signalChanged() 
+				throws PersistenceException{
+        ((PersistentAccountService)this.getTheObject()).signalChanged();
+    }
     public void withdraw(final long amount) 
 				throws model.InsufficientFunds, PersistenceException{
         ((PersistentAccountService)this.getTheObject()).withdraw(amount);

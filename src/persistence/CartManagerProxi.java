@@ -27,16 +27,10 @@ public class CartManagerProxi extends PersistentProxi implements PersistentCartM
     public void setArticleList(PersistentCartManagerArticleList newValue) throws PersistenceException {
         ((PersistentCartManager)this.getTheObject()).setArticleList(newValue);
     }
-    public PersistentStandardDelivery getStandardDelivery() throws PersistenceException {
-        return ((PersistentCartManager)this.getTheObject()).getStandardDelivery();
-    }
-    public void setStandardDelivery(PersistentStandardDelivery newValue) throws PersistenceException {
+    public void setStandardDelivery(PersistentCartManagerStandardDelivery newValue) throws PersistenceException {
         ((PersistentCartManager)this.getTheObject()).setStandardDelivery(newValue);
     }
-    public PersistentOverNightDelivery getOnDelivery() throws PersistenceException {
-        return ((PersistentCartManager)this.getTheObject()).getOnDelivery();
-    }
-    public void setOnDelivery(PersistentOverNightDelivery newValue) throws PersistenceException {
+    public void setOnDelivery(PersistentCartManagerOnDelivery newValue) throws PersistenceException {
         ((PersistentCartManager)this.getTheObject()).setOnDelivery(newValue);
     }
     public SubjInterface getSubService() throws PersistenceException {
@@ -107,6 +101,14 @@ public class CartManagerProxi extends PersistentProxi implements PersistentCartM
 				throws PersistenceException{
         return ((PersistentCartManager)this.getTheObject()).getMyCartServer();
     }
+    public PersistentOverNightDelivery getOnDelivery() 
+				throws PersistenceException{
+        return ((PersistentCartManager)this.getTheObject()).getOnDelivery();
+    }
+    public PersistentStandardDelivery getStandardDelivery() 
+				throws PersistenceException{
+        return ((PersistentCartManager)this.getTheObject()).getStandardDelivery();
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentCartManager)this.getTheObject()).initialize(This, final$$Fields);
@@ -122,6 +124,14 @@ public class CartManagerProxi extends PersistentProxi implements PersistentCartM
     public void removeFCart(final PersistentQuantifiedArticles article, final Invoker invoker) 
 				throws PersistenceException{
         ((PersistentCartManager)this.getTheObject()).removeFCart(article, invoker);
+    }
+    public void setOnDelivery(final PersistentOverNightDelivery onDelivery) 
+				throws PersistenceException{
+        ((PersistentCartManager)this.getTheObject()).setOnDelivery(onDelivery);
+    }
+    public void setStandardDelivery(final PersistentStandardDelivery standardDelivery) 
+				throws PersistenceException{
+        ((PersistentCartManager)this.getTheObject()).setStandardDelivery(standardDelivery);
     }
     public void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
@@ -163,6 +173,10 @@ public class CartManagerProxi extends PersistentProxi implements PersistentCartM
 				throws PersistenceException{
         ((PersistentCartManager)this.getTheObject()).initializeOnInstantiation();
     }
+    public void onDelivery_update(final model.meta.OverNightDeliveryMssgs event) 
+				throws PersistenceException{
+        ((PersistentCartManager)this.getTheObject()).onDelivery_update(event);
+    }
     public void order(final PersistentCustomerDelivery deliveryMethod) 
 				throws model.FirstCheckOut, model.InsufficientFunds, PersistenceException{
         ((PersistentCartManager)this.getTheObject()).order(deliveryMethod);
@@ -174,6 +188,10 @@ public class CartManagerProxi extends PersistentProxi implements PersistentCartM
     public void removeFCart(final PersistentQuantifiedArticles article) 
 				throws PersistenceException{
         ((PersistentCartManager)this.getTheObject()).removeFCart(article);
+    }
+    public void standardDelivery_update(final model.meta.StandardDeliveryMssgs event) 
+				throws PersistenceException{
+        ((PersistentCartManager)this.getTheObject()).standardDelivery_update(event);
     }
 
     

@@ -5,11 +5,13 @@ public interface ArticleMssgsVisitor extends ArticleDOWNMssgsVisitor, ArticleUPM
 
 interface ArticleDOWNMssgsVisitor  {
 
+    public void handleArticleReceiveDeliveryIntegerMssg(ArticleReceiveDeliveryIntegerMssg event) throws persistence.PersistenceException;
     
 }
 
 
 interface ArticleUPMssgsVisitor extends ItemUPMssgsVisitor {
 
+    public void handleArticleReceiveDeliveryIntegerMssg(ArticleReceiveDeliveryIntegerMssg event) throws persistence.PersistenceException;
     
 }

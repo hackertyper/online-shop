@@ -41,6 +41,8 @@ public interface CustomerService4Public extends Service4Public {
 				throws PersistenceException;
     public void initializeOnInstantiation() 
 				throws PersistenceException;
+    public void signalChanged() 
+				throws PersistenceException;
 
 }
 

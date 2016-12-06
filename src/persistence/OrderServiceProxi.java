@@ -174,6 +174,10 @@ public class OrderServiceProxi extends CustomerServiceProxi implements Persisten
 				throws PersistenceException{
         ((PersistentOrderService)this.getTheObject()).retoureDelivery(customerOrder);
     }
+    public void signalChanged() 
+				throws PersistenceException{
+        ((PersistentOrderService)this.getTheObject()).signalChanged();
+    }
 
     
 }

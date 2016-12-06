@@ -296,6 +296,7 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
     
     
     // Start of section that contains operations that must be implemented.
+    
     /**
      * Accepts the arrived delivery. Deletes the delivery from view. 
      */
@@ -322,12 +323,7 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
 				throws PersistenceException{
     	order.setOrdermngr(getThis());
     	getThis().getOrders().add(order);
-    	getThis().getCustomerManager().getMyCustomerServer().getServices().applyToAll(new Procdure<PersistentCustomerService>() {
-			@Override
-			public void doItTo(PersistentCustomerService argument) throws PersistenceException {
-				argument.signalChanged(true);
-			}
-		});
+    	getThis().getCustomerManager().signalChanged();
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{

@@ -24,6 +24,15 @@ public  class RemoteCustomerService extends RemoteService {
         }
     }
     
+    public synchronized java.util.HashMap<?,?> signalChanged(){
+        try {
+            ((PersistentCustomerService)this.server).signalChanged();
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
 
 
 }

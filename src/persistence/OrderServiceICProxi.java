@@ -178,6 +178,10 @@ public class OrderServiceICProxi extends CustomerServiceICProxi implements Persi
 				throws PersistenceException{
         ((PersistentOrderService)this.getTheObject()).retoureDelivery(customerOrder);
     }
+    public void signalChanged() 
+				throws PersistenceException{
+        ((PersistentOrderService)this.getTheObject()).signalChanged();
+    }
 
     
 }

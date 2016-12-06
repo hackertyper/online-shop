@@ -49,7 +49,7 @@ public class QuantifiedArticlesFacade{
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         
     }
-    public void articleSet(long QuantifiedArticlesId, PersistentArticle articleVal) throws PersistenceException {
+    public void articleSet(long QuantifiedArticlesId, PersistentQuantifiedArticlesArticle articleVal) throws PersistenceException {
         
     }
     public void amountSet(long QuantifiedArticlesId, long amountVal) throws PersistenceException {

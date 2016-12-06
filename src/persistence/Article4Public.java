@@ -19,13 +19,9 @@ public interface Article4Public extends Item4Public {
     public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E;
     public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     
-    public void changeManuDelivery(final long newManuDelivery, final Invoker invoker) 
-				throws PersistenceException;
-    public void changePrice(final long newPrice, final Invoker invoker) 
-				throws PersistenceException;
-    public void changeProductGroup(final PersistentProductGroup newPG, final Invoker invoker) 
-				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
+				throws PersistenceException;
+    public void receiveDelivery(final long amount) 
 				throws PersistenceException;
     public void changeManuDelivery(final long newManuDelivery) 
 				throws PersistenceException;
@@ -43,7 +39,7 @@ public interface Article4Public extends Item4Public {
 				throws PersistenceException;
     public void pack(final long amount) 
 				throws PersistenceException;
-    public void receiveDelivery(final long amount) 
+    public void receiveDeliveryImplementation(final long amount) 
 				throws PersistenceException;
     public void reserve(final long amount) 
 				throws model.InsufficientStock, PersistenceException;

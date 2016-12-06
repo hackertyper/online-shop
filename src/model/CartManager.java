@@ -125,12 +125,12 @@ public class CartManager extends PersistentObject implements PersistentCartManag
     }
     protected PersistentCart myCart;
     protected PersistentCartManagerArticleList articleList;
-    protected PersistentStandardDelivery standardDelivery;
-    protected PersistentOverNightDelivery onDelivery;
+    protected PersistentCartManagerStandardDelivery standardDelivery;
+    protected PersistentCartManagerOnDelivery onDelivery;
     protected SubjInterface subService;
     protected PersistentCartManager This;
     
-    public CartManager(PersistentCart myCart,PersistentCartManagerArticleList articleList,PersistentStandardDelivery standardDelivery,PersistentOverNightDelivery onDelivery,SubjInterface subService,PersistentCartManager This,long id) throws PersistenceException {
+    public CartManager(PersistentCart myCart,PersistentCartManagerArticleList articleList,PersistentCartManagerStandardDelivery standardDelivery,PersistentCartManagerOnDelivery onDelivery,SubjInterface subService,PersistentCartManager This,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.myCart = myCart;
@@ -162,13 +162,13 @@ public class CartManager extends PersistentObject implements PersistentCartManag
             this.articleList.store();
             ConnectionHandler.getTheConnectionHandler().theCartManagerFacade.articleListSet(this.getId(), articleList);
         }
-        if(this.getStandardDelivery() != null){
-            this.getStandardDelivery().store();
-            ConnectionHandler.getTheConnectionHandler().theCartManagerFacade.standardDeliverySet(this.getId(), getStandardDelivery());
+        if(this.standardDelivery != null){
+            this.standardDelivery.store();
+            ConnectionHandler.getTheConnectionHandler().theCartManagerFacade.standardDeliverySet(this.getId(), standardDelivery);
         }
-        if(this.getOnDelivery() != null){
-            this.getOnDelivery().store();
-            ConnectionHandler.getTheConnectionHandler().theCartManagerFacade.onDeliverySet(this.getId(), getOnDelivery());
+        if(this.onDelivery != null){
+            this.onDelivery.store();
+            ConnectionHandler.getTheConnectionHandler().theCartManagerFacade.onDeliverySet(this.getId(), onDelivery);
         }
         if(this.getSubService() != null){
             this.getSubService().store();
@@ -206,29 +206,23 @@ public class CartManager extends PersistentObject implements PersistentCartManag
             ConnectionHandler.getTheConnectionHandler().theCartManagerFacade.articleListSet(this.getId(), newValue);
         }
     }
-    public PersistentStandardDelivery getStandardDelivery() throws PersistenceException {
-        return this.standardDelivery;
-    }
-    public void setStandardDelivery(PersistentStandardDelivery newValue) throws PersistenceException {
+    public void setStandardDelivery(PersistentCartManagerStandardDelivery newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
         if(newValue.isTheSameAs(this.standardDelivery)) return;
         long objectId = newValue.getId();
         long classId = newValue.getClassId();
-        this.standardDelivery = (PersistentStandardDelivery)PersistentProxi.createProxi(objectId, classId);
+        this.standardDelivery = (PersistentCartManagerStandardDelivery)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
             ConnectionHandler.getTheConnectionHandler().theCartManagerFacade.standardDeliverySet(this.getId(), newValue);
         }
     }
-    public PersistentOverNightDelivery getOnDelivery() throws PersistenceException {
-        return this.onDelivery;
-    }
-    public void setOnDelivery(PersistentOverNightDelivery newValue) throws PersistenceException {
+    public void setOnDelivery(PersistentCartManagerOnDelivery newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
         if(newValue.isTheSameAs(this.onDelivery)) return;
         long objectId = newValue.getId();
         long classId = newValue.getClassId();
-        this.onDelivery = (PersistentOverNightDelivery)PersistentProxi.createProxi(objectId, classId);
+        this.onDelivery = (PersistentCartManagerOnDelivery)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
             ConnectionHandler.getTheConnectionHandler().theCartManagerFacade.onDeliverySet(this.getId(), newValue);
@@ -376,6 +370,16 @@ public class CartManager extends PersistentObject implements PersistentCartManag
 			return null;
 		}
     }
+    public PersistentOverNightDelivery getOnDelivery() 
+				throws PersistenceException{
+        if (this.onDelivery== null) return null;
+		return this.onDelivery.getObservee();
+    }
+    public PersistentStandardDelivery getStandardDelivery() 
+				throws PersistenceException{
+        if (this.standardDelivery== null) return null;
+		return this.standardDelivery.getObservee();
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentCartManager)This);
@@ -408,6 +412,22 @@ public class CartManager extends PersistentObject implements PersistentCartManag
 		command.setInvoker(invoker);
 		command.setCommandReceiver(getThis());
 		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
+    }
+    public void setOnDelivery(final PersistentOverNightDelivery onDelivery) 
+				throws PersistenceException{
+        if (this.onDelivery == null) {
+			this.setOnDelivery(model.CartManagerOnDelivery.createCartManagerOnDelivery(this.isDelayed$Persistence()));
+			this.onDelivery.setObserver(getThis());
+		}
+		this.onDelivery.setObservee(onDelivery);
+    }
+    public void setStandardDelivery(final PersistentStandardDelivery standardDelivery) 
+				throws PersistenceException{
+        if (this.standardDelivery == null) {
+			this.setStandardDelivery(model.CartManagerStandardDelivery.createCartManagerStandardDelivery(this.isDelayed$Persistence()));
+			this.standardDelivery.setObserver(getThis());
+		}
+		this.standardDelivery.setObservee(standardDelivery);
     }
     public synchronized void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
@@ -451,7 +471,7 @@ public class CartManager extends PersistentObject implements PersistentCartManag
     }
     public void articleList_update(final model.meta.QuantifiedArticlesMssgs event) 
 				throws PersistenceException{
-        getThis().getMyCartServer().signalChanged(true);
+    	getThis().getCustomerManager().signalChanged();
     }
     public void changeAmount(final PersistentQuantifiedArticles article, final long newAmount) 
 				throws PersistenceException{
@@ -473,6 +493,10 @@ public class CartManager extends PersistentObject implements PersistentCartManag
     public void initializeOnInstantiation() 
 				throws PersistenceException{
     }
+    public void onDelivery_update(final model.meta.OverNightDeliveryMssgs event) 
+				throws PersistenceException{
+    	getThis().getCustomerManager().signalChanged();
+    }
     public void order(final PersistentCustomerDelivery deliveryMethod) 
 				throws model.FirstCheckOut, model.InsufficientFunds, PersistenceException{
         getThis().getMyCart().order(deliveryMethod);
@@ -492,6 +516,10 @@ public class CartManager extends PersistentObject implements PersistentCartManag
     public void removeFCart(final PersistentQuantifiedArticles article) 
 				throws PersistenceException{
         getThis().getMyCart().removeArticle(article);
+    }
+    public void standardDelivery_update(final model.meta.StandardDeliveryMssgs event) 
+				throws PersistenceException{
+    	getThis().getCustomerManager().signalChanged();
     }
     
     

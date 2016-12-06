@@ -19,6 +19,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handlePreOrder(PersistentPreOrder preOrder) throws PersistenceException;
     
+    public abstract void handleCartManagerOnDelivery(PersistentCartManagerOnDelivery cartManagerOnDelivery) throws PersistenceException;
+    
     public abstract void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException;
     
     public abstract void handleCartState(PersistentCartState cartState) throws PersistenceException;
@@ -29,6 +31,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleCheckedOut(PersistentCheckedOut checkedOut) throws PersistenceException{
         this.handleCartState(checkedOut);
     }
+    public abstract void handleCustomerOrderArticleList(PersistentCustomerOrderArticleList customerOrderArticleList) throws PersistenceException;
+    
     public abstract void handleCommandCoordinator(PersistentCommandCoordinator commandCoordinator) throws PersistenceException;
     
     public abstract void handleItem(PersistentItem item) throws PersistenceException;
@@ -39,15 +43,23 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleArticle(PersistentArticle article) throws PersistenceException{
         this.handleItem(article);
     }
+    public abstract void handleQuantifiedArticlesArticle(PersistentQuantifiedArticlesArticle quantifiedArticlesArticle) throws PersistenceException;
+    
+    public abstract void handleProductGroupItemList(PersistentProductGroupItemList productGroupItemList) throws PersistenceException;
+    
     public abstract void handleCustomerManager(PersistentCustomerManager customerManager) throws PersistenceException;
     
     public abstract void handleManufacturer(PersistentManufacturer manufacturer) throws PersistenceException;
     
     public abstract void handleNewlyAdded(PersistentNewlyAdded newlyAdded) throws PersistenceException;
     
+    public abstract void handleShopkeeperItemRange(PersistentShopkeeperItemRange shopkeeperItemRange) throws PersistenceException;
+    
     public abstract void handleShopManager(PersistentShopManager shopManager) throws PersistenceException;
     
     public abstract void handleCartManagerArticleList(PersistentCartManagerArticleList cartManagerArticleList) throws PersistenceException;
+    
+    public abstract void handleCartManagerStandardDelivery(PersistentCartManagerStandardDelivery cartManagerStandardDelivery) throws PersistenceException;
     
     public abstract void handleCart(PersistentCart cart) throws PersistenceException;
     
@@ -111,6 +123,9 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleChangeProductGroupCommand(PersistentChangeProductGroupCommand changeProductGroupCommand) throws PersistenceException{
         this.handleCommonDate(changeProductGroupCommand);
     }
+    public void handlePresetBalanceCommand(PersistentPresetBalanceCommand presetBalanceCommand) throws PersistenceException{
+        this.handleCommonDate(presetBalanceCommand);
+    }
     public void handleOrderCommand(PersistentOrderCommand orderCommand) throws PersistenceException{
         this.handleCommonDate(orderCommand);
     }
@@ -132,6 +147,9 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleRetoureArticleCommand(PersistentRetoureArticleCommand retoureArticleCommand) throws PersistenceException{
         this.handleCommonDate(retoureArticleCommand);
     }
+    public void handlePresetLowerLimitCommand(PersistentPresetLowerLimitCommand presetLowerLimitCommand) throws PersistenceException{
+        this.handleCommonDate(presetLowerLimitCommand);
+    }
     public void handleFindArticleCommand(PersistentFindArticleCommand findArticleCommand) throws PersistenceException{
         this.handleCommonDate(findArticleCommand);
     }
@@ -144,14 +162,11 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleAddArticleCommand(PersistentAddArticleCommand addArticleCommand) throws PersistenceException{
         this.handleCommonDate(addArticleCommand);
     }
-    public void handleChangeChargeCommand(PersistentChangeChargeCommand changeChargeCommand) throws PersistenceException{
-        this.handleCommonDate(changeChargeCommand);
-    }
     public void handleChangeTimeCommand(PersistentChangeTimeCommand changeTimeCommand) throws PersistenceException{
         this.handleCommonDate(changeTimeCommand);
     }
-    public void handleChangeManuDeliveryCommand(PersistentChangeManuDeliveryCommand changeManuDeliveryCommand) throws PersistenceException{
-        this.handleCommonDate(changeManuDeliveryCommand);
+    public void handleChangeChargeCommand(PersistentChangeChargeCommand changeChargeCommand) throws PersistenceException{
+        this.handleCommonDate(changeChargeCommand);
     }
     public void handleCheckOutCommand(PersistentCheckOutCommand checkOutCommand) throws PersistenceException{
         this.handleCommonDate(checkOutCommand);

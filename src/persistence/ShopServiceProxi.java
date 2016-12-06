@@ -170,6 +170,10 @@ public class ShopServiceProxi extends CustomerServiceProxi implements Persistent
 				throws PersistenceException{
         ((PersistentShopService)this.getTheObject()).initializeOnInstantiation();
     }
+    public void signalChanged() 
+				throws PersistenceException{
+        ((PersistentShopService)this.getTheObject()).signalChanged();
+    }
 
     
 }

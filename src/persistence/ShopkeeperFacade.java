@@ -28,14 +28,14 @@ public class ShopkeeperFacade{
     public PersistentShopkeeper newShopkeeper(long idCreateIfLessZero) throws PersistenceException {
         if(idCreateIfLessZero > 0) return (PersistentShopkeeper)PersistentProxi.createProxi(idCreateIfLessZero, 107);
         long id = ConnectionHandler.getTheConnectionHandler().theShopkeeperFacade.getNextId();
-        Shopkeeper result = new Shopkeeper(null,null,null,null,id);
+        Shopkeeper result = new Shopkeeper(null,null,null,null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentShopkeeper)PersistentProxi.createProxi(id, 107);
     }
     
     public PersistentShopkeeper newDelayedShopkeeper() throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theShopkeeperFacade.getNextId();
-        Shopkeeper result = new Shopkeeper(null,null,null,null,id);
+        Shopkeeper result = new Shopkeeper(null,null,null,null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentShopkeeper)PersistentProxi.createProxi(id, 107);
     }
@@ -49,14 +49,8 @@ public class ShopkeeperFacade{
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         
     }
-    public long itemRangeAdd(long ShopkeeperId, PersistentItem itemRangeVal) throws PersistenceException {
-        return 0;
-    }
-    public void itemRangeRem(long itemRangeId) throws PersistenceException {
+    public void itemRangeSet(long ShopkeeperId, PersistentShopkeeperItemRange itemRangeVal) throws PersistenceException {
         
-    }
-    public ItemList itemRangeGet(long ShopkeeperId) throws PersistenceException {
-        return new ItemList(); // remote access for initialization only!
     }
     public void standardDeliverySet(long ShopkeeperId, PersistentStandardDelivery standardDeliveryVal) throws PersistenceException {
         

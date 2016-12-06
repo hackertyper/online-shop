@@ -89,12 +89,12 @@ public class QuantifiedArticles extends PersistentObject implements PersistentQu
     public boolean hasEssentialFields() throws PersistenceException{
         return false;
     }
-    protected PersistentArticle article;
+    protected PersistentQuantifiedArticlesArticle article;
     protected long amount;
     protected SubjInterface subService;
     protected PersistentQuantifiedArticles This;
     
-    public QuantifiedArticles(PersistentArticle article,long amount,SubjInterface subService,PersistentQuantifiedArticles This,long id) throws PersistenceException {
+    public QuantifiedArticles(PersistentQuantifiedArticlesArticle article,long amount,SubjInterface subService,PersistentQuantifiedArticles This,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.article = article;
@@ -116,9 +116,9 @@ public class QuantifiedArticles extends PersistentObject implements PersistentQu
         if (this.getClassId() == 124) ConnectionHandler.getTheConnectionHandler().theQuantifiedArticlesFacade
             .newQuantifiedArticles(amount,this.getId());
         super.store();
-        if(this.getArticle() != null){
-            this.getArticle().store();
-            ConnectionHandler.getTheConnectionHandler().theQuantifiedArticlesFacade.articleSet(this.getId(), getArticle());
+        if(this.article != null){
+            this.article.store();
+            ConnectionHandler.getTheConnectionHandler().theQuantifiedArticlesFacade.articleSet(this.getId(), article);
         }
         if(this.getSubService() != null){
             this.getSubService().store();
@@ -131,15 +131,12 @@ public class QuantifiedArticles extends PersistentObject implements PersistentQu
         
     }
     
-    public PersistentArticle getArticle() throws PersistenceException {
-        return this.article;
-    }
-    public void setArticle(PersistentArticle newValue) throws PersistenceException {
+    public void setArticle(PersistentQuantifiedArticlesArticle newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
         if(newValue.isTheSameAs(this.article)) return;
         long objectId = newValue.getId();
         long classId = newValue.getClassId();
-        this.article = (PersistentArticle)PersistentProxi.createProxi(objectId, classId);
+        this.article = (PersistentQuantifiedArticlesArticle)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
             ConnectionHandler.getTheConnectionHandler().theQuantifiedArticlesFacade.articleSet(this.getId(), newValue);
@@ -228,6 +225,18 @@ public class QuantifiedArticles extends PersistentObject implements PersistentQu
 		}
 		subService.deregister(observee);
     }
+    public void fireArticleChanged(final model.meta.ArticleMssgs evnt) 
+				throws PersistenceException{
+        model.meta.QuantifiedArticlesFireArticleChangedArticleMssgsMssg event = new model.meta.QuantifiedArticlesFireArticleChangedArticleMssgsMssg(evnt, getThis());
+		event.execute();
+		getThis().updateObservers(event);
+		event.getResult();
+    }
+    public PersistentArticle getArticle() 
+				throws PersistenceException{
+        if (this.article== null) return null;
+		return this.article.getObservee();
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentQuantifiedArticles)This);
@@ -245,6 +254,24 @@ public class QuantifiedArticles extends PersistentObject implements PersistentQu
 		}
 		subService.register(observee);
     }
+    /**
+     * Retoures a single article in the given amount.
+     */
+    public void retoure(final long amount) 
+				throws PersistenceException{
+        model.meta.QuantifiedArticlesRetoureIntegerMssg event = new model.meta.QuantifiedArticlesRetoureIntegerMssg(amount, getThis());
+		event.execute();
+		getThis().updateObservers(event);
+		event.getResult();
+    }
+    public void setArticle(final PersistentArticle article) 
+				throws PersistenceException{
+        if (this.article == null) {
+			this.setArticle(model.QuantifiedArticlesArticle.createQuantifiedArticlesArticle(this.isDelayed$Persistence()));
+			this.article.setObserver(getThis());
+		}
+		this.article.setObservee(article);
+    }
     public synchronized void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
@@ -258,13 +285,16 @@ public class QuantifiedArticles extends PersistentObject implements PersistentQu
     
     // Start of section that contains operations that must be implemented.
     
+    public void article_update(final model.meta.ArticleMssgs event) 
+				throws PersistenceException{
+        getThis().fireArticleChanged(event);
+    }
     public void changeAmount(final long newAmount) 
 				throws PersistenceException{
         getThis().setAmount(newAmount);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
-				throws PersistenceException{
-    }
+				throws PersistenceException{}
     public void deleteReserve() 
 				throws PersistenceException{
         getThis().getArticle().deleteReserve(getThis().getAmount());
@@ -273,12 +303,12 @@ public class QuantifiedArticles extends PersistentObject implements PersistentQu
 				throws PersistenceException{
         return getThis().getArticle().getPrice() * getThis().getAmount();
     }
+    public void fireArticleChangedImplementation(final model.meta.ArticleMssgs evnt) 
+				throws PersistenceException{}
     public void initializeOnCreation() 
-				throws PersistenceException{
-    }
+				throws PersistenceException{}
     public void initializeOnInstantiation() 
-				throws PersistenceException{
-    }
+				throws PersistenceException{}
     public void pack() 
 				throws PersistenceException{
         getThis().getArticle().pack(getThis().getAmount());
@@ -290,7 +320,7 @@ public class QuantifiedArticles extends PersistentObject implements PersistentQu
     /**
      * Retoures a single article in the given amount.
      */
-    public void retoure(final long amount) 
+    public void retoureImplementation(final long amount) 
 				throws PersistenceException{
     	if(amount > getThis().getAmount()) {
     		getThis().setAmount(0);

@@ -186,6 +186,10 @@ public class CartServiceICProxi extends CustomerServiceICProxi implements Persis
 				throws PersistenceException{
         ((PersistentCartService)this.getTheObject()).removeFCart(article);
     }
+    public void signalChanged() 
+				throws PersistenceException{
+        ((PersistentCartService)this.getTheObject()).signalChanged();
+    }
 
     
 }

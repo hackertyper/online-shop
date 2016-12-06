@@ -55,10 +55,10 @@ public class CartManagerFacade{
     public void articleListSet(long CartManagerId, PersistentCartManagerArticleList articleListVal) throws PersistenceException {
         
     }
-    public void standardDeliverySet(long CartManagerId, PersistentStandardDelivery standardDeliveryVal) throws PersistenceException {
+    public void standardDeliverySet(long CartManagerId, PersistentCartManagerStandardDelivery standardDeliveryVal) throws PersistenceException {
         
     }
-    public void onDeliverySet(long CartManagerId, PersistentOverNightDelivery onDeliveryVal) throws PersistenceException {
+    public void onDeliverySet(long CartManagerId, PersistentCartManagerOnDelivery onDeliveryVal) throws PersistenceException {
         
     }
     public void subServiceSet(long CartManagerId, SubjInterface subServiceVal) throws PersistenceException {

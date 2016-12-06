@@ -112,22 +112,6 @@ public class ArticleICProxi extends ItemICProxi implements PersistentArticle{
     }
     
     
-    public void changeDescription(final String newDescription, final Invoker invoker) 
-				throws PersistenceException{
-        ((PersistentArticle)this.getTheObject()).changeDescription(newDescription, invoker);
-    }
-    public void changeManuDelivery(final long newManuDelivery, final Invoker invoker) 
-				throws PersistenceException{
-        ((PersistentArticle)this.getTheObject()).changeManuDelivery(newManuDelivery, invoker);
-    }
-    public void changePrice(final long newPrice, final Invoker invoker) 
-				throws PersistenceException{
-        ((PersistentArticle)this.getTheObject()).changePrice(newPrice, invoker);
-    }
-    public void changeProductGroup(final PersistentProductGroup newPG, final Invoker invoker) 
-				throws PersistenceException{
-        ((PersistentArticle)this.getTheObject()).changeProductGroup(newPG, invoker);
-    }
     public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentArticle)this.getTheObject()).deregister(observee);
@@ -135,6 +119,10 @@ public class ArticleICProxi extends ItemICProxi implements PersistentArticle{
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentArticle)this.getTheObject()).initialize(This, final$$Fields);
+    }
+    public void receiveDelivery(final long amount) 
+				throws PersistenceException{
+        ((PersistentArticle)this.getTheObject()).receiveDelivery(amount);
     }
     public void register(final ObsInterface observee) 
 				throws PersistenceException{
@@ -180,9 +168,9 @@ public class ArticleICProxi extends ItemICProxi implements PersistentArticle{
 				throws PersistenceException{
         ((PersistentArticle)this.getTheObject()).pack(amount);
     }
-    public void receiveDelivery(final long amount) 
+    public void receiveDeliveryImplementation(final long amount) 
 				throws PersistenceException{
-        ((PersistentArticle)this.getTheObject()).receiveDelivery(amount);
+        ((PersistentArticle)this.getTheObject()).receiveDeliveryImplementation(amount);
     }
     public void reserve(final long amount) 
 				throws model.InsufficientStock, PersistenceException{

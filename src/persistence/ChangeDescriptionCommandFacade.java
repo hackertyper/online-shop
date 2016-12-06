@@ -28,14 +28,14 @@ public class ChangeDescriptionCommandFacade{
     public PersistentChangeDescriptionCommand newChangeDescriptionCommand(String newDescription,long idCreateIfLessZero) throws PersistenceException {
         if(idCreateIfLessZero > 0) return (PersistentChangeDescriptionCommand)PersistentProxi.createProxi(idCreateIfLessZero, 131);
         long id = ConnectionHandler.getTheConnectionHandler().theChangeDescriptionCommandFacade.getNextId();
-        ChangeDescriptionCommand result = new ChangeDescriptionCommand(newDescription,null,null,null,id);
+        ChangeDescriptionCommand result = new ChangeDescriptionCommand(null,newDescription,null,null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentChangeDescriptionCommand)PersistentProxi.createProxi(id, 131);
     }
     
     public PersistentChangeDescriptionCommand newDelayedChangeDescriptionCommand(String newDescription) throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theChangeDescriptionCommandFacade.getNextId();
-        ChangeDescriptionCommand result = new ChangeDescriptionCommand(newDescription,null,null,null,id);
+        ChangeDescriptionCommand result = new ChangeDescriptionCommand(null,newDescription,null,null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentChangeDescriptionCommand)PersistentProxi.createProxi(id, 131);
     }
@@ -49,13 +49,16 @@ public class ChangeDescriptionCommandFacade{
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         
     }
+    public void itemSet(long ChangeDescriptionCommandId, PersistentItem itemVal) throws PersistenceException {
+        
+    }
     public void newDescriptionSet(long ChangeDescriptionCommandId, String newDescriptionVal) throws PersistenceException {
         
     }
     public void invokerSet(long ChangeDescriptionCommandId, Invoker invokerVal) throws PersistenceException {
         
     }
-    public void commandReceiverSet(long ChangeDescriptionCommandId, PersistentItem commandReceiverVal) throws PersistenceException {
+    public void commandReceiverSet(long ChangeDescriptionCommandId, PersistentShopkeeper commandReceiverVal) throws PersistenceException {
         
     }
     public void myCommonDateSet(long ChangeDescriptionCommandId, PersistentCommonDate myCommonDateVal) throws PersistenceException {

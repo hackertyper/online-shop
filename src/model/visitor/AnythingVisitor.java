@@ -14,10 +14,11 @@ public interface AnythingVisitor extends CartStateVisitor,CommonDateVisitor,Cust
     public void handleCart(PersistentCart cart) throws PersistenceException;
     public void handleCartManager(PersistentCartManager cartManager) throws PersistenceException;
     public void handleCartManagerArticleList(PersistentCartManagerArticleList cartManagerArticleList) throws PersistenceException;
+    public void handleCartManagerOnDelivery(PersistentCartManagerOnDelivery cartManagerOnDelivery) throws PersistenceException;
+    public void handleCartManagerStandardDelivery(PersistentCartManagerStandardDelivery cartManagerStandardDelivery) throws PersistenceException;
     public void handleChangeAmountCommand(PersistentChangeAmountCommand changeAmountCommand) throws PersistenceException;
     public void handleChangeChargeCommand(PersistentChangeChargeCommand changeChargeCommand) throws PersistenceException;
     public void handleChangeDescriptionCommand(PersistentChangeDescriptionCommand changeDescriptionCommand) throws PersistenceException;
-    public void handleChangeManuDeliveryCommand(PersistentChangeManuDeliveryCommand changeManuDeliveryCommand) throws PersistenceException;
     public void handleChangePriceCommand(PersistentChangePriceCommand changePriceCommand) throws PersistenceException;
     public void handleChangeProductGroupCommand(PersistentChangeProductGroupCommand changeProductGroupCommand) throws PersistenceException;
     public void handleChangeTimeCommand(PersistentChangeTimeCommand changeTimeCommand) throws PersistenceException;
@@ -26,6 +27,7 @@ public interface AnythingVisitor extends CartStateVisitor,CommonDateVisitor,Cust
     public void handleCommandExecuter(PersistentCommandExecuter commandExecuter) throws PersistenceException;
     public void handleCommonDate(PersistentCommonDate commonDate) throws PersistenceException;
     public void handleCustomerManager(PersistentCustomerManager customerManager) throws PersistenceException;
+    public void handleCustomerOrderArticleList(PersistentCustomerOrderArticleList customerOrderArticleList) throws PersistenceException;
     public void handleDepositCommand(PersistentDepositCommand depositCommand) throws PersistenceException;
     public void handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException;
     public void handleFindArticleCommand(PersistentFindArticleCommand findArticleCommand) throws PersistenceException;
@@ -35,7 +37,11 @@ public interface AnythingVisitor extends CartStateVisitor,CommonDateVisitor,Cust
     public void handleOrderCommand(PersistentOrderCommand orderCommand) throws PersistenceException;
     public void handleOrderManager(PersistentOrderManager orderManager) throws PersistenceException;
     public void handlePreOrder(PersistentPreOrder preOrder) throws PersistenceException;
+    public void handlePresetBalanceCommand(PersistentPresetBalanceCommand presetBalanceCommand) throws PersistenceException;
+    public void handlePresetLowerLimitCommand(PersistentPresetLowerLimitCommand presetLowerLimitCommand) throws PersistenceException;
+    public void handleProductGroupItemList(PersistentProductGroupItemList productGroupItemList) throws PersistenceException;
     public void handleQuantifiedArticles(PersistentQuantifiedArticles quantifiedArticles) throws PersistenceException;
+    public void handleQuantifiedArticlesArticle(PersistentQuantifiedArticlesArticle quantifiedArticlesArticle) throws PersistenceException;
     public void handleRemoveFCartCommand(PersistentRemoveFCartCommand removeFCartCommand) throws PersistenceException;
     public void handleRemovedFSale(PersistentRemovedFSale removedFSale) throws PersistenceException;
     public void handleRetoureArticleCommand(PersistentRetoureArticleCommand retoureArticleCommand) throws PersistenceException;
@@ -45,6 +51,7 @@ public interface AnythingVisitor extends CartStateVisitor,CommonDateVisitor,Cust
     public void handleShopManager(PersistentShopManager shopManager) throws PersistenceException;
     public void handleShopManagerItemRange(PersistentShopManagerItemRange shopManagerItemRange) throws PersistenceException;
     public void handleShopkeeper(PersistentShopkeeper shopkeeper) throws PersistenceException;
+    public void handleShopkeeperItemRange(PersistentShopkeeperItemRange shopkeeperItemRange) throws PersistenceException;
     public void handleStartSellingCommand(PersistentStartSellingCommand startSellingCommand) throws PersistenceException;
     public void handleSubj(PersistentSubj subj) throws PersistenceException;
     public void handleWithdrawCommand(PersistentWithdrawCommand withdrawCommand) throws PersistenceException;

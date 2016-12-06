@@ -165,6 +165,10 @@ public class CustomerServiceICProxi extends ServiceICProxi implements Persistent
 				throws PersistenceException{
         ((PersistentCustomerService)this.getTheObject()).initializeOnInstantiation();
     }
+    public void signalChanged() 
+				throws PersistenceException{
+        ((PersistentCustomerService)this.getTheObject()).signalChanged();
+    }
 
     
 }

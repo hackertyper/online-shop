@@ -55,7 +55,7 @@ public class Shopkeeper extends PersistentObject implements PersistentShopkeeper
     java.util.HashMap<String,Object> result = null;
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
-            result.put("itemRange", this.getItemRange().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, true));
+            result.put("itemRange", this.getItemRange().getObservee().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, true));
             AbstractPersistentRoot standardDelivery = (AbstractPersistentRoot)this.getStandardDelivery();
             if (standardDelivery != null) {
                 result.put("standardDelivery", standardDelivery.createProxiInformation(false, essentialLevel <= 1));
@@ -82,12 +82,12 @@ public class Shopkeeper extends PersistentObject implements PersistentShopkeeper
     
     public Shopkeeper provideCopy() throws PersistenceException{
         Shopkeeper result = this;
-        result = new Shopkeeper(this.standardDelivery, 
+        result = new Shopkeeper(this.itemRange, 
+                                this.standardDelivery, 
                                 this.onDelivery, 
                                 this.subService, 
                                 this.This, 
                                 this.getId());
-        result.itemRange = this.itemRange.copy(result);
         this.copyingPrivateUserAttributes(result);
         return result;
     }
@@ -95,16 +95,16 @@ public class Shopkeeper extends PersistentObject implements PersistentShopkeeper
     public boolean hasEssentialFields() throws PersistenceException{
         return false;
     }
-    protected Shopkeeper_ItemRangeProxi itemRange;
+    protected PersistentShopkeeperItemRange itemRange;
     protected PersistentStandardDelivery standardDelivery;
     protected PersistentOverNightDelivery onDelivery;
     protected SubjInterface subService;
     protected PersistentShopkeeper This;
     
-    public Shopkeeper(PersistentStandardDelivery standardDelivery,PersistentOverNightDelivery onDelivery,SubjInterface subService,PersistentShopkeeper This,long id) throws PersistenceException {
+    public Shopkeeper(PersistentShopkeeperItemRange itemRange,PersistentStandardDelivery standardDelivery,PersistentOverNightDelivery onDelivery,SubjInterface subService,PersistentShopkeeper This,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
-        this.itemRange = new Shopkeeper_ItemRangeProxi(this);
+        this.itemRange = itemRange;
         this.standardDelivery = standardDelivery;
         this.onDelivery = onDelivery;
         this.subService = subService;
@@ -124,7 +124,10 @@ public class Shopkeeper extends PersistentObject implements PersistentShopkeeper
         if (this.getClassId() == 107) ConnectionHandler.getTheConnectionHandler().theShopkeeperFacade
             .newShopkeeper(this.getId());
         super.store();
-        this.getItemRange().store();
+        if(this.itemRange != null){
+            this.itemRange.store();
+            ConnectionHandler.getTheConnectionHandler().theShopkeeperFacade.itemRangeSet(this.getId(), itemRange);
+        }
         if(this.getStandardDelivery() != null){
             this.getStandardDelivery().store();
             ConnectionHandler.getTheConnectionHandler().theShopkeeperFacade.standardDeliverySet(this.getId(), getStandardDelivery());
@@ -144,8 +147,16 @@ public class Shopkeeper extends PersistentObject implements PersistentShopkeeper
         
     }
     
-    public Shopkeeper_ItemRangeProxi getItemRange() throws PersistenceException {
-        return this.itemRange;
+    public void setItemRange(PersistentShopkeeperItemRange newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.isTheSameAs(this.itemRange)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.itemRange = (PersistentShopkeeperItemRange)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theShopkeeperFacade.itemRangeSet(this.getId(), newValue);
+        }
     }
     public PersistentStandardDelivery getStandardDelivery() throws PersistenceException {
         return this.standardDelivery;
@@ -237,9 +248,9 @@ public class Shopkeeper extends PersistentObject implements PersistentShopkeeper
          return visitor.handleShopkeeper(this);
     }
     public int getLeafInfo() throws PersistenceException{
+        if (this.getItemRange().getObservee().getLength() > 0) return 1;
         if (this.getStandardDelivery() != null) return 1;
         if (this.getOnDelivery() != null) return 1;
-        if (this.getItemRange().getLength() > 0) return 1;
         return 0;
     }
     
@@ -252,6 +263,62 @@ public class Shopkeeper extends PersistentObject implements PersistentShopkeeper
 		command.setInvoker(invoker);
 		command.setCommandReceiver(getThis());
 		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
+    }
+    public void changeDescription(final PersistentItem item, final String newDescription) 
+				throws PersistenceException{
+        model.meta.ShopkeeperChangeDescriptionItemStringMssg event = new model.meta.ShopkeeperChangeDescriptionItemStringMssg(item, newDescription, getThis());
+		event.execute();
+		getThis().updateObservers(event);
+		event.getResult();
+    }
+    public void changeDescription(final PersistentItem item, final String newDescription, final Invoker invoker) 
+				throws PersistenceException{
+        java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
+		PersistentChangeDescriptionCommand command = model.meta.ChangeDescriptionCommand.createChangeDescriptionCommand(newDescription, now, now);
+		command.setItem(item);
+		command.setInvoker(invoker);
+		command.setCommandReceiver(getThis());
+		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
+    }
+    public void changePrice(final PersistentArticle article, final long newPrice) 
+				throws PersistenceException{
+        model.meta.ShopkeeperChangePriceArticleIntegerMssg event = new model.meta.ShopkeeperChangePriceArticleIntegerMssg(article, newPrice, getThis());
+		event.execute();
+		getThis().updateObservers(event);
+		event.getResult();
+    }
+    public void changePrice(final PersistentArticle article, final long newPrice, final Invoker invoker) 
+				throws PersistenceException{
+        java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
+		PersistentChangePriceCommand command = model.meta.ChangePriceCommand.createChangePriceCommand(newPrice, now, now);
+		command.setArticle(article);
+		command.setInvoker(invoker);
+		command.setCommandReceiver(getThis());
+		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
+    }
+    public void changeProductGroup(final PersistentArticle article, final PersistentProductGroup newPG) 
+				throws PersistenceException{
+        model.meta.ShopkeeperChangeProductGroupArticleProductGroupMssg event = new model.meta.ShopkeeperChangeProductGroupArticleProductGroupMssg(article, newPG, getThis());
+		event.execute();
+		getThis().updateObservers(event);
+		event.getResult();
+    }
+    public void changeProductGroup(final PersistentArticle article, final PersistentProductGroup newPG, final Invoker invoker) 
+				throws PersistenceException{
+        java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
+		PersistentChangeProductGroupCommand command = model.meta.ChangeProductGroupCommand.createChangeProductGroupCommand(now, now);
+		command.setArticle(article);
+		command.setNewPG(newPG);
+		command.setInvoker(invoker);
+		command.setCommandReceiver(getThis());
+		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
+    }
+    public void changeTime(final PersistentCustomerDelivery cd, final long newTime) 
+				throws PersistenceException{
+        model.meta.ShopkeeperChangeTimeCustomerDeliveryIntegerMssg event = new model.meta.ShopkeeperChangeTimeCustomerDeliveryIntegerMssg(cd, newTime, getThis());
+		event.execute();
+		getThis().updateObservers(event);
+		event.getResult();
     }
     public void changeTime(final PersistentCustomerDelivery cd, final long newTime, final Invoker invoker) 
 				throws PersistenceException{
@@ -271,6 +338,14 @@ public class Shopkeeper extends PersistentObject implements PersistentShopkeeper
 		}
 		subService.deregister(observee);
     }
+    public PersistentShopkeeperItemRange getItemRange() 
+				throws PersistenceException{
+        if (this.itemRange == null) {
+			this.setItemRange(model.ShopkeeperItemRange.createShopkeeperItemRange(this.isDelayed$Persistence()));
+			this.itemRange.setObserver(this);
+		}
+		return this.itemRange;
+    }
     public PersistentShopkeeperService getMyServer() 
 				throws PersistenceException{
         ShopkeeperServiceSearchList result = null;
@@ -287,6 +362,22 @@ public class Shopkeeper extends PersistentObject implements PersistentShopkeeper
         this.setThis((PersistentShopkeeper)This);
 		if(this.isTheSameAs(This)){
 		}
+    }
+    public void presetBalance(final long amount, final Invoker invoker) 
+				throws PersistenceException{
+        java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
+		PersistentPresetBalanceCommand command = model.meta.PresetBalanceCommand.createPresetBalanceCommand(amount, now, now);
+		command.setInvoker(invoker);
+		command.setCommandReceiver(getThis());
+		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
+    }
+    public void presetLowerLimit(final long amount, final Invoker invoker) 
+				throws PersistenceException{
+        java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
+		PersistentPresetLowerLimitCommand command = model.meta.PresetLowerLimitCommand.createPresetLowerLimitCommand(amount, now, now);
+		command.setInvoker(invoker);
+		command.setCommandReceiver(getThis());
+		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
     }
     public synchronized void register(final ObsInterface observee) 
 				throws PersistenceException{
@@ -314,7 +405,19 @@ public class Shopkeeper extends PersistentObject implements PersistentShopkeeper
 				throws PersistenceException{
         cd.changeExtraCharge(newCharge);
     }
-    public void changeTime(final PersistentCustomerDelivery cd, final long newTime) 
+    public void changeDescriptionImplementation(final PersistentItem item, final String newDescription) 
+				throws PersistenceException{
+        item.changeDescription(newDescription);
+    }
+    public void changePriceImplementation(final PersistentArticle article, final long newPrice) 
+				throws PersistenceException{
+        article.changePrice(newPrice);
+    }
+    public void changeProductGroupImplementation(final PersistentArticle article, final PersistentProductGroup newPG) 
+				throws PersistenceException{
+        article.changeProductGroup(newPG);
+    }
+    public void changeTimeImplementation(final PersistentCustomerDelivery cd, final long newTime) 
 				throws PersistenceException{
         cd.changeTime(newTime);
     }
@@ -327,9 +430,18 @@ public class Shopkeeper extends PersistentObject implements PersistentShopkeeper
         getThis().setOnDelivery(OverNightDelivery.getTheOverNightDelivery());
     }
     public void initializeOnInstantiation() 
+				throws PersistenceException{}
+    public void itemRange_update(final model.meta.ItemMssgs event) 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnInstantiation
-        
+        getThis().getMyServer().signalChanged(true);
+    }
+    public void presetBalance(final long amount) 
+				throws PersistenceException{
+        serverConstants.ConfigConstants.setPresetAccountBalance(amount);
+    }
+    public void presetLowerLimit(final long amount) 
+				throws PersistenceException{
+        serverConstants.ConfigConstants.setPresetAccountLowerLimit(amount);
     }
     
     

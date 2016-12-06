@@ -228,20 +228,14 @@ public class PreOrder extends PersistentObject implements PersistentPreOrder{
         
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
-				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
-    }
+				throws PersistenceException{}
     public void initializeOnCreation() 
 				throws PersistenceException{
         //TODO: implement method: initializeOnCreation
         
     }
     public void initializeOnInstantiation() 
-				throws PersistenceException{
-        //TODO: implement method: initializeOnInstantiation
-        
-    }
+				throws PersistenceException{}
     
     
     // Start of section that contains overridden operations only.

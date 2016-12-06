@@ -313,6 +313,7 @@ public class CartServiceClientView extends BorderPane implements ExceptionAndEve
         ImageView handle(OrderPRMTRCartPRMTRCustomerDeliveryPRMTRMenuItem menuItem);
         ImageView handle(RemoveFCartPRMTRQuantifiedArticlesPRMTRMenuItem menuItem);
         ImageView handle(CheckOutPRMTRMenuItem menuItem);
+        ImageView handle(SignalChangedPRMTRMenuItem menuItem);
     }
     private abstract class CartServiceMenuItem extends MenuItem{
         private CartServiceMenuItem(){
@@ -336,6 +337,11 @@ public class CartServiceClientView extends BorderPane implements ExceptionAndEve
         }
     }
     private class CheckOutPRMTRMenuItem extends CartServiceMenuItem{
+        protected ImageView accept(MenuItemVisitor visitor){
+            return visitor.handle(this);
+        }
+    }
+    private class SignalChangedPRMTRMenuItem extends CartServiceMenuItem{
         protected ImageView accept(MenuItemVisitor visitor){
             return visitor.handle(this);
         }
@@ -364,6 +370,27 @@ public class CartServiceClientView extends BorderPane implements ExceptionAndEve
             }
         });
         result.add(currentButton);
+        currentButton = new javafx.scene.control.Button("signalChanged");
+        currentButton.setGraphic(new SignalChangedPRMTRMenuItem().getGraphic());
+        currentButton.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle(javafx.event.ActionEvent e) {
+                Alert confirm = new Alert(AlertType.CONFIRMATION);
+                confirm.setTitle(GUIConstants.ConfirmButtonText);
+                confirm.setHeaderText(null);
+                confirm.setContentText("signalChanged" + GUIConstants.ConfirmQuestionMark);
+                Optional<ButtonType> buttonResult = confirm.showAndWait();
+                if (buttonResult.get() == ButtonType.OK) {
+                    try {
+                        getConnection().signalChanged();
+                        getConnection().setEagerRefresh();
+                        
+                    }catch(ModelException me){
+                        handleException(me);
+                    }
+                }
+            }
+        });
+        result.add(currentButton);
         return result;
     }
     private ContextMenu getContextMenu(final ViewRoot selected, final boolean withStaticOperations, final Point2D menuPos) {
@@ -381,6 +408,27 @@ public class CartServiceClientView extends BorderPane implements ExceptionAndEve
                 if (buttonResult.get() == ButtonType.OK) {
                     try {
                         getConnection().checkOut();
+                        getConnection().setEagerRefresh();
+                        
+                    }catch(ModelException me){
+                        handleException(me);
+                    }
+                }
+            }
+        });
+        if (withStaticOperations) result.getItems().add(item);
+        item = new SignalChangedPRMTRMenuItem();
+        item.setText("(S) signalChanged");
+        item.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle(javafx.event.ActionEvent e) {
+                Alert confirm = new Alert(AlertType.CONFIRMATION);
+                confirm.setTitle(GUIConstants.ConfirmButtonText);
+                confirm.setHeaderText(null);
+                confirm.setContentText("signalChanged" + GUIConstants.ConfirmQuestionMark);
+                Optional<ButtonType> buttonResult = confirm.showAndWait();
+                if (buttonResult.get() == ButtonType.OK) {
+                    try {
+                        getConnection().signalChanged();
                         getConnection().setEagerRefresh();
                         
                     }catch(ModelException me){

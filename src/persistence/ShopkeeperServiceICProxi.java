@@ -28,18 +28,6 @@ public class ShopkeeperServiceICProxi extends ServiceICProxi implements Persiste
     public void setManager(PersistentShopkeeper newValue) throws PersistenceException {
         ((PersistentShopkeeperService)this.getTheObject()).setManager(newValue);
     }
-    public long getLowerLimitPreset() throws PersistenceException {
-        return ((PersistentShopkeeperService)this.getTheObject()).getLowerLimitPreset();
-    }
-    public void setLowerLimitPreset(long newValue) throws PersistenceException {
-        ((PersistentShopkeeperService)this.getTheObject()).setLowerLimitPreset(newValue);
-    }
-    public long getBalancePreset() throws PersistenceException {
-        return ((PersistentShopkeeperService)this.getTheObject()).getBalancePreset();
-    }
-    public void setBalancePreset(long newValue) throws PersistenceException {
-        ((PersistentShopkeeperService)this.getTheObject()).setBalancePreset(newValue);
-    }
     public PersistentShopkeeperService getThis() throws PersistenceException {
         return ((PersistentShopkeeperService)this.getTheObject()).getThis();
     }

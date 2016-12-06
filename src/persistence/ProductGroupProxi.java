@@ -18,8 +18,8 @@ public class ProductGroupProxi extends ItemProxi implements PersistentProductGro
         return 102;
     }
     
-    public ProductGroup_ItemListProxi getItemList() throws PersistenceException {
-        return ((PersistentProductGroup)this.getTheObject()).getItemList();
+    public void setItemList(PersistentProductGroupItemList newValue) throws PersistenceException {
+        ((PersistentProductGroup)this.getTheObject()).setItemList(newValue);
     }
     public PersistentProductGroup getThis() throws PersistenceException {
         return ((PersistentProductGroup)this.getTheObject()).getThis();
@@ -63,13 +63,17 @@ public class ProductGroupProxi extends ItemProxi implements PersistentProductGro
     }
     
     
-    public void changeDescription(final String newDescription, final Invoker invoker) 
+    public void addItem(final PersistentItem item) 
 				throws PersistenceException{
-        ((PersistentProductGroup)this.getTheObject()).changeDescription(newDescription, invoker);
+        ((PersistentProductGroup)this.getTheObject()).addItem(item);
     }
     public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentProductGroup)this.getTheObject()).deregister(observee);
+    }
+    public PersistentProductGroupItemList getItemList() 
+				throws PersistenceException{
+        return ((PersistentProductGroup)this.getTheObject()).getItemList();
     }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
@@ -83,9 +87,9 @@ public class ProductGroupProxi extends ItemProxi implements PersistentProductGro
 				throws PersistenceException{
         ((PersistentProductGroup)this.getTheObject()).updateObservers(event);
     }
-    public void addItem(final PersistentItem item) 
+    public void addItemImplementation(final PersistentItem item) 
 				throws PersistenceException{
-        ((PersistentProductGroup)this.getTheObject()).addItem(item);
+        ((PersistentProductGroup)this.getTheObject()).addItemImplementation(item);
     }
     public void changeDescription(final String newDescription) 
 				throws PersistenceException{
@@ -102,6 +106,10 @@ public class ProductGroupProxi extends ItemProxi implements PersistentProductGro
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         ((PersistentProductGroup)this.getTheObject()).initializeOnInstantiation();
+    }
+    public void itemList_update(final model.meta.ItemMssgs event) 
+				throws PersistenceException{
+        ((PersistentProductGroup)this.getTheObject()).itemList_update(event);
     }
 
     

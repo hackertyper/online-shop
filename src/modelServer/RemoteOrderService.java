@@ -65,6 +65,15 @@ public  class RemoteOrderService extends RemoteCustomerService {
         }
     }
     
+    public synchronized java.util.HashMap<?,?> signalChanged(){
+        try {
+            ((PersistentOrderService)this.server).signalChanged();
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
 
 
 }

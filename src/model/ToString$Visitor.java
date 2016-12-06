@@ -46,10 +46,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 		result = productGroup.getDescription();
 	}
 	@Override
-	public void handleShopkeeper(PersistentShopkeeper shopkeeper) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
-	}
+	public void handleShopkeeper(PersistentShopkeeper shopkeeper) throws PersistenceException {}
 	@Override
 	public void handleOfferedFSale(PersistentOfferedFSale offeredFSale) throws PersistenceException {
 		// TODO Auto-generated method stub

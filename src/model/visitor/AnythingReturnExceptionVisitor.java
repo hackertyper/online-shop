@@ -14,10 +14,11 @@ public interface AnythingReturnExceptionVisitor<R, E extends model.UserException
     public R handleCart(PersistentCart cart) throws PersistenceException, E;
     public R handleCartManager(PersistentCartManager cartManager) throws PersistenceException, E;
     public R handleCartManagerArticleList(PersistentCartManagerArticleList cartManagerArticleList) throws PersistenceException, E;
+    public R handleCartManagerOnDelivery(PersistentCartManagerOnDelivery cartManagerOnDelivery) throws PersistenceException, E;
+    public R handleCartManagerStandardDelivery(PersistentCartManagerStandardDelivery cartManagerStandardDelivery) throws PersistenceException, E;
     public R handleChangeAmountCommand(PersistentChangeAmountCommand changeAmountCommand) throws PersistenceException, E;
     public R handleChangeChargeCommand(PersistentChangeChargeCommand changeChargeCommand) throws PersistenceException, E;
     public R handleChangeDescriptionCommand(PersistentChangeDescriptionCommand changeDescriptionCommand) throws PersistenceException, E;
-    public R handleChangeManuDeliveryCommand(PersistentChangeManuDeliveryCommand changeManuDeliveryCommand) throws PersistenceException, E;
     public R handleChangePriceCommand(PersistentChangePriceCommand changePriceCommand) throws PersistenceException, E;
     public R handleChangeProductGroupCommand(PersistentChangeProductGroupCommand changeProductGroupCommand) throws PersistenceException, E;
     public R handleChangeTimeCommand(PersistentChangeTimeCommand changeTimeCommand) throws PersistenceException, E;
@@ -26,6 +27,7 @@ public interface AnythingReturnExceptionVisitor<R, E extends model.UserException
     public R handleCommandExecuter(PersistentCommandExecuter commandExecuter) throws PersistenceException, E;
     public R handleCommonDate(PersistentCommonDate commonDate) throws PersistenceException, E;
     public R handleCustomerManager(PersistentCustomerManager customerManager) throws PersistenceException, E;
+    public R handleCustomerOrderArticleList(PersistentCustomerOrderArticleList customerOrderArticleList) throws PersistenceException, E;
     public R handleDepositCommand(PersistentDepositCommand depositCommand) throws PersistenceException, E;
     public R handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException, E;
     public R handleFindArticleCommand(PersistentFindArticleCommand findArticleCommand) throws PersistenceException, E;
@@ -35,7 +37,11 @@ public interface AnythingReturnExceptionVisitor<R, E extends model.UserException
     public R handleOrderCommand(PersistentOrderCommand orderCommand) throws PersistenceException, E;
     public R handleOrderManager(PersistentOrderManager orderManager) throws PersistenceException, E;
     public R handlePreOrder(PersistentPreOrder preOrder) throws PersistenceException, E;
+    public R handlePresetBalanceCommand(PersistentPresetBalanceCommand presetBalanceCommand) throws PersistenceException, E;
+    public R handlePresetLowerLimitCommand(PersistentPresetLowerLimitCommand presetLowerLimitCommand) throws PersistenceException, E;
+    public R handleProductGroupItemList(PersistentProductGroupItemList productGroupItemList) throws PersistenceException, E;
     public R handleQuantifiedArticles(PersistentQuantifiedArticles quantifiedArticles) throws PersistenceException, E;
+    public R handleQuantifiedArticlesArticle(PersistentQuantifiedArticlesArticle quantifiedArticlesArticle) throws PersistenceException, E;
     public R handleRemoveFCartCommand(PersistentRemoveFCartCommand removeFCartCommand) throws PersistenceException, E;
     public R handleRemovedFSale(PersistentRemovedFSale removedFSale) throws PersistenceException, E;
     public R handleRetoureArticleCommand(PersistentRetoureArticleCommand retoureArticleCommand) throws PersistenceException, E;
@@ -45,6 +51,7 @@ public interface AnythingReturnExceptionVisitor<R, E extends model.UserException
     public R handleShopManager(PersistentShopManager shopManager) throws PersistenceException, E;
     public R handleShopManagerItemRange(PersistentShopManagerItemRange shopManagerItemRange) throws PersistenceException, E;
     public R handleShopkeeper(PersistentShopkeeper shopkeeper) throws PersistenceException, E;
+    public R handleShopkeeperItemRange(PersistentShopkeeperItemRange shopkeeperItemRange) throws PersistenceException, E;
     public R handleStartSellingCommand(PersistentStartSellingCommand startSellingCommand) throws PersistenceException, E;
     public R handleSubj(PersistentSubj subj) throws PersistenceException, E;
     public R handleWithdrawCommand(PersistentWithdrawCommand withdrawCommand) throws PersistenceException, E;

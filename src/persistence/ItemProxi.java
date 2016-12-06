@@ -28,10 +28,6 @@ public abstract class ItemProxi extends PersistentProxi implements PersistentIte
     
     
     
-    public void changeDescription(final String newDescription, final Invoker invoker) 
-				throws PersistenceException{
-        ((PersistentItem)this.getTheObject()).changeDescription(newDescription, invoker);
-    }
     public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentItem)this.getTheObject()).deregister(observee);

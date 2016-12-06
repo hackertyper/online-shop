@@ -36,16 +36,18 @@ public class ChangeProductGroupCommand extends PersistentObject implements Persi
     public boolean hasEssentialFields() throws PersistenceException{
         return true;
     }
+    protected PersistentArticle article;
     protected PersistentProductGroup newPG;
     protected Invoker invoker;
-    protected PersistentArticle commandReceiver;
+    protected PersistentShopkeeper commandReceiver;
     protected PersistentCommonDate myCommonDate;
     
     private model.UserException commandException = null;
     
-    public ChangeProductGroupCommand(PersistentProductGroup newPG,Invoker invoker,PersistentArticle commandReceiver,PersistentCommonDate myCommonDate,long id) throws PersistenceException {
+    public ChangeProductGroupCommand(PersistentArticle article,PersistentProductGroup newPG,Invoker invoker,PersistentShopkeeper commandReceiver,PersistentCommonDate myCommonDate,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
+        this.article = article;
         this.newPG = newPG;
         this.invoker = invoker;
         this.commandReceiver = commandReceiver;
@@ -53,7 +55,7 @@ public class ChangeProductGroupCommand extends PersistentObject implements Persi
     }
     
     static public long getTypeId() {
-        return 125;
+        return 249;
     }
     
     public long getClassId() {
@@ -62,9 +64,13 @@ public class ChangeProductGroupCommand extends PersistentObject implements Persi
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 125) ConnectionHandler.getTheConnectionHandler().theChangeProductGroupCommandFacade
+        if (this.getClassId() == 249) ConnectionHandler.getTheConnectionHandler().theChangeProductGroupCommandFacade
             .newChangeProductGroupCommand(this.getId());
         super.store();
+        if(this.getArticle() != null){
+            this.getArticle().store();
+            ConnectionHandler.getTheConnectionHandler().theChangeProductGroupCommandFacade.articleSet(this.getId(), getArticle());
+        }
         if(this.getNewPG() != null){
             this.getNewPG().store();
             ConnectionHandler.getTheConnectionHandler().theChangeProductGroupCommandFacade.newPGSet(this.getId(), getNewPG());
@@ -84,6 +90,20 @@ public class ChangeProductGroupCommand extends PersistentObject implements Persi
         
     }
     
+    public PersistentArticle getArticle() throws PersistenceException {
+        return this.article;
+    }
+    public void setArticle(PersistentArticle newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.isTheSameAs(this.article)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.article = (PersistentArticle)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theChangeProductGroupCommandFacade.articleSet(this.getId(), newValue);
+        }
+    }
     public PersistentProductGroup getNewPG() throws PersistenceException {
         return this.newPG;
     }
@@ -112,15 +132,15 @@ public class ChangeProductGroupCommand extends PersistentObject implements Persi
             ConnectionHandler.getTheConnectionHandler().theChangeProductGroupCommandFacade.invokerSet(this.getId(), newValue);
         }
     }
-    public PersistentArticle getCommandReceiver() throws PersistenceException {
+    public PersistentShopkeeper getCommandReceiver() throws PersistenceException {
         return this.commandReceiver;
     }
-    public void setCommandReceiver(PersistentArticle newValue) throws PersistenceException {
+    public void setCommandReceiver(PersistentShopkeeper newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
         if(newValue.isTheSameAs(this.commandReceiver)) return;
         long objectId = newValue.getId();
         long classId = newValue.getClassId();
-        this.commandReceiver = (PersistentArticle)PersistentProxi.createProxi(objectId, classId);
+        this.commandReceiver = (PersistentShopkeeper)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
             ConnectionHandler.getTheConnectionHandler().theChangeProductGroupCommandFacade.commandReceiverSet(this.getId(), newValue);
@@ -193,19 +213,20 @@ public class ChangeProductGroupCommand extends PersistentObject implements Persi
     public <R, E extends model.UserException> R accept(CommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleChangeProductGroupCommand(this);
     }
-    public void accept(ArticleCommandVisitor visitor) throws PersistenceException {
+    public void accept(ShopkeeperCommandVisitor visitor) throws PersistenceException {
         visitor.handleChangeProductGroupCommand(this);
     }
-    public <R> R accept(ArticleCommandReturnVisitor<R>  visitor) throws PersistenceException {
+    public <R> R accept(ShopkeeperCommandReturnVisitor<R>  visitor) throws PersistenceException {
          return visitor.handleChangeProductGroupCommand(this);
     }
-    public <E extends model.UserException>  void accept(ArticleCommandExceptionVisitor<E> visitor) throws PersistenceException, E {
+    public <E extends model.UserException>  void accept(ShopkeeperCommandExceptionVisitor<E> visitor) throws PersistenceException, E {
          visitor.handleChangeProductGroupCommand(this);
     }
-    public <R, E extends model.UserException> R accept(ArticleCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+    public <R, E extends model.UserException> R accept(ShopkeeperCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleChangeProductGroupCommand(this);
     }
     public int getLeafInfo() throws PersistenceException{
+        if (this.getArticle() != null) return 1;
         if (this.getNewPG() != null) return 1;
         if (this.getCommandReceiver() != null) return 1;
         return 0;
@@ -222,7 +243,7 @@ public class ChangeProductGroupCommand extends PersistentObject implements Persi
     }
     public void execute() 
 				throws PersistenceException{
-        this.commandReceiver.changeProductGroup(this.getNewPG());
+        this.commandReceiver.changeProductGroup(this.getArticle(), this.getNewPG());
 		
     }
     public Invoker fetchInvoker() 
