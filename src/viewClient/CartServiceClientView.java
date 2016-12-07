@@ -312,7 +312,7 @@ public class CartServiceClientView extends BorderPane implements ExceptionAndEve
 
     interface MenuItemVisitor{
         ImageView handle(ChangeAmountPRMTRQuantifiedArticlesPRMTRIntegerPRMTRMenuItem menuItem);
-        ImageView handle(OrderPRMTRMenuItem menuItem);
+        ImageView handle(OrderPRMTRCartPRMTRCustomerDeliveryPRMTRMenuItem menuItem);
         ImageView handle(RemoveFCartPRMTRQuantifiedArticlesPRMTRMenuItem menuItem);
         ImageView handle(CheckOutPRMTRMenuItem menuItem);
     }
@@ -327,7 +327,7 @@ public class CartServiceClientView extends BorderPane implements ExceptionAndEve
             return visitor.handle(this);
         }
     }
-    private class OrderPRMTRMenuItem extends CartServiceMenuItem{
+    private class OrderPRMTRCartPRMTRCustomerDeliveryPRMTRMenuItem extends CartServiceMenuItem{
         protected ImageView accept(MenuItemVisitor visitor){
             return visitor.handle(this);
         }
@@ -345,27 +345,6 @@ public class CartServiceClientView extends BorderPane implements ExceptionAndEve
     private java.util.Vector<javafx.scene.control.Button> getToolButtonsForStaticOperations() {
         java.util.Vector<javafx.scene.control.Button> result = new java.util.Vector<javafx.scene.control.Button>();
         javafx.scene.control.Button currentButton = null;
-        currentButton = new javafx.scene.control.Button("Bestellen");
-        currentButton.setGraphic(new OrderPRMTRMenuItem().getGraphic());
-        currentButton.setOnAction(new EventHandler<ActionEvent>(){
-            public void handle(javafx.event.ActionEvent e) {
-                Alert confirm = new Alert(AlertType.CONFIRMATION);
-                confirm.setTitle(GUIConstants.ConfirmButtonText);
-                confirm.setHeaderText(null);
-                confirm.setContentText("Bestellen" + GUIConstants.ConfirmQuestionMark);
-                Optional<ButtonType> buttonResult = confirm.showAndWait();
-                if (buttonResult.get() == ButtonType.OK) {
-                    try {
-                        getConnection().order();
-                        getConnection().setEagerRefresh();
-                        
-                    }catch(ModelException me){
-                        handleException(me);
-                    }
-                }
-            }
-        });
-        result.add(currentButton);
         currentButton = new javafx.scene.control.Button("Zur Kasse gehen");
         currentButton.setGraphic(new CheckOutPRMTRMenuItem().getGraphic());
         currentButton.setOnAction(new EventHandler<ActionEvent>(){
@@ -392,27 +371,6 @@ public class CartServiceClientView extends BorderPane implements ExceptionAndEve
     private ContextMenu getContextMenu(final ViewRoot selected, final boolean withStaticOperations, final Point2D menuPos) {
         final ContextMenu result = new ContextMenu();
         MenuItem item = null;
-        item = new OrderPRMTRMenuItem();
-        item.setText("(S) Bestellen");
-        item.setOnAction(new EventHandler<ActionEvent>(){
-            public void handle(javafx.event.ActionEvent e) {
-                Alert confirm = new Alert(AlertType.CONFIRMATION);
-                confirm.setTitle(GUIConstants.ConfirmButtonText);
-                confirm.setHeaderText(null);
-                confirm.setContentText("Bestellen" + GUIConstants.ConfirmQuestionMark);
-                Optional<ButtonType> buttonResult = confirm.showAndWait();
-                if (buttonResult.get() == ButtonType.OK) {
-                    try {
-                        getConnection().order();
-                        getConnection().setEagerRefresh();
-                        
-                    }catch(ModelException me){
-                        handleException(me);
-                    }
-                }
-            }
-        });
-        if (withStaticOperations) result.getItems().add(item);
         item = new CheckOutPRMTRMenuItem();
         item.setText("(S) Zur Kasse gehen");
         item.setOnAction(new EventHandler<ActionEvent>(){
@@ -475,6 +433,19 @@ public class CartServiceClientView extends BorderPane implements ExceptionAndEve
                 });
                 result.getItems().add(item);
             }
+            if (selected instanceof CartView){
+                item = new OrderPRMTRCartPRMTRCustomerDeliveryPRMTRMenuItem();
+                item.setText("Bestellen ... ");
+                item.setOnAction(new EventHandler<ActionEvent>(){
+                    public void handle(javafx.event.ActionEvent e) {
+                        final CartServiceOrderCartCustomerDeliveryMssgWizard wizard = new CartServiceOrderCartCustomerDeliveryMssgWizard("Bestellen");
+                        wizard.setFirstArgument((CartView)selected);
+                        wizard.setWidth(getNavigationPanel().getWidth());
+                        wizard.showAndWait();
+                    }
+                });
+                result.getItems().add(item);
+            }
             
         }
         this.addNotGeneratedItems(result,selected);
@@ -527,6 +498,55 @@ public class CartServiceClientView extends BorderPane implements ExceptionAndEve
 		private QuantifiedArticlesView firstArgument; 
 	
 		public void setFirstArgument(QuantifiedArticlesView firstArgument){
+			this.firstArgument = firstArgument;
+			this.setTitle(this.firstArgument.toString());
+			this.check();
+		}
+		
+		
+	}
+
+	class CartServiceOrderCartCustomerDeliveryMssgWizard extends Wizard {
+
+		protected CartServiceOrderCartCustomerDeliveryMssgWizard(String operationName){
+			super(CartServiceClientView.this);
+			getOkButton().setText(operationName);
+			getOkButton().setGraphic(new OrderPRMTRCartPRMTRCustomerDeliveryPRMTRMenuItem ().getGraphic());
+		}
+		protected void initialize(){
+			this.helpFileName = "CartServiceOrderCartCustomerDeliveryMssgWizard.help";
+			super.initialize();		
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().order(firstArgument, (CustomerDeliveryView)((ObjectSelectionPanel)getParametersPanel().getChildren().get(0)).getResult());
+				getConnection().setEagerRefresh();
+				this.close();	
+			} catch(ModelException me){
+				handleException(me);
+				this.close();
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		protected boolean isModifying () {
+			return false;
+		}
+		protected void addParameters(){
+			final ObjectSelectionPanel panel1 = new ObjectSelectionPanel("deliveryMethod", "view.CustomerDeliveryView", null, this);
+			getParametersPanel().getChildren().add(panel1);
+			panel1.setBrowserRoot((ViewRoot) getConnection().getCartServiceView());		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+		private CartView firstArgument; 
+	
+		public void setFirstArgument(CartView firstArgument){
 			this.firstArgument = firstArgument;
 			this.setTitle(this.firstArgument.toString());
 			this.check();

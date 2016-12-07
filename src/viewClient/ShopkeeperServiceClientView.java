@@ -311,12 +311,22 @@ public class ShopkeeperServiceClientView extends BorderPane implements Exception
 
 
     interface MenuItemVisitor{
+        ImageView handle(CountArticlesPRMTRProductGroupPRMTRMenuItem menuItem);
+        ImageView handle(CreateArticlePRMTRProductGroupPRMTRStringPRMTRStringPRMTRIntegerPRMTRIntegerPRMTRIntegerPRMTRIntegerPRMTRMenuItem menuItem);
         ImageView handle(ChangePricePRMTRArticlePRMTRIntegerPRMTRMenuItem menuItem);
         ImageView handle(ChangeDescriptionPRMTRItemPRMTRStringPRMTRMenuItem menuItem);
-        ImageView handle(ChangeManufacturerDeliveryPRMTRIntegerPRMTRMenuItem menuItem);
+        ImageView handle(OrderNewPRMTRNewlyAddedPRMTRIntegerPRMTRMenuItem menuItem);
+        ImageView handle(ChangeManufacturerDeliveryPRMTRArticlePRMTRIntegerPRMTRMenuItem menuItem);
         ImageView handle(PresetBalancePRMTRIntegerPRMTRMenuItem menuItem);
         ImageView handle(PresetLowerLimitPRMTRIntegerPRMTRMenuItem menuItem);
+        ImageView handle(ChangeTimePRMTRCustomerDeliveryPRMTRIntegerPRMTRMenuItem menuItem);
+        ImageView handle(ChangeExtraChargePRMTRCustomerDeliveryPRMTRIntegerPRMTRMenuItem menuItem);
+        ImageView handle(ChangeMaxStockPRMTRArticlePRMTRIntegerPRMTRMenuItem menuItem);
+        ImageView handle(ChangeMinStockPRMTRArticlePRMTRIntegerPRMTRMenuItem menuItem);
+        ImageView handle(StopSellingPRMTROfferedFSalePRMTRMenuItem menuItem);
         ImageView handle(ChangeProductGroupPRMTRArticlePRMTRProductGroupPRMTRMenuItem menuItem);
+        ImageView handle(CreateProductGroupPRMTRProductGroupPRMTRStringPRMTRMenuItem menuItem);
+        ImageView handle(StartSellingAgainPRMTRRemovedFSalePRMTRMenuItem menuItem);
         ImageView handle(StartSellingPRMTRNewlyAddedPRMTRMenuItem menuItem);
     }
     private abstract class ShopkeeperServiceMenuItem extends MenuItem{
@@ -324,6 +334,16 @@ public class ShopkeeperServiceClientView extends BorderPane implements Exception
             this.setGraphic(getIconForMenuItem(this));
         }
         abstract protected ImageView accept(MenuItemVisitor visitor);
+    }
+    private class CountArticlesPRMTRProductGroupPRMTRMenuItem extends ShopkeeperServiceMenuItem{
+        protected ImageView accept(MenuItemVisitor visitor){
+            return visitor.handle(this);
+        }
+    }
+    private class CreateArticlePRMTRProductGroupPRMTRStringPRMTRStringPRMTRIntegerPRMTRIntegerPRMTRIntegerPRMTRIntegerPRMTRMenuItem extends ShopkeeperServiceMenuItem{
+        protected ImageView accept(MenuItemVisitor visitor){
+            return visitor.handle(this);
+        }
     }
     private class ChangePricePRMTRArticlePRMTRIntegerPRMTRMenuItem extends ShopkeeperServiceMenuItem{
         protected ImageView accept(MenuItemVisitor visitor){
@@ -335,7 +355,12 @@ public class ShopkeeperServiceClientView extends BorderPane implements Exception
             return visitor.handle(this);
         }
     }
-    private class ChangeManufacturerDeliveryPRMTRIntegerPRMTRMenuItem extends ShopkeeperServiceMenuItem{
+    private class OrderNewPRMTRNewlyAddedPRMTRIntegerPRMTRMenuItem extends ShopkeeperServiceMenuItem{
+        protected ImageView accept(MenuItemVisitor visitor){
+            return visitor.handle(this);
+        }
+    }
+    private class ChangeManufacturerDeliveryPRMTRArticlePRMTRIntegerPRMTRMenuItem extends ShopkeeperServiceMenuItem{
         protected ImageView accept(MenuItemVisitor visitor){
             return visitor.handle(this);
         }
@@ -350,7 +375,42 @@ public class ShopkeeperServiceClientView extends BorderPane implements Exception
             return visitor.handle(this);
         }
     }
+    private class ChangeTimePRMTRCustomerDeliveryPRMTRIntegerPRMTRMenuItem extends ShopkeeperServiceMenuItem{
+        protected ImageView accept(MenuItemVisitor visitor){
+            return visitor.handle(this);
+        }
+    }
+    private class ChangeExtraChargePRMTRCustomerDeliveryPRMTRIntegerPRMTRMenuItem extends ShopkeeperServiceMenuItem{
+        protected ImageView accept(MenuItemVisitor visitor){
+            return visitor.handle(this);
+        }
+    }
+    private class ChangeMaxStockPRMTRArticlePRMTRIntegerPRMTRMenuItem extends ShopkeeperServiceMenuItem{
+        protected ImageView accept(MenuItemVisitor visitor){
+            return visitor.handle(this);
+        }
+    }
+    private class ChangeMinStockPRMTRArticlePRMTRIntegerPRMTRMenuItem extends ShopkeeperServiceMenuItem{
+        protected ImageView accept(MenuItemVisitor visitor){
+            return visitor.handle(this);
+        }
+    }
+    private class StopSellingPRMTROfferedFSalePRMTRMenuItem extends ShopkeeperServiceMenuItem{
+        protected ImageView accept(MenuItemVisitor visitor){
+            return visitor.handle(this);
+        }
+    }
     private class ChangeProductGroupPRMTRArticlePRMTRProductGroupPRMTRMenuItem extends ShopkeeperServiceMenuItem{
+        protected ImageView accept(MenuItemVisitor visitor){
+            return visitor.handle(this);
+        }
+    }
+    private class CreateProductGroupPRMTRProductGroupPRMTRStringPRMTRMenuItem extends ShopkeeperServiceMenuItem{
+        protected ImageView accept(MenuItemVisitor visitor){
+            return visitor.handle(this);
+        }
+    }
+    private class StartSellingAgainPRMTRRemovedFSalePRMTRMenuItem extends ShopkeeperServiceMenuItem{
         protected ImageView accept(MenuItemVisitor visitor){
             return visitor.handle(this);
         }
@@ -363,16 +423,6 @@ public class ShopkeeperServiceClientView extends BorderPane implements Exception
     private java.util.Vector<javafx.scene.control.Button> getToolButtonsForStaticOperations() {
         java.util.Vector<javafx.scene.control.Button> result = new java.util.Vector<javafx.scene.control.Button>();
         javafx.scene.control.Button currentButton = null;
-        currentButton = new javafx.scene.control.Button("Herstellerlieferzeit ändern ... ");
-        currentButton.setGraphic(new ChangeManufacturerDeliveryPRMTRIntegerPRMTRMenuItem().getGraphic());
-        currentButton.setOnAction(new EventHandler<ActionEvent>(){
-            public void handle(javafx.event.ActionEvent e) {
-                final ShopkeeperServiceChangeManufacturerDeliveryIntegerMssgWizard wizard = new ShopkeeperServiceChangeManufacturerDeliveryIntegerMssgWizard("Herstellerlieferzeit ändern");
-                wizard.setWidth(getNavigationPanel().getWidth());
-                wizard.showAndWait();
-            }
-        });
-        result.add(currentButton);
         currentButton = new javafx.scene.control.Button("Kundenkonto:Startkapital setzen ... ");
         currentButton.setGraphic(new PresetBalancePRMTRIntegerPRMTRMenuItem().getGraphic());
         currentButton.setOnAction(new EventHandler<ActionEvent>(){
@@ -398,16 +448,6 @@ public class ShopkeeperServiceClientView extends BorderPane implements Exception
     private ContextMenu getContextMenu(final ViewRoot selected, final boolean withStaticOperations, final Point2D menuPos) {
         final ContextMenu result = new ContextMenu();
         MenuItem item = null;
-        item = new ChangeManufacturerDeliveryPRMTRIntegerPRMTRMenuItem();
-        item.setText("(S) Herstellerlieferzeit ändern ... ");
-        item.setOnAction(new EventHandler<ActionEvent>(){
-            public void handle(javafx.event.ActionEvent e) {
-                final ShopkeeperServiceChangeManufacturerDeliveryIntegerMssgWizard wizard = new ShopkeeperServiceChangeManufacturerDeliveryIntegerMssgWizard("Herstellerlieferzeit ändern");
-                wizard.setWidth(getNavigationPanel().getWidth());
-                wizard.showAndWait();
-            }
-        });
-        if (withStaticOperations) result.getItems().add(item);
         item = new PresetBalancePRMTRIntegerPRMTRMenuItem();
         item.setText("(S) Kundenkonto:Startkapital setzen ... ");
         item.setOnAction(new EventHandler<ActionEvent>(){
@@ -435,6 +475,53 @@ public class ShopkeeperServiceClientView extends BorderPane implements Exception
                 this.handleException(me);
                 return result;
             }
+            if (selected instanceof ProductGroupView){
+                item = new CountArticlesPRMTRProductGroupPRMTRMenuItem();
+                item.setText("Anzahl enthaltener Artikel");
+                item.setOnAction(new EventHandler<ActionEvent>(){
+                    public void handle(javafx.event.ActionEvent e) {
+                        Alert confirm = new Alert(AlertType.CONFIRMATION);
+                        confirm.setTitle(GUIConstants.ConfirmButtonText);
+                        confirm.setHeaderText(null);
+                        confirm.setContentText("Anzahl enthaltener Artikel" + GUIConstants.ConfirmQuestionMark);
+                        Optional<ButtonType> buttonResult = confirm.showAndWait();
+                        if (buttonResult.get() == ButtonType.OK) {
+                            try {
+                                long result = getConnection().countArticles((ProductGroupView)selected);
+                                getConnection().setEagerRefresh();
+                                ReturnValueView view = new ReturnValueView(result, new javafx.geometry.Dimension2D(getNavigationPanel().getWidth()*8/9,getNavigationPanel().getHeight()*8/9));
+                                view.centerOnScreen();
+                                view.showAndWait();
+                            }catch(ModelException me){
+                                handleException(me);
+                            }
+                        }
+                    }
+                });
+                result.getItems().add(item);
+                item = new CreateArticlePRMTRProductGroupPRMTRStringPRMTRStringPRMTRIntegerPRMTRIntegerPRMTRIntegerPRMTRIntegerPRMTRMenuItem();
+                item.setText("Artikel erstellen ... ");
+                item.setOnAction(new EventHandler<ActionEvent>(){
+                    public void handle(javafx.event.ActionEvent e) {
+                        final ShopkeeperServiceCreateArticleProductGroupStringStringIntegerIntegerIntegerIntegerMssgWizard wizard = new ShopkeeperServiceCreateArticleProductGroupStringStringIntegerIntegerIntegerIntegerMssgWizard("Artikel erstellen");
+                        wizard.setFirstArgument((ProductGroupView)selected);
+                        wizard.setWidth(getNavigationPanel().getWidth());
+                        wizard.showAndWait();
+                    }
+                });
+                result.getItems().add(item);
+                item = new CreateProductGroupPRMTRProductGroupPRMTRStringPRMTRMenuItem();
+                item.setText("Produktguppe erstellen ... ");
+                item.setOnAction(new EventHandler<ActionEvent>(){
+                    public void handle(javafx.event.ActionEvent e) {
+                        final ShopkeeperServiceCreateProductGroupProductGroupStringMssgWizard wizard = new ShopkeeperServiceCreateProductGroupProductGroupStringMssgWizard("Produktguppe erstellen");
+                        wizard.setFirstArgument((ProductGroupView)selected);
+                        wizard.setWidth(getNavigationPanel().getWidth());
+                        wizard.showAndWait();
+                    }
+                });
+                result.getItems().add(item);
+            }
             if (selected instanceof ItemView){
                 item = new ChangeDescriptionPRMTRItemPRMTRStringPRMTRMenuItem();
                 item.setText("Beschreibung ändern ... ");
@@ -448,12 +535,68 @@ public class ShopkeeperServiceClientView extends BorderPane implements Exception
                 });
                 result.getItems().add(item);
             }
+            if (selected instanceof RemovedFSaleView){
+                item = new StartSellingAgainPRMTRRemovedFSalePRMTRMenuItem();
+                item.setText("Verkauf erneut starten");
+                item.setOnAction(new EventHandler<ActionEvent>(){
+                    public void handle(javafx.event.ActionEvent e) {
+                        Alert confirm = new Alert(AlertType.CONFIRMATION);
+                        confirm.setTitle(GUIConstants.ConfirmButtonText);
+                        confirm.setHeaderText(null);
+                        confirm.setContentText("Verkauf erneut starten" + GUIConstants.ConfirmQuestionMark);
+                        Optional<ButtonType> buttonResult = confirm.showAndWait();
+                        if (buttonResult.get() == ButtonType.OK) {
+                            try {
+                                getConnection().startSellingAgain((RemovedFSaleView)selected);
+                                getConnection().setEagerRefresh();
+                                
+                            }catch(ModelException me){
+                                handleException(me);
+                            }
+                        }
+                    }
+                });
+                result.getItems().add(item);
+            }
             if (selected instanceof ArticleView){
                 item = new ChangePricePRMTRArticlePRMTRIntegerPRMTRMenuItem();
                 item.setText("Artikelpreis ändern ... ");
                 item.setOnAction(new EventHandler<ActionEvent>(){
                     public void handle(javafx.event.ActionEvent e) {
                         final ShopkeeperServiceChangePriceArticleIntegerMssgWizard wizard = new ShopkeeperServiceChangePriceArticleIntegerMssgWizard("Artikelpreis ändern");
+                        wizard.setFirstArgument((ArticleView)selected);
+                        wizard.setWidth(getNavigationPanel().getWidth());
+                        wizard.showAndWait();
+                    }
+                });
+                result.getItems().add(item);
+                item = new ChangeManufacturerDeliveryPRMTRArticlePRMTRIntegerPRMTRMenuItem();
+                item.setText("Herstellerlieferzeit ändern ... ");
+                item.setOnAction(new EventHandler<ActionEvent>(){
+                    public void handle(javafx.event.ActionEvent e) {
+                        final ShopkeeperServiceChangeManufacturerDeliveryArticleIntegerMssgWizard wizard = new ShopkeeperServiceChangeManufacturerDeliveryArticleIntegerMssgWizard("Herstellerlieferzeit ändern");
+                        wizard.setFirstArgument((ArticleView)selected);
+                        wizard.setWidth(getNavigationPanel().getWidth());
+                        wizard.showAndWait();
+                    }
+                });
+                result.getItems().add(item);
+                item = new ChangeMaxStockPRMTRArticlePRMTRIntegerPRMTRMenuItem();
+                item.setText("Maximalen Lagerbestand ändern ... ");
+                item.setOnAction(new EventHandler<ActionEvent>(){
+                    public void handle(javafx.event.ActionEvent e) {
+                        final ShopkeeperServiceChangeMaxStockArticleIntegerMssgWizard wizard = new ShopkeeperServiceChangeMaxStockArticleIntegerMssgWizard("Maximalen Lagerbestand ändern");
+                        wizard.setFirstArgument((ArticleView)selected);
+                        wizard.setWidth(getNavigationPanel().getWidth());
+                        wizard.showAndWait();
+                    }
+                });
+                result.getItems().add(item);
+                item = new ChangeMinStockPRMTRArticlePRMTRIntegerPRMTRMenuItem();
+                item.setText("Minimalen Lagerbestand ändern ... ");
+                item.setOnAction(new EventHandler<ActionEvent>(){
+                    public void handle(javafx.event.ActionEvent e) {
+                        final ShopkeeperServiceChangeMinStockArticleIntegerMssgWizard wizard = new ShopkeeperServiceChangeMinStockArticleIntegerMssgWizard("Minimalen Lagerbestand ändern");
                         wizard.setFirstArgument((ArticleView)selected);
                         wizard.setWidth(getNavigationPanel().getWidth());
                         wizard.showAndWait();
@@ -472,7 +615,41 @@ public class ShopkeeperServiceClientView extends BorderPane implements Exception
                 });
                 result.getItems().add(item);
             }
+            if (selected instanceof OfferedFSaleView){
+                item = new StopSellingPRMTROfferedFSalePRMTRMenuItem();
+                item.setText("Nicht mehr nachbestellen");
+                item.setOnAction(new EventHandler<ActionEvent>(){
+                    public void handle(javafx.event.ActionEvent e) {
+                        Alert confirm = new Alert(AlertType.CONFIRMATION);
+                        confirm.setTitle(GUIConstants.ConfirmButtonText);
+                        confirm.setHeaderText(null);
+                        confirm.setContentText("Nicht mehr nachbestellen" + GUIConstants.ConfirmQuestionMark);
+                        Optional<ButtonType> buttonResult = confirm.showAndWait();
+                        if (buttonResult.get() == ButtonType.OK) {
+                            try {
+                                getConnection().stopSelling((OfferedFSaleView)selected);
+                                getConnection().setEagerRefresh();
+                                
+                            }catch(ModelException me){
+                                handleException(me);
+                            }
+                        }
+                    }
+                });
+                result.getItems().add(item);
+            }
             if (selected instanceof NewlyAddedView){
+                item = new OrderNewPRMTRNewlyAddedPRMTRIntegerPRMTRMenuItem();
+                item.setText("Bestellen ... ");
+                item.setOnAction(new EventHandler<ActionEvent>(){
+                    public void handle(javafx.event.ActionEvent e) {
+                        final ShopkeeperServiceOrderNewNewlyAddedIntegerMssgWizard wizard = new ShopkeeperServiceOrderNewNewlyAddedIntegerMssgWizard("Bestellen");
+                        wizard.setFirstArgument((NewlyAddedView)selected);
+                        wizard.setWidth(getNavigationPanel().getWidth());
+                        wizard.showAndWait();
+                    }
+                });
+                result.getItems().add(item);
                 item = new StartSellingPRMTRNewlyAddedPRMTRMenuItem();
                 item.setText("Verkauf starten");
                 item.setOnAction(new EventHandler<ActionEvent>(){
@@ -491,6 +668,30 @@ public class ShopkeeperServiceClientView extends BorderPane implements Exception
                                 handleException(me);
                             }
                         }
+                    }
+                });
+                result.getItems().add(item);
+            }
+            if (selected instanceof CustomerDeliveryView){
+                item = new ChangeTimePRMTRCustomerDeliveryPRMTRIntegerPRMTRMenuItem();
+                item.setText("Kundenlieferzeit:Dauer ändern ... ");
+                item.setOnAction(new EventHandler<ActionEvent>(){
+                    public void handle(javafx.event.ActionEvent e) {
+                        final ShopkeeperServiceChangeTimeCustomerDeliveryIntegerMssgWizard wizard = new ShopkeeperServiceChangeTimeCustomerDeliveryIntegerMssgWizard("Kundenlieferzeit:Dauer ändern");
+                        wizard.setFirstArgument((CustomerDeliveryView)selected);
+                        wizard.setWidth(getNavigationPanel().getWidth());
+                        wizard.showAndWait();
+                    }
+                });
+                result.getItems().add(item);
+                item = new ChangeExtraChargePRMTRCustomerDeliveryPRMTRIntegerPRMTRMenuItem();
+                item.setText("Kundenlieferzeit:Kosten ändern ... ");
+                item.setOnAction(new EventHandler<ActionEvent>(){
+                    public void handle(javafx.event.ActionEvent e) {
+                        final ShopkeeperServiceChangeExtraChargeCustomerDeliveryIntegerMssgWizard wizard = new ShopkeeperServiceChangeExtraChargeCustomerDeliveryIntegerMssgWizard("Kundenlieferzeit:Kosten ändern");
+                        wizard.setFirstArgument((CustomerDeliveryView)selected);
+                        wizard.setWidth(getNavigationPanel().getWidth());
+                        wizard.showAndWait();
                     }
                 });
                 result.getItems().add(item);
@@ -555,21 +756,68 @@ public class ShopkeeperServiceClientView extends BorderPane implements Exception
 		
 	}
 
-	class ShopkeeperServiceChangeManufacturerDeliveryIntegerMssgWizard extends Wizard {
+	class ShopkeeperServiceChangeExtraChargeCustomerDeliveryIntegerMssgWizard extends Wizard {
 
-		protected ShopkeeperServiceChangeManufacturerDeliveryIntegerMssgWizard(String operationName){
+		protected ShopkeeperServiceChangeExtraChargeCustomerDeliveryIntegerMssgWizard(String operationName){
 			super(ShopkeeperServiceClientView.this);
 			getOkButton().setText(operationName);
-			getOkButton().setGraphic(new ChangeManufacturerDeliveryPRMTRIntegerPRMTRMenuItem ().getGraphic());
+			getOkButton().setGraphic(new ChangeExtraChargePRMTRCustomerDeliveryPRMTRIntegerPRMTRMenuItem ().getGraphic());
 		}
 		protected void initialize(){
-			this.helpFileName = "ShopkeeperServiceChangeManufacturerDeliveryIntegerMssgWizard.help";
+			this.helpFileName = "ShopkeeperServiceChangeExtraChargeCustomerDeliveryIntegerMssgWizard.help";
 			super.initialize();		
 		}
 				
 		protected void perform() {
 			try {
-				getConnection().changeManufacturerDelivery(((IntegerSelectionPanel)getParametersPanel().getChildren().get(0)).getResult().longValue());
+				getConnection().changeExtraCharge(firstArgument, ((IntegerSelectionPanel)getParametersPanel().getChildren().get(0)).getResult().longValue());
+				getConnection().setEagerRefresh();
+				this.close();	
+			} catch(ModelException me){
+				handleException(me);
+				this.close();
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		protected boolean isModifying () {
+			return false;
+		}
+		protected void addParameters(){
+			getParametersPanel().getChildren().add(new IntegerSelectionPanel("newCharge", this));		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+		private CustomerDeliveryView firstArgument; 
+	
+		public void setFirstArgument(CustomerDeliveryView firstArgument){
+			this.firstArgument = firstArgument;
+			this.setTitle(this.firstArgument.toString());
+			this.check();
+		}
+		
+		
+	}
+
+	class ShopkeeperServiceChangeManufacturerDeliveryArticleIntegerMssgWizard extends Wizard {
+
+		protected ShopkeeperServiceChangeManufacturerDeliveryArticleIntegerMssgWizard(String operationName){
+			super(ShopkeeperServiceClientView.this);
+			getOkButton().setText(operationName);
+			getOkButton().setGraphic(new ChangeManufacturerDeliveryPRMTRArticlePRMTRIntegerPRMTRMenuItem ().getGraphic());
+		}
+		protected void initialize(){
+			this.helpFileName = "ShopkeeperServiceChangeManufacturerDeliveryArticleIntegerMssgWizard.help";
+			super.initialize();		
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().changeManufacturerDelivery(firstArgument, ((IntegerSelectionPanel)getParametersPanel().getChildren().get(0)).getResult().longValue());
 				getConnection().setEagerRefresh();
 				this.close();	
 			} catch(ModelException me){
@@ -588,6 +836,129 @@ public class ShopkeeperServiceClientView extends BorderPane implements Exception
 			getParametersPanel().getChildren().add(new IntegerSelectionPanel("newManuDelivery", this));		
 		}	
 		protected void handleDependencies(int i) {
+		}
+		
+		
+		private ArticleView firstArgument; 
+	
+		public void setFirstArgument(ArticleView firstArgument){
+			this.firstArgument = firstArgument;
+			this.setTitle(this.firstArgument.toString());
+			this.check();
+		}
+		
+		
+	}
+
+	class ShopkeeperServiceChangeMaxStockArticleIntegerMssgWizard extends Wizard {
+
+		protected ShopkeeperServiceChangeMaxStockArticleIntegerMssgWizard(String operationName){
+			super(ShopkeeperServiceClientView.this);
+			getOkButton().setText(operationName);
+			getOkButton().setGraphic(new ChangeMaxStockPRMTRArticlePRMTRIntegerPRMTRMenuItem ().getGraphic());
+		}
+		protected void initialize(){
+			this.helpFileName = "ShopkeeperServiceChangeMaxStockArticleIntegerMssgWizard.help";
+			super.initialize();		
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().changeMaxStock(firstArgument, ((IntegerSelectionPanel)getParametersPanel().getChildren().get(0)).getResult().longValue());
+				getConnection().setEagerRefresh();
+				this.close();	
+			} catch(ModelException me){
+				handleException(me);
+				this.close();
+			}
+			catch(InvalidStockNumber e) {
+				getStatusBar().setText(e.getMessage());
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		protected boolean isModifying () {
+			return false;
+		}
+		protected void addParameters(){
+			getParametersPanel().getChildren().add(new IntegerSelectionPanel("maxStock", this));		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+		private ArticleView firstArgument; 
+	
+		public void setFirstArgument(ArticleView firstArgument){
+			this.firstArgument = firstArgument;
+			this.setTitle(this.firstArgument.toString());
+			try{
+				final SelectionPanel selectionPanel0 = (SelectionPanel)getParametersPanel().getChildren().get(0);
+				selectionPanel0.preset(firstArgument.getMaxStock());
+				if (!selectionPanel0.check()) selectionPanel0.preset("");
+			}catch(ModelException me){
+				 handleException(me);
+			}
+			this.check();
+		}
+		
+		
+	}
+
+	class ShopkeeperServiceChangeMinStockArticleIntegerMssgWizard extends Wizard {
+
+		protected ShopkeeperServiceChangeMinStockArticleIntegerMssgWizard(String operationName){
+			super(ShopkeeperServiceClientView.this);
+			getOkButton().setText(operationName);
+			getOkButton().setGraphic(new ChangeMinStockPRMTRArticlePRMTRIntegerPRMTRMenuItem ().getGraphic());
+		}
+		protected void initialize(){
+			this.helpFileName = "ShopkeeperServiceChangeMinStockArticleIntegerMssgWizard.help";
+			super.initialize();		
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().changeMinStock(firstArgument, ((IntegerSelectionPanel)getParametersPanel().getChildren().get(0)).getResult().longValue());
+				getConnection().setEagerRefresh();
+				this.close();	
+			} catch(ModelException me){
+				handleException(me);
+				this.close();
+			}
+			catch(InvalidStockNumber e) {
+				getStatusBar().setText(e.getMessage());
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		protected boolean isModifying () {
+			return false;
+		}
+		protected void addParameters(){
+			getParametersPanel().getChildren().add(new IntegerSelectionPanel("minStock", this));		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+		private ArticleView firstArgument; 
+	
+		public void setFirstArgument(ArticleView firstArgument){
+			this.firstArgument = firstArgument;
+			this.setTitle(this.firstArgument.toString());
+			try{
+				final SelectionPanel selectionPanel0 = (SelectionPanel)getParametersPanel().getChildren().get(0);
+				selectionPanel0.preset(firstArgument.getMinStock());
+				if (!selectionPanel0.check()) selectionPanel0.preset("");
+			}catch(ModelException me){
+				 handleException(me);
+			}
+			this.check();
 		}
 		
 		
@@ -681,6 +1052,221 @@ public class ShopkeeperServiceClientView extends BorderPane implements Exception
 		private ArticleView firstArgument; 
 	
 		public void setFirstArgument(ArticleView firstArgument){
+			this.firstArgument = firstArgument;
+			this.setTitle(this.firstArgument.toString());
+			this.check();
+		}
+		
+		
+	}
+
+	class ShopkeeperServiceChangeTimeCustomerDeliveryIntegerMssgWizard extends Wizard {
+
+		protected ShopkeeperServiceChangeTimeCustomerDeliveryIntegerMssgWizard(String operationName){
+			super(ShopkeeperServiceClientView.this);
+			getOkButton().setText(operationName);
+			getOkButton().setGraphic(new ChangeTimePRMTRCustomerDeliveryPRMTRIntegerPRMTRMenuItem ().getGraphic());
+		}
+		protected void initialize(){
+			this.helpFileName = "ShopkeeperServiceChangeTimeCustomerDeliveryIntegerMssgWizard.help";
+			super.initialize();		
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().changeTime(firstArgument, ((IntegerSelectionPanel)getParametersPanel().getChildren().get(0)).getResult().longValue());
+				getConnection().setEagerRefresh();
+				this.close();	
+			} catch(ModelException me){
+				handleException(me);
+				this.close();
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		protected boolean isModifying () {
+			return false;
+		}
+		protected void addParameters(){
+			getParametersPanel().getChildren().add(new IntegerSelectionPanel("newTime", this));		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+		private CustomerDeliveryView firstArgument; 
+	
+		public void setFirstArgument(CustomerDeliveryView firstArgument){
+			this.firstArgument = firstArgument;
+			this.setTitle(this.firstArgument.toString());
+			this.check();
+		}
+		
+		
+	}
+
+	class ShopkeeperServiceCreateArticleProductGroupStringStringIntegerIntegerIntegerIntegerMssgWizard extends Wizard {
+
+		protected ShopkeeperServiceCreateArticleProductGroupStringStringIntegerIntegerIntegerIntegerMssgWizard(String operationName){
+			super(ShopkeeperServiceClientView.this);
+			getOkButton().setText(operationName);
+			getOkButton().setGraphic(new CreateArticlePRMTRProductGroupPRMTRStringPRMTRStringPRMTRIntegerPRMTRIntegerPRMTRIntegerPRMTRIntegerPRMTRMenuItem ().getGraphic());
+		}
+		protected void initialize(){
+			this.helpFileName = "ShopkeeperServiceCreateArticleProductGroupStringStringIntegerIntegerIntegerIntegerMssgWizard.help";
+			super.initialize();		
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().createArticle(firstArgument, ((StringSelectionPanel)getParametersPanel().getChildren().get(0)).getResult(),
+									((StringSelectionPanel)getParametersPanel().getChildren().get(1)).getResult(),
+									((IntegerSelectionPanel)getParametersPanel().getChildren().get(2)).getResult().longValue(),
+									((IntegerSelectionPanel)getParametersPanel().getChildren().get(3)).getResult().longValue(),
+									((IntegerSelectionPanel)getParametersPanel().getChildren().get(4)).getResult().longValue(),
+									((IntegerSelectionPanel)getParametersPanel().getChildren().get(5)).getResult().longValue());
+				getConnection().setEagerRefresh();
+				this.close();	
+			} catch(ModelException me){
+				handleException(me);
+				this.close();
+			}
+			catch(InvalidStockNumber e) {
+				getStatusBar().setText(e.getMessage());
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		protected boolean isModifying () {
+			return false;
+		}
+		protected void addParameters(){
+			getParametersPanel().getChildren().add(new StringSelectionPanel("description", this));
+			getParametersPanel().getChildren().add(new StringSelectionPanel("manufacturer", this));
+			getParametersPanel().getChildren().add(new IntegerSelectionPanel("price", this));
+			getParametersPanel().getChildren().add(new IntegerSelectionPanel("maxStock", this));
+			getParametersPanel().getChildren().add(new IntegerSelectionPanel("minStock", this));
+			getParametersPanel().getChildren().add(new IntegerSelectionPanel("manuDelivery", this));		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+		private ProductGroupView firstArgument; 
+	
+		public void setFirstArgument(ProductGroupView firstArgument){
+			this.firstArgument = firstArgument;
+			this.setTitle(this.firstArgument.toString());
+			try{
+				final SelectionPanel selectionPanel0 = (SelectionPanel)getParametersPanel().getChildren().get(0);
+				selectionPanel0.preset(firstArgument.getDescription());
+				if (!selectionPanel0.check()) selectionPanel0.preset("");
+			}catch(ModelException me){
+				 handleException(me);
+			}
+			this.check();
+		}
+		
+		
+	}
+
+	class ShopkeeperServiceCreateProductGroupProductGroupStringMssgWizard extends Wizard {
+
+		protected ShopkeeperServiceCreateProductGroupProductGroupStringMssgWizard(String operationName){
+			super(ShopkeeperServiceClientView.this);
+			getOkButton().setText(operationName);
+			getOkButton().setGraphic(new CreateProductGroupPRMTRProductGroupPRMTRStringPRMTRMenuItem ().getGraphic());
+		}
+		protected void initialize(){
+			this.helpFileName = "ShopkeeperServiceCreateProductGroupProductGroupStringMssgWizard.help";
+			super.initialize();		
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().createProductGroup(firstArgument, ((StringSelectionPanel)getParametersPanel().getChildren().get(0)).getResult());
+				getConnection().setEagerRefresh();
+				this.close();	
+			} catch(ModelException me){
+				handleException(me);
+				this.close();
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		protected boolean isModifying () {
+			return false;
+		}
+		protected void addParameters(){
+			getParametersPanel().getChildren().add(new StringSelectionPanel("description", this));		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+		private ProductGroupView firstArgument; 
+	
+		public void setFirstArgument(ProductGroupView firstArgument){
+			this.firstArgument = firstArgument;
+			this.setTitle(this.firstArgument.toString());
+			try{
+				final SelectionPanel selectionPanel0 = (SelectionPanel)getParametersPanel().getChildren().get(0);
+				selectionPanel0.preset(firstArgument.getDescription());
+				if (!selectionPanel0.check()) selectionPanel0.preset("");
+			}catch(ModelException me){
+				 handleException(me);
+			}
+			this.check();
+		}
+		
+		
+	}
+
+	class ShopkeeperServiceOrderNewNewlyAddedIntegerMssgWizard extends Wizard {
+
+		protected ShopkeeperServiceOrderNewNewlyAddedIntegerMssgWizard(String operationName){
+			super(ShopkeeperServiceClientView.this);
+			getOkButton().setText(operationName);
+			getOkButton().setGraphic(new OrderNewPRMTRNewlyAddedPRMTRIntegerPRMTRMenuItem ().getGraphic());
+		}
+		protected void initialize(){
+			this.helpFileName = "ShopkeeperServiceOrderNewNewlyAddedIntegerMssgWizard.help";
+			super.initialize();		
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().orderNew(firstArgument, ((IntegerSelectionPanel)getParametersPanel().getChildren().get(0)).getResult().longValue());
+				getConnection().setEagerRefresh();
+				this.close();	
+			} catch(ModelException me){
+				handleException(me);
+				this.close();
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		protected boolean isModifying () {
+			return false;
+		}
+		protected void addParameters(){
+			getParametersPanel().getChildren().add(new IntegerSelectionPanel("amount", this));		
+		}	
+		protected void handleDependencies(int i) {
+		}
+		
+		
+		private NewlyAddedView firstArgument; 
+	
+		public void setFirstArgument(NewlyAddedView firstArgument){
 			this.firstArgument = firstArgument;
 			this.setTitle(this.firstArgument.toString());
 			this.check();

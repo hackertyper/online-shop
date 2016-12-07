@@ -273,7 +273,6 @@ public class ServerClientView extends BorderPane implements ExceptionAndEventHan
 				}			
 			}
 		});
-		//TODO adjust implementation: handleRefresh()!
 	}
 	/** Is called only once after the connection has been established
 	**/
@@ -300,14 +299,30 @@ public class ServerClientView extends BorderPane implements ExceptionAndEventHan
 					customerService.connectCustomerService(ServerClientView.this.getConnection(), view);
 					ServerClientView.this.setCenter(view);
 				}
+
 				@Override
-				public void handleAccountService(AccountServiceView accountService) throws ModelException {}
+				public void handleAccountService(AccountServiceView accountService) throws ModelException {
+					// TODO Auto-generated method stub
+					
+				}
+
 				@Override
-				public void handleCartService(CartServiceView cartService) throws ModelException {}
+				public void handleCartService(CartServiceView cartService) throws ModelException {
+					// TODO Auto-generated method stub
+					
+				}
+
 				@Override
-				public void handleShopService(ShopServiceView shopService) throws ModelException {}
+				public void handleOrderService(OrderServiceView orderService) throws ModelException {
+					// TODO Auto-generated method stub
+					
+				}
+
 				@Override
-				public void handleOrderService(OrderServiceView orderService) throws ModelException {}
+				public void handleShopService(ShopServiceView shopService) throws ModelException {
+					// TODO Auto-generated method stub
+					
+				}
 			});
 			getConnection().refresherStop();
 		} catch (ModelException e) {
