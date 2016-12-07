@@ -393,15 +393,17 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
     public void preorder(final PersistentPreOrder preOrder, final PersistentCustomerDelivery deliveryMethod) 
 				throws model.InsufficientFunds, PersistenceException{
     	PersistentCustomerOrder co = preOrder.preorder(deliveryMethod);
-    	co.send();
-        getThis().getOrders().add(co);
-        getThis().getPreOrders().removeFirstSuccess(new Predcate<PersistentPreOrder>() {
-			@Override
-			public boolean test(PersistentPreOrder argument) throws PersistenceException {
-				return argument.equals(preOrder);
-			}
-		});
-        getThis().getCustomerManager().signalChanged();
+    	if(co != null) {
+    		co.send();
+            getThis().getOrders().add(co);
+            getThis().getPreOrders().removeFirstSuccess(new Predcate<PersistentPreOrder>() {
+    			@Override
+    			public boolean test(PersistentPreOrder argument) throws PersistenceException {
+    				return argument.equals(preOrder);
+    			}
+    		});
+            getThis().getCustomerManager().signalChanged();
+    	}
     }
     /**
      * Returns a single Article of the delivery.

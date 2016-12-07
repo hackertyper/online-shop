@@ -2,6 +2,11 @@
 package model;
 
 import persistence.*;
+import model.meta.ArticleChangePriceIntegerMssg;
+import model.meta.ArticleDeleteReserveIntegerMssg;
+import model.meta.ArticleMssgsVisitor;
+import model.meta.ArticleReceiveDeliveryIntegerMssg;
+import model.meta.ArticleReserveIntegerMssg;
 import model.meta.QuantifiedArticlesFireArticleChangedArticleMssgsMssg;
 import model.meta.QuantifiedArticlesMssgsVisitor;
 import model.visitor.*;
@@ -296,6 +301,8 @@ public class PreOrder extends PersistentObject implements PersistentPreOrder{
     }
     public int getLeafInfo() throws PersistenceException{
         if (this.getArticleList().getObservee().getLength() > 0) return 1;
+        if (this.getStandardDelivery() != null) return 1;
+        if (this.getOnDelivery() != null) return 1;
         return 0;
     }
     
@@ -353,13 +360,35 @@ public class PreOrder extends PersistentObject implements PersistentPreOrder{
 			@Override
 			public void handleQuantifiedArticlesFireArticleChangedArticleMssgsMssg(
 					QuantifiedArticlesFireArticleChangedArticleMssgsMssg event) throws PersistenceException {
-				getThis().getArticleList().applyToAll(new Procdure<PersistentQuantifiedArticles>() {
+				event.evnt.accept(new ArticleMssgsVisitor() {
 					@Override
-					public void doItTo(PersistentQuantifiedArticles argument) throws PersistenceException {
-						try {
-							argument.reserve();
-						} catch (InsufficientStock e) {}
+					public void handleArticleReserveIntegerMssg(ArticleReserveIntegerMssg event) throws PersistenceException {}
+					@Override
+					public void handleArticleReceiveDeliveryIntegerMssg(ArticleReceiveDeliveryIntegerMssg event)
+							throws PersistenceException {
+						getThis().getArticleList().applyToAll(new Procdure<PersistentQuantifiedArticles>() {
+							@Override
+							public void doItTo(PersistentQuantifiedArticles argument) throws PersistenceException {
+								try {
+									argument.reserve();
+								} catch (InsufficientStock e) {}
+							}
+						});
 					}
+					@Override
+					public void handleArticleDeleteReserveIntegerMssg(ArticleDeleteReserveIntegerMssg event)
+							throws PersistenceException {
+						getThis().getArticleList().applyToAll(new Procdure<PersistentQuantifiedArticles>() {
+							@Override
+							public void doItTo(PersistentQuantifiedArticles argument) throws PersistenceException {
+								try {
+									argument.reserve();
+								} catch (InsufficientStock e) {}
+							}
+						});
+					}
+					@Override
+					public void handleArticleChangePriceIntegerMssg(ArticleChangePriceIntegerMssg event) throws PersistenceException {}
 				});
 			}
 		});
@@ -379,6 +408,16 @@ public class PreOrder extends PersistentObject implements PersistentPreOrder{
 				throws PersistenceException{}
     public PersistentCustomerOrder preorder(final PersistentCustomerDelivery deliveryMethod) 
 				throws model.InsufficientFunds, PersistenceException{
+    	try {
+			getThis().getArticleList().applyToAllException(new ProcdureException<PersistentQuantifiedArticles, InsufficientStock>() {
+				@Override
+				public void doItTo(PersistentQuantifiedArticles argument) throws PersistenceException, InsufficientStock {
+					argument.reserve();
+				}
+			});
+		} catch (InsufficientStock e) {
+			return null;
+		}
     	// pay the sum of the articles from the account
 		getThis().getCartManager().pay(getThis().getSum() + deliveryMethod.getExtraCharge());
 		// create order to deliver with this article list

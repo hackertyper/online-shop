@@ -237,8 +237,8 @@ class PreOrder {
 	no-view prior CartManager cartManager;
 	no-view prior Integer sum;
 	observe QuantifiedArticles ** articleList;
-	no-view StandardDelivery standardDelivery;
-	no-view OverNightDelivery onDelivery;
+	StandardDelivery standardDelivery;
+	OverNightDelivery onDelivery;
 	void cancel();
 	CustomerOrder preorder(CustomerDelivery deliveryMethod) throws InsufficientFunds;
 }

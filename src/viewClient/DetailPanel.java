@@ -1957,6 +1957,8 @@ class OfferedFSaleDefaultDetailPanel extends DefaultDetailPanel{
 class PreOrderDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String PreOrder$$articleList = "PreOrder$$articleList";
+    protected static final String PreOrder$$standardDelivery = "PreOrder$$standardDelivery";
+    protected static final String PreOrder$$onDelivery = "PreOrder$$onDelivery";
     
     protected PreOrderDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);

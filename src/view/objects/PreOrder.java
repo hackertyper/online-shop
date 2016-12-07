@@ -103,15 +103,23 @@ public class PreOrder extends ViewObject implements PreOrderView{
         int index = originalIndex;
         if(index < this.getArticleList().size()) return new ArticleListPreOrderWrapper(this, originalIndex, (ViewRoot)this.getArticleList().get(index));
         index = index - this.getArticleList().size();
+        if(index == 0 && this.getStandardDelivery() != null) return new StandardDeliveryPreOrderWrapper(this, originalIndex, (ViewRoot)this.getStandardDelivery());
+        if(this.getStandardDelivery() != null) index = index - 1;
+        if(index == 0 && this.getOnDelivery() != null) return new OnDeliveryPreOrderWrapper(this, originalIndex, (ViewRoot)this.getOnDelivery());
+        if(this.getOnDelivery() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getArticleList().size());
+            + (this.getArticleList().size())
+            + (this.getStandardDelivery() == null ? 0 : 1)
+            + (this.getOnDelivery() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
         return true 
-            && (this.getArticleList().size() == 0);
+            && (this.getArticleList().size() == 0)
+            && (this.getStandardDelivery() == null ? true : false)
+            && (this.getOnDelivery() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
@@ -120,6 +128,10 @@ public class PreOrder extends ViewObject implements PreOrderView{
             if(getArticleListIterator.next().equals(child)) return result;
             result = result + 1;
         }
+        if(this.getStandardDelivery() != null && this.getStandardDelivery().equals(child)) return result;
+        if(this.getStandardDelivery() != null) result = result + 1;
+        if(this.getOnDelivery() != null && this.getOnDelivery().equals(child)) return result;
+        if(this.getOnDelivery() != null) result = result + 1;
         return -1;
     }
     public int getRowCount(){
