@@ -17,9 +17,6 @@ public class TestSupport {
 	private TestSupport(){}	
 	
 	public static void prepareSingletons(){
-        model.meta.CommandCoordinator.reset$For$Test = true;
-        model.OpenCart.reset$For$Test = true;
-
 	}
 
 	public static void prepareDatabase() throws PersistenceException{
