@@ -8,7 +8,7 @@ import model.visitor.*;
 /* Additional import section end */
 
 @SuppressWarnings("serial")
-public class FirstCheckOut extends model.UserException{
+public class InvalidStockNumber extends model.UserException{
     
     
     public java.util.HashMap<String,Object> toHashtable(java.util.HashMap<String,Object> allResults, int depth, int essentialLevel, boolean forGUI, boolean leaf, TDObserver tdObserver) throws PersistenceException {
@@ -24,12 +24,12 @@ public class FirstCheckOut extends model.UserException{
         return false;
     }
     
-    public FirstCheckOut(String message) throws PersistenceException {
+    public InvalidStockNumber(String message) throws PersistenceException {
         super(message);        
     }
     
     static public long getTypeId() {
-        return -267;
+        return -282;
     }
     
     public long getClassId() {
@@ -38,16 +38,16 @@ public class FirstCheckOut extends model.UserException{
     
     
     public void accept(UserExceptionVisitor visitor) throws PersistenceException {
-        visitor.handleFirstCheckOut(this);
+        visitor.handleInvalidStockNumber(this);
     }
     public <R> R accept(UserExceptionReturnVisitor<R>  visitor) throws PersistenceException {
-         return visitor.handleFirstCheckOut(this);
+         return visitor.handleInvalidStockNumber(this);
     }
     public <E extends model.UserException>  void accept(UserExceptionExceptionVisitor<E> visitor) throws PersistenceException, E {
-         visitor.handleFirstCheckOut(this);
+         visitor.handleInvalidStockNumber(this);
     }
     public <R, E extends model.UserException> R accept(UserExceptionReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
-         return visitor.handleFirstCheckOut(this);
+         return visitor.handleInvalidStockNumber(this);
     }
     public int getLeafInfo() throws PersistenceException{
         return 0;

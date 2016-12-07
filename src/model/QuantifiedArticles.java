@@ -79,6 +79,7 @@ public class QuantifiedArticles extends PersistentObject implements PersistentQu
         QuantifiedArticles result = this;
         result = new QuantifiedArticles(this.article, 
                                         this.amount, 
+                                        this.subService, 
                                         this.This, 
                                         this.getId());
         this.copyingPrivateUserAttributes(result);
@@ -90,13 +91,15 @@ public class QuantifiedArticles extends PersistentObject implements PersistentQu
     }
     protected PersistentArticle article;
     protected long amount;
+    protected SubjInterface subService;
     protected PersistentQuantifiedArticles This;
     
-    public QuantifiedArticles(PersistentArticle article,long amount,PersistentQuantifiedArticles This,long id) throws PersistenceException {
+    public QuantifiedArticles(PersistentArticle article,long amount,SubjInterface subService,PersistentQuantifiedArticles This,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.article = article;
         this.amount = amount;
+        this.subService = subService;
         if (This != null && !(this.isTheSameAs(This))) this.This = This;        
     }
     
@@ -116,6 +119,10 @@ public class QuantifiedArticles extends PersistentObject implements PersistentQu
         if(this.getArticle() != null){
             this.getArticle().store();
             ConnectionHandler.getTheConnectionHandler().theQuantifiedArticlesFacade.articleSet(this.getId(), getArticle());
+        }
+        if(this.getSubService() != null){
+            this.getSubService().store();
+            ConnectionHandler.getTheConnectionHandler().theQuantifiedArticlesFacade.subServiceSet(this.getId(), getSubService());
         }
         if(!this.isTheSameAs(this.getThis())){
             this.getThis().store();
@@ -144,6 +151,20 @@ public class QuantifiedArticles extends PersistentObject implements PersistentQu
     public void setAmount(long newValue) throws PersistenceException {
         if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theQuantifiedArticlesFacade.amountSet(this.getId(), newValue);
         this.amount = newValue;
+    }
+    public SubjInterface getSubService() throws PersistenceException {
+        return this.subService;
+    }
+    public void setSubService(SubjInterface newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.isTheSameAs(this.subService)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.subService = (SubjInterface)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theQuantifiedArticlesFacade.subServiceSet(this.getId(), newValue);
+        }
     }
     protected void setThis(PersistentQuantifiedArticles newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
@@ -180,12 +201,33 @@ public class QuantifiedArticles extends PersistentObject implements PersistentQu
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleQuantifiedArticles(this);
     }
+    public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
+        visitor.handleQuantifiedArticles(this);
+    }
+    public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleQuantifiedArticles(this);
+    }
+    public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleQuantifiedArticles(this);
+    }
+    public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleQuantifiedArticles(this);
+    }
     public int getLeafInfo() throws PersistenceException{
-        if (this.getArticle() != null) return 1;
+        if (this.getArticle() != null && this.getArticle().getTheObject().getLeafInfo() != 0) return 1;
         return 0;
     }
     
     
+    public synchronized void deregister(final ObsInterface observee) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.deregister(observee);
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentQuantifiedArticles)This);
@@ -194,14 +236,52 @@ public class QuantifiedArticles extends PersistentObject implements PersistentQu
 			this.setAmount((Long)final$$Fields.get("amount"));
 		}
     }
+    public synchronized void register(final ObsInterface observee) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.register(observee);
+    }
+    public synchronized void updateObservers(final model.meta.Mssgs event) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.updateObservers(event);
+    }
     
     
     // Start of section that contains operations that must be implemented.
     
+    public void changeAmount(final long newAmount) 
+				throws PersistenceException{
+        //TODO: implement method: changeAmount
+        
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         //TODO: implement method: copyingPrivateUserAttributes
         
+    }
+    public void deleteReserve() 
+				throws PersistenceException{
+        //TODO: implement method: deleteReserve
+        
+    }
+    public long fetchPrice() 
+				throws PersistenceException{
+        //TODO: implement method: fetchPrice
+        try{
+            throw new java.lang.UnsupportedOperationException("Method \"fetchPrice\" not implemented yet.");
+        } catch (java.lang.UnsupportedOperationException uoe){
+            uoe.printStackTrace();
+            throw uoe;
+        }
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
@@ -216,11 +296,6 @@ public class QuantifiedArticles extends PersistentObject implements PersistentQu
     public void pack() 
 				throws PersistenceException{
         //TODO: implement method: pack
-        
-    }
-    public void removeFCart(final PersistentCart cart) 
-				throws PersistenceException{
-        //TODO: implement method: removeFCart
         
     }
     public void reserve() 

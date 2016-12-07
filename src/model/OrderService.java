@@ -93,7 +93,7 @@ public class OrderService extends model.CustomerService implements PersistentOrd
     }
     
     static public long getTypeId() {
-        return -223;
+        return -236;
     }
     
     public long getClassId() {
@@ -102,7 +102,7 @@ public class OrderService extends model.CustomerService implements PersistentOrd
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == -223) ConnectionHandler.getTheConnectionHandler().theOrderServiceFacade
+        if (this.getClassId() == -236) ConnectionHandler.getTheConnectionHandler().theOrderServiceFacade
             .newOrderService(this.getId());
         super.store();
         if(this.getOrderMngr() != null){
@@ -232,23 +232,28 @@ public class OrderService extends model.CustomerService implements PersistentOrd
     
     public void acceptDelivery(final PersistentCustomerOrder customerOrder) 
 				throws PersistenceException{
-        getThis().getOrderMngr().acceptDelivery(customerOrder, getThis());
+        //TODO: implement method: acceptDelivery
+        
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
+        //TODO: implement method: copyingPrivateUserAttributes
+        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
         super.initializeOnCreation();
-		getThis().setOrderMngr(getThis().getManager().getOrderMngr());
+		//TODO: implement method: initializeOnCreation
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         super.initializeOnInstantiation();
+		//TODO: implement method: initializeOnInstantiation
     }
     public void retoureDelivery(final PersistentCustomerOrder customerOrder, final QuantifiedArticlesSearchList list) 
 				throws PersistenceException{
-        getThis().getOrderMngr().retoureDelivery(customerOrder, list, getThis());
+        //TODO: implement method: retoureDelivery
+        
     }
     
     

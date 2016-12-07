@@ -75,7 +75,7 @@ public class CheckedOut extends model.CartState implements PersistentCheckedOut{
     }
     
     static public long getTypeId() {
-        return 218;
+        return 246;
     }
     
     public long getClassId() {
@@ -84,7 +84,7 @@ public class CheckedOut extends model.CartState implements PersistentCheckedOut{
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 218) ConnectionHandler.getTheConnectionHandler().theCheckedOutFacade
+        if (this.getClassId() == 246) ConnectionHandler.getTheConnectionHandler().theCheckedOutFacade
             .newCheckedOut(this.getId());
         super.store();
         
@@ -178,12 +178,18 @@ public class CheckedOut extends model.CartState implements PersistentCheckedOut{
     
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
+        //TODO: implement method: copyingPrivateUserAttributes
+        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
+        super.initializeOnCreation();
+		//TODO: implement method: initializeOnCreation
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
+        super.initializeOnInstantiation();
+		//TODO: implement method: initializeOnInstantiation
     }
     
     

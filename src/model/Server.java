@@ -92,6 +92,7 @@ public class Server extends PersistentObject implements PersistentServer{
     public Server provideCopy() throws PersistenceException{
         Server result = this;
         result = new Server(this.service, 
+                            this.subService, 
                             this.This, 
                             this.password, 
                             this.user, 
@@ -112,6 +113,7 @@ public class Server extends PersistentObject implements PersistentServer{
     protected boolean changed = false;
     
     protected PersistentService service;
+    protected SubjInterface subService;
     protected PersistentServer This;
     protected Server_ErrorsProxi errors;
     protected String password;
@@ -119,10 +121,11 @@ public class Server extends PersistentObject implements PersistentServer{
     protected long hackCount;
     protected java.sql.Timestamp hackDelay;
     
-    public Server(PersistentService service,PersistentServer This,String password,String user,long hackCount,java.sql.Timestamp hackDelay,long id) throws PersistenceException {
+    public Server(PersistentService service,SubjInterface subService,PersistentServer This,String password,String user,long hackCount,java.sql.Timestamp hackDelay,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.service = service;
+        this.subService = subService;
         if (This != null && !(this.isTheSameAs(This))) this.This = This;
         this.errors = new Server_ErrorsProxi(this);
         this.password = password;
@@ -148,6 +151,10 @@ public class Server extends PersistentObject implements PersistentServer{
             this.getService().store();
             ConnectionHandler.getTheConnectionHandler().theServerFacade.serviceSet(this.getId(), getService());
         }
+        if(this.getSubService() != null){
+            this.getSubService().store();
+            ConnectionHandler.getTheConnectionHandler().theServerFacade.subServiceSet(this.getId(), getSubService());
+        }
         if(!this.isTheSameAs(this.getThis())){
             this.getThis().store();
             ConnectionHandler.getTheConnectionHandler().theServerFacade.ThisSet(this.getId(), getThis());
@@ -167,6 +174,20 @@ public class Server extends PersistentObject implements PersistentServer{
         if(!this.isDelayed$Persistence()){
             newValue.store();
             ConnectionHandler.getTheConnectionHandler().theServerFacade.serviceSet(this.getId(), newValue);
+        }
+    }
+    public SubjInterface getSubService() throws PersistenceException {
+        return this.subService;
+    }
+    public void setSubService(SubjInterface newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.isTheSameAs(this.subService)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.subService = (SubjInterface)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theServerFacade.subServiceSet(this.getId(), newValue);
         }
     }
     protected void setThis(PersistentServer newValue) throws PersistenceException {
@@ -249,6 +270,18 @@ public class Server extends PersistentObject implements PersistentServer{
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleServer(this);
     }
+    public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
+        visitor.handleServer(this);
+    }
+    public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleServer(this);
+    }
+    public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleServer(this);
+    }
+    public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleServer(this);
+    }
     public void accept(RemoteVisitor visitor) throws PersistenceException {
         visitor.handleServer(this);
     }
@@ -267,6 +300,15 @@ public class Server extends PersistentObject implements PersistentServer{
     }
     
     
+    public synchronized void deregister(final ObsInterface observee) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.deregister(observee);
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentServer)This);
@@ -277,6 +319,15 @@ public class Server extends PersistentObject implements PersistentServer{
 			this.setHackDelay((java.sql.Timestamp)final$$Fields.get("hackDelay"));
 		}
     }
+    public synchronized void register(final ObsInterface observee) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.register(observee);
+    }
     public String server_Menu_Filter(final Anything anything) 
 				throws PersistenceException{
         String result = "+++";
@@ -285,6 +336,15 @@ public class Server extends PersistentObject implements PersistentServer{
     public void signalChanged(final boolean signal) 
 				throws PersistenceException{
         this.changed = signal;
+    }
+    public synchronized void updateObservers(final model.meta.Mssgs event) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.updateObservers(event);
     }
     
     
@@ -351,7 +411,13 @@ public class Server extends PersistentObject implements PersistentServer{
         	getThis().setService(RegisterService.createRegisterService());
         	return;
         }
-    	getThis().setService(CustomerService.createCustomerService());
+        PersistentCustomerManager cm = CustomerManager.createCustomerManager();
+        PersistentCustomerService cs = CustomerService.createCustomerService(cm);
+        cs.getServices().add(ShopService.createShopService(cm));
+        cs.getServices().add(CartService.createCartService(cm));
+        cs.getServices().add(AccountService.createAccountService(cm));
+        cs.getServices().add(OrderService.createOrderService(cm));
+    	getThis().setService(cs);
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{

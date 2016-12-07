@@ -114,7 +114,7 @@ public class AccountManager extends PersistentObject implements PersistentAccoun
     }
     
     static public long getTypeId() {
-        return 188;
+        return 235;
     }
     
     public long getClassId() {
@@ -123,7 +123,7 @@ public class AccountManager extends PersistentObject implements PersistentAccoun
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 188) ConnectionHandler.getTheConnectionHandler().theAccountManagerFacade
+        if (this.getClassId() == 235) ConnectionHandler.getTheConnectionHandler().theAccountManagerFacade
             .newAccountManager(this.getId());
         super.store();
         if(this.getMyAccount() != null){
@@ -283,29 +283,38 @@ public class AccountManager extends PersistentObject implements PersistentAccoun
     
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
+        //TODO: implement method: copyingPrivateUserAttributes
+        
     }
     public void deposit(final long amount) 
 				throws PersistenceException{
-    	getThis().getMyAccount().deposit(amount);
+        //TODO: implement method: deposit
+        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-    	getThis().setMyAccount(Account.createAccount());
+        //TODO: implement method: initializeOnCreation
+        
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
+        //TODO: implement method: initializeOnInstantiation
+        
     }
     public void pay(final long sum) 
 				throws model.InsufficientFunds, PersistenceException{
-        getThis().getMyAccount().pay(sum);
+        //TODO: implement method: pay
+        
     }
     public void returnPayment(final long sum) 
 				throws PersistenceException{
-        getThis().getMyAccount().returnPayment(sum);
+        //TODO: implement method: returnPayment
+        
     }
     public void withdraw(final long amount) 
 				throws model.InsufficientFunds, PersistenceException{
-    	getThis().getMyAccount().withdraw(amount);
+        //TODO: implement method: withdraw
+        
     }
     
     

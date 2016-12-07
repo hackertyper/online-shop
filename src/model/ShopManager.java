@@ -2,7 +2,6 @@
 package model;
 
 import persistence.*;
-
 import model.visitor.*;
 
 
@@ -107,7 +106,7 @@ public class ShopManager extends PersistentObject implements PersistentShopManag
     }
     
     static public long getTypeId() {
-        return 186;
+        return 233;
     }
     
     public long getClassId() {
@@ -116,7 +115,7 @@ public class ShopManager extends PersistentObject implements PersistentShopManag
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 186) ConnectionHandler.getTheConnectionHandler().theShopManagerFacade
+        if (this.getClassId() == 233) ConnectionHandler.getTheConnectionHandler().theShopManagerFacade
             .newShopManager(this.getId());
         super.store();
         if(this.itemRange != null){
@@ -296,153 +295,33 @@ public class ShopManager extends PersistentObject implements PersistentShopManag
     
     public void addToCartImplementation(final PersistentArticle article, final long amount) 
 				throws PersistenceException{
-        getThis().getCustomerManager().addToCart(article, amount);
+        //TODO: implement method: addToCartImplementation
+        
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
+        //TODO: implement method: copyingPrivateUserAttributes
+        
     }
     public void findArticle(final String description) 
 				throws PersistenceException{
-		ItemSearchList result = Item.getItemByDescription(description);
-	    result.applyToAll(new Procdure<PersistentItem>() {
-			@Override
-			public void doItTo(PersistentItem argument) throws PersistenceException {
-				argument.accept(new ItemVisitor() {
-					@Override
-					public void handleProductGroup(PersistentProductGroup productGroup) throws PersistenceException {}
-					@Override
-					public void handleArticle(PersistentArticle article) throws PersistenceException {
-						article.getState().accept(new ArticleStateVisitor() {
-							@Override
-							public void handleRemovedFSale(PersistentRemovedFSale removedFSale) throws PersistenceException {
-								getThis().getItemRange().add(article);
-							}
-							@Override
-							public void handleOfferedFSale(PersistentOfferedFSale offeredFSale) throws PersistenceException {
-								getThis().getItemRange().add(article);
-							}
-							@Override
-							public void handleNewlyAdded(PersistentNewlyAdded newlyAdded) throws PersistenceException {}
-						});
-					}
-				});
-			}
-		});
-	}
+        //TODO: implement method: findArticle
+        
+    }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        PersistentProductGroup pg = ProductGroup.createProductGroup("Alles");
-		PersistentArticle article = Article.createArticle("Herd", Manufacturer.createManufacturer("Bosch"), 112, 10, 1000, 0);
-		PersistentArticle article2 = Article.createArticle("Herd", Manufacturer.createManufacturer("Bosch"), 112, 10, 1000, 0);
-		article2.setState(OfferedFSale.createOfferedFSale());
-		article.setStock(10);
-		article2.setStock(10);
-		pg.getItemList().add(article);
-		pg.getItemList().add(article2);
-		getThis().getItemRange().add(pg);
-		getThis().getItemRange().filter(new Predcate<PersistentItem>() {
-			@Override
-			public boolean test(PersistentItem argument) throws PersistenceException {
-				return argument.accept(new ItemReturnVisitor<Boolean>() {
-					@Override
-					public Boolean handleArticle(PersistentArticle article) throws PersistenceException {
-						return false;
-					}
-					@Override
-					public Boolean handleProductGroup(PersistentProductGroup productGroup) throws PersistenceException {
-						productGroup.getItemList().filter(new Predcate<PersistentItem>() {
-							@Override
-							public boolean test(PersistentItem argument) throws PersistenceException {
-								return argument.accept(new ItemReturnVisitor<Boolean>() {
-									@Override
-									public Boolean handleArticle(PersistentArticle article)
-											throws PersistenceException {
-										return article.getState().accept(new ArticleStateReturnVisitor<Boolean>() {
-											@Override
-											public Boolean handleNewlyAdded(PersistentNewlyAdded newlyAdded)
-													throws PersistenceException {
-												return false;
-											}
-											@Override
-											public Boolean handleOfferedFSale(PersistentOfferedFSale offeredFSale)
-													throws PersistenceException {
-												return true;
-											}
-											@Override
-											public Boolean handleRemovedFSale(PersistentRemovedFSale removedFSale)
-													throws PersistenceException {
-												return true;
-											}
-										});
-									}
-									@Override
-									public Boolean handleProductGroup(PersistentProductGroup productGroup)
-											throws PersistenceException {
-										return true;
-									}
-								});
-							}
-						});
-						return true;
-					}
-				});
-			}
-		});
+        //TODO: implement method: initializeOnCreation
+        
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
+        //TODO: implement method: initializeOnInstantiation
+        
     }
     public void itemRange_update(final model.meta.ItemMssgs event) 
 				throws PersistenceException{
-    	getThis().getItemRange().filter(new Predcate<PersistentItem>() {
-			@Override
-			public boolean test(PersistentItem argument) throws PersistenceException {
-				return argument.accept(new ItemReturnVisitor<Boolean>() {
-					@Override
-					public Boolean handleArticle(PersistentArticle article) throws PersistenceException {
-						return false;
-					}
-					@Override
-					public Boolean handleProductGroup(PersistentProductGroup productGroup) throws PersistenceException {
-						productGroup.getItemList().filter(new Predcate<PersistentItem>() {
-							@Override
-							public boolean test(PersistentItem argument) throws PersistenceException {
-								return argument.accept(new ItemReturnVisitor<Boolean>() {
-									@Override
-									public Boolean handleArticle(PersistentArticle article)
-											throws PersistenceException {
-										return article.getState().accept(new ArticleStateReturnVisitor<Boolean>() {
-											@Override
-											public Boolean handleNewlyAdded(PersistentNewlyAdded newlyAdded)
-													throws PersistenceException {
-												return false;
-											}
-											@Override
-											public Boolean handleOfferedFSale(PersistentOfferedFSale offeredFSale)
-													throws PersistenceException {
-												return true;
-											}
-											@Override
-											public Boolean handleRemovedFSale(PersistentRemovedFSale removedFSale)
-													throws PersistenceException {
-												return true;
-											}
-										});
-									}
-									@Override
-									public Boolean handleProductGroup(PersistentProductGroup productGroup)
-											throws PersistenceException {
-										return true;
-									}
-								});
-							}
-						});
-						return true;
-					}
-				});
-			}
-		});
-        getThis().getMyShopServer().signalChanged(true);
+        //TODO: implement method: itemRange_update
+        
     }
     
     

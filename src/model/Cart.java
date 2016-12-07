@@ -15,11 +15,11 @@ public class Cart extends PersistentObject implements PersistentCart{
         return (PersistentCart)PersistentProxi.createProxi(objectId, classId);
     }
     
-    public static PersistentCart createCart() throws PersistenceException{
-        return createCart(false);
+    public static PersistentCart createCart(PersistentCartState state) throws PersistenceException{
+        return createCart(state,false);
     }
     
-    public static PersistentCart createCart(boolean delayed$Persistence) throws PersistenceException {
+    public static PersistentCart createCart(PersistentCartState state,boolean delayed$Persistence) throws PersistenceException {
         PersistentCart result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theCartFacade
@@ -30,12 +30,13 @@ public class Cart extends PersistentObject implements PersistentCart{
                 .newCart(0,-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        final$$Fields.put("state", state);
         result.initialize(result, final$$Fields);
         result.initializeOnCreation();
         return result;
     }
     
-    public static PersistentCart createCart(boolean delayed$Persistence,PersistentCart This) throws PersistenceException {
+    public static PersistentCart createCart(PersistentCartState state,boolean delayed$Persistence,PersistentCart This) throws PersistenceException {
         PersistentCart result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theCartFacade
@@ -46,6 +47,7 @@ public class Cart extends PersistentObject implements PersistentCart{
                 .newCart(0,-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
+        final$$Fields.put("state", state);
         result.initialize(This, final$$Fields);
         result.initializeOnCreation();
         return result;
@@ -56,14 +58,22 @@ public class Cart extends PersistentObject implements PersistentCart{
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
             result.put("currentSum", new Long(this.getCurrentSum()).toString());
-            result.put("articleList", this.getArticleList().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, true));
-            AbstractPersistentRoot manager = (AbstractPersistentRoot)this.getManager();
-            if (manager != null) {
-                result.put("manager", manager.createProxiInformation(false, essentialLevel <= 1));
+            AbstractPersistentRoot state = (AbstractPersistentRoot)this.getState();
+            if (state != null) {
+                result.put("state", state.createProxiInformation(false, essentialLevel <= 1));
                 if(depth > 1) {
-                    manager.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                    state.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
                 }else{
-                    if(forGUI && manager.hasEssentialFields())manager.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                    if(forGUI && state.hasEssentialFields())state.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
+            AbstractPersistentRoot cartMngr = (AbstractPersistentRoot)this.getCartMngr();
+            if (cartMngr != null) {
+                result.put("cartMngr", cartMngr.createProxiInformation(false, essentialLevel <= 1));
+                if(depth > 1) {
+                    cartMngr.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && cartMngr.hasEssentialFields())cartMngr.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
                 }
             }
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
@@ -75,9 +85,10 @@ public class Cart extends PersistentObject implements PersistentCart{
     public Cart provideCopy() throws PersistenceException{
         Cart result = this;
         result = new Cart(this.currentSum, 
+                          this.state, 
+                          this.subService, 
                           this.This, 
                           this.getId());
-        result.articleList = this.articleList.copy(result);
         this.copyingPrivateUserAttributes(result);
         return result;
     }
@@ -86,14 +97,16 @@ public class Cart extends PersistentObject implements PersistentCart{
         return false;
     }
     protected long currentSum;
-    protected Cart_ArticleListProxi articleList;
+    protected PersistentCartState state;
+    protected SubjInterface subService;
     protected PersistentCart This;
     
-    public Cart(long currentSum,PersistentCart This,long id) throws PersistenceException {
+    public Cart(long currentSum,PersistentCartState state,SubjInterface subService,PersistentCart This,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.currentSum = currentSum;
-        this.articleList = new Cart_ArticleListProxi(this);
+        this.state = state;
+        this.subService = subService;
         if (This != null && !(this.isTheSameAs(This))) this.This = This;        
     }
     
@@ -110,7 +123,14 @@ public class Cart extends PersistentObject implements PersistentCart{
         if (this.getClassId() == 146) ConnectionHandler.getTheConnectionHandler().theCartFacade
             .newCart(currentSum,this.getId());
         super.store();
-        this.getArticleList().store();
+        if(this.getState() != null){
+            this.getState().store();
+            ConnectionHandler.getTheConnectionHandler().theCartFacade.stateSet(this.getId(), getState());
+        }
+        if(this.getSubService() != null){
+            this.getSubService().store();
+            ConnectionHandler.getTheConnectionHandler().theCartFacade.subServiceSet(this.getId(), getSubService());
+        }
         if(!this.isTheSameAs(this.getThis())){
             this.getThis().store();
             ConnectionHandler.getTheConnectionHandler().theCartFacade.ThisSet(this.getId(), getThis());
@@ -125,8 +145,33 @@ public class Cart extends PersistentObject implements PersistentCart{
         if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theCartFacade.currentSumSet(this.getId(), newValue);
         this.currentSum = newValue;
     }
-    public Cart_ArticleListProxi getArticleList() throws PersistenceException {
-        return this.articleList;
+    public PersistentCartState getState() throws PersistenceException {
+        return this.state;
+    }
+    public void setState(PersistentCartState newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.isTheSameAs(this.state)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.state = (PersistentCartState)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theCartFacade.stateSet(this.getId(), newValue);
+        }
+    }
+    public SubjInterface getSubService() throws PersistenceException {
+        return this.subService;
+    }
+    public void setSubService(SubjInterface newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.isTheSameAs(this.subService)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.subService = (SubjInterface)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theCartFacade.subServiceSet(this.getId(), newValue);
+        }
     }
     protected void setThis(PersistentCart newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
@@ -163,16 +208,37 @@ public class Cart extends PersistentObject implements PersistentCart{
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleCart(this);
     }
+    public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
+        visitor.handleCart(this);
+    }
+    public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleCart(this);
+    }
+    public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleCart(this);
+    }
+    public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleCart(this);
+    }
     public int getLeafInfo() throws PersistenceException{
-        if (this.getArticleList().getLength() > 0) return 1;
+        if (this.getState() != null && this.getState().getTheObject().getLeafInfo() != 0) return 1;
         return 0;
     }
     
     
-    public PersistentCustomer getManager() 
+    public synchronized void deregister(final ObsInterface observee) 
 				throws PersistenceException{
-        CustomerSearchList result = null;
-		if (result == null) result = ConnectionHandler.getTheConnectionHandler().theCustomerFacade
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.deregister(observee);
+    }
+    public PersistentCartManager getCartMngr() 
+				throws PersistenceException{
+        CartManagerSearchList result = null;
+		if (result == null) result = ConnectionHandler.getTheConnectionHandler().theCartManagerFacade
 										.inverseGetMyCart(getThis().getId(), getThis().getClassId());
 		try {
 			return result.iterator().next();
@@ -184,15 +250,44 @@ public class Cart extends PersistentObject implements PersistentCart{
 				throws PersistenceException{
         this.setThis((PersistentCart)This);
 		if(this.isTheSameAs(This)){
+			this.setState((PersistentCartState)final$$Fields.get("state"));
 		}
+    }
+    public synchronized void register(final ObsInterface observee) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.register(observee);
+    }
+    public synchronized void updateObservers(final model.meta.Mssgs event) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.updateObservers(event);
     }
     
     
     // Start of section that contains operations that must be implemented.
     
-    public void addArticle(final PersistentQuantifiedArticles article) 
+    public void changeAmount(final PersistentQuantifiedArticles article, final long newAmount) 
 				throws PersistenceException{
-        //TODO: implement method: addArticle
+        //TODO: implement method: changeAmount
+        
+    }
+    public void changeState(final PersistentCartState newState) 
+				throws PersistenceException{
+        //TODO: implement method: changeState
+        
+    }
+    public void checkOutReverse() 
+				throws PersistenceException{
+        //TODO: implement method: checkOutReverse
         
     }
     public void checkOut() 
@@ -205,6 +300,16 @@ public class Cart extends PersistentObject implements PersistentCart{
         //TODO: implement method: copyingPrivateUserAttributes
         
     }
+    public long fetchCurrentSum() 
+				throws PersistenceException{
+        //TODO: implement method: fetchCurrentSum
+        try{
+            throw new java.lang.UnsupportedOperationException("Method \"fetchCurrentSum\" not implemented yet.");
+        } catch (java.lang.UnsupportedOperationException uoe){
+            uoe.printStackTrace();
+            throw uoe;
+        }
+    }
     public void initializeOnCreation() 
 				throws PersistenceException{
         //TODO: implement method: initializeOnCreation
@@ -215,8 +320,8 @@ public class Cart extends PersistentObject implements PersistentCart{
         //TODO: implement method: initializeOnInstantiation
         
     }
-    public void order() 
-				throws PersistenceException{
+    public void order(final PersistentCustomerDelivery deliveryMethod) 
+				throws model.FirstCheckOut, model.InsufficientFunds, PersistenceException{
         //TODO: implement method: order
         
     }

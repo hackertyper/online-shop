@@ -105,7 +105,7 @@ public class CustomerManager extends PersistentObject implements PersistentCusto
     }
     
     static public long getTypeId() {
-        return 184;
+        return 230;
     }
     
     public long getClassId() {
@@ -114,7 +114,7 @@ public class CustomerManager extends PersistentObject implements PersistentCusto
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 184) ConnectionHandler.getTheConnectionHandler().theCustomerManagerFacade
+        if (this.getClassId() == 230) ConnectionHandler.getTheConnectionHandler().theCustomerManagerFacade
             .newCustomerManager(this.getId());
         super.store();
         if(this.getShopMngr() != null){
@@ -332,40 +332,48 @@ public class CustomerManager extends PersistentObject implements PersistentCusto
     
     public void addOrder(final PersistentCustomerOrder order) 
 				throws PersistenceException{
-        getThis().getOrderMngr().addOrder(order);
+        //TODO: implement method: addOrder
+        
     }
     public void addToCart(final PersistentArticle article, final long amount) 
 				throws PersistenceException{
-        getThis().getCartMngr().addToCart(article, amount);
+        //TODO: implement method: addToCart
+        
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
+        //TODO: implement method: copyingPrivateUserAttributes
+        
     }
     public void deposit(final long amount) 
 				throws PersistenceException{
-        getThis().getAccMngr().deposit(amount);
+        //TODO: implement method: deposit
+        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        getThis().setShopMngr(ShopManager.createShopManager());
-        getThis().setAccMngr(AccountManager.createAccountManager());
-        getThis().setCartMngr(CartManager.createCartManager());
-        getThis().setOrderMngr(OrderManager.createOrderManager());
+        //TODO: implement method: initializeOnCreation
+        
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
+        //TODO: implement method: initializeOnInstantiation
+        
     }
     public void pay(final long sum) 
 				throws model.InsufficientFunds, PersistenceException{
-        getThis().getAccMngr().pay(sum);
+        //TODO: implement method: pay
+        
     }
     public void returnPayment(final long sum) 
 				throws PersistenceException{
-        getThis().getAccMngr().returnPayment(sum);
+        //TODO: implement method: returnPayment
+        
     }
     public void withdraw(final long amount) 
 				throws model.InsufficientFunds, PersistenceException{
-        getThis().getAccMngr().withdraw(amount);
+        //TODO: implement method: withdraw
+        
     }
     
     

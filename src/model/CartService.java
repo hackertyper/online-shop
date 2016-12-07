@@ -93,7 +93,7 @@ public class CartService extends model.CustomerService implements PersistentCart
     }
     
     static public long getTypeId() {
-        return -187;
+        return -244;
     }
     
     public long getClassId() {
@@ -102,7 +102,7 @@ public class CartService extends model.CustomerService implements PersistentCart
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == -187) ConnectionHandler.getTheConnectionHandler().theCartServiceFacade
+        if (this.getClassId() == -244) ConnectionHandler.getTheConnectionHandler().theCartServiceFacade
             .newCartService(this.getId());
         super.store();
         if(this.getCartMngr() != null){
@@ -232,34 +232,43 @@ public class CartService extends model.CustomerService implements PersistentCart
     
     public void addToCart(final PersistentArticle article, final long amount) 
 				throws PersistenceException{
-        getThis().getCartMngr().addArticle(article, amount, getThis());
+        //TODO: implement method: addToCart
+        
     }
     public void changeAmount(final PersistentQuantifiedArticles article, final long newAmount) 
 				throws PersistenceException{
-        getThis().getCartMngr().changeAmount(article, newAmount, getThis());
+        //TODO: implement method: changeAmount
+        
     }
     public void checkOut() 
 				throws PersistenceException{
-        getThis().getCartMngr().checkOut(getThis());
+        //TODO: implement method: checkOut
+        
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
+        //TODO: implement method: copyingPrivateUserAttributes
+        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        getThis().setCartMngr(getManager().getCartMngr());
+        super.initializeOnCreation();
+		//TODO: implement method: initializeOnCreation
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         super.initializeOnInstantiation();
+		//TODO: implement method: initializeOnInstantiation
     }
-    public void order() 
+    public void order(final PersistentCart cart, final PersistentCustomerDelivery deliveryMethod) 
 				throws PersistenceException{
-        getThis().getCartMngr().order(getThis());
+        //TODO: implement method: order
+        
     }
     public void removeFCart(final PersistentQuantifiedArticles article) 
 				throws PersistenceException{
-        getThis().getCartMngr().removeFCart(article, getThis());
+        //TODO: implement method: removeFCart
+        
     }
     
     

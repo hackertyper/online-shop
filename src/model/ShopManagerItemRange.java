@@ -60,7 +60,7 @@ public class ShopManagerItemRange extends PersistentObject implements Persistent
     }
     
     static public long getTypeId() {
-        return 204;
+        return 239;
     }
     
     public long getClassId() {
@@ -69,7 +69,7 @@ public class ShopManagerItemRange extends PersistentObject implements Persistent
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 204) ConnectionHandler.getTheConnectionHandler().theShopManagerItemRangeFacade
+        if (this.getClassId() == 239) ConnectionHandler.getTheConnectionHandler().theShopManagerItemRangeFacade
             .newShopManagerItemRange(this.getId());
         super.store();
         if(this.getObserver() != null){

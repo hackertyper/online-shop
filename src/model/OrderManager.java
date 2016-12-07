@@ -110,7 +110,7 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
     }
     
     static public long getTypeId() {
-        return 224;
+        return 238;
     }
     
     public long getClassId() {
@@ -119,7 +119,7 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 224) ConnectionHandler.getTheConnectionHandler().theOrderManagerFacade
+        if (this.getClassId() == 238) ConnectionHandler.getTheConnectionHandler().theOrderManagerFacade
             .newOrderManager(retourePrice,this.getId());
         super.store();
         this.getOrders().store();
@@ -294,52 +294,33 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
     
     public void acceptDelivery(final PersistentCustomerOrder arrivedOrder) 
 				throws PersistenceException{
-        getThis().getOrders().filter(new Predcate<PersistentCustomerOrder>() {
-			@Override
-			public boolean test(PersistentCustomerOrder argument) throws PersistenceException {
-				return !arrivedOrder.equals(argument);
-			}
-		});
+        //TODO: implement method: acceptDelivery
+        
     }
     public void addOrder(final PersistentCustomerOrder order) 
 				throws PersistenceException{
-    	order.setOrdermngr(getThis());
-    	order.getMyState().accept(new CustomerOrderStateVisitor() {
-			@Override
-			public void handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException {}
-			@Override
-			public void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException {
-				getThis().getOrders().add(order);
-			}
-		});
+        //TODO: implement method: addOrder
+        
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
+        //TODO: implement method: copyingPrivateUserAttributes
+        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
+        //TODO: implement method: initializeOnCreation
+        
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
+        //TODO: implement method: initializeOnInstantiation
+        
     }
     public void retoureDelivery(final PersistentCustomerOrder arrivedOrder, final QuantifiedArticlesSearchList list) 
 				throws model.InsufficientFunds, PersistenceException{
-        arrivedOrder.retoure(list);
-        list.applyToAll(new Procdure<PersistentQuantifiedArticles>() {
-			@Override
-			public void doItTo(PersistentQuantifiedArticles argument) throws PersistenceException {
-				getThis().setRetourePrice(getThis().getRetourePrice() + argument.fetchPrice());
-			}
-		});
-        getThis().getCustomerManager().returnPayment(getThis().getRetourePrice());
-        getThis().setRetourePrice((getThis().getRetourePrice() * serverConstants.ConfigConstants.getRetourePercentage())/100);
-        getThis().getCustomerManager().pay(getThis().getRetourePrice());
-        getThis().getOrders().filter(new Predcate<PersistentCustomerOrder>() {
-			@Override
-			public boolean test(PersistentCustomerOrder argument) throws PersistenceException {
-				return !arrivedOrder.equals(argument);
-			}
-		});
+        //TODO: implement method: retoureDelivery
+        
     }
     
     

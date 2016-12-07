@@ -93,7 +93,7 @@ public class ShopService extends model.CustomerService implements PersistentShop
     }
     
     static public long getTypeId() {
-        return -185;
+        return -231;
     }
     
     public long getClassId() {
@@ -102,7 +102,7 @@ public class ShopService extends model.CustomerService implements PersistentShop
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == -185) ConnectionHandler.getTheConnectionHandler().theShopServiceFacade
+        if (this.getClassId() == -231) ConnectionHandler.getTheConnectionHandler().theShopServiceFacade
             .newShopService(this.getId());
         super.store();
         if(this.getShopMngr() != null){
@@ -232,33 +232,33 @@ public class ShopService extends model.CustomerService implements PersistentShop
     
     public void addToCart(final PersistentArticle article, final long amount) 
 				throws PersistenceException{
-        getThis().getShopMngr().addToCart(article, amount);
+        //TODO: implement method: addToCart
+        
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
+        //TODO: implement method: copyingPrivateUserAttributes
+        
     }
     public void findArticle(final String description) 
 				throws PersistenceException{
-        getThis().getShopMngr().findArticle(description, getThis());
+        //TODO: implement method: findArticle
+        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        getThis().setShopMngr(getManager().getShopMngr());
+        super.initializeOnCreation();
+		//TODO: implement method: initializeOnCreation
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         super.initializeOnInstantiation();
+		//TODO: implement method: initializeOnInstantiation
     }
     
     
     // Start of section that contains overridden operations only.
     
-    public void connected(final String user) 
-				throws PersistenceException{
-    }
-    public void disconnected() 
-				throws PersistenceException{
-    }
 
     /* Start of protected part that is not overridden by persistence generator */
     

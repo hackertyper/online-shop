@@ -93,7 +93,7 @@ public class AccountService extends model.CustomerService implements PersistentA
     }
     
     static public long getTypeId() {
-        return -189;
+        return -237;
     }
     
     public long getClassId() {
@@ -102,7 +102,7 @@ public class AccountService extends model.CustomerService implements PersistentA
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == -189) ConnectionHandler.getTheConnectionHandler().theAccountServiceFacade
+        if (this.getClassId() == -237) ConnectionHandler.getTheConnectionHandler().theAccountServiceFacade
             .newAccountService(this.getId());
         super.store();
         if(this.getAccMngr() != null){
@@ -232,33 +232,33 @@ public class AccountService extends model.CustomerService implements PersistentA
     
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
+        //TODO: implement method: copyingPrivateUserAttributes
+        
     }
     public void deposit(final long amount) 
 				throws PersistenceException{
-        getThis().getManager().deposit(amount, getThis());
+        //TODO: implement method: deposit
+        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        getThis().setAccMngr(getManager().getAccMngr());
+        super.initializeOnCreation();
+		//TODO: implement method: initializeOnCreation
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         super.initializeOnInstantiation();
+		//TODO: implement method: initializeOnInstantiation
     }
     public void withdraw(final long amount) 
 				throws model.InsufficientFunds, PersistenceException{
-        getThis().getManager().withdraw(amount, getThis());
+        //TODO: implement method: withdraw
+        
     }
     
     
     // Start of section that contains overridden operations only.
     
-    public void connected(final String user) 
-				throws PersistenceException{
-    }
-    public void disconnected() 
-				throws PersistenceException{
-    }
 
     /* Start of protected part that is not overridden by persistence generator */
     
