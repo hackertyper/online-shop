@@ -6,6 +6,9 @@ server Server {
 //Services
 abstract server Service {
 }
+server RegisterService extends Service {
+	void register@@Registrieren(String accountName, String password PASSWORD) throws DoubleUsername;
+}
 server ShopkeeperService extends Service {
 	skip-view one-to-one (server-only myServer) Shopkeeper manager;
 	//Preset account settings
@@ -54,9 +57,8 @@ server OrderService extends CustomerService {
 	void acceptDelivery@@Lieferung_annehmen(CustomerOrder customerOrder);
 	void retoureDelivery@@Lieferung_zurückschicken(CustomerOrder customerOrder);
 	void retoureArticle@@Artikel_zurückschicken(QuantifiedArticles article, Integer amount);
-}
-server RegisterService extends Service {
-	void register@@Registrieren(String accountName, String password PASSWORD) throws DoubleUsername;
+	void cancel@@Bestellung_stornieren(PreOrder preOrder);
+	void preorder@@Bestellen(PreOrder preOrder, CustomerDelivery deliveryMethod);
 }
 //Manager classes
 class CustomerManager {
@@ -71,6 +73,7 @@ class CustomerManager {
 	void returnPayment(Integer sum);
 	void pay(Integer sum) throws InsufficientFunds;
 	void addOrder(CustomerOrder order);
+	void addPreOrder(PreOrder preOrder);
 }
 class ShopManager {
 	observe Item ** itemRange;
@@ -89,22 +92,28 @@ class CartManager {
 	observe QuantifiedArticles ** articleList;
 	observe StandardDelivery standardDelivery;
 	observe OverNightDelivery onDelivery;
+	no-view PreOrder preOrder;
 	active void changeAmount(QuantifiedArticles article, Integer newAmount);
 	void addToCart(Article article, Integer amount);
 	active void removeFCart(QuantifiedArticles article);
-	active event void addArticle(Article article, Integer amount);
-	active void checkOut() throws InsufficientStock;
+	active void addArticle(Article article, Integer amount);
+	active void checkOut();
 	active void order(CustomerDelivery deliveryMethod) throws InsufficientFunds, FirstCheckOut;
 	void addOrder(CustomerOrder order);
+	void addPreOrder(PreOrder preOrder);
 	void pay(Integer sum) throws InsufficientFunds;
 }
 class OrderManager {
 	CustomerOrder ** orders;
+	PreOrder ** preOrders;
 	Integer retourePrice;
 	void addOrder(CustomerOrder order);
-	active void acceptDelivery(CustomerOrder arrivedOrder);
-	active void retoureDelivery(CustomerOrder arrivedOrder) throws InsufficientFunds;
-	active void retoureArticle(QuantifiedArticles article, Integer amount) throws InsufficientFunds;
+	void addPreOrder(PreOrder preOrder);
+	active void acceptDelivery(CustomerOrder arrivedOrder) throws NotArrived;
+	active void retoureDelivery(CustomerOrder arrivedOrder) throws InsufficientFunds, NotArrived;
+	active void retoureArticle(QuantifiedArticles article, Integer amount) throws InsufficientFunds, NotArrived;
+	active void cancel(PreOrder preOrder);
+	active void preorder(PreOrder preOrder, CustomerDelivery deliveryMethod) throws InsufficientFunds;
 }
 class Account {
 	Integer lowerLimit;
@@ -121,7 +130,7 @@ class Cart {
 	Integer fetchCurrentSum();
 	void changeAmount(QuantifiedArticles article, Integer newAmount);
 	void removeArticle(QuantifiedArticles article);
-	void checkOut() throws InsufficientStock;
+	void checkOut();
 	void order(CustomerDelivery deliveryMethod) throws InsufficientFunds, FirstCheckOut;
 	void checkOutReverse();
 }
@@ -132,7 +141,7 @@ class Shopkeeper {
 	observe Item ** itemRange;
 	StandardDelivery standardDelivery;
 	OverNightDelivery onDelivery;
-	active event void changeTime(CustomerDelivery cd, Integer newTime);
+	active void changeTime(CustomerDelivery cd, Integer newTime);
 	active void changeCharge(CustomerDelivery cd, Integer newCharge);
 	active void presetLowerLimit(Integer amount);
 	active void presetBalance(Integer amount);
@@ -147,7 +156,7 @@ abstract class Item {
 	void changeDescription(String newDescription);
 }
 class ProductGroup extends Item {
-	observe Item ** itemList;
+	Item ** itemList;
 	event void addItem(Item item);
 }
 class Article extends Item{
@@ -158,14 +167,13 @@ class Article extends Item{
 	prior Integer price;
 	prior Integer minStock;
 	prior Integer maxStock;
-	prior Integer manuDelivery;
 	Integer stock;
 	// Methods
-	void changePrice(Integer newPrice);
+	event void changePrice(Integer newPrice);
 	void changeManuDelivery(Integer newManuDelivery);
 	void changeProductGroup##chngePG(ProductGroup newPG);
-	void reserve(Integer amount) throws InsufficientStock;
-	void deleteReserve(Integer amount);
+	event void reserve(Integer amount) throws InsufficientStock;
+	event void deleteReserve(Integer amount);
 	void pack(Integer amount);
 	event void receiveDelivery(Integer amount);
 }
@@ -176,6 +184,8 @@ class ArticleWrapper {
 }
 class Manufacturer {
 	prior String name;
+	prior Integer manuDelivery;
+	void changeManuDelivery(Integer newManuDelivery);
 }
 // classes for article states
 interface ArticleState {}
@@ -191,13 +201,14 @@ class RemovedFSale implements ArticleState {
 }
 class QuantifiedArticles {
 	observe skip-view prior Article article;
+	CustomerOrder myOrder;
 	prior Integer amount;
 	Integer fetchPrice();
 	void changeAmount(Integer newAmount);
 	void reserve() throws InsufficientStock;
 	void deleteReserve();
 	void pack();
-	event void retoure(Integer amount);
+	void retoure(Integer amount) throws NotArrived;
 	event void fireArticleChanged(extern model.meta.ArticleMssgs evnt);
 }
 //Order classes
@@ -220,13 +231,19 @@ class CustomerOrder extends Delivery {
 	no-view CustomerOrderState myState;
 	void arrived();
 	void accepted();
-	void retoure();
+	void retoure() throws NotArrived;
+}
+class PreOrder {
+	no-view prior CartManager cartManager;
+	no-view prior Integer sum;
+	observe QuantifiedArticles ** articleList;
+	no-view StandardDelivery standardDelivery;
+	no-view OverNightDelivery onDelivery;
+	void cancel();
+	CustomerOrder preorder(CustomerDelivery deliveryMethod) throws InsufficientFunds;
 }
 // State classes for CustomerOrder
 interface CustomerOrderState##csOrdStt {}
-class PreOrder implements CustomerOrderState{
-	void cancel();
-}
 class SendOrder implements CustomerOrderState{
 	prior Timestamp arrivalDate;
 }
@@ -237,8 +254,8 @@ class ArrivedOrder implements CustomerOrderState {
 abstract class CustomerDelivery {
 	Integer time;
 	Integer extraCharge;
-	abstract void changeTime(Integer newTime);
-	abstract void changeExtraCharge(Integer newCharge);
+	abstract event void changeTime(Integer newTime);
+	abstract event void changeExtraCharge(Integer newCharge);
 }
 singleton StandardDelivery extends CustomerDelivery {}
 singleton OverNightDelivery extends CustomerDelivery {}
@@ -249,4 +266,5 @@ exception DoubleUsername{}
 exception InsufficientFunds{}
 exception InsufficientStock{}
 exception FirstCheckOut{}
+exception NotArrived{}
 }
