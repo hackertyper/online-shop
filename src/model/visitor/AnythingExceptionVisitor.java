@@ -43,7 +43,6 @@ public interface AnythingExceptionVisitor<E extends model.UserException> extends
     public void handlePreorderCommand(PersistentPreorderCommand preorderCommand) throws PersistenceException, E;
     public void handlePresetBalanceCommand(PersistentPresetBalanceCommand presetBalanceCommand) throws PersistenceException, E;
     public void handlePresetLowerLimitCommand(PersistentPresetLowerLimitCommand presetLowerLimitCommand) throws PersistenceException, E;
-    public void handleProductGroupItemList(PersistentProductGroupItemList productGroupItemList) throws PersistenceException, E;
     public void handleQuantifiedArticles(PersistentQuantifiedArticles quantifiedArticles) throws PersistenceException, E;
     public void handleQuantifiedArticlesArticle(PersistentQuantifiedArticlesArticle quantifiedArticlesArticle) throws PersistenceException, E;
     public void handleRemoveFCartCommand(PersistentRemoveFCartCommand removeFCartCommand) throws PersistenceException, E;

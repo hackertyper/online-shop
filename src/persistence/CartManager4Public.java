@@ -15,8 +15,6 @@ public interface CartManager4Public extends Anything, SubjInterface, AbstractPer
     public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E;
     public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     
-    public void addArticle(final PersistentArticle article, final long amount) 
-				throws PersistenceException;
     public void addArticle(final PersistentArticle article, final long amount, final Invoker invoker) 
 				throws PersistenceException;
     public void changeAmount(final PersistentQuantifiedArticles article, final long newAmount, final Invoker invoker) 
@@ -29,7 +27,7 @@ public interface CartManager4Public extends Anything, SubjInterface, AbstractPer
 				throws PersistenceException;
     public void removeFCart(final PersistentQuantifiedArticles article, final Invoker invoker) 
 				throws PersistenceException;
-    public void addArticleImplementation(final PersistentArticle article, final long amount) 
+    public void addArticle(final PersistentArticle article, final long amount) 
 				throws PersistenceException;
     public void addOrder(final PersistentCustomerOrder order) 
 				throws PersistenceException;

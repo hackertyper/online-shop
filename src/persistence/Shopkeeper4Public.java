@@ -31,8 +31,6 @@ public interface Shopkeeper4Public extends Anything, SubjInterface, AbstractPers
 				throws PersistenceException;
     public void changeRetourePercentage(final long newPercentage, final Invoker invoker) 
 				throws PersistenceException;
-    public void changeTime(final PersistentCustomerDelivery cd, final long newTime) 
-				throws PersistenceException;
     public void changeTime(final PersistentCustomerDelivery cd, final long newTime, final Invoker invoker) 
 				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
@@ -51,7 +49,7 @@ public interface Shopkeeper4Public extends Anything, SubjInterface, AbstractPers
 				throws PersistenceException;
     public void changeRetourePercentage(final long newPercentage) 
 				throws PersistenceException;
-    public void changeTimeImplementation(final PersistentCustomerDelivery cd, final long newTime) 
+    public void changeTime(final PersistentCustomerDelivery cd, final long newTime) 
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;

@@ -97,8 +97,8 @@ public class ConnectionHandler {
     public TestDeliveryFacade theTestDeliveryFacade;
     public RemovedFSaleFacade theRemovedFSaleFacade;
     public RetoureFacade theRetoureFacade;
-    public ChangeTimeCommandFacade theChangeTimeCommandFacade;
     public ChangeChargeCommandFacade theChangeChargeCommandFacade;
+    public ChangeTimeCommandFacade theChangeTimeCommandFacade;
     public AccountManagerFacade theAccountManagerFacade;
     public OrderServiceFacade theOrderServiceFacade;
     public AccountServiceFacade theAccountServiceFacade;
@@ -118,7 +118,6 @@ public class ConnectionHandler {
     public PresetLowerLimitCommandFacade thePresetLowerLimitCommandFacade;
     public FindArticleCommandFacade theFindArticleCommandFacade;
     public RegisterServiceFacade theRegisterServiceFacade;
-    public ProductGroupItemListFacade theProductGroupItemListFacade;
     public WithdrawCommandFacade theWithdrawCommandFacade;
     public ShopkeeperItemRangeFacade theShopkeeperItemRangeFacade;
     public CartManagerArticleListFacade theCartManagerArticleListFacade;
@@ -177,8 +176,8 @@ public class ConnectionHandler {
             this.theTestDeliveryFacade= new TestDeliveryFacade();
             this.theRemovedFSaleFacade= new RemovedFSaleFacade();
             this.theRetoureFacade= new RetoureFacade();
-            this.theChangeTimeCommandFacade= new ChangeTimeCommandFacade();
             this.theChangeChargeCommandFacade= new ChangeChargeCommandFacade();
+            this.theChangeTimeCommandFacade= new ChangeTimeCommandFacade();
             this.theAccountManagerFacade= new AccountManagerFacade();
             this.theOrderServiceFacade= new OrderServiceFacade();
             this.theAccountServiceFacade= new AccountServiceFacade();
@@ -198,7 +197,6 @@ public class ConnectionHandler {
             this.thePresetLowerLimitCommandFacade= new PresetLowerLimitCommandFacade();
             this.theFindArticleCommandFacade= new FindArticleCommandFacade();
             this.theRegisterServiceFacade= new RegisterServiceFacade();
-            this.theProductGroupItemListFacade= new ProductGroupItemListFacade();
             this.theWithdrawCommandFacade= new WithdrawCommandFacade();
             this.theShopkeeperItemRangeFacade= new ShopkeeperItemRangeFacade();
             this.theCartManagerArticleListFacade= new CartManagerArticleListFacade();

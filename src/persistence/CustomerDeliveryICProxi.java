@@ -34,6 +34,14 @@ public abstract class CustomerDeliveryICProxi extends PersistentInCacheProxiOpti
     
     
     
+    public void changeExtraCharge(final long newCharge) 
+				throws PersistenceException{
+        ((PersistentCustomerDelivery)this.getTheObject()).changeExtraCharge(newCharge);
+    }
+    public void changeTime(final long newTime) 
+				throws PersistenceException{
+        ((PersistentCustomerDelivery)this.getTheObject()).changeTime(newTime);
+    }
     public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentCustomerDelivery)this.getTheObject()).deregister(observee);
@@ -50,13 +58,13 @@ public abstract class CustomerDeliveryICProxi extends PersistentInCacheProxiOpti
 				throws PersistenceException{
         ((PersistentCustomerDelivery)this.getTheObject()).updateObservers(event);
     }
-    public void changeExtraCharge(final long newCharge) 
+    public void changeExtraChargeImplementation(final long newCharge) 
 				throws PersistenceException{
-        ((PersistentCustomerDelivery)this.getTheObject()).changeExtraCharge(newCharge);
+        ((PersistentCustomerDelivery)this.getTheObject()).changeExtraChargeImplementation(newCharge);
     }
-    public void changeTime(final long newTime) 
+    public void changeTimeImplementation(final long newTime) 
 				throws PersistenceException{
-        ((PersistentCustomerDelivery)this.getTheObject()).changeTime(newTime);
+        ((PersistentCustomerDelivery)this.getTheObject()).changeTimeImplementation(newTime);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{

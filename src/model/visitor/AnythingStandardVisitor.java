@@ -107,11 +107,11 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleRetoure(PersistentRetoure retoure) throws PersistenceException{
         this.standardHandling(retoure);
     }
-    public void handleChangeTimeCommand(PersistentChangeTimeCommand changeTimeCommand) throws PersistenceException{
-        this.standardHandling(changeTimeCommand);
-    }
     public void handleChangeChargeCommand(PersistentChangeChargeCommand changeChargeCommand) throws PersistenceException{
         this.standardHandling(changeChargeCommand);
+    }
+    public void handleChangeTimeCommand(PersistentChangeTimeCommand changeTimeCommand) throws PersistenceException{
+        this.standardHandling(changeTimeCommand);
     }
     public void handleAccountManager(PersistentAccountManager accountManager) throws PersistenceException{
         this.standardHandling(accountManager);
@@ -169,9 +169,6 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     }
     public void handleWithdrawCommand(PersistentWithdrawCommand withdrawCommand) throws PersistenceException{
         this.standardHandling(withdrawCommand);
-    }
-    public void handleProductGroupItemList(PersistentProductGroupItemList productGroupItemList) throws PersistenceException{
-        this.standardHandling(productGroupItemList);
     }
     public void handleShopkeeperItemRange(PersistentShopkeeperItemRange shopkeeperItemRange) throws PersistenceException{
         this.standardHandling(shopkeeperItemRange);

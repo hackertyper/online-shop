@@ -2,6 +2,9 @@
 package model;
 
 import persistence.*;
+import model.meta.CustomerDeliveryChangeExtraChargeIntegerMssg;
+import model.meta.CustomerDeliveryChangeTimeIntegerMssg;
+import model.meta.StandardDeliveryMssgsVisitor;
 import model.visitor.*;
 
 
@@ -328,13 +331,6 @@ public class CartManager extends PersistentObject implements PersistentCartManag
     }
     
     
-    public void addArticle(final PersistentArticle article, final long amount) 
-				throws PersistenceException{
-        model.meta.CartManagerAddArticleArticleIntegerMssg event = new model.meta.CartManagerAddArticleArticleIntegerMssg(article, amount, getThis());
-		event.execute();
-		getThis().updateObservers(event);
-		event.getResult();
-    }
     public void addArticle(final PersistentArticle article, final long amount, final Invoker invoker) 
 				throws PersistenceException{
         java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
@@ -478,7 +474,7 @@ public class CartManager extends PersistentObject implements PersistentCartManag
      * 
      * @param article - the article to add to the cart
      */
-    public void addArticleImplementation(final PersistentArticle article, final long amount) 
+    public void addArticle(final PersistentArticle article, final long amount) 
 				throws PersistenceException{
     	getThis().getMyCart().checkOutReverse();
     	// Check if article is already in cart

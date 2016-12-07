@@ -22,8 +22,8 @@ public class ProductGroupICProxi extends ItemICProxi implements PersistentProduc
         return 102;
     }
     
-    public void setItemList(PersistentProductGroupItemList newValue) throws PersistenceException {
-        ((PersistentProductGroup)this.getTheObject()).setItemList(newValue);
+    public ProductGroup_ItemListProxi getItemList() throws PersistenceException {
+        return ((PersistentProductGroup)this.getTheObject()).getItemList();
     }
     public PersistentProductGroup getThis() throws PersistenceException {
         return ((PersistentProductGroup)this.getTheObject()).getThis();
@@ -75,10 +75,6 @@ public class ProductGroupICProxi extends ItemICProxi implements PersistentProduc
 				throws PersistenceException{
         ((PersistentProductGroup)this.getTheObject()).deregister(observee);
     }
-    public PersistentProductGroupItemList getItemList() 
-				throws PersistenceException{
-        return ((PersistentProductGroup)this.getTheObject()).getItemList();
-    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentProductGroup)this.getTheObject()).initialize(This, final$$Fields);
@@ -110,10 +106,6 @@ public class ProductGroupICProxi extends ItemICProxi implements PersistentProduc
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         ((PersistentProductGroup)this.getTheObject()).initializeOnInstantiation();
-    }
-    public void itemList_update(final model.meta.ItemMssgs event) 
-				throws PersistenceException{
-        ((PersistentProductGroup)this.getTheObject()).itemList_update(event);
     }
 
     

@@ -322,7 +322,6 @@ public class Cache {
 		this.number2NameMap.put(243, "PresetBalanceCommand");
 		this.number2NameMap.put(244, "PresetLowerLimitCommand");
 		this.number2NameMap.put(102, "ProductGroup");
-		this.number2NameMap.put(245, "ProductGroupItemList");
 		this.number2NameMap.put(124, "QuantifiedArticles");
 		this.number2NameMap.put(250, "QuantifiedArticlesArticle");
 		this.number2NameMap.put(-115, "RegisterService");
@@ -338,7 +337,7 @@ public class Cache {
 		this.number2NameMap.put(204, "ShopManagerItemRange");
 		this.number2NameMap.put(-185, "ShopService");
 		this.number2NameMap.put(107, "Shopkeeper");
-		this.number2NameMap.put(246, "ShopkeeperItemRange");
+		this.number2NameMap.put(268, "ShopkeeperItemRange");
 		this.number2NameMap.put(-133, "ShopkeeperService");
 		this.number2NameMap.put(229, "StandardDelivery");
 		this.number2NameMap.put(128, "StartSellingCommand");

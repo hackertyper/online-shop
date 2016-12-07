@@ -60,6 +60,14 @@ public class OverNightDeliveryProxi extends CustomerDeliveryProxi implements Per
     }
     
     
+    public void changeExtraCharge(final long newCharge) 
+				throws PersistenceException{
+        ((PersistentOverNightDelivery)this.getTheObject()).changeExtraCharge(newCharge);
+    }
+    public void changeTime(final long newTime) 
+				throws PersistenceException{
+        ((PersistentOverNightDelivery)this.getTheObject()).changeTime(newTime);
+    }
     public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentOverNightDelivery)this.getTheObject()).deregister(observee);
@@ -76,13 +84,13 @@ public class OverNightDeliveryProxi extends CustomerDeliveryProxi implements Per
 				throws PersistenceException{
         ((PersistentOverNightDelivery)this.getTheObject()).updateObservers(event);
     }
-    public void changeExtraCharge(final long newCharge) 
+    public void changeExtraChargeImplementation(final long newCharge) 
 				throws PersistenceException{
-        ((PersistentOverNightDelivery)this.getTheObject()).changeExtraCharge(newCharge);
+        ((PersistentOverNightDelivery)this.getTheObject()).changeExtraChargeImplementation(newCharge);
     }
-    public void changeTime(final long newTime) 
+    public void changeTimeImplementation(final long newTime) 
 				throws PersistenceException{
-        ((PersistentOverNightDelivery)this.getTheObject()).changeTime(newTime);
+        ((PersistentOverNightDelivery)this.getTheObject()).changeTimeImplementation(newTime);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{

@@ -26,25 +26,25 @@ public class ShopkeeperItemRangeFacade{
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
     public PersistentShopkeeperItemRange newShopkeeperItemRange(long idCreateIfLessZero) throws PersistenceException {
-        if(idCreateIfLessZero > 0) return (PersistentShopkeeperItemRange)PersistentProxi.createProxi(idCreateIfLessZero, 246);
+        if(idCreateIfLessZero > 0) return (PersistentShopkeeperItemRange)PersistentProxi.createProxi(idCreateIfLessZero, 268);
         long id = ConnectionHandler.getTheConnectionHandler().theShopkeeperItemRangeFacade.getNextId();
         ShopkeeperItemRange result = new ShopkeeperItemRange(null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentShopkeeperItemRange)PersistentProxi.createProxi(id, 246);
+        return (PersistentShopkeeperItemRange)PersistentProxi.createProxi(id, 268);
     }
     
     public PersistentShopkeeperItemRange newDelayedShopkeeperItemRange() throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theShopkeeperItemRangeFacade.getNextId();
         ShopkeeperItemRange result = new ShopkeeperItemRange(null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentShopkeeperItemRange)PersistentProxi.createProxi(id, 246);
+        return (PersistentShopkeeperItemRange)PersistentProxi.createProxi(id, 268);
     }
     
     public ShopkeeperItemRange getShopkeeperItemRange(long ShopkeeperItemRangeId) throws PersistenceException{
         return null; //All data is in the cache!
     }
     public long getClass(long objectId) throws PersistenceException{
-        if(Cache.getTheCache().contains(objectId, 246)) return 246;
+        if(Cache.getTheCache().contains(objectId, 268)) return 268;
         
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         

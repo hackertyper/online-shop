@@ -75,10 +75,6 @@ public class CartManagerProxi extends PersistentProxi implements PersistentCartM
     }
     
     
-    public void addArticle(final PersistentArticle article, final long amount) 
-				throws PersistenceException{
-        ((PersistentCartManager)this.getTheObject()).addArticle(article, amount);
-    }
     public void addArticle(final PersistentArticle article, final long amount, final Invoker invoker) 
 				throws PersistenceException{
         ((PersistentCartManager)this.getTheObject()).addArticle(article, amount, invoker);
@@ -143,9 +139,9 @@ public class CartManagerProxi extends PersistentProxi implements PersistentCartM
 				throws PersistenceException{
         ((PersistentCartManager)this.getTheObject()).updateObservers(event);
     }
-    public void addArticleImplementation(final PersistentArticle article, final long amount) 
+    public void addArticle(final PersistentArticle article, final long amount) 
 				throws PersistenceException{
-        ((PersistentCartManager)this.getTheObject()).addArticleImplementation(article, amount);
+        ((PersistentCartManager)this.getTheObject()).addArticle(article, amount);
     }
     public void addOrder(final PersistentCustomerOrder order) 
 				throws PersistenceException{

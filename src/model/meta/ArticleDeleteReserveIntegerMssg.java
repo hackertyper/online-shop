@@ -2,34 +2,36 @@ package model.meta;
 
 import persistence.*;
 
-public class QuantifiedArticlesRetoureIntegerMssg implements QuantifiedArticlesDOWNMssgs,QuantifiedArticlesUPMssgs{
+public class ArticleDeleteReserveIntegerMssg implements ArticleDOWNMssgs,ArticleUPMssgs{
     
     private java.util.Date exctDte = null;
     private Exception excptn;
-    public final persistence.PersistentQuantifiedArticles rcvr;
+    public final persistence.PersistentArticle rcvr;
     public final long amount;
     
-    public QuantifiedArticlesRetoureIntegerMssg(long amount,
-                                                persistence.PersistentQuantifiedArticles rcvr){
+    public ArticleDeleteReserveIntegerMssg(long amount,
+                                           persistence.PersistentArticle rcvr){
         this.amount = amount;
         this.rcvr = rcvr;
     }
-    public void accept(QuantifiedArticlesMssgsVisitor visitor) throws PersistenceException{
-        visitor.handleQuantifiedArticlesRetoureIntegerMssg(this);
+    public void accept(ArticleMssgsVisitor visitor) throws PersistenceException{
+        visitor.handleArticleDeleteReserveIntegerMssg(this);
+    }
+    public void accept(ItemMssgsVisitor visitor) throws PersistenceException{
+        visitor.handleArticleDeleteReserveIntegerMssg(this);
     }
     public synchronized void execute() {
         if (this.exctDte == null){
             this.exctDte = new java.util.Date();
             try{
-                this.rcvr.retoureImplementation(this.amount);
+                this.rcvr.deleteReserveImplementation(this.amount);
             }catch(Exception exception){
                 this.excptn = exception;
             }
         }
     }
-    public synchronized void getResult() throws model.NotArrived, PersistenceException {
+    public synchronized void getResult() throws PersistenceException {
         if(this.excptn != null) {
-            if(this.excptn instanceof model.NotArrived) throw (model.NotArrived) this.excptn;
             if(this.excptn instanceof PersistenceException) throw (PersistenceException) this.excptn;
             if(this.excptn instanceof RuntimeException) throw (RuntimeException) this.excptn;
             throw new Error(this.excptn);

@@ -12,7 +12,7 @@ public abstract class PersistentInCacheProxi extends PersistentRoot {
 		
 	  private static ICProxiFactory [] getTheICProxiFactories(){
 		if (iCProxiFactories == null){
-			iCProxiFactories = new ICProxiFactory[167];
+			iCProxiFactories = new ICProxiFactory[169];
         iCProxiFactories[98] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new AccountICProxi(objectId);
@@ -183,14 +183,14 @@ public abstract class PersistentInCacheProxi extends PersistentRoot {
                 return new RetoureICProxi(objectId);
             }
         };
-        iCProxiFactories[136] = new ICProxiFactory(){
-            PersistentInCacheProxi create(long objectId){
-                return new ChangeTimeCommandICProxi(objectId);
-            }
-        };
         iCProxiFactories[135] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new ChangeChargeCommandICProxi(objectId);
+            }
+        };
+        iCProxiFactories[136] = new ICProxiFactory(){
+            PersistentInCacheProxi create(long objectId){
+                return new ChangeTimeCommandICProxi(objectId);
             }
         };
         iCProxiFactories[87] = new ICProxiFactory(){
@@ -283,17 +283,12 @@ public abstract class PersistentInCacheProxi extends PersistentRoot {
                 return new RegisterServiceICProxi(objectId);
             }
         };
-        iCProxiFactories[144] = new ICProxiFactory(){
-            PersistentInCacheProxi create(long objectId){
-                return new ProductGroupItemListICProxi(objectId);
-            }
-        };
         iCProxiFactories[17] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new WithdrawCommandICProxi(objectId);
             }
         };
-        iCProxiFactories[145] = new ICProxiFactory(){
+        iCProxiFactories[167] = new ICProxiFactory(){
             PersistentInCacheProxi create(long objectId){
                 return new ShopkeeperItemRangeICProxi(objectId);
             }

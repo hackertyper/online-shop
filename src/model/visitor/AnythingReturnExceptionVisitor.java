@@ -43,7 +43,6 @@ public interface AnythingReturnExceptionVisitor<R, E extends model.UserException
     public R handlePreorderCommand(PersistentPreorderCommand preorderCommand) throws PersistenceException, E;
     public R handlePresetBalanceCommand(PersistentPresetBalanceCommand presetBalanceCommand) throws PersistenceException, E;
     public R handlePresetLowerLimitCommand(PersistentPresetLowerLimitCommand presetLowerLimitCommand) throws PersistenceException, E;
-    public R handleProductGroupItemList(PersistentProductGroupItemList productGroupItemList) throws PersistenceException, E;
     public R handleQuantifiedArticles(PersistentQuantifiedArticles quantifiedArticles) throws PersistenceException, E;
     public R handleQuantifiedArticlesArticle(PersistentQuantifiedArticlesArticle quantifiedArticlesArticle) throws PersistenceException, E;
     public R handleRemoveFCartCommand(PersistentRemoveFCartCommand removeFCartCommand) throws PersistenceException, E;

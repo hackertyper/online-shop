@@ -2,6 +2,12 @@
 package model;
 
 import persistence.*;
+import model.meta.ArticleChangePriceIntegerMssg;
+import model.meta.ArticleDeleteReserveIntegerMssg;
+import model.meta.ArticleReceiveDeliveryIntegerMssg;
+import model.meta.ArticleReserveIntegerMssg;
+import model.meta.ItemMssgsVisitor;
+import model.meta.ProductGroupAddItemItemMssg;
 import model.visitor.*;
 
 
@@ -321,13 +327,6 @@ public class Shopkeeper extends PersistentObject implements PersistentShopkeeper
 		command.setCommandReceiver(getThis());
 		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
     }
-    public void changeTime(final PersistentCustomerDelivery cd, final long newTime) 
-				throws PersistenceException{
-        model.meta.ShopkeeperChangeTimeCustomerDeliveryIntegerMssg event = new model.meta.ShopkeeperChangeTimeCustomerDeliveryIntegerMssg(cd, newTime, getThis());
-		event.execute();
-		getThis().updateObservers(event);
-		event.getResult();
-    }
     public void changeTime(final PersistentCustomerDelivery cd, final long newTime, final Invoker invoker) 
 				throws PersistenceException{
         java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
@@ -429,7 +428,7 @@ public class Shopkeeper extends PersistentObject implements PersistentShopkeeper
 				throws PersistenceException{
         serverConstants.ConfigConstants.setRetourePercentage(newPercentage);
     }
-    public void changeTimeImplementation(final PersistentCustomerDelivery cd, final long newTime) 
+    public void changeTime(final PersistentCustomerDelivery cd, final long newTime) 
 				throws PersistenceException{
         cd.changeTime(newTime);
     }
@@ -445,7 +444,30 @@ public class Shopkeeper extends PersistentObject implements PersistentShopkeeper
 				throws PersistenceException{}
     public void itemRange_update(final model.meta.ItemMssgs event) 
 				throws PersistenceException{
-        getThis().getMyServer().signalChanged(true);
+        event.accept(new ItemMssgsVisitor() {
+			@Override
+			public void handleArticleReserveIntegerMssg(ArticleReserveIntegerMssg event) throws PersistenceException {
+				getThis().getMyServer().signalChanged(true);
+			}
+			@Override
+			public void handleArticleReceiveDeliveryIntegerMssg(ArticleReceiveDeliveryIntegerMssg event)
+					throws PersistenceException {
+				getThis().getMyServer().signalChanged(true);
+			}
+			@Override
+			public void handleArticleDeleteReserveIntegerMssg(ArticleDeleteReserveIntegerMssg event)
+					throws PersistenceException {
+				getThis().getMyServer().signalChanged(true);
+			}
+			@Override
+			public void handleArticleChangePriceIntegerMssg(ArticleChangePriceIntegerMssg event) throws PersistenceException {
+				getThis().getMyServer().signalChanged(true);
+			}
+			@Override
+			public void handleProductGroupAddItemItemMssg(ProductGroupAddItemItemMssg event) throws PersistenceException {
+				getThis().getMyServer().signalChanged(true);
+			}
+		});
     }
     public void presetBalance(final long amount) 
 				throws PersistenceException{

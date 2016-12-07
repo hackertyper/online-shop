@@ -4,7 +4,6 @@ package model;
 import persistence.*;
 import model.meta.QuantifiedArticlesFireArticleChangedArticleMssgsMssg;
 import model.meta.QuantifiedArticlesMssgsVisitor;
-import model.meta.QuantifiedArticlesRetoureIntegerMssg;
 import model.visitor.*;
 
 
@@ -351,9 +350,6 @@ public class PreOrder extends PersistentObject implements PersistentPreOrder{
     public void articleList_update(final model.meta.QuantifiedArticlesMssgs event) 
 				throws PersistenceException{
         event.accept(new QuantifiedArticlesMssgsVisitor() {
-			@Override
-			public void handleQuantifiedArticlesRetoureIntegerMssg(QuantifiedArticlesRetoureIntegerMssg event)
-					throws PersistenceException {}
 			@Override
 			public void handleQuantifiedArticlesFireArticleChangedArticleMssgsMssg(
 					QuantifiedArticlesFireArticleChangedArticleMssgsMssg event) throws PersistenceException {

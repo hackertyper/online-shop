@@ -17,11 +17,11 @@ public abstract class ShopkeeperCommandStandardVisitor implements ShopkeeperComm
     public void handleChangePriceCommand(PersistentChangePriceCommand changePriceCommand) throws PersistenceException{
         this.standardHandling(changePriceCommand);
     }
-    public void handleChangeTimeCommand(PersistentChangeTimeCommand changeTimeCommand) throws PersistenceException{
-        this.standardHandling(changeTimeCommand);
-    }
     public void handleChangeChargeCommand(PersistentChangeChargeCommand changeChargeCommand) throws PersistenceException{
         this.standardHandling(changeChargeCommand);
+    }
+    public void handleChangeTimeCommand(PersistentChangeTimeCommand changeTimeCommand) throws PersistenceException{
+        this.standardHandling(changeTimeCommand);
     }
     public void handleChangeDescriptionCommand(PersistentChangeDescriptionCommand changeDescriptionCommand) throws PersistenceException{
         this.standardHandling(changeDescriptionCommand);

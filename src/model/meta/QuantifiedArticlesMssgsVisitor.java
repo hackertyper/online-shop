@@ -6,7 +6,6 @@ public interface QuantifiedArticlesMssgsVisitor extends QuantifiedArticlesDOWNMs
 interface QuantifiedArticlesDOWNMssgsVisitor  {
 
     public void handleQuantifiedArticlesFireArticleChangedArticleMssgsMssg(QuantifiedArticlesFireArticleChangedArticleMssgsMssg event) throws persistence.PersistenceException;
-    public void handleQuantifiedArticlesRetoureIntegerMssg(QuantifiedArticlesRetoureIntegerMssg event) throws persistence.PersistenceException;
     
 }
 
@@ -14,6 +13,5 @@ interface QuantifiedArticlesDOWNMssgsVisitor  {
 interface QuantifiedArticlesUPMssgsVisitor  {
 
     public void handleQuantifiedArticlesFireArticleChangedArticleMssgsMssg(QuantifiedArticlesFireArticleChangedArticleMssgsMssg event) throws persistence.PersistenceException;
-    public void handleQuantifiedArticlesRetoureIntegerMssg(QuantifiedArticlesRetoureIntegerMssg event) throws persistence.PersistenceException;
     
 }

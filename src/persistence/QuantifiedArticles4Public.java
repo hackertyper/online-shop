@@ -19,8 +19,6 @@ public interface QuantifiedArticles4Public extends Anything, SubjInterface, Abst
 				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
-    public void retoure(final long amount) 
-				throws model.NotArrived, PersistenceException;
     public void changeAmount(final long newAmount) 
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
@@ -39,7 +37,7 @@ public interface QuantifiedArticles4Public extends Anything, SubjInterface, Abst
 				throws PersistenceException;
     public void reserve() 
 				throws model.InsufficientStock, PersistenceException;
-    public void retoureImplementation(final long amount) 
+    public void retoure(final long amount) 
 				throws model.NotArrived, PersistenceException;
 
 }

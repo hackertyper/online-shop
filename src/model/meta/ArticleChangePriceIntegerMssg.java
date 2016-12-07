@@ -2,29 +2,29 @@ package model.meta;
 
 import persistence.*;
 
-public class CartManagerAddArticleArticleIntegerMssg implements CartManagerDOWNMssgs,CartManagerUPMssgs{
+public class ArticleChangePriceIntegerMssg implements ArticleDOWNMssgs,ArticleUPMssgs{
     
     private java.util.Date exctDte = null;
     private Exception excptn;
-    public final persistence.PersistentCartManager rcvr;
-    public final persistence.PersistentArticle article;
-    public final long amount;
+    public final persistence.PersistentArticle rcvr;
+    public final long newPrice;
     
-    public CartManagerAddArticleArticleIntegerMssg(persistence.PersistentArticle article,
-                                                   long amount,
-                                                   persistence.PersistentCartManager rcvr){
-        this.article = article;
-        this.amount = amount;
+    public ArticleChangePriceIntegerMssg(long newPrice,
+                                         persistence.PersistentArticle rcvr){
+        this.newPrice = newPrice;
         this.rcvr = rcvr;
     }
-    public void accept(CartManagerMssgsVisitor visitor) throws PersistenceException{
-        visitor.handleCartManagerAddArticleArticleIntegerMssg(this);
+    public void accept(ArticleMssgsVisitor visitor) throws PersistenceException{
+        visitor.handleArticleChangePriceIntegerMssg(this);
+    }
+    public void accept(ItemMssgsVisitor visitor) throws PersistenceException{
+        visitor.handleArticleChangePriceIntegerMssg(this);
     }
     public synchronized void execute() {
         if (this.exctDte == null){
             this.exctDte = new java.util.Date();
             try{
-                this.rcvr.addArticleImplementation(this.article, this.amount);
+                this.rcvr.changePriceImplementation(this.newPrice);
             }catch(Exception exception){
                 this.excptn = exception;
             }

@@ -45,8 +45,6 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     }
     public abstract void handleQuantifiedArticlesArticle(PersistentQuantifiedArticlesArticle quantifiedArticlesArticle) throws PersistenceException;
     
-    public abstract void handleProductGroupItemList(PersistentProductGroupItemList productGroupItemList) throws PersistenceException;
-    
     public abstract void handleCustomerManager(PersistentCustomerManager customerManager) throws PersistenceException;
     
     public abstract void handleManufacturer(PersistentManufacturer manufacturer) throws PersistenceException;
@@ -173,11 +171,11 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handlePreorderCommand(PersistentPreorderCommand preorderCommand) throws PersistenceException{
         this.handleCommonDate(preorderCommand);
     }
-    public void handleChangeTimeCommand(PersistentChangeTimeCommand changeTimeCommand) throws PersistenceException{
-        this.handleCommonDate(changeTimeCommand);
-    }
     public void handleChangeChargeCommand(PersistentChangeChargeCommand changeChargeCommand) throws PersistenceException{
         this.handleCommonDate(changeChargeCommand);
+    }
+    public void handleChangeTimeCommand(PersistentChangeTimeCommand changeTimeCommand) throws PersistenceException{
+        this.handleCommonDate(changeTimeCommand);
     }
     public void handleCheckOutCommand(PersistentCheckOutCommand checkOutCommand) throws PersistenceException{
         this.handleCommonDate(checkOutCommand);

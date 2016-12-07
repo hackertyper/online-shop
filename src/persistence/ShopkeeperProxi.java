@@ -101,10 +101,6 @@ public class ShopkeeperProxi extends PersistentProxi implements PersistentShopke
 				throws PersistenceException{
         ((PersistentShopkeeper)this.getTheObject()).changeRetourePercentage(newPercentage, invoker);
     }
-    public void changeTime(final PersistentCustomerDelivery cd, final long newTime) 
-				throws PersistenceException{
-        ((PersistentShopkeeper)this.getTheObject()).changeTime(cd, newTime);
-    }
     public void changeTime(final PersistentCustomerDelivery cd, final long newTime, final Invoker invoker) 
 				throws PersistenceException{
         ((PersistentShopkeeper)this.getTheObject()).changeTime(cd, newTime, invoker);
@@ -161,9 +157,9 @@ public class ShopkeeperProxi extends PersistentProxi implements PersistentShopke
 				throws PersistenceException{
         ((PersistentShopkeeper)this.getTheObject()).changeRetourePercentage(newPercentage);
     }
-    public void changeTimeImplementation(final PersistentCustomerDelivery cd, final long newTime) 
+    public void changeTime(final PersistentCustomerDelivery cd, final long newTime) 
 				throws PersistenceException{
-        ((PersistentShopkeeper)this.getTheObject()).changeTimeImplementation(cd, newTime);
+        ((PersistentShopkeeper)this.getTheObject()).changeTime(cd, newTime);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{

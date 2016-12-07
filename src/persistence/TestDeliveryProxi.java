@@ -60,6 +60,14 @@ public class TestDeliveryProxi extends CustomerDeliveryProxi implements Persiste
     }
     
     
+    public void changeExtraCharge(final long newCharge) 
+				throws PersistenceException{
+        ((PersistentTestDelivery)this.getTheObject()).changeExtraCharge(newCharge);
+    }
+    public void changeTime(final long newTime) 
+				throws PersistenceException{
+        ((PersistentTestDelivery)this.getTheObject()).changeTime(newTime);
+    }
     public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentTestDelivery)this.getTheObject()).deregister(observee);
@@ -76,13 +84,13 @@ public class TestDeliveryProxi extends CustomerDeliveryProxi implements Persiste
 				throws PersistenceException{
         ((PersistentTestDelivery)this.getTheObject()).updateObservers(event);
     }
-    public void changeExtraCharge(final long newCharge) 
+    public void changeExtraChargeImplementation(final long newCharge) 
 				throws PersistenceException{
-        ((PersistentTestDelivery)this.getTheObject()).changeExtraCharge(newCharge);
+        ((PersistentTestDelivery)this.getTheObject()).changeExtraChargeImplementation(newCharge);
     }
-    public void changeTime(final long newTime) 
+    public void changeTimeImplementation(final long newTime) 
 				throws PersistenceException{
-        ((PersistentTestDelivery)this.getTheObject()).changeTime(newTime);
+        ((PersistentTestDelivery)this.getTheObject()).changeTimeImplementation(newTime);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{

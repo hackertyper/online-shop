@@ -183,9 +183,9 @@ public class TestDelivery extends model.CustomerDelivery implements PersistentTe
     
     // Start of section that contains operations that must be implemented.
     
-    public void changeExtraCharge(final long newCharge) 
+    public void changeExtraChargeImplementation(final long newCharge) 
 				throws PersistenceException{}
-    public void changeTime(final long newTime) 
+    public void changeTimeImplementation(final long newTime) 
 				throws PersistenceException{}
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{}

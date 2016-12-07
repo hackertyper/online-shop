@@ -102,6 +102,14 @@ public class ArticleProxi extends ItemProxi implements PersistentArticle{
     }
     
     
+    public void changePrice(final long newPrice) 
+				throws PersistenceException{
+        ((PersistentArticle)this.getTheObject()).changePrice(newPrice);
+    }
+    public void deleteReserve(final long amount) 
+				throws PersistenceException{
+        ((PersistentArticle)this.getTheObject()).deleteReserve(amount);
+    }
     public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentArticle)this.getTheObject()).deregister(observee);
@@ -118,6 +126,10 @@ public class ArticleProxi extends ItemProxi implements PersistentArticle{
 				throws PersistenceException{
         ((PersistentArticle)this.getTheObject()).register(observee);
     }
+    public void reserve(final long amount) 
+				throws model.InsufficientStock, PersistenceException{
+        ((PersistentArticle)this.getTheObject()).reserve(amount);
+    }
     public void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentArticle)this.getTheObject()).updateObservers(event);
@@ -130,9 +142,9 @@ public class ArticleProxi extends ItemProxi implements PersistentArticle{
 				throws PersistenceException{
         ((PersistentArticle)this.getTheObject()).changeManuDelivery(newManuDelivery);
     }
-    public void changePrice(final long newPrice) 
+    public void changePriceImplementation(final long newPrice) 
 				throws PersistenceException{
-        ((PersistentArticle)this.getTheObject()).changePrice(newPrice);
+        ((PersistentArticle)this.getTheObject()).changePriceImplementation(newPrice);
     }
     public void changeProductGroup(final PersistentProductGroup newPG) 
 				throws PersistenceException{
@@ -142,9 +154,9 @@ public class ArticleProxi extends ItemProxi implements PersistentArticle{
 				throws PersistenceException{
         ((PersistentArticle)this.getTheObject()).copyingPrivateUserAttributes(copy);
     }
-    public void deleteReserve(final long amount) 
+    public void deleteReserveImplementation(final long amount) 
 				throws PersistenceException{
-        ((PersistentArticle)this.getTheObject()).deleteReserve(amount);
+        ((PersistentArticle)this.getTheObject()).deleteReserveImplementation(amount);
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
@@ -162,9 +174,9 @@ public class ArticleProxi extends ItemProxi implements PersistentArticle{
 				throws PersistenceException{
         ((PersistentArticle)this.getTheObject()).receiveDeliveryImplementation(amount);
     }
-    public void reserve(final long amount) 
+    public void reserveImplementation(final long amount) 
 				throws model.InsufficientStock, PersistenceException{
-        ((PersistentArticle)this.getTheObject()).reserve(amount);
+        ((PersistentArticle)this.getTheObject()).reserveImplementation(amount);
     }
 
     

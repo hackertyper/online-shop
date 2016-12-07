@@ -4,12 +4,12 @@ import model.*;
 
 import java.util.Iterator;
 
-public class ProductGroupItemList_ObserveeProxi extends PersistentListProxi<PersistentItem> {
+public class ProductGroup_ItemListProxi extends PersistentListProxi<PersistentItem> {
 
   	private ItemList list;
-  	private ProductGroupItemList owner;
+  	private ProductGroup owner;
 
-  	public ProductGroupItemList_ObserveeProxi(ProductGroupItemList owner) {
+  	public ProductGroup_ItemListProxi(ProductGroup owner) {
     	this.owner = owner;
   	}
   	public ItemList getList() throws PersistenceException{
@@ -19,7 +19,7 @@ public class ProductGroupItemList_ObserveeProxi extends PersistentListProxi<Pers
       		} else {
         		this.list = ConnectionHandler
                 		    .getTheConnectionHandler()
-                      		.theProductGroupItemListFacade.observeeGet(this.owner.getId());
+                      		.theProductGroupFacade.itemListGet(this.owner.getId());
       		}
       		this.data = this.list.data;
     	}
@@ -37,23 +37,23 @@ public class ProductGroupItemList_ObserveeProxi extends PersistentListProxi<Pers
       		long entryId = 0;
       		if (!this.owner.isDelayed$Persistence()) {
         		entry.store();  	
-        		entryId = ConnectionHandler.getTheConnectionHandler().theProductGroupItemListFacade
-        	               	.observeeAdd(owner.getId(), entry);
+        		entryId = ConnectionHandler.getTheConnectionHandler().theProductGroupFacade
+        	               	.itemListAdd(owner.getId(), entry);
       		}
       		list.add((PersistentItem)PersistentProxi.createListEntryProxi(entry.getId(),
             		                   entry.getClassId(),
         	    	                   entryId));
-      		entry.register(this.owner);
+      		
     	}
   	}
   	protected void remove(PersistentListEntryProxi entry) throws PersistenceException {
     	if (!this.owner.isDelayed$Persistence()) {
-      		ConnectionHandler.getTheConnectionHandler().theProductGroupItemListFacade.observeeRem(entry.getListEntryId());
+      		ConnectionHandler.getTheConnectionHandler().theProductGroupFacade.itemListRem(entry.getListEntryId());
     	}
-    	((PersistentItem)entry).deregister(this.owner);
+    	
   	}
-  	public ProductGroupItemList_ObserveeProxi copy(ProductGroupItemList owner) throws PersistenceException {
-  		ProductGroupItemList_ObserveeProxi result = new ProductGroupItemList_ObserveeProxi(owner);
+  	public ProductGroup_ItemListProxi copy(ProductGroup owner) throws PersistenceException {
+  		ProductGroup_ItemListProxi result = new ProductGroup_ItemListProxi(owner);
   		result.list = this.getList().copy();
   		return result;
   	}	 
@@ -62,8 +62,8 @@ public class ProductGroupItemList_ObserveeProxi extends PersistentListProxi<Pers
   		while (entries.hasNext()){
   			PersistentItem current = entries.next();
   			current.store();
-      		long entryId = ConnectionHandler.getTheConnectionHandler().theProductGroupItemListFacade
-            	           .observeeAdd(owner.getId(), current);
+      		long entryId = ConnectionHandler.getTheConnectionHandler().theProductGroupFacade
+            	           .itemListAdd(owner.getId(), current);
         	((PersistentListEntryProxi)current).setListEntryId(entryId);
 		}
 	}

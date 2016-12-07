@@ -287,6 +287,26 @@ public class Article extends model.Item implements PersistentArticle{
     }
     
     
+    public void changePrice(final long newPrice) 
+				throws PersistenceException{
+        model.meta.ArticleChangePriceIntegerMssg event = new model.meta.ArticleChangePriceIntegerMssg(newPrice, getThis());
+		event.execute();
+		getThis().updateObservers(event);
+		event.getResult();
+    }
+    /**
+     * Reverses the reservation of an article.
+     * @see {@link #reserve(long) reserve }
+     * 
+     * @param amount - amount which was reserved and is freed.
+     */
+    public void deleteReserve(final long amount) 
+				throws PersistenceException{
+        model.meta.ArticleDeleteReserveIntegerMssg event = new model.meta.ArticleDeleteReserveIntegerMssg(amount, getThis());
+		event.execute();
+		getThis().updateObservers(event);
+		event.getResult();
+    }
     public synchronized void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
@@ -323,6 +343,19 @@ public class Article extends model.Item implements PersistentArticle{
 		}
 		subService.register(observee);
     }
+    /**
+     * Reserves a given amount of this article through reducing the stock.
+     * 
+     * @param amount - the amount by which the stock should be reduced
+     * @throws InsufficientStock if amount > stock
+     */
+    public void reserve(final long amount) 
+				throws model.InsufficientStock, PersistenceException{
+        model.meta.ArticleReserveIntegerMssg event = new model.meta.ArticleReserveIntegerMssg(amount, getThis());
+		event.execute();
+		getThis().updateObservers(event);
+		event.getResult();
+    }
     public synchronized void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
@@ -340,7 +373,7 @@ public class Article extends model.Item implements PersistentArticle{
 				throws PersistenceException{
         getThis().getManufacturer().changeManuDelivery(newManuDelivery);
     }
-    public void changePrice(final long newPrice) 
+    public void changePriceImplementation(final long newPrice) 
 				throws PersistenceException{
         getThis().setPrice(newPrice);
     }
@@ -358,7 +391,7 @@ public class Article extends model.Item implements PersistentArticle{
      * 
      * @param amount - amount which was reserved and is freed.
      */
-    public void deleteReserve(final long amount) 
+    public void deleteReserveImplementation(final long amount) 
 				throws PersistenceException{
     	getThis().setStock(getThis().getStock() + amount);
     }
@@ -401,7 +434,7 @@ public class Article extends model.Item implements PersistentArticle{
      * @param amount - the amount by which the stock should be reduced
      * @throws InsufficientStock if amount > stock
      */
-    public void reserve(final long amount) 
+    public void reserveImplementation(final long amount) 
 				throws model.InsufficientStock, PersistenceException{
     	if(amount > getThis().getStock()) {
     		throw new InsufficientStock(serverConstants.ErrorMessages.InsufficientStock);

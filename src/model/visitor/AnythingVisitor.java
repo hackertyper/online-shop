@@ -43,7 +43,6 @@ public interface AnythingVisitor extends CartStateVisitor,CommonDateVisitor,Cust
     public void handlePreorderCommand(PersistentPreorderCommand preorderCommand) throws PersistenceException;
     public void handlePresetBalanceCommand(PersistentPresetBalanceCommand presetBalanceCommand) throws PersistenceException;
     public void handlePresetLowerLimitCommand(PersistentPresetLowerLimitCommand presetLowerLimitCommand) throws PersistenceException;
-    public void handleProductGroupItemList(PersistentProductGroupItemList productGroupItemList) throws PersistenceException;
     public void handleQuantifiedArticles(PersistentQuantifiedArticles quantifiedArticles) throws PersistenceException;
     public void handleQuantifiedArticlesArticle(PersistentQuantifiedArticlesArticle quantifiedArticlesArticle) throws PersistenceException;
     public void handleRemoveFCartCommand(PersistentRemoveFCartCommand removeFCartCommand) throws PersistenceException;

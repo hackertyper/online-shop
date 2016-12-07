@@ -64,6 +64,14 @@ public class StandardDeliveryICProxi extends CustomerDeliveryICProxi implements 
     }
     
     
+    public void changeExtraCharge(final long newCharge) 
+				throws PersistenceException{
+        ((PersistentStandardDelivery)this.getTheObject()).changeExtraCharge(newCharge);
+    }
+    public void changeTime(final long newTime) 
+				throws PersistenceException{
+        ((PersistentStandardDelivery)this.getTheObject()).changeTime(newTime);
+    }
     public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentStandardDelivery)this.getTheObject()).deregister(observee);
@@ -80,13 +88,13 @@ public class StandardDeliveryICProxi extends CustomerDeliveryICProxi implements 
 				throws PersistenceException{
         ((PersistentStandardDelivery)this.getTheObject()).updateObservers(event);
     }
-    public void changeExtraCharge(final long newCharge) 
+    public void changeExtraChargeImplementation(final long newCharge) 
 				throws PersistenceException{
-        ((PersistentStandardDelivery)this.getTheObject()).changeExtraCharge(newCharge);
+        ((PersistentStandardDelivery)this.getTheObject()).changeExtraChargeImplementation(newCharge);
     }
-    public void changeTime(final long newTime) 
+    public void changeTimeImplementation(final long newTime) 
 				throws PersistenceException{
-        ((PersistentStandardDelivery)this.getTheObject()).changeTime(newTime);
+        ((PersistentStandardDelivery)this.getTheObject()).changeTimeImplementation(newTime);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{

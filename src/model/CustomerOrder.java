@@ -11,7 +11,6 @@ import common.DeliveryTask;
 import common.OrderTimer;
 import model.meta.QuantifiedArticlesFireArticleChangedArticleMssgsMssg;
 import model.meta.QuantifiedArticlesMssgsVisitor;
-import model.meta.QuantifiedArticlesRetoureIntegerMssg;
 import model.visitor.*;
 
 
@@ -309,8 +308,8 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
 				throws PersistenceException{
         event.accept(new QuantifiedArticlesMssgsVisitor() {
 			@Override
-			public void handleQuantifiedArticlesRetoureIntegerMssg(QuantifiedArticlesRetoureIntegerMssg event)
-					throws PersistenceException {
+			public void handleQuantifiedArticlesFireArticleChangedArticleMssgsMssg(
+					QuantifiedArticlesFireArticleChangedArticleMssgsMssg event) throws PersistenceException {
 				getThis().getArticleList().filter(new Predcate<PersistentQuantifiedArticles>() {
 					@Override
 					public boolean test(PersistentQuantifiedArticles argument) throws PersistenceException {
@@ -318,9 +317,6 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
 					}
 				});
 			}
-			@Override
-			public void handleQuantifiedArticlesFireArticleChangedArticleMssgsMssg(
-					QuantifiedArticlesFireArticleChangedArticleMssgsMssg event) throws PersistenceException {}
 		});
     }
     public void copyingPrivateUserAttributes(final Anything copy) 

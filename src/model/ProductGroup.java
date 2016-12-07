@@ -2,6 +2,7 @@
 package model;
 
 import persistence.*;
+import model.meta.ArticleChangePriceIntegerMssg;
 import model.meta.ArticleReceiveDeliveryIntegerMssg;
 import model.meta.ItemMssgsVisitor;
 import model.meta.ProductGroupAddItemItemMssg;
@@ -55,7 +56,7 @@ public class ProductGroup extends model.Item implements PersistentProductGroup{
     java.util.HashMap<String,Object> result = null;
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
-            result.put("itemList", this.getItemList().getObservee().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, true));
+            result.put("itemList", this.getItemList().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, true));
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
         }
@@ -67,8 +68,8 @@ public class ProductGroup extends model.Item implements PersistentProductGroup{
         result = new ProductGroup(this.description, 
                                   this.subService, 
                                   this.This, 
-                                  this.itemList, 
                                   this.getId());
+        result.itemList = this.itemList.copy(result);
         this.copyingPrivateUserAttributes(result);
         return result;
     }
@@ -76,12 +77,12 @@ public class ProductGroup extends model.Item implements PersistentProductGroup{
     public boolean hasEssentialFields() throws PersistenceException{
         return false;
     }
-    protected PersistentProductGroupItemList itemList;
+    protected ProductGroup_ItemListProxi itemList;
     
-    public ProductGroup(String description,SubjInterface subService,PersistentItem This,PersistentProductGroupItemList itemList,long id) throws PersistenceException {
+    public ProductGroup(String description,SubjInterface subService,PersistentItem This,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super((String)description,(SubjInterface)subService,(PersistentItem)This,id);
-        this.itemList = itemList;        
+        this.itemList = new ProductGroup_ItemListProxi(this);        
     }
     
     static public long getTypeId() {
@@ -97,23 +98,12 @@ public class ProductGroup extends model.Item implements PersistentProductGroup{
         if (this.getClassId() == 102) ConnectionHandler.getTheConnectionHandler().theProductGroupFacade
             .newProductGroup(description,this.getId());
         super.store();
-        if(this.itemList != null){
-            this.itemList.store();
-            ConnectionHandler.getTheConnectionHandler().theProductGroupFacade.itemListSet(this.getId(), itemList);
-        }
+        this.getItemList().store();
         
     }
     
-    public void setItemList(PersistentProductGroupItemList newValue) throws PersistenceException {
-        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
-        if(newValue.isTheSameAs(this.itemList)) return;
-        long objectId = newValue.getId();
-        long classId = newValue.getClassId();
-        this.itemList = (PersistentProductGroupItemList)PersistentProxi.createProxi(objectId, classId);
-        if(!this.isDelayed$Persistence()){
-            newValue.store();
-            ConnectionHandler.getTheConnectionHandler().theProductGroupFacade.itemListSet(this.getId(), newValue);
-        }
+    public ProductGroup_ItemListProxi getItemList() throws PersistenceException {
+        return this.itemList;
     }
     public PersistentProductGroup getThis() throws PersistenceException {
         if(this.This == null){
@@ -160,7 +150,7 @@ public class ProductGroup extends model.Item implements PersistentProductGroup{
          return visitor.handleProductGroup(this);
     }
     public int getLeafInfo() throws PersistenceException{
-        if (this.getItemList().getObservee().getLength() > 0) return 1;
+        if (this.getItemList().getLength() > 0) return 1;
         return 0;
     }
     
@@ -180,14 +170,6 @@ public class ProductGroup extends model.Item implements PersistentProductGroup{
 			getThis().setSubService(subService);
 		}
 		subService.deregister(observee);
-    }
-    public PersistentProductGroupItemList getItemList() 
-				throws PersistenceException{
-        if (this.itemList == null) {
-			this.setItemList(model.ProductGroupItemList.createProductGroupItemList(this.isDelayed$Persistence()));
-			this.itemList.setObserver(this);
-		}
-		return this.itemList;
     }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
@@ -229,25 +211,10 @@ public class ProductGroup extends model.Item implements PersistentProductGroup{
     public void initializeOnCreation() 
 				throws PersistenceException{
         super.initializeOnCreation();
-		//TODO: implement method: initializeOnCreation
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         super.initializeOnInstantiation();
-		//TODO: implement method: initializeOnInstantiation
-    }
-    public void itemList_update(final model.meta.ItemMssgs event) 
-				throws PersistenceException{
-        event.accept(new ItemMssgsVisitor() {
-			@Override
-			public void handleArticleReceiveDeliveryIntegerMssg(ArticleReceiveDeliveryIntegerMssg event)
-					throws PersistenceException {
-				// TODO Preorder auf erledigung prüfen
-				
-			}
-			@Override
-			public void handleProductGroupAddItemItemMssg(ProductGroupAddItemItemMssg event) throws PersistenceException {}
-		});
     }
     
     
