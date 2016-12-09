@@ -2,6 +2,9 @@
 package model;
 
 import persistence.*;
+import model.meta.CustomerDeliveryChangeExtraChargeIntegerMssg;
+import model.meta.CustomerDeliveryChangeTimeIntegerMssg;
+import model.meta.StandardDeliveryMssgsVisitor;
 import model.visitor.*;
 
 
@@ -83,6 +86,15 @@ public class CartManager extends PersistentObject implements PersistentCartManag
                     if(forGUI && onDelivery.hasEssentialFields())onDelivery.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
                 }
             }
+            AbstractPersistentRoot preOrder = (AbstractPersistentRoot)this.getPreOrder();
+            if (preOrder != null) {
+                result.put("preOrder", preOrder.createProxiInformation(false, essentialLevel <= 1));
+                if(depth > 1) {
+                    preOrder.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && preOrder.hasEssentialFields())preOrder.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
             AbstractPersistentRoot customerManager = (AbstractPersistentRoot)this.getCustomerManager();
             if (customerManager != null) {
                 result.put("customerManager", customerManager.createProxiInformation(false, essentialLevel <= 1));
@@ -113,6 +125,7 @@ public class CartManager extends PersistentObject implements PersistentCartManag
                                  this.articleList, 
                                  this.standardDelivery, 
                                  this.onDelivery, 
+                                 this.preOrder, 
                                  this.subService, 
                                  this.This, 
                                  this.getId());
@@ -125,18 +138,20 @@ public class CartManager extends PersistentObject implements PersistentCartManag
     }
     protected PersistentCart myCart;
     protected PersistentCartManagerArticleList articleList;
-    protected PersistentStandardDelivery standardDelivery;
-    protected PersistentOverNightDelivery onDelivery;
+    protected PersistentCartManagerStandardDelivery standardDelivery;
+    protected PersistentCartManagerOnDelivery onDelivery;
+    protected PersistentPreOrder preOrder;
     protected SubjInterface subService;
     protected PersistentCartManager This;
     
-    public CartManager(PersistentCart myCart,PersistentCartManagerArticleList articleList,PersistentStandardDelivery standardDelivery,PersistentOverNightDelivery onDelivery,SubjInterface subService,PersistentCartManager This,long id) throws PersistenceException {
+    public CartManager(PersistentCart myCart,PersistentCartManagerArticleList articleList,PersistentCartManagerStandardDelivery standardDelivery,PersistentCartManagerOnDelivery onDelivery,PersistentPreOrder preOrder,SubjInterface subService,PersistentCartManager This,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.myCart = myCart;
         this.articleList = articleList;
         this.standardDelivery = standardDelivery;
         this.onDelivery = onDelivery;
+        this.preOrder = preOrder;
         this.subService = subService;
         if (This != null && !(this.isTheSameAs(This))) this.This = This;        
     }
@@ -162,13 +177,17 @@ public class CartManager extends PersistentObject implements PersistentCartManag
             this.articleList.store();
             ConnectionHandler.getTheConnectionHandler().theCartManagerFacade.articleListSet(this.getId(), articleList);
         }
-        if(this.getStandardDelivery() != null){
-            this.getStandardDelivery().store();
-            ConnectionHandler.getTheConnectionHandler().theCartManagerFacade.standardDeliverySet(this.getId(), getStandardDelivery());
+        if(this.standardDelivery != null){
+            this.standardDelivery.store();
+            ConnectionHandler.getTheConnectionHandler().theCartManagerFacade.standardDeliverySet(this.getId(), standardDelivery);
         }
-        if(this.getOnDelivery() != null){
-            this.getOnDelivery().store();
-            ConnectionHandler.getTheConnectionHandler().theCartManagerFacade.onDeliverySet(this.getId(), getOnDelivery());
+        if(this.onDelivery != null){
+            this.onDelivery.store();
+            ConnectionHandler.getTheConnectionHandler().theCartManagerFacade.onDeliverySet(this.getId(), onDelivery);
+        }
+        if(this.getPreOrder() != null){
+            this.getPreOrder().store();
+            ConnectionHandler.getTheConnectionHandler().theCartManagerFacade.preOrderSet(this.getId(), getPreOrder());
         }
         if(this.getSubService() != null){
             this.getSubService().store();
@@ -206,32 +225,40 @@ public class CartManager extends PersistentObject implements PersistentCartManag
             ConnectionHandler.getTheConnectionHandler().theCartManagerFacade.articleListSet(this.getId(), newValue);
         }
     }
-    public PersistentStandardDelivery getStandardDelivery() throws PersistenceException {
-        return this.standardDelivery;
-    }
-    public void setStandardDelivery(PersistentStandardDelivery newValue) throws PersistenceException {
+    public void setStandardDelivery(PersistentCartManagerStandardDelivery newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
         if(newValue.isTheSameAs(this.standardDelivery)) return;
         long objectId = newValue.getId();
         long classId = newValue.getClassId();
-        this.standardDelivery = (PersistentStandardDelivery)PersistentProxi.createProxi(objectId, classId);
+        this.standardDelivery = (PersistentCartManagerStandardDelivery)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
             ConnectionHandler.getTheConnectionHandler().theCartManagerFacade.standardDeliverySet(this.getId(), newValue);
         }
     }
-    public PersistentOverNightDelivery getOnDelivery() throws PersistenceException {
-        return this.onDelivery;
-    }
-    public void setOnDelivery(PersistentOverNightDelivery newValue) throws PersistenceException {
+    public void setOnDelivery(PersistentCartManagerOnDelivery newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
         if(newValue.isTheSameAs(this.onDelivery)) return;
         long objectId = newValue.getId();
         long classId = newValue.getClassId();
-        this.onDelivery = (PersistentOverNightDelivery)PersistentProxi.createProxi(objectId, classId);
+        this.onDelivery = (PersistentCartManagerOnDelivery)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
             ConnectionHandler.getTheConnectionHandler().theCartManagerFacade.onDeliverySet(this.getId(), newValue);
+        }
+    }
+    public PersistentPreOrder getPreOrder() throws PersistenceException {
+        return this.preOrder;
+    }
+    public void setPreOrder(PersistentPreOrder newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.isTheSameAs(this.preOrder)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.preOrder = (PersistentPreOrder)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theCartManagerFacade.preOrderSet(this.getId(), newValue);
         }
     }
     public SubjInterface getSubService() throws PersistenceException {
@@ -304,13 +331,6 @@ public class CartManager extends PersistentObject implements PersistentCartManag
     }
     
     
-    public void addArticle(final PersistentArticle article, final long amount) 
-				throws PersistenceException{
-        model.meta.CartManagerAddArticleArticleIntegerMssg event = new model.meta.CartManagerAddArticleArticleIntegerMssg(article, amount, getThis());
-		event.execute();
-		getThis().updateObservers(event);
-		event.getResult();
-    }
     public void addArticle(final PersistentArticle article, final long amount, final Invoker invoker) 
 				throws PersistenceException{
         java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
@@ -376,6 +396,16 @@ public class CartManager extends PersistentObject implements PersistentCartManag
 			return null;
 		}
     }
+    public PersistentOverNightDelivery getOnDelivery() 
+				throws PersistenceException{
+        if (this.onDelivery== null) return null;
+		return this.onDelivery.getObservee();
+    }
+    public PersistentStandardDelivery getStandardDelivery() 
+				throws PersistenceException{
+        if (this.standardDelivery== null) return null;
+		return this.standardDelivery.getObservee();
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentCartManager)This);
@@ -409,6 +439,22 @@ public class CartManager extends PersistentObject implements PersistentCartManag
 		command.setCommandReceiver(getThis());
 		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
     }
+    public void setOnDelivery(final PersistentOverNightDelivery onDelivery) 
+				throws PersistenceException{
+        if (this.onDelivery == null) {
+			this.setOnDelivery(model.CartManagerOnDelivery.createCartManagerOnDelivery(this.isDelayed$Persistence()));
+			this.onDelivery.setObserver(getThis());
+		}
+		this.onDelivery.setObservee(onDelivery);
+    }
+    public void setStandardDelivery(final PersistentStandardDelivery standardDelivery) 
+				throws PersistenceException{
+        if (this.standardDelivery == null) {
+			this.setStandardDelivery(model.CartManagerStandardDelivery.createCartManagerStandardDelivery(this.isDelayed$Persistence()));
+			this.standardDelivery.setObserver(getThis());
+		}
+		this.standardDelivery.setObservee(standardDelivery);
+    }
     public synchronized void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
@@ -422,65 +468,100 @@ public class CartManager extends PersistentObject implements PersistentCartManag
     
     // Start of section that contains operations that must be implemented.
     
-    public void addArticleImplementation(final PersistentArticle article, final long amount) 
+    /**
+     * Adds the article to the cart. If the article is already in the cart, adds the amount.
+     * Recalculates the current sum of the cart.
+     * 
+     * @param article - the article to add to the cart
+     */
+    public void addArticle(final PersistentArticle article, final long amount) 
 				throws PersistenceException{
-        //TODO: implement method: addArticleImplementation
-        
+    	getThis().getMyCart().checkOutReverse();
+    	// Check if article is already in cart
+        PersistentQuantifiedArticles oldEntry = getThis().getArticleList().findFirst(x -> x.getArticle().equals(article));
+        if(oldEntry == null) {
+        	getThis().getArticleList().add(QuantifiedArticles.createQuantifiedArticles(article, amount));
+        } else {
+        	oldEntry.changeAmount(oldEntry.getAmount() + amount);
+        }
+        // Calculation of new sum
+        getThis().getMyCart().setCurrentSum(getThis().getMyCart().fetchCurrentSum());
     }
     public void addOrder(final PersistentCustomerOrder order) 
 				throws PersistenceException{
-        //TODO: implement method: addOrder
-        
+        getThis().getCustomerManager().addOrder(order);
+    }
+    public void addPreOrder(final PersistentPreOrder preOrder) 
+				throws PersistenceException{
+        getThis().getCustomerManager().addPreOrder(preOrder);
+        getThis().setPreOrder(preOrder);
     }
     public void addToCart(final PersistentArticle article, final long amount) 
 				throws PersistenceException{
-        //TODO: implement method: addToCart
-        
+        getThis().getMyCartServer().addToCart(article, amount);
     }
     public void articleList_update(final model.meta.QuantifiedArticlesMssgs event) 
 				throws PersistenceException{
-        //TODO: implement method: articleList_update
-        
+    	getThis().getCustomerManager().signalChanged();
     }
     public void changeAmount(final PersistentQuantifiedArticles article, final long newAmount) 
 				throws PersistenceException{
-        //TODO: implement method: changeAmount
-        
+        getThis().getMyCart().changeAmount(article, newAmount);
     }
     public void checkOut() 
 				throws model.InsufficientStock, PersistenceException{
-        //TODO: implement method: checkOut
-        
+        getThis().getMyCart().checkOut();
+        if(getThis().getPreOrder() != null) {
+        	//TODO: Meldung ausgeben dass vorbestellt
+        	getThis().setMyCart(Cart.createCart(OpenCart.getTheOpenCart()));
+        	// empty the article list
+	        getThis().getArticleList().filter(new Predcate<PersistentQuantifiedArticles>() {
+				@Override
+				public boolean test(PersistentQuantifiedArticles argument) throws PersistenceException {
+					return false;
+				}
+			});
+        }
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
-        
+		getThis().setMyCart(Cart.createCart(OpenCart.getTheOpenCart()));
+		getThis().setStandardDelivery(StandardDelivery.getTheStandardDelivery());
+		getThis().setOnDelivery(OverNightDelivery.getTheOverNightDelivery());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnInstantiation
-        
+    }
+    public void onDelivery_update(final model.meta.OverNightDeliveryMssgs event) 
+				throws PersistenceException{
+    	getThis().getCustomerManager().signalChanged();
     }
     public void order(final PersistentCustomerDelivery deliveryMethod) 
 				throws model.FirstCheckOut, model.InsufficientFunds, PersistenceException{
-        //TODO: implement method: order
-        
+        getThis().getMyCart().order(deliveryMethod);
+        getThis().setMyCart(Cart.createCart(OpenCart.getTheOpenCart()));
+        // empty the article list
+        getThis().getArticleList().filter(new Predcate<PersistentQuantifiedArticles>() {
+			@Override
+			public boolean test(PersistentQuantifiedArticles argument) throws PersistenceException {
+				return false;
+			}
+		});
     }
     public void pay(final long sum) 
 				throws model.InsufficientFunds, PersistenceException{
-        //TODO: implement method: pay
-        
+    	getThis().getCustomerManager().pay(sum);
     }
     public void removeFCart(final PersistentQuantifiedArticles article) 
 				throws PersistenceException{
-        //TODO: implement method: removeFCart
-        
+        getThis().getMyCart().removeArticle(article);
+    }
+    public void standardDelivery_update(final model.meta.StandardDeliveryMssgs event) 
+				throws PersistenceException{
+    	getThis().getCustomerManager().signalChanged();
     }
     
     

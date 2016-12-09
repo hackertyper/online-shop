@@ -1,6 +1,10 @@
 
 package model;
 
+import java.util.TimerTask;
+
+import common.DeliveryTask;
+import common.OrderTimer;
 import persistence.*;
 
 
@@ -128,18 +132,12 @@ public abstract class Delivery extends PersistentObject implements PersistentDel
     
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
-        
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnInstantiation
-        
     }
     
     
@@ -147,9 +145,7 @@ public abstract class Delivery extends PersistentObject implements PersistentDel
     
     public void send() 
 				throws PersistenceException{
-		Thread t = new Thread(getThis());
-		t.setName(getThis().toString());
-    	t.start();
+		OrderTimer.getInstance().send(new DeliveryTask(getThis()), getThis().getRemainingTimeToDelivery());
     }
 
     /* Start of protected part that is not overridden by persistence generator */

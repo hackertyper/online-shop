@@ -10,7 +10,7 @@ import model.visitor.*;
 public class TestDelivery extends model.CustomerDelivery implements PersistentTestDelivery{
     
     private static PersistentTestDelivery theTestDelivery = null;
-    private static boolean reset$For$Test = false;
+    public static boolean reset$For$Test = false;
     private static final Object $$lock = new Object();
     public static PersistentTestDelivery getTheTestDelivery() throws PersistenceException{
         if (theTestDelivery == null || reset$For$Test){
@@ -183,30 +183,24 @@ public class TestDelivery extends model.CustomerDelivery implements PersistentTe
     
     // Start of section that contains operations that must be implemented.
     
-    public void changeExtraCharge(final long newCharge) 
+    public void changeExtraChargeImplementation(final long newCharge) 
 				throws PersistenceException{
-        //TODO: implement method: changeExtraCharge
-        
     }
-    public void changeTime(final long newTime) 
+    public void changeTimeImplementation(final long newTime) 
 				throws PersistenceException{
-        //TODO: implement method: changeTime
-        
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
         super.initializeOnCreation();
-		//TODO: implement method: initializeOnCreation
+        setTime(0);
+        setExtraCharge(0);
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         super.initializeOnInstantiation();
-		//TODO: implement method: initializeOnInstantiation
     }
     
     

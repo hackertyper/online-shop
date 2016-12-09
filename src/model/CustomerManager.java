@@ -332,48 +332,48 @@ public class CustomerManager extends PersistentObject implements PersistentCusto
     
     public void addOrder(final PersistentCustomerOrder order) 
 				throws PersistenceException{
-        //TODO: implement method: addOrder
-        
+        getThis().getOrderMngr().addOrder(order);
+    }
+    public void addPreOrder(final PersistentPreOrder preOrder) 
+				throws PersistenceException{
+        getThis().getOrderMngr().addPreOrder(preOrder);
     }
     public void addToCart(final PersistentArticle article, final long amount) 
 				throws PersistenceException{
-        //TODO: implement method: addToCart
-        
+        getThis().getCartMngr().addToCart(article, amount);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void deposit(final long amount) 
 				throws PersistenceException{
-        //TODO: implement method: deposit
-        
+        getThis().getAccMngr().deposit(amount);
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
-        
+        getThis().setShopMngr(ShopManager.createShopManager());
+        getThis().setAccMngr(AccountManager.createAccountManager());
+        getThis().setCartMngr(CartManager.createCartManager());
+        getThis().setOrderMngr(OrderManager.createOrderManager());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnInstantiation
-        
     }
     public void pay(final long sum) 
 				throws model.InsufficientFunds, PersistenceException{
-        //TODO: implement method: pay
-        
+        getThis().getAccMngr().pay(sum);
     }
     public void returnPayment(final long sum) 
 				throws PersistenceException{
-        //TODO: implement method: returnPayment
-        
+        getThis().getAccMngr().returnPayment(sum);
+    }
+    public void signalChanged() 
+				throws PersistenceException{
+        getThis().getMyCustomerServer().signalChanged();
     }
     public void withdraw(final long amount) 
 				throws model.InsufficientFunds, PersistenceException{
-        //TODO: implement method: withdraw
-        
+        getThis().getAccMngr().withdraw(amount);
     }
     
     

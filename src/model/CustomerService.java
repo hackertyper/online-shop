@@ -279,6 +279,16 @@ public class CustomerService extends model.Service implements PersistentCustomer
 				throws PersistenceException{
         super.initializeOnInstantiation();
     }
+    public void signalChanged() 
+				throws PersistenceException{
+        getThis().getServices().applyToAll(new Procdure<PersistentCustomerService>() {
+			@Override
+			public void doItTo(PersistentCustomerService argument) throws PersistenceException {
+				argument.signalChanged(true);
+			}
+		});
+        
+    }
     
     
     // Start of section that contains overridden operations only.

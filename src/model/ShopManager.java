@@ -2,6 +2,12 @@
 package model;
 
 import persistence.*;
+import model.meta.ArticleChangePriceIntegerMssg;
+import model.meta.ArticleDeleteReserveIntegerMssg;
+import model.meta.ArticleReceiveDeliveryIntegerMssg;
+import model.meta.ArticleReserveIntegerMssg;
+import model.meta.ItemMssgsVisitor;
+import model.meta.ProductGroupAddItemItemMssg;
 import model.visitor.*;
 
 
@@ -55,7 +61,15 @@ public class ShopManager extends PersistentObject implements PersistentShopManag
     java.util.HashMap<String,Object> result = null;
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
-            result.put("itemRange", this.getItemRange().getObservee().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, true));
+            AbstractPersistentRoot basicProductGroup = (AbstractPersistentRoot)this.getBasicProductGroup();
+            if (basicProductGroup != null) {
+                result.put("basicProductGroup", basicProductGroup.createProxiInformation(false, essentialLevel <= 1));
+                if(depth > 1) {
+                    basicProductGroup.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
+                }else{
+                    if(forGUI && basicProductGroup.hasEssentialFields())basicProductGroup.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
+                }
+            }
             AbstractPersistentRoot customerManager = (AbstractPersistentRoot)this.getCustomerManager();
             if (customerManager != null) {
                 result.put("customerManager", customerManager.createProxiInformation(false, essentialLevel <= 1));
@@ -82,7 +96,7 @@ public class ShopManager extends PersistentObject implements PersistentShopManag
     
     public ShopManager provideCopy() throws PersistenceException{
         ShopManager result = this;
-        result = new ShopManager(this.itemRange, 
+        result = new ShopManager(this.basicProductGroup, 
                                  this.subService, 
                                  this.This, 
                                  this.getId());
@@ -93,14 +107,14 @@ public class ShopManager extends PersistentObject implements PersistentShopManag
     public boolean hasEssentialFields() throws PersistenceException{
         return false;
     }
-    protected PersistentShopManagerItemRange itemRange;
+    protected PersistentShopManagerBasicProductGroup basicProductGroup;
     protected SubjInterface subService;
     protected PersistentShopManager This;
     
-    public ShopManager(PersistentShopManagerItemRange itemRange,SubjInterface subService,PersistentShopManager This,long id) throws PersistenceException {
+    public ShopManager(PersistentShopManagerBasicProductGroup basicProductGroup,SubjInterface subService,PersistentShopManager This,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
-        this.itemRange = itemRange;
+        this.basicProductGroup = basicProductGroup;
         this.subService = subService;
         if (This != null && !(this.isTheSameAs(This))) this.This = This;        
     }
@@ -118,9 +132,9 @@ public class ShopManager extends PersistentObject implements PersistentShopManag
         if (this.getClassId() == 233) ConnectionHandler.getTheConnectionHandler().theShopManagerFacade
             .newShopManager(this.getId());
         super.store();
-        if(this.itemRange != null){
-            this.itemRange.store();
-            ConnectionHandler.getTheConnectionHandler().theShopManagerFacade.itemRangeSet(this.getId(), itemRange);
+        if(this.basicProductGroup != null){
+            this.basicProductGroup.store();
+            ConnectionHandler.getTheConnectionHandler().theShopManagerFacade.basicProductGroupSet(this.getId(), basicProductGroup);
         }
         if(this.getSubService() != null){
             this.getSubService().store();
@@ -133,15 +147,15 @@ public class ShopManager extends PersistentObject implements PersistentShopManag
         
     }
     
-    public void setItemRange(PersistentShopManagerItemRange newValue) throws PersistenceException {
+    public void setBasicProductGroup(PersistentShopManagerBasicProductGroup newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
-        if(newValue.isTheSameAs(this.itemRange)) return;
+        if(newValue.isTheSameAs(this.basicProductGroup)) return;
         long objectId = newValue.getId();
         long classId = newValue.getClassId();
-        this.itemRange = (PersistentShopManagerItemRange)PersistentProxi.createProxi(objectId, classId);
+        this.basicProductGroup = (PersistentShopManagerBasicProductGroup)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
-            ConnectionHandler.getTheConnectionHandler().theShopManagerFacade.itemRangeSet(this.getId(), newValue);
+            ConnectionHandler.getTheConnectionHandler().theShopManagerFacade.basicProductGroupSet(this.getId(), newValue);
         }
     }
     public SubjInterface getSubService() throws PersistenceException {
@@ -206,7 +220,7 @@ public class ShopManager extends PersistentObject implements PersistentShopManag
          return visitor.handleShopManager(this);
     }
     public int getLeafInfo() throws PersistenceException{
-        if (this.getItemRange().getObservee().getLength() > 0) return 1;
+        if (this.getBasicProductGroup() != null) return 1;
         return 0;
     }
     
@@ -235,6 +249,11 @@ public class ShopManager extends PersistentObject implements PersistentShopManag
 		command.setCommandReceiver(getThis());
 		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
     }
+    public PersistentProductGroup getBasicProductGroup() 
+				throws PersistenceException{
+        if (this.basicProductGroup== null) return null;
+		return this.basicProductGroup.getObservee();
+    }
     public PersistentCustomerManager getCustomerManager() 
 				throws PersistenceException{
         CustomerManagerSearchList result = null;
@@ -245,14 +264,6 @@ public class ShopManager extends PersistentObject implements PersistentShopManag
 		} catch (java.util.NoSuchElementException nsee){
 			return null;
 		}
-    }
-    public PersistentShopManagerItemRange getItemRange() 
-				throws PersistenceException{
-        if (this.itemRange == null) {
-			this.setItemRange(model.ShopManagerItemRange.createShopManagerItemRange(this.isDelayed$Persistence()));
-			this.itemRange.setObserver(this);
-		}
-		return this.itemRange;
     }
     public PersistentShopService getMyShopServer() 
 				throws PersistenceException{
@@ -280,6 +291,14 @@ public class ShopManager extends PersistentObject implements PersistentShopManag
 		}
 		subService.register(observee);
     }
+    public void setBasicProductGroup(final PersistentProductGroup basicProductGroup) 
+				throws PersistenceException{
+        if (this.basicProductGroup == null) {
+			this.setBasicProductGroup(model.ShopManagerBasicProductGroup.createShopManagerBasicProductGroup(this.isDelayed$Persistence()));
+			this.basicProductGroup.setObserver(getThis());
+		}
+		this.basicProductGroup.setObservee(basicProductGroup);
+    }
     public synchronized void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
@@ -295,33 +314,56 @@ public class ShopManager extends PersistentObject implements PersistentShopManag
     
     public void addToCartImplementation(final PersistentArticle article, final long amount) 
 				throws PersistenceException{
-        //TODO: implement method: addToCartImplementation
+        getThis().getCustomerManager().addToCart(article, amount);
+    }
+    public void basicProductGroup_update(final model.meta.ProductGroupMssgs event) 
+				throws PersistenceException{
+        //TODO: implement method: basicProductGroup_update
         
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void findArticle(final String description) 
 				throws PersistenceException{
-        //TODO: implement method: findArticle
-        
-    }
+		ItemSearchList result = Item.getItemByDescription(description);
+	    result.applyToAll(new Procdure<PersistentItem>() {
+			@Override
+			public void doItTo(PersistentItem argument) throws PersistenceException {
+				argument.accept(new ItemVisitor() {
+					@Override
+					public void handleProductGroup(PersistentProductGroup productGroup) throws PersistenceException {}
+					@Override
+					public void handleArticle(PersistentArticle article) throws PersistenceException {
+						article.getState().accept(new ArticleStateVisitor() {
+							@Override
+							public void handleRemovedFSale(PersistentRemovedFSale removedFSale) throws PersistenceException {
+								getThis().getBasicProductGroup().getItemList().add(article);
+							}
+							@Override
+							public void handleOfferedFSale(PersistentOfferedFSale offeredFSale) throws PersistenceException {
+								getThis().getBasicProductGroup().getItemList().add(article);
+							}
+							@Override
+							public void handleNewlyAdded(PersistentNewlyAdded newlyAdded) throws PersistenceException {}
+						});
+					}
+				});
+			}
+		});
+	}
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
-        
+        PersistentProductGroup pg = ProductGroup.createProductGroup("Alles");
+		PersistentArticle article2 = Article.createArticle("Herd", Manufacturer.createManufacturer("Bosch", 10000), 50, 10, 1000);
+		article2.setState(OfferedFSale.createOfferedFSale());
+		article2.setStock(10);
+		pg.getItemList().add(article2);
+		getThis().getBasicProductGroup().getItemList().add(pg);
+    	
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnInstantiation
-        
-    }
-    public void itemRange_update(final model.meta.ItemMssgs event) 
-				throws PersistenceException{
-        //TODO: implement method: itemRange_update
-        
     }
     
     

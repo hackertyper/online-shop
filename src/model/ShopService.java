@@ -232,33 +232,33 @@ public class ShopService extends model.CustomerService implements PersistentShop
     
     public void addToCart(final PersistentArticle article, final long amount) 
 				throws PersistenceException{
-        //TODO: implement method: addToCart
-        
+        getThis().getShopMngr().addToCart(article, amount);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void findArticle(final String description) 
 				throws PersistenceException{
-        //TODO: implement method: findArticle
-        
+        getThis().getShopMngr().findArticle(description, getThis());
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        super.initializeOnCreation();
-		//TODO: implement method: initializeOnCreation
+        getThis().setShopMngr(getManager().getShopMngr());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         super.initializeOnInstantiation();
-		//TODO: implement method: initializeOnInstantiation
     }
     
     
     // Start of section that contains overridden operations only.
     
+    public void connected(final String user) 
+				throws PersistenceException{
+    }
+    public void disconnected() 
+				throws PersistenceException{
+    }
 
     /* Start of protected part that is not overridden by persistence generator */
     

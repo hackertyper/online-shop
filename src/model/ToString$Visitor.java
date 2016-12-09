@@ -28,10 +28,10 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	protected void standardHandling(Anything anything) {
 		result = anything.getClassId() + ";" + anything.getId();
 	}
+	
 	@Override
 	public void handleAccount(PersistentAccount account) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		result = serverConstants.StringConstants.AccountBalance + account.getBalance();
 	}
 	@Override
 	public void handleProductGroup(PersistentProductGroup productGroup) throws PersistenceException {
@@ -39,18 +39,12 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	}
 	@Override
 	public void handleCustomerService(PersistentCustomerService customerService) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
 	}
 	@Override
 	public void handleServer(PersistentServer server) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
 	}
 	@Override
 	public void handleShopkeeper(PersistentShopkeeper shopkeeper) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
 	}
 	@Override
 	public void handleOfferedFSale(PersistentOfferedFSale offeredFSale) throws PersistenceException {
@@ -60,20 +54,20 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	public void handleArticle(PersistentArticle article) throws PersistenceException {
 		result = article.getDescription() + " (" + article.getState().toString() + ")";
 	}
+	@SuppressWarnings("deprecation")
 	@Override
 	public void handleCustomerOrder(PersistentCustomerOrder customerOrder) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		result = serverConstants.StringConstants.Order + 
+				customerOrder.getSendDate().getDate() + serverConstants.StringConstants.Point + customerOrder.getSendDate().getMonth() + serverConstants.StringConstants.PointWBlank + 
+				customerOrder.getSendDate().getHours() + serverConstants.StringConstants.ColonSeparator + customerOrder.getSendDate().getMinutes() +
+				customerOrder.getMyState().toString();
 	}
 	@Override
 	public void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		result = "";
 	}
 	@Override
 	public void handleRegisterService(PersistentRegisterService registerService) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
 	}
 	@Override
 	public void handleManufacturer(PersistentManufacturer manufacturer) throws PersistenceException {
@@ -86,23 +80,21 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	}
 	@Override
 	public void handleCart(PersistentCart cart) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		result = serverConstants.StringConstants.CartSum + cart.getCurrentSum();
 	}
 	@Override
 	public void handleQuantifiedArticles(PersistentQuantifiedArticles quantifiedArticles) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		result = quantifiedArticles.getArticle() + " " + serverConstants.StringConstants.Amount + quantifiedArticles.getAmount();
 	}
+	@SuppressWarnings("deprecation")
 	@Override
 	public void handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		result = serverConstants.StringConstants.ExpectedArrivalDate +
+				sendOrder.getArrivalDate().getDate() + serverConstants.StringConstants.Point + sendOrder.getArrivalDate().getMonth() + serverConstants.StringConstants.PointWBlank + 
+				sendOrder.getArrivalDate().getHours() + serverConstants.StringConstants.ColonSeparator + sendOrder.getArrivalDate().getMinutes();
 	}
 	@Override
 	public void handleShopKeeperOrder(PersistentShopKeeperOrder shopKeeperOrder) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
 	}
 	@Override
 	public void handleRemovedFSale(PersistentRemovedFSale removedFSale) throws PersistenceException {
@@ -110,93 +102,65 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	}
 	@Override
 	public void handleShopkeeperService(PersistentShopkeeperService shopkeeperService) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
 	}
 	@Override
 	public void handleRetoure(PersistentRetoure retoure) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
 	}
 	@Override
 	public void handleOpenCart(PersistentOpenCart openCart) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
 	}
 	@Override
 	public void handleCustomerManager(PersistentCustomerManager customerManager) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
 	}
 	@Override
 	public void handleShopService(PersistentShopService shopService) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
 	}
 	@Override
 	public void handleShopManager(PersistentShopManager shopManager) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
 	}
 	@Override
 	public void handleAccountManager(PersistentAccountManager accountManager) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
 	}
 	@Override
 	public void handleOrderService(PersistentOrderService orderService) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
 	}
 	@Override
 	public void handleAccountService(PersistentAccountService accountService) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
 	}
 	@Override
 	public void handleOrderManager(PersistentOrderManager orderManager) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
 	}
 	@Override
 	public void handleCartService(PersistentCartService cartService) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
 	}
 	@Override
 	public void handleCheckedOut(PersistentCheckedOut checkedOut) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
 	}
 	@Override
 	public void handleCartManager(PersistentCartManager cartManager) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
 	}
 	@Override
 	public void handleOverNightDelivery(PersistentOverNightDelivery overNightDelivery) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		result = serverConstants.StringConstants.ONDelivery + overNightDelivery.getTime() + serverConstants.StringConstants.Charge + overNightDelivery.getExtraCharge();
 	}
 	@Override
 	public void handleStandardDelivery(PersistentStandardDelivery standardDelivery) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		result = serverConstants.StringConstants.StandardDelivery + standardDelivery.getTime() + serverConstants.StringConstants.Charge + standardDelivery.getExtraCharge();
 	}
 	@Override
-	public void handleTestDelivery(PersistentTestDelivery testDelivery) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+	public void handleTestDelivery(PersistentTestDelivery testDelivery) throws PersistenceException {	
 	}
 	@Override
 	public void handleArticleWrapper(PersistentArticleWrapper articleWrapper) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		result = articleWrapper.getMyArticle().toString();
 	}
 	@Override
 	public void handlePreOrder(PersistentPreOrder preOrder) throws PersistenceException {
-		// TODO Auto-generated method stub
-		
+		result = serverConstants.StringConstants.PreOrder + " " + serverConstants.StringConstants.CartSum + preOrder.getSum();
+	}
+	@Override
+	public void handleCustomerPresets(PersistentCustomerPresets customerPresets) throws PersistenceException {
+		result = "Standardwerte von Kundenkonten";
 	}
 
 }

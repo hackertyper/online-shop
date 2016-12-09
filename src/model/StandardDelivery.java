@@ -10,7 +10,7 @@ import model.visitor.*;
 public class StandardDelivery extends model.CustomerDelivery implements PersistentStandardDelivery{
     
     private static PersistentStandardDelivery theStandardDelivery = null;
-    private static boolean reset$For$Test = false;
+    public static boolean reset$For$Test = false;
     private static final Object $$lock = new Object();
     public static PersistentStandardDelivery getTheStandardDelivery() throws PersistenceException{
         if (theStandardDelivery == null || reset$For$Test){
@@ -183,30 +183,27 @@ public class StandardDelivery extends model.CustomerDelivery implements Persiste
     
     // Start of section that contains operations that must be implemented.
     
-    public void changeExtraCharge(final long newCharge) 
+    public void changeExtraChargeImplementation(final long newCharge) 
 				throws PersistenceException{
-        //TODO: implement method: changeExtraCharge
-        
+    	getThis().setExtraCharge(newCharge);
     }
-    public void changeTime(final long newTime) 
+    public void changeTimeImplementation(final long newTime) 
 				throws PersistenceException{
-        //TODO: implement method: changeTime
-        
+    	getThis().setTime(newTime);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
         
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
         super.initializeOnCreation();
-		//TODO: implement method: initializeOnCreation
+        getThis().setExtraCharge(0);
+        getThis().setTime(50000);
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         super.initializeOnInstantiation();
-		//TODO: implement method: initializeOnInstantiation
     }
     
     

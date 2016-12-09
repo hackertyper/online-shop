@@ -232,28 +232,35 @@ public class OrderService extends model.CustomerService implements PersistentOrd
     
     public void acceptDelivery(final PersistentCustomerOrder customerOrder) 
 				throws PersistenceException{
-        //TODO: implement method: acceptDelivery
-        
+        getThis().getOrderMngr().acceptDelivery(customerOrder, getThis());
+    }
+    public void cancel(final PersistentPreOrder preOrder) 
+				throws PersistenceException{
+        getThis().getOrderMngr().cancel(preOrder, getThis());
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
         super.initializeOnCreation();
-		//TODO: implement method: initializeOnCreation
+		getThis().setOrderMngr(getThis().getManager().getOrderMngr());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         super.initializeOnInstantiation();
-		//TODO: implement method: initializeOnInstantiation
     }
-    public void retoureDelivery(final PersistentCustomerOrder customerOrder, final QuantifiedArticlesSearchList list) 
+    public void preorder(final PersistentPreOrder preOrder, final PersistentCustomerDelivery deliveryMethod) 
 				throws PersistenceException{
-        //TODO: implement method: retoureDelivery
-        
+        getThis().getOrderMngr().preorder(preOrder, deliveryMethod, getThis());
+    }
+    public void retoureArticle(final PersistentQuantifiedArticles article, final long amount) 
+				throws PersistenceException{
+        getThis().getOrderMngr().retoureArticle(article, amount, getThis());
+    }
+    public void retoureDelivery(final PersistentCustomerOrder customerOrder) 
+				throws PersistenceException{
+        getThis().getOrderMngr().retoureDelivery(customerOrder, getThis());
     }
     
     

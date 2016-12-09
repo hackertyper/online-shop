@@ -283,38 +283,31 @@ public class AccountManager extends PersistentObject implements PersistentAccoun
     
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
+    	// do nothing
     }
     public void deposit(final long amount) 
 				throws PersistenceException{
-        //TODO: implement method: deposit
-        
+    	getThis().getMyAccount().deposit(amount);
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
-        
+    	getThis().setMyAccount(Account.createAccount());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnInstantiation
-        
+    	// do nothing
     }
     public void pay(final long sum) 
 				throws model.InsufficientFunds, PersistenceException{
-        //TODO: implement method: pay
-        
+        getThis().getMyAccount().pay(sum);
     }
     public void returnPayment(final long sum) 
 				throws PersistenceException{
-        //TODO: implement method: returnPayment
-        
+        getThis().getMyAccount().returnPayment(sum);
     }
     public void withdraw(final long amount) 
 				throws model.InsufficientFunds, PersistenceException{
-        //TODO: implement method: withdraw
-        
+    	getThis().getMyAccount().withdraw(amount);
     }
     
     

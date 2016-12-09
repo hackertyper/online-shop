@@ -240,8 +240,6 @@ public class RemovedFSale extends PersistentObject implements PersistentRemovedF
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{

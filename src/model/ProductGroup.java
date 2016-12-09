@@ -2,10 +2,12 @@
 package model;
 
 import persistence.*;
-
-import java.util.Iterator;
-
+import model.meta.ArticleChangePriceIntegerMssg;
+import model.meta.ArticleReceiveDeliveryIntegerMssg;
+import model.meta.ItemMssgsVisitor;
+import model.meta.ProductGroupAddItemItemMssg;
 import model.visitor.*;
+import java.util.Iterator;
 
 
 /* Additional import section end */
@@ -154,6 +156,13 @@ public class ProductGroup extends model.Item implements PersistentProductGroup{
     }
     
     
+    public void addItem(final PersistentItem item) 
+				throws PersistenceException{
+        model.meta.ProductGroupAddItemItemMssg event = new model.meta.ProductGroupAddItemItemMssg(item, getThis());
+		event.execute();
+		getThis().updateObservers(event);
+		event.getResult();
+    }
     public synchronized void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
@@ -192,14 +201,12 @@ public class ProductGroup extends model.Item implements PersistentProductGroup{
     
     // Start of section that contains operations that must be implemented.
     
-    public void addItem(final PersistentItem item) 
+    public void addItemImplementation(final PersistentItem item) 
 				throws PersistenceException{
-    	getThis().getItemList().add(item);
+        getThis().getItemList().add(item);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public long cumulateArticleCount() 
 				throws PersistenceException{
@@ -213,12 +220,10 @@ public class ProductGroup extends model.Item implements PersistentProductGroup{
     public void initializeOnCreation() 
 				throws PersistenceException{
         super.initializeOnCreation();
-		//TODO: implement method: initializeOnCreation
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         super.initializeOnInstantiation();
-		//TODO: implement method: initializeOnInstantiation
     }
     
     

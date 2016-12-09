@@ -275,60 +275,172 @@ public class Cart extends PersistentObject implements PersistentCart{
     
     // Start of section that contains operations that must be implemented.
     
+    /**
+     * Changes the amount of article to new value. Deletes articles if amount is == 0.
+     * Recalculates the current sum of the cart.
+     * 
+     * @param article - the article for which the amount is changed
+     * @param newAmount - the new value for amount
+     */
     public void changeAmount(final PersistentQuantifiedArticles article, final long newAmount) 
 				throws PersistenceException{
-        //TODO: implement method: changeAmount
-        
+    	getThis().checkOutReverse();
+    	// Find article to change amount
+        getThis().getCartMngr().getArticleList().findFirst(new Predcate<PersistentQuantifiedArticles>() {
+			@Override
+			public boolean test(PersistentQuantifiedArticles argument) throws PersistenceException {
+				return argument.equals(article);
+			}
+		}).changeAmount(newAmount);
+        // Delete article from list if amount = 0
+        getThis().getCartMngr().getArticleList().filter((PersistentQuantifiedArticles x) -> x.getAmount() != 0);
+        // Calculation of new sum
+        getThis().setCurrentSum(getThis().fetchCurrentSum());
     }
     public void changeState(final PersistentCartState newState) 
 				throws PersistenceException{
-        //TODO: implement method: changeState
-        
+        getThis().setState(newState);
     }
+    /**
+     * Rolls back the reservations produced by check out.
+     */
     public void checkOutReverse() 
 				throws PersistenceException{
-        //TODO: implement method: checkOutReverse
-        
+    	getThis().getState().accept(new CartStateVisitor() {
+			@Override
+			public void handleOpenCart(PersistentOpenCart openCart) throws PersistenceException {}
+			@Override
+			public void handleCheckedOut(PersistentCheckedOut checkedOut) throws PersistenceException {
+				getThis().getCartMngr().getArticleList().applyToAll(new Procdure<PersistentQuantifiedArticles>() {
+					@Override
+					public void doItTo(PersistentQuantifiedArticles argument) throws PersistenceException {
+						argument.deleteReserve();
+					}
+				});
+		    	getThis().changeState(OpenCart.getTheOpenCart());
+			}
+		});
     }
+    /**
+     * Checks out the current cart through reservation of the chosen articles amount. Creates a preOrder if exception is thrown.
+     * 
+     * @throws InsufficientStock if article can not be reserved
+     */
     public void checkOut() 
-				throws model.InsufficientStock, PersistenceException{
-        //TODO: implement method: checkOut
-        
+				throws PersistenceException{
+        getThis().getState().accept(new CartStateVisitor() {
+			@Override
+			public void handleOpenCart(PersistentOpenCart openCart) throws PersistenceException {
+				// Reserve all articles in the cart
+				getThis().getCartMngr().getArticleList().applyToAll(new Procdure<PersistentQuantifiedArticles>() {
+					@Override
+					public void doItTo(PersistentQuantifiedArticles argument) throws PersistenceException {
+						try {
+							argument.reserve();
+							getThis().changeState(CheckedOut.createCheckedOut());
+						} catch (InsufficientStock e) {
+							// if not enough articles in stock, create preOrder
+							PersistentPreOrder preOrder = PreOrder.createPreOrder(getThis().getCartMngr(), getThis().getCurrentSum());
+							getThis().getCartMngr().getArticleList().applyToAll(new Procdure<PersistentQuantifiedArticles>() {
+								@Override
+								public void doItTo(PersistentQuantifiedArticles argument) throws PersistenceException {
+									preOrder.getArticleList().add(argument);
+								}
+							});
+							getThis().getCartMngr().addPreOrder(preOrder);
+						}
+					}
+				});
+			}
+			@Override
+			public void handleCheckedOut(PersistentCheckedOut checkedOut) throws PersistenceException {}
+		});
+    	
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
+    /**
+     * Calculates the current sum of the cart.
+     * 
+     * @return sum of the articles in the cart
+     */
     public long fetchCurrentSum() 
 				throws PersistenceException{
-        //TODO: implement method: fetchCurrentSum
-        try{
-            throw new java.lang.UnsupportedOperationException("Method \"fetchCurrentSum\" not implemented yet.");
-        } catch (java.lang.UnsupportedOperationException uoe){
-            uoe.printStackTrace();
-            throw uoe;
-        }
+    	return getThis().getCartMngr().getArticleList().aggregate(new Aggregtion<PersistentQuantifiedArticles, Long>() {
+			@Override
+			public Long neutral() throws PersistenceException {
+				return (long) 0;
+			}
+			@Override
+			public Long compose(Long result, PersistentQuantifiedArticles argument) throws PersistenceException {
+				return result + argument.fetchPrice();
+			}
+		});
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
-        
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnInstantiation
-        
     }
     public void order(final PersistentCustomerDelivery deliveryMethod) 
 				throws model.FirstCheckOut, model.InsufficientFunds, PersistenceException{
-        //TODO: implement method: order
-        
+    	// Check if cart is checked out
+    	getThis().getState().accept(new CartStateExceptionVisitor<FirstCheckOut>() {
+			@Override
+			public void handleCheckedOut(PersistentCheckedOut checkedOut) throws PersistenceException {}
+			@Override
+			public void handleOpenCart(PersistentOpenCart openCart) throws PersistenceException, FirstCheckOut {
+				throw new FirstCheckOut(serverConstants.ErrorMessages.FirstCheckOut);
+			}
+		});
+    	getThis().getState().accept(new CartStateExceptionVisitor<InsufficientFunds>() {
+			@Override
+			public void handleOpenCart(PersistentOpenCart openCart) throws PersistenceException {}
+			@Override
+			public void handleCheckedOut(PersistentCheckedOut checkedOut) throws PersistenceException, InsufficientFunds {
+				// pay the sum of the articles from the account
+				getThis().getCartMngr().pay(getThis().getCurrentSum() + deliveryMethod.getExtraCharge());
+				// create order to deliver with this article list
+				PersistentCustomerOrder co = CustomerOrder.createCustomerOrder(deliveryMethod.getTime(), serverConstants.OrderConstants.current);
+				getThis().getCartMngr().getArticleList().applyToAll(new Procdure<PersistentQuantifiedArticles>() {
+					@Override
+					public void doItTo(PersistentQuantifiedArticles argument) throws PersistenceException {
+						argument.setMyOrder(co);
+						co.getArticleList().add(argument);
+					}
+				});
+				getThis().getCartMngr().addOrder(co);
+				// cause reorder if necessary
+		        getThis().getCartMngr().getArticleList().applyToAll(new Procdure<PersistentQuantifiedArticles>() {
+					@Override
+					public void doItTo(PersistentQuantifiedArticles argument) throws PersistenceException {
+						argument.pack();
+					}
+				});
+		        co.send();
+			}
+		});
     }
+    /**
+     * Removes the article from the cart.
+     * Recalculates the current sum of the cart.
+     * 
+     * @param article - the article to remove
+     */
     public void removeArticle(final PersistentQuantifiedArticles article) 
 				throws PersistenceException{
-        //TODO: implement method: removeArticle
-        
+    	getThis().checkOutReverse();
+    	// Delete article from cart
+        getThis().getCartMngr().getArticleList().filter(new Predcate<PersistentQuantifiedArticles>() {
+			@Override
+			public boolean test(PersistentQuantifiedArticles argument) throws PersistenceException {
+				return !argument.equals(article);
+			}
+		});
+        // Calculation of new sum
+        getThis().setCurrentSum(getThis().fetchCurrentSum());
     }
     
     

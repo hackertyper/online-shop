@@ -232,33 +232,36 @@ public class AccountService extends model.CustomerService implements PersistentA
     
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
+    	// do nothing
     }
     public void deposit(final long amount) 
 				throws PersistenceException{
-        //TODO: implement method: deposit
-        
+        getThis().getManager().deposit(amount, getThis());
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        super.initializeOnCreation();
-		//TODO: implement method: initializeOnCreation
+        getThis().setAccMngr(getManager().getAccMngr());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         super.initializeOnInstantiation();
-		//TODO: implement method: initializeOnInstantiation
     }
     public void withdraw(final long amount) 
 				throws model.InsufficientFunds, PersistenceException{
-        //TODO: implement method: withdraw
-        
+        getThis().getManager().withdraw(amount, getThis());
     }
     
     
     // Start of section that contains overridden operations only.
     
+    public void connected(final String user) 
+				throws PersistenceException{
+    	// do nothing
+    }
+    public void disconnected() 
+				throws PersistenceException{
+    	// do nothing
+    }
 
     /* Start of protected part that is not overridden by persistence generator */
     

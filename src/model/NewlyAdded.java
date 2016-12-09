@@ -247,8 +247,6 @@ public class NewlyAdded extends PersistentObject implements PersistentNewlyAdded
     
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
@@ -262,7 +260,7 @@ public class NewlyAdded extends PersistentObject implements PersistentNewlyAdded
     }
     public void order(final long amount) 
 				throws PersistenceException{
-        PersistentShopKeeperOrder sko = ShopKeeperOrder.createShopKeeperOrder(getThis().getMyArticle().getManuDelivery(), new Timestamp(new Date().getTime()), getThis().getMyArticle(), amount);
+        PersistentShopKeeperOrder sko = ShopKeeperOrder.createShopKeeperOrder(getThis().getMyArticle().getManufacturer().getManuDelivery(), new Timestamp(new Date().getTime()), getThis().getMyArticle(), amount);
         sko.deliver();
     }
     public void startSelling() 

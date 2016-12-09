@@ -233,39 +233,21 @@ public class ArticleWrapper extends PersistentObject implements PersistentArticl
     // Start of section that contains operations that must be implemented.
     
     public void copyingPrivateUserAttributes(final Anything copy) 
-				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
+				throws PersistenceException{        
     }
     public long getPrice() 
 				throws PersistenceException{
-        //TODO: implement method: getPrice
-        try{
-            throw new java.lang.UnsupportedOperationException("Method \"getPrice\" not implemented yet.");
-        } catch (java.lang.UnsupportedOperationException uoe){
-            uoe.printStackTrace();
-            throw uoe;
-        }
+        return getThis().getMyArticle().getPrice();
     }
     public long getStock() 
 				throws PersistenceException{
-        //TODO: implement method: getStock
-        try{
-            throw new java.lang.UnsupportedOperationException("Method \"getStock\" not implemented yet.");
-        } catch (java.lang.UnsupportedOperationException uoe){
-            uoe.printStackTrace();
-            throw uoe;
-        }
+        return getThis().getMyArticle().getStock();
     }
     public void initializeOnCreation() 
-				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
-        
+				throws PersistenceException{        
     }
     public void initializeOnInstantiation() 
-				throws PersistenceException{
-        //TODO: implement method: initializeOnInstantiation
-        
+				throws PersistenceException{        
     }
     
     

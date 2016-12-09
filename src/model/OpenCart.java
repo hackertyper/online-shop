@@ -10,7 +10,7 @@ import model.visitor.*;
 public class OpenCart extends model.CartState implements PersistentOpenCart{
     
     private static PersistentOpenCart theOpenCart = null;
-    private static boolean reset$For$Test = false;
+    public static boolean reset$For$Test = false;
     private static final Object $$lock = new Object();
     public static PersistentOpenCart getTheOpenCart() throws PersistenceException{
         if (theOpenCart == null || reset$For$Test){
@@ -183,18 +183,14 @@ public class OpenCart extends model.CartState implements PersistentOpenCart{
     
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
         super.initializeOnCreation();
-		//TODO: implement method: initializeOnCreation
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         super.initializeOnInstantiation();
-		//TODO: implement method: initializeOnInstantiation
     }
     
     

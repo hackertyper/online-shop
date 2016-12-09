@@ -10,7 +10,7 @@ import model.visitor.*;
 public class OverNightDelivery extends model.CustomerDelivery implements PersistentOverNightDelivery{
     
     private static PersistentOverNightDelivery theOverNightDelivery = null;
-    private static boolean reset$For$Test = false;
+    public static boolean reset$For$Test = false;
     private static final Object $$lock = new Object();
     public static PersistentOverNightDelivery getTheOverNightDelivery() throws PersistenceException{
         if (theOverNightDelivery == null || reset$For$Test){
@@ -183,30 +183,25 @@ public class OverNightDelivery extends model.CustomerDelivery implements Persist
     
     // Start of section that contains operations that must be implemented.
     
-    public void changeExtraCharge(final long newCharge) 
+    public void changeExtraChargeImplementation(final long newCharge) 
 				throws PersistenceException{
-        //TODO: implement method: changeExtraCharge
-        
+    	getThis().setExtraCharge(newCharge);
     }
-    public void changeTime(final long newTime) 
+    public void changeTimeImplementation(final long newTime) 
 				throws PersistenceException{
-        //TODO: implement method: changeTime
-        
+    	getThis().setTime(newTime);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
         
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
         super.initializeOnCreation();
-		//TODO: implement method: initializeOnCreation
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         super.initializeOnInstantiation();
-		//TODO: implement method: initializeOnInstantiation
     }
     
     

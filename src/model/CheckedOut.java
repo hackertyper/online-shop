@@ -178,18 +178,12 @@ public class CheckedOut extends model.CartState implements PersistentCheckedOut{
     
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        super.initializeOnCreation();
-		//TODO: implement method: initializeOnCreation
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-        super.initializeOnInstantiation();
-		//TODO: implement method: initializeOnInstantiation
     }
     
     

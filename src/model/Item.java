@@ -110,14 +110,6 @@ public abstract class Item extends PersistentObject implements PersistentItem{
     
     
     
-    public void changeDescription(final String newDescription, final Invoker invoker) 
-				throws PersistenceException{
-        java.sql.Date now = new java.sql.Date(new java.util.Date().getTime());
-		PersistentChangeDescriptionCommand command = model.meta.ChangeDescriptionCommand.createChangeDescriptionCommand(newDescription, now, now);
-		command.setInvoker(invoker);
-		command.setCommandReceiver(getThis());
-		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
-    }
     public PersistentProductGroup getParent() 
 				throws PersistenceException{
         ProductGroupSearchList result = null;
@@ -142,8 +134,6 @@ public abstract class Item extends PersistentObject implements PersistentItem{
     
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{

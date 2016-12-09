@@ -15,41 +15,43 @@ public class Manufacturer extends PersistentObject implements PersistentManufact
         return (PersistentManufacturer)PersistentProxi.createProxi(objectId, classId);
     }
     
-    public static PersistentManufacturer createManufacturer(String name) throws PersistenceException{
-        return createManufacturer(name,false);
+    public static PersistentManufacturer createManufacturer(String name,long manuDelivery) throws PersistenceException{
+        return createManufacturer(name,manuDelivery,false);
     }
     
-    public static PersistentManufacturer createManufacturer(String name,boolean delayed$Persistence) throws PersistenceException {
+    public static PersistentManufacturer createManufacturer(String name,long manuDelivery,boolean delayed$Persistence) throws PersistenceException {
         if (name == null) throw new PersistenceException("Null not allowed for persistent strings, since null = \"\" in Oracle!", 0);
         PersistentManufacturer result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theManufacturerFacade
-                .newDelayedManufacturer(name);
+                .newDelayedManufacturer(name,manuDelivery);
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theManufacturerFacade
-                .newManufacturer(name,-1);
+                .newManufacturer(name,manuDelivery,-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         final$$Fields.put("name", name);
+        final$$Fields.put("manuDelivery", manuDelivery);
         result.initialize(result, final$$Fields);
         result.initializeOnCreation();
         return result;
     }
     
-    public static PersistentManufacturer createManufacturer(String name,boolean delayed$Persistence,PersistentManufacturer This) throws PersistenceException {
+    public static PersistentManufacturer createManufacturer(String name,long manuDelivery,boolean delayed$Persistence,PersistentManufacturer This) throws PersistenceException {
         if (name == null) throw new PersistenceException("Null not allowed for persistent strings, since null = \"\" in Oracle!", 0);
         PersistentManufacturer result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theManufacturerFacade
-                .newDelayedManufacturer(name);
+                .newDelayedManufacturer(name,manuDelivery);
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theManufacturerFacade
-                .newManufacturer(name,-1);
+                .newManufacturer(name,manuDelivery,-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         final$$Fields.put("name", name);
+        final$$Fields.put("manuDelivery", manuDelivery);
         result.initialize(This, final$$Fields);
         result.initializeOnCreation();
         return result;
@@ -60,6 +62,7 @@ public class Manufacturer extends PersistentObject implements PersistentManufact
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
             result.put("name", this.getName());
+            result.put("manuDelivery", new Long(this.getManuDelivery()).toString());
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
         }
@@ -69,6 +72,7 @@ public class Manufacturer extends PersistentObject implements PersistentManufact
     public Manufacturer provideCopy() throws PersistenceException{
         Manufacturer result = this;
         result = new Manufacturer(this.name, 
+                                  this.manuDelivery, 
                                   this.subService, 
                                   this.This, 
                                   this.getId());
@@ -80,13 +84,15 @@ public class Manufacturer extends PersistentObject implements PersistentManufact
         return false;
     }
     protected String name;
+    protected long manuDelivery;
     protected SubjInterface subService;
     protected PersistentManufacturer This;
     
-    public Manufacturer(String name,SubjInterface subService,PersistentManufacturer This,long id) throws PersistenceException {
+    public Manufacturer(String name,long manuDelivery,SubjInterface subService,PersistentManufacturer This,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.name = name;
+        this.manuDelivery = manuDelivery;
         this.subService = subService;
         if (This != null && !(this.isTheSameAs(This))) this.This = This;        
     }
@@ -102,7 +108,7 @@ public class Manufacturer extends PersistentObject implements PersistentManufact
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
         if (this.getClassId() == 142) ConnectionHandler.getTheConnectionHandler().theManufacturerFacade
-            .newManufacturer(name,this.getId());
+            .newManufacturer(name,manuDelivery,this.getId());
         super.store();
         if(this.getSubService() != null){
             this.getSubService().store();
@@ -122,6 +128,13 @@ public class Manufacturer extends PersistentObject implements PersistentManufact
         if (newValue == null) throw new PersistenceException("Null not allowed for persistent strings, since null = \"\" in Oracle!", 0);
         if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theManufacturerFacade.nameSet(this.getId(), newValue);
         this.name = newValue;
+    }
+    public long getManuDelivery() throws PersistenceException {
+        return this.manuDelivery;
+    }
+    public void setManuDelivery(long newValue) throws PersistenceException {
+        if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theManufacturerFacade.manuDeliverySet(this.getId(), newValue);
+        this.manuDelivery = newValue;
     }
     public SubjInterface getSubService() throws PersistenceException {
         return this.subService;
@@ -203,6 +216,7 @@ public class Manufacturer extends PersistentObject implements PersistentManufact
         this.setThis((PersistentManufacturer)This);
 		if(this.isTheSameAs(This)){
 			this.setName((String)final$$Fields.get("name"));
+			this.setManuDelivery((Long)final$$Fields.get("manuDelivery"));
 		}
     }
     public synchronized void register(final ObsInterface observee) 
@@ -227,10 +241,12 @@ public class Manufacturer extends PersistentObject implements PersistentManufact
     
     // Start of section that contains operations that must be implemented.
     
+    public void changeManuDelivery(final long newManuDelivery) 
+				throws PersistenceException{
+        getThis().setManuDelivery(newManuDelivery);
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{

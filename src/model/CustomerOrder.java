@@ -2,6 +2,15 @@
 package model;
 
 import persistence.*;
+
+import java.sql.Timestamp;
+import java.util.TimerTask;
+
+import common.ArrivedTask;
+import common.DeliveryTask;
+import common.OrderTimer;
+import model.meta.QuantifiedArticlesFireArticleChangedArticleMssgsMssg;
+import model.meta.QuantifiedArticlesMssgsVisitor;
 import model.visitor.*;
 
 
@@ -54,7 +63,7 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
     java.util.HashMap<String,Object> result = null;
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
-            result.put("articleList", this.getArticleList().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, true));
+            result.put("articleList", this.getArticleList().getObservee().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, true));
             AbstractPersistentRoot ordermngr = (AbstractPersistentRoot)this.getOrdermngr();
             if (ordermngr != null) {
                 result.put("ordermngr", ordermngr.createProxiInformation(false, essentialLevel <= 1));
@@ -85,10 +94,10 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
                                    this.sendDate, 
                                    this.subService, 
                                    this.This, 
+                                   this.articleList, 
                                    this.ordermngr, 
                                    this.myState, 
                                    this.getId());
-        result.articleList = this.articleList.copy(result);
         this.copyingPrivateUserAttributes(result);
         return result;
     }
@@ -96,14 +105,14 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
     public boolean hasEssentialFields() throws PersistenceException{
         return false;
     }
-    protected CustomerOrder_ArticleListProxi articleList;
+    protected PersistentCustomerOrderArticleList articleList;
     protected PersistentOrderManager ordermngr;
     protected CustomerOrderState myState;
     
-    public CustomerOrder(long remainingTimeToDelivery,java.sql.Timestamp sendDate,SubjInterface subService,PersistentDelivery This,PersistentOrderManager ordermngr,CustomerOrderState myState,long id) throws PersistenceException {
+    public CustomerOrder(long remainingTimeToDelivery,java.sql.Timestamp sendDate,SubjInterface subService,PersistentDelivery This,PersistentCustomerOrderArticleList articleList,PersistentOrderManager ordermngr,CustomerOrderState myState,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super((long)remainingTimeToDelivery,(java.sql.Timestamp)sendDate,(SubjInterface)subService,(PersistentDelivery)This,id);
-        this.articleList = new CustomerOrder_ArticleListProxi(this);
+        this.articleList = articleList;
         this.ordermngr = ordermngr;
         this.myState = myState;        
     }
@@ -121,7 +130,10 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
         if (this.getClassId() == 136) ConnectionHandler.getTheConnectionHandler().theCustomerOrderFacade
             .newCustomerOrder(remainingTimeToDelivery,sendDate,this.getId());
         super.store();
-        this.getArticleList().store();
+        if(this.articleList != null){
+            this.articleList.store();
+            ConnectionHandler.getTheConnectionHandler().theCustomerOrderFacade.articleListSet(this.getId(), articleList);
+        }
         if(this.getOrdermngr() != null){
             this.getOrdermngr().store();
             ConnectionHandler.getTheConnectionHandler().theCustomerOrderFacade.ordermngrSet(this.getId(), getOrdermngr());
@@ -133,8 +145,16 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
         
     }
     
-    public CustomerOrder_ArticleListProxi getArticleList() throws PersistenceException {
-        return this.articleList;
+    public void setArticleList(PersistentCustomerOrderArticleList newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.isTheSameAs(this.articleList)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.articleList = (PersistentCustomerOrderArticleList)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theCustomerOrderFacade.articleListSet(this.getId(), newValue);
+        }
     }
     public PersistentOrderManager getOrdermngr() throws PersistenceException {
         return this.ordermngr;
@@ -196,12 +216,41 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
     public <R, E extends model.UserException> R accept(AnythingReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleCustomerOrder(this);
     }
+    public void accept(SubjInterfaceVisitor visitor) throws PersistenceException {
+        visitor.handleCustomerOrder(this);
+    }
+    public <R> R accept(SubjInterfaceReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleCustomerOrder(this);
+    }
+    public <E extends model.UserException>  void accept(SubjInterfaceExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleCustomerOrder(this);
+    }
+    public <R, E extends model.UserException> R accept(SubjInterfaceReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleCustomerOrder(this);
+    }
     public int getLeafInfo() throws PersistenceException{
-        if (this.getArticleList().getLength() > 0) return 1;
+        if (this.getArticleList().getObservee().getLength() > 0) return 1;
         return 0;
     }
     
     
+    public synchronized void deregister(final ObsInterface observee) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.deregister(observee);
+    }
+    public PersistentCustomerOrderArticleList getArticleList() 
+				throws PersistenceException{
+        if (this.articleList == null) {
+			this.setArticleList(model.CustomerOrderArticleList.createCustomerOrderArticleList(this.isDelayed$Persistence()));
+			this.articleList.setObserver(this);
+		}
+		return this.articleList;
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentCustomerOrder)This);
@@ -210,87 +259,115 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
 			this.setSendDate((java.sql.Timestamp)final$$Fields.get("sendDate"));
 		}
     }
+    public synchronized void register(final ObsInterface observee) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.register(observee);
+    }
+    public synchronized void updateObservers(final model.meta.Mssgs event) 
+				throws PersistenceException{
+        SubjInterface subService = getThis().getSubService();
+		if (subService == null) {
+			subService = model.Subj.createSubj(this.isDelayed$Persistence());
+			getThis().setSubService(subService);
+		}
+		subService.updateObservers(event);
+    }
     
     
     // Start of section that contains operations that must be implemented.
     
+    /**
+     * Called when order accepted. Cancels time for accepting.
+     */
+    public void accepted() 
+				throws PersistenceException{
+    	myTask.cancel();
+    }
+    /**
+     * Called when order arrived. Starts time for accepting. 
+     */
+    public void arrived() 
+				throws PersistenceException{
+    	// TODO: message anzeigen, dass Bestellung angekommen
+        myTask = new ArrivedTask(getThis());
+        getThis().getMyState().accept(new CustomerOrderStateVisitor() {
+			@Override
+			public void handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException {}
+			@Override
+			public void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException {
+				OrderTimer.getInstance().deliver(new ArrivedTask(getThis()), arrivedOrder.getTimeToAccept());
+			}
+		});
+    }
+    public void articleList_update(final model.meta.QuantifiedArticlesMssgs event) 
+				throws PersistenceException{
+        event.accept(new QuantifiedArticlesMssgsVisitor() {
+			@Override
+			public void handleQuantifiedArticlesFireArticleChangedArticleMssgsMssg(
+					QuantifiedArticlesFireArticleChangedArticleMssgsMssg event) throws PersistenceException {
+				getThis().getArticleList().filter(new Predcate<PersistentQuantifiedArticles>() {
+					@Override
+					public boolean test(PersistentQuantifiedArticles argument) throws PersistenceException {
+						return !(argument.getAmount() == 0);
+					}
+				});
+			}
+		});
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
+    	// do nothing
     }
     public void deliver() 
 				throws PersistenceException{
-        //TODO: implement method: deliver
-        
+        getThis().setMyState(ArrivedOrder.createArrivedOrder());
+        getThis().arrived();
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
         super.initializeOnCreation();
-		//TODO: implement method: initializeOnCreation
+        Timestamp expectedArrival = new Timestamp(getThis().getSendDate().getTime() + getThis().getRemainingTimeToDelivery());
+		getThis().setMyState(SendOrder.createSendOrder(expectedArrival));
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         super.initializeOnInstantiation();
-		//TODO: implement method: initializeOnInstantiation
     }
-    public void retoure(final QuantifiedArticlesSearchList list) 
-				throws PersistenceException{
-        //TODO: implement method: retoure
-        
+    /**
+     * Sends a retoure of the whole order.
+     */
+    public void retoure() 
+				throws model.NotArrived, PersistenceException{
+        getThis().getMyState().accept(new CustomerOrderStateExceptionVisitor<NotArrived>() {
+			@Override
+			public void handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException, NotArrived {
+				throw new NotArrived(serverConstants.ErrorMessages.NotArrived);
+			}
+			@Override
+			public void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException {
+				PersistentRetoure re = Retoure.createRetoure(0, serverConstants.OrderConstants.current);
+		        getThis().getArticleList().applyToAll(new Procdure<PersistentQuantifiedArticles>() {
+					@Override
+					public void doItTo(PersistentQuantifiedArticles argument) throws PersistenceException {
+						re.getArticleList().add(argument);
+					}
+				});
+		        re.send();
+			}
+		});
     }
     
     
     // Start of section that contains overridden operations only.
     
-    public void run() {
-        try {
-			getThis().getMyState().accept(new CustomerOrderStateVisitor() {
-				@Override
-				public void handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException {
-					try {
-						// wait for the delivery time to run finish
-						Thread.sleep(getThis().getRemainingTimeToDelivery());
-						// deliver the order
-						getThis().deliver();
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-				@Override
-				public void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException {
-					try {
-						// wait for the acception time to run out
-						Thread.sleep(arrivedOrder.getTimeToAccept());
-						// return whole order
-						try {
-							getThis().getOrdermngr().retoureDelivery(getThis(), getThis().getArticleList().getList());
-						} catch (InsufficientFunds e) {
-							throw new Error(e.getMessage());
-						}
-					} catch (InterruptedException e) {
-						// called if order is accepted
-						getThis().getOrdermngr().getOrders().filter(new Predcate<PersistentCustomerOrder>() {
-							@Override
-							public boolean test(PersistentCustomerOrder argument) throws PersistenceException {
-								return !getThis().equals(argument);
-							}
-						});
-					}
-				}
-				@Override
-				public void handlePreOrder(PersistentPreOrder preOrder) throws PersistenceException {
-					// TODO Auto-generated method stub
-					
-				}
-			});
-		} catch (PersistenceException e) {
-			e.printStackTrace();
-		}
-    }
 
     /* Start of protected part that is not overridden by persistence generator */
-    
+    private static TimerTask myTask;
     /* End of protected part that is not overridden by persistence generator */
     
 }

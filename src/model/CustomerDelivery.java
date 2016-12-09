@@ -114,6 +114,20 @@ public abstract class CustomerDelivery extends PersistentObject implements Persi
     
     
     
+    public void changeExtraCharge(final long newCharge) 
+				throws PersistenceException{
+        model.meta.CustomerDeliveryChangeExtraChargeIntegerMssg event = new model.meta.CustomerDeliveryChangeExtraChargeIntegerMssg(newCharge, getThis());
+		event.execute();
+		getThis().updateObservers(event);
+		event.getResult();
+    }
+    public void changeTime(final long newTime) 
+				throws PersistenceException{
+        model.meta.CustomerDeliveryChangeTimeIntegerMssg event = new model.meta.CustomerDeliveryChangeTimeIntegerMssg(newTime, getThis());
+		event.execute();
+		getThis().updateObservers(event);
+		event.getResult();
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         this.setThis((PersistentCustomerDelivery)This);
@@ -126,18 +140,12 @@ public abstract class CustomerDelivery extends PersistentObject implements Persi
     
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
-        
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnInstantiation
-        
     }
     
     

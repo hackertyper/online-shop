@@ -232,43 +232,34 @@ public class CartService extends model.CustomerService implements PersistentCart
     
     public void addToCart(final PersistentArticle article, final long amount) 
 				throws PersistenceException{
-        //TODO: implement method: addToCart
-        
+        getThis().getCartMngr().addArticle(article, amount, getThis());
     }
     public void changeAmount(final PersistentQuantifiedArticles article, final long newAmount) 
 				throws PersistenceException{
-        //TODO: implement method: changeAmount
-        
+        getThis().getCartMngr().changeAmount(article, newAmount, getThis());
     }
     public void checkOut() 
 				throws PersistenceException{
-        //TODO: implement method: checkOut
-        
+        getThis().getCartMngr().checkOut(getThis());
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        super.initializeOnCreation();
-		//TODO: implement method: initializeOnCreation
+        getThis().setCartMngr(getManager().getCartMngr());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         super.initializeOnInstantiation();
-		//TODO: implement method: initializeOnInstantiation
     }
     public void order(final PersistentCart cart, final PersistentCustomerDelivery deliveryMethod) 
 				throws PersistenceException{
-        //TODO: implement method: order
-        
+        getThis().getCartMngr().order(deliveryMethod, getThis());
     }
     public void removeFCart(final PersistentQuantifiedArticles article) 
 				throws PersistenceException{
-        //TODO: implement method: removeFCart
-        
+        getThis().getCartMngr().removeFCart(article, getThis());
     }
     
     

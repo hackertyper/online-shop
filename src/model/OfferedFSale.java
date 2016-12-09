@@ -2,6 +2,9 @@
 package model;
 
 import persistence.*;
+
+import java.sql.Timestamp;
+
 import model.visitor.*;
 
 
@@ -240,18 +243,13 @@ public class OfferedFSale extends PersistentObject implements PersistentOfferedF
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
-        
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnInstantiation
-        
+    	getThis().getMyArticle().setStock(0);
     }
     public void refillStock() 
 				throws PersistenceException{
@@ -259,8 +257,8 @@ public class OfferedFSale extends PersistentObject implements PersistentOfferedF
     }
     public void reorder(final long amount, final long manuDelivery) 
 				throws PersistenceException{
-        //TODO: implement method: reorder
-        
+    	Timestamp ts = new Timestamp(System.currentTimeMillis());
+        ShopKeeperOrder.createShopKeeperOrder(manuDelivery, ts, getThis().getMyArticle(), amount).deliver();
     }
     public void stopSelling() 
 				throws PersistenceException{
