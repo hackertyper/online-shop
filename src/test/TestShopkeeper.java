@@ -63,6 +63,7 @@ public class TestShopkeeper {
 		TestSupport.prepareSingletons();
 		TestSupport.prepareDatabase();
 		Cache.getTheCache().reset$For$Test();
+		srvr = Server.createServer("", "", 0, new java.sql.Timestamp(0));
 	}
 
 	/**
@@ -73,7 +74,8 @@ public class TestShopkeeper {
 	 */
 	public void register(PersistentServer server, String password, String user) {
 		try {
-			server = Server.createServer(password, user, 0, new java.sql.Timestamp(0));
+			server.setUser(user);
+			server.setPassword(password);
 			server.getService().accept(new ServiceVisitor() {
 				@Override
 				public void handleShopService(PersistentShopService shopService) throws PersistenceException {}
@@ -91,7 +93,7 @@ public class TestShopkeeper {
 				public void handleRegisterService(PersistentRegisterService registerService) throws PersistenceException {
 					try {
 						registerService.register("Marko", "Polo");
-						PersistentServer newServer = null;
+						PersistentServer newServer = Server.createServer("", "", 0, new java.sql.Timestamp(0));
 						register(newServer, "Polo", "Marko");
 					} catch (DoubleUsername e) {
 						fail();
@@ -144,7 +146,7 @@ public class TestShopkeeper {
 			assertEquals(0, serverConstants.ConfigConstants.getPresetAccountLowerLimit());
 			assertEquals(1000, cuMngr.getAccMngr().getMyAccount().getBalance());
 			assertEquals(0, cuMngr.getAccMngr().getMyAccount().getLowerLimit());
-			PersistentServer srvr2 = null;
+			PersistentServer srvr2 = Server.createServer("", "", 0, new java.sql.Timestamp(0));;
 			register(srvr2, common.RPCConstantsAndServices.AdministratorName, common.RPCConstantsAndServices.AdministratorName);
 			keeper.presetBalance(2000);
 			keeper.presetLowerLimit(100);

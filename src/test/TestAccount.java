@@ -20,9 +20,10 @@ public class TestAccount {
 			acc = Account.createAccount();
 	}
 
+	@Test
 	public void testAccountCreation() throws PersistenceException {
 		assertEquals(1000, acc.getBalance());
-		assertEquals(100, acc.getLowerLimit());
+		assertEquals(0, acc.getLowerLimit());
 	}
 	
 	@Test
@@ -53,6 +54,7 @@ public class TestAccount {
 	@Test
 	public void testAccountWithdrawErrorBalanceLessLowerLimit() throws PersistenceException {
 		acc.setBalance(1000);
+		acc.setLowerLimit(100);
 		try {
 			acc.withdraw(950);
 			fail("No expected InsufficientFunds exception occured");
@@ -83,6 +85,7 @@ public class TestAccount {
 	@Test
 	public void testAccountPayErrorBalanceLessLowerLimit() throws PersistenceException {
 		acc.setBalance(1000);
+		acc.setLowerLimit(100);
 		try {
 			acc.pay(950);
 			fail("No expected InsufficientFunds exception occured");

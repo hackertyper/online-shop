@@ -64,7 +64,7 @@ public class TestTriggeredShopkeeperActions {
 	public void testPackInOfferedFSaleWithEnaughStock() throws PersistenceException, InsufficientStock {
 		articleInTest.receiveDelivery(100);
 		((NewlyAddedProxi) articleInTest.getState()).startSelling();
-		articleInTest.pack(60);
+		articleInTest.reserve(60);
 		assertEquals(40, articleInTest.getStock());
 	}
 
@@ -80,7 +80,7 @@ public class TestTriggeredShopkeeperActions {
 		articleInTest.receiveDelivery(100);
 		((NewlyAddedProxi) articleInTest.getState()).startSelling();
 		((OfferedFSaleProxi) articleInTest.getState()).stopSelling();
-		articleInTest.pack(60);
+		articleInTest.reserve(60);
 		assertEquals(40, articleInTest.getStock());
 	}
 
@@ -113,6 +113,6 @@ public class TestTriggeredShopkeeperActions {
 		articleInTest.receiveDelivery(10);
 		((NewlyAddedProxi) articleInTest.getState()).startSelling();
 		((OfferedFSaleProxi) articleInTest.getState()).stopSelling();
-		articleInTest.pack(60);
+		articleInTest.reserve(60);
 	}
 }

@@ -127,7 +127,7 @@ public class TestCart {
 		assertTrue(cm.getMyCart().getState() instanceof PersistentCheckedOut);
 	}
 	
-	@Test
+	@Test(expected = InsufficientStock.class)
 	public void testCheckOutException() throws PersistenceException {
 		cm.addArticle(a1, 100);
 		try {	
