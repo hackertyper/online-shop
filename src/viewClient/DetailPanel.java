@@ -1215,6 +1215,9 @@ class DetailPanelFactory implements AnythingVisitor {
     public void handleArrivedOrder(view.ArrivedOrderView object){
         result = new ArrivedOrderDefaultDetailPanel(handler, object);
     }
+    public void handleCustomerPresets(view.CustomerPresetsView object){
+        result = new CustomerPresetsDefaultDetailPanel(handler, object);
+    }
     public void handleOpenCart(view.OpenCartView object){
         result = new OpenCartDefaultDetailPanel(handler, object);
     }
@@ -1528,6 +1531,36 @@ class ArrivedOrderDefaultDetailPanel extends DefaultDetailPanel{
     }
 }
 
+class CustomerPresetsDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String CustomerPresets$$lowerLimit = "CustomerPresets$$lowerLimit";
+    protected static final String CustomerPresets$$retourePercentage = "CustomerPresets$$retourePercentage";
+    
+    protected CustomerPresetsDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        try{
+            BaseTypePanel panel = new IntegerPanel(this, "lowerLimit", this.getAnything().getLowerLimit());
+            this.getScrollablePane().getChildren().add(panel);
+            this.panels.put(CustomerPresets$$lowerLimit, panel);
+        }catch(ModelException e){
+            this.getExceptionAndEventhandler().handleException(e);
+        }
+        try{
+            BaseTypePanel panel = new IntegerPanel(this, "retourePercentage", this.getAnything().getRetourePercentage());
+            this.getScrollablePane().getChildren().add(panel);
+            this.panels.put(CustomerPresets$$retourePercentage, panel);
+        }catch(ModelException e){
+            this.getExceptionAndEventhandler().handleException(e);
+        }
+        
+    }
+    protected view.CustomerPresetsView getAnything(){
+        return (view.CustomerPresetsView)this.anything;
+    }
+}
+
 class OpenCartDefaultDetailPanel extends DefaultDetailPanel{
     
     protected OpenCartDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
@@ -1574,6 +1607,7 @@ class ShopServiceDefaultDetailPanel extends DefaultDetailPanel{
 class ManufacturerDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String Manufacturer$$name = "Manufacturer$$name";
+    protected static final String Manufacturer$$manuDelivery = "Manufacturer$$manuDelivery";
     
     protected ManufacturerDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -1583,6 +1617,13 @@ class ManufacturerDefaultDetailPanel extends DefaultDetailPanel{
             BaseTypePanel panel = new StringPanel(this, "name", this.getAnything().getName());
             this.getScrollablePane().getChildren().add(panel);
             this.panels.put(Manufacturer$$name, panel);
+        }catch(ModelException e){
+            this.getExceptionAndEventhandler().handleException(e);
+        }
+        try{
+            BaseTypePanel panel = new IntegerPanel(this, "manuDelivery", this.getAnything().getManuDelivery());
+            this.getScrollablePane().getChildren().add(panel);
+            this.panels.put(Manufacturer$$manuDelivery, panel);
         }catch(ModelException e){
             this.getExceptionAndEventhandler().handleException(e);
         }
@@ -1608,7 +1649,7 @@ class NewlyAddedDefaultDetailPanel extends DefaultDetailPanel{
 
 class ShopManagerDefaultDetailPanel extends DefaultDetailPanel{
     
-    protected static final String ShopManager$$itemRange = "ShopManager$$itemRange";
+    protected static final String ShopManager$$basicProductGroup = "ShopManager$$basicProductGroup";
     
     protected ShopManagerDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -1808,6 +1849,7 @@ class AccountServiceDefaultDetailPanel extends DefaultDetailPanel{
 class OrderManagerDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String OrderManager$$orders = "OrderManager$$orders";
+    protected static final String OrderManager$$preOrders = "OrderManager$$preOrders";
     protected static final String OrderManager$$retourePrice = "OrderManager$$retourePrice";
     
     protected OrderManagerDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
@@ -1861,6 +1903,7 @@ class ArticleWrapperDefaultDetailPanel extends DefaultDetailPanel{
 class ShopkeeperDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String Shopkeeper$$basicProductGroup = "Shopkeeper$$basicProductGroup";
+    protected static final String Shopkeeper$$presets = "Shopkeeper$$presets";
     protected static final String Shopkeeper$$standardDelivery = "Shopkeeper$$standardDelivery";
     protected static final String Shopkeeper$$onDelivery = "Shopkeeper$$onDelivery";
     
@@ -1884,7 +1927,6 @@ class ArticleDefaultDetailPanel extends DefaultDetailPanel{
     protected static final String Article$$price = "Article$$price";
     protected static final String Article$$minStock = "Article$$minStock";
     protected static final String Article$$maxStock = "Article$$maxStock";
-    protected static final String Article$$manuDelivery = "Article$$manuDelivery";
     protected static final String Article$$stock = "Article$$stock";
     protected static final String Article$$reserved = "Article$$reserved";
     
@@ -1917,13 +1959,6 @@ class ArticleDefaultDetailPanel extends DefaultDetailPanel{
             BaseTypePanel panel = new IntegerPanel(this, "maxStock", this.getAnything().getMaxStock());
             this.getScrollablePane().getChildren().add(panel);
             this.panels.put(Article$$maxStock, panel);
-        }catch(ModelException e){
-            this.getExceptionAndEventhandler().handleException(e);
-        }
-        try{
-            BaseTypePanel panel = new IntegerPanel(this, "manuDelivery", this.getAnything().getManuDelivery());
-            this.getScrollablePane().getChildren().add(panel);
-            this.panels.put(Article$$manuDelivery, panel);
         }catch(ModelException e){
             this.getExceptionAndEventhandler().handleException(e);
         }
@@ -1962,6 +1997,10 @@ class OfferedFSaleDefaultDetailPanel extends DefaultDetailPanel{
 }
 
 class PreOrderDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String PreOrder$$articleList = "PreOrder$$articleList";
+    protected static final String PreOrder$$standardDelivery = "PreOrder$$standardDelivery";
+    protected static final String PreOrder$$onDelivery = "PreOrder$$onDelivery";
     
     protected PreOrderDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);
@@ -2013,6 +2052,7 @@ class CartDefaultDetailPanel extends DefaultDetailPanel{
 class QuantifiedArticlesDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String QuantifiedArticles$$article = "QuantifiedArticles$$article";
+    protected static final String QuantifiedArticles$$myOrder = "QuantifiedArticles$$myOrder";
     protected static final String QuantifiedArticles$$amount = "QuantifiedArticles$$amount";
     
     protected QuantifiedArticlesDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {

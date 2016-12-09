@@ -293,7 +293,6 @@ public class ShopkeeperServiceClientView extends BorderPane implements Exception
 				getNavigationTree().getSelectionModel().select( getNavigationTree().getRoot());
 			}
 		});
-		//TODO adjust implementation: initializeConnection
 	}
 	public void handleException(ModelException exception) {
 		this.parent.handleException(exception);
@@ -326,6 +325,7 @@ public class ShopkeeperServiceClientView extends BorderPane implements Exception
         ImageView handle(StopSellingPRMTROfferedFSalePRMTRMenuItem menuItem);
         ImageView handle(ChangeProductGroupPRMTRArticlePRMTRProductGroupPRMTRMenuItem menuItem);
         ImageView handle(CreateProductGroupPRMTRProductGroupPRMTRStringPRMTRMenuItem menuItem);
+        ImageView handle(ChangeRetourePercentagePRMTRIntegerPRMTRMenuItem menuItem);
         ImageView handle(StartSellingAgainPRMTRRemovedFSalePRMTRMenuItem menuItem);
         ImageView handle(StartSellingPRMTRNewlyAddedPRMTRMenuItem menuItem);
     }
@@ -410,6 +410,11 @@ public class ShopkeeperServiceClientView extends BorderPane implements Exception
             return visitor.handle(this);
         }
     }
+    private class ChangeRetourePercentagePRMTRIntegerPRMTRMenuItem extends ShopkeeperServiceMenuItem{
+        protected ImageView accept(MenuItemVisitor visitor){
+            return visitor.handle(this);
+        }
+    }
     private class StartSellingAgainPRMTRRemovedFSalePRMTRMenuItem extends ShopkeeperServiceMenuItem{
         protected ImageView accept(MenuItemVisitor visitor){
             return visitor.handle(this);
@@ -443,6 +448,16 @@ public class ShopkeeperServiceClientView extends BorderPane implements Exception
             }
         });
         result.add(currentButton);
+        currentButton = new javafx.scene.control.Button("Retoure:Prozentsatz ändern ... ");
+        currentButton.setGraphic(new ChangeRetourePercentagePRMTRIntegerPRMTRMenuItem().getGraphic());
+        currentButton.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle(javafx.event.ActionEvent e) {
+                final ShopkeeperServiceChangeRetourePercentageIntegerMssgWizard wizard = new ShopkeeperServiceChangeRetourePercentageIntegerMssgWizard("Retoure:Prozentsatz ändern");
+                wizard.setWidth(getNavigationPanel().getWidth());
+                wizard.showAndWait();
+            }
+        });
+        result.add(currentButton);
         return result;
     }
     private ContextMenu getContextMenu(final ViewRoot selected, final boolean withStaticOperations, final Point2D menuPos) {
@@ -463,6 +478,16 @@ public class ShopkeeperServiceClientView extends BorderPane implements Exception
         item.setOnAction(new EventHandler<ActionEvent>(){
             public void handle(javafx.event.ActionEvent e) {
                 final ShopkeeperServicePresetLowerLimitIntegerMssgWizard wizard = new ShopkeeperServicePresetLowerLimitIntegerMssgWizard("Kundenkonto:Unteres Limit setzen");
+                wizard.setWidth(getNavigationPanel().getWidth());
+                wizard.showAndWait();
+            }
+        });
+        if (withStaticOperations) result.getItems().add(item);
+        item = new ChangeRetourePercentagePRMTRIntegerPRMTRMenuItem();
+        item.setText("(S) Retoure:Prozentsatz ändern ... ");
+        item.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle(javafx.event.ActionEvent e) {
+                final ShopkeeperServiceChangeRetourePercentageIntegerMssgWizard wizard = new ShopkeeperServiceChangeRetourePercentageIntegerMssgWizard("Retoure:Prozentsatz ändern");
                 wizard.setWidth(getNavigationPanel().getWidth());
                 wizard.showAndWait();
             }
@@ -1055,6 +1080,44 @@ public class ShopkeeperServiceClientView extends BorderPane implements Exception
 			this.firstArgument = firstArgument;
 			this.setTitle(this.firstArgument.toString());
 			this.check();
+		}
+		
+		
+	}
+
+	class ShopkeeperServiceChangeRetourePercentageIntegerMssgWizard extends Wizard {
+
+		protected ShopkeeperServiceChangeRetourePercentageIntegerMssgWizard(String operationName){
+			super(ShopkeeperServiceClientView.this);
+			getOkButton().setText(operationName);
+			getOkButton().setGraphic(new ChangeRetourePercentagePRMTRIntegerPRMTRMenuItem ().getGraphic());
+		}
+		protected void initialize(){
+			this.helpFileName = "ShopkeeperServiceChangeRetourePercentageIntegerMssgWizard.help";
+			super.initialize();		
+		}
+				
+		protected void perform() {
+			try {
+				getConnection().changeRetourePercentage(((IntegerSelectionPanel)getParametersPanel().getChildren().get(0)).getResult().longValue());
+				getConnection().setEagerRefresh();
+				this.close();	
+			} catch(ModelException me){
+				handleException(me);
+				this.close();
+			}
+			
+		}
+		protected String checkCompleteParameterSet(){
+			return null;
+		}
+		protected boolean isModifying () {
+			return false;
+		}
+		protected void addParameters(){
+			getParametersPanel().getChildren().add(new IntegerSelectionPanel("newPercentage", this));		
+		}	
+		protected void handleDependencies(int i) {
 		}
 		
 		

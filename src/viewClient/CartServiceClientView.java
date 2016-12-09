@@ -281,7 +281,6 @@ public class CartServiceClientView extends BorderPane implements ExceptionAndEve
 				}			
 			}
 		});
-		//TODO adjust implementation: handleRefresh()!
 	}
 	/** Is called only once after the connection has been established
 	**/
@@ -293,7 +292,6 @@ public class CartServiceClientView extends BorderPane implements ExceptionAndEve
 				getNavigationTree().getSelectionModel().select( getNavigationTree().getRoot());
 			}
 		});
-		//TODO adjust implementation: initializeConnection
 	}
 	public void handleException(ModelException exception) {
 		this.parent.handleException(exception);

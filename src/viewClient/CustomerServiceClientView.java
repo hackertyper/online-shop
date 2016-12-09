@@ -6,12 +6,15 @@ import view.objects.ViewObjectInTree;
 
 import view.visitor.AnythingStandardVisitor;
 
-import java.util.Optional;
+import javax.swing.tree.TreeModel;
+
+import com.sun.javafx.geom.Point2D;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.scene.control.Alert;
@@ -23,6 +26,8 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.SelectionModel;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToolBar;
 import javafx.scene.control.TreeItem;
@@ -31,12 +36,20 @@ import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
-
-
-import com.sun.javafx.geom.Point2D;
-
-import javax.swing.tree.TreeModel;
-
+import view.AccountServiceView;
+import view.Anything;
+import view.CartServiceView;
+import view.CustomerServiceView;
+import view.ModelException;
+import view.OrderServiceView;
+import view.RegisterServiceView;
+import view.ShopServiceView;
+import view.ShopkeeperServiceView;
+import view.UserException;
+import view.objects.ViewObjectInTree;
+import view.objects.ViewRoot;
+import view.visitor.AnythingStandardVisitor;
+import view.visitor.ServiceVisitor;
 
 public class CustomerServiceClientView extends BorderPane implements ExceptionAndEventHandler{
 
@@ -53,45 +66,63 @@ public class CustomerServiceClientView extends BorderPane implements ExceptionAn
 		this.service = service;
 		this.initialize();
 	}
-	@SuppressWarnings("unused")
 	private CustomerServiceView getService(){
 		return this.service;
 	}
+	private TabPane tabs = null;
+	private TabPane getTabs() {
+		if(this.tabs == null) {
+			this.tabs = new TabPane();
+			this.tabs.getTabs().addAll(getTabShop(), getTabCart(), getTabOrder(), getTabAccount());
+		}
+		return this.tabs;
+	}
+	private Tab tabShop = null;
+	private Tab getTabShop() {
+		if(this.tabShop == null) {
+			this.tabShop = new Tab();
+			this.tabShop.setText("Shop");
+			this.tabShop.setClosable(false);
+		}
+		return this.tabShop;
+	}
+	private Tab tabAccount = null;
+	private Tab getTabAccount() {
+		if(this.tabAccount == null) {
+			this.tabAccount = new Tab();
+			this.tabAccount.setText("Konto");
+			this.tabAccount.setClosable(false);
+		}
+		return this.tabAccount;
+	}
+	private Tab tabCart = null;
+	private Tab getTabCart() {
+		if(this.tabCart == null) {
+			this.tabCart = new Tab();
+			this.tabCart.setText("Einkaufswagen");
+			this.tabCart.setClosable(false);
+		}
+		return this.tabCart;
+	}
+	private Tab tabOrder = null;
+	private Tab getTabOrder() {
+		if(this.tabOrder == null) {
+			this.tabOrder = new Tab();
+			this.tabOrder.setText("Bestellungen");
+			this.tabOrder.setClosable(false);
+		}
+		return this.tabOrder;
+	}
 	private void initialize() {
-        this.setCenter( this.getMainSplitPane());
-        if( !WithStaticOperations && this.getMainToolBar().getItems().size() > 0){
-        	this.setTop( this.getMainToolBar() );
-        }
+        this.setCenter( this.getTabs());
 	}
-	private ToolBar mainToolBar = null;
-	private ToolBar getMainToolBar() {
-		if( this.mainToolBar == null){
-			this.mainToolBar = new ToolBar();
-			for( Button current : this.getToolButtonsForStaticOperations()) {
-				this.mainToolBar.getItems().add( current );
-			}
-		}
-		return this.mainToolBar;
-	}
-	private SplitPane mainSplitPane = null;
-	private SplitPane getMainSplitPane() {
-		if( this.mainSplitPane == null) {
-			this.mainSplitPane = new SplitPane();
-			this.mainSplitPane.setOrientation( Orientation.HORIZONTAL);
-			this.mainSplitPane.getItems().addAll( this.getNavigationSplitPane(), this.getTitledDetailsPane() );	
-			this.mainSplitPane.setDividerPosition( 0, 0.5);
-			this.mainSplitPane.prefHeightProperty().bind( this.heightProperty());
-			this.mainSplitPane.prefWidthProperty().bind( this.widthProperty());
-		}
-		return this.mainSplitPane;
-	}
+	
 	private SplitPane navigationSplitPane = null;
 	private SplitPane getNavigationSplitPane(){
 		if( this.navigationSplitPane == null ){
 			this.navigationSplitPane = new SplitPane();
 			this.navigationSplitPane.setOrientation( Orientation.VERTICAL);
 			this.navigationSplitPane.getItems().addAll( this.getNavigationPanel(), this.getErrorPanel());
-			this.navigationSplitPane.prefHeightProperty().bind( this.getMainSplitPane().heightProperty());
 			this.navigationSplitPane.setDividerPosition( 0, 1.0);
 			this.navigationSplitPane.heightProperty().addListener(new ChangeListener<Number>() {
 				public void changed(
@@ -153,8 +184,7 @@ public class CustomerServiceClientView extends BorderPane implements ExceptionAn
 		if( this.titledDetailsPane == null ){
 			this.titledDetailsPane = new TitledPane();
 			this.titledDetailsPane.setText( GUIConstants.DetailsTitle);
-			this.titledDetailsPane.setCollapsible(false);			
-			this.titledDetailsPane.prefHeightProperty().bind(this.getMainSplitPane().heightProperty());
+			this.titledDetailsPane.setCollapsible(false);
 		}
 		return this.titledDetailsPane;		
 	}	
@@ -281,19 +311,75 @@ public class CustomerServiceClientView extends BorderPane implements ExceptionAn
 				}			
 			}
 		});
-		//TODO adjust implementation: handleRefresh()!
 	}
 	/** Is called only once after the connection has been established
 	**/
 	public void initializeConnection(){
-		Platform.runLater( new  Runnable() {
-			public void run() {
-				getNavigationTree().setModel((TreeModel) getConnection().getCustomerServiceView());	
-				getNavigationTree().getRoot().setExpanded(true);
-				getNavigationTree().getSelectionModel().select( getNavigationTree().getRoot());
+		try {
+			java.util.Iterator<CustomerServiceView> services = this.getService().getServices().iterator();
+			while (services.hasNext()) {
+				services.next().accept(new ServiceVisitor() {
+					@Override
+					public void handleAccountService(AccountServiceView accountService) throws ModelException {
+						AccountServiceClientView view = new AccountServiceClientView(CustomerServiceClientView.this, accountService);
+						accountService.connectAccountService(CustomerServiceClientView.this.getConnection(), view);
+						CustomerServiceClientView.this.getTabAccount().setOnSelectionChanged(new EventHandler<Event>() {
+							@Override
+							public void handle(Event event) {
+								view.handleRefresh();
+							}
+						});
+						CustomerServiceClientView.this.getTabAccount().setContent(view);
+					}
+					@Override
+					public void handleCartService(CartServiceView cartService) throws ModelException {
+						CartServiceClientView view = new CartServiceClientView(CustomerServiceClientView.this, cartService);
+						cartService.connectCartService(CustomerServiceClientView.this.getConnection(), view);
+						CustomerServiceClientView.this.getTabCart().setOnSelectionChanged(new EventHandler<Event>() {
+							@Override
+							public void handle(Event event) {
+								view.handleRefresh();
+							}
+						});
+						CustomerServiceClientView.this.getTabCart().setContent(view);
+					}
+					@Override
+					public void handleShopService(ShopServiceView shopService) throws ModelException {
+						ShopServiceClientView view = new ShopServiceClientView(CustomerServiceClientView.this, shopService);
+						shopService.connectShopService(CustomerServiceClientView.this.getConnection(), view);
+						CustomerServiceClientView.this.getTabShop().setOnSelectionChanged(new EventHandler<Event>() {
+							@Override
+							public void handle(Event event) {
+								view.handleRefresh();
+							}
+						});
+						CustomerServiceClientView.this.getTabShop().setContent(view);
+					}
+					@Override
+					public void handleCustomerService(CustomerServiceView customerService) throws ModelException {}
+					@Override
+					public void handleRegisterService(RegisterServiceView registerService) throws ModelException {}
+					@Override
+					public void handleShopkeeperService(ShopkeeperServiceView shopkeeperService) throws ModelException {}
+					@Override
+					public void handleOrderService(OrderServiceView orderService) throws ModelException {
+						OrderServiceClientView view = new OrderServiceClientView(CustomerServiceClientView.this, orderService);
+						orderService.connectOrderService(CustomerServiceClientView.this.getConnection(), view);
+						CustomerServiceClientView.this.getTabOrder().setOnSelectionChanged(new EventHandler<Event>() {
+							@Override
+							public void handle(Event event) {
+								view.handleRefresh();
+							}
+						});
+						CustomerServiceClientView.this.getTabOrder().setContent(view);
+					}
+				});
+				
 			}
-		});
-		//TODO adjust implementation: initializeConnection
+			getConnection().refresherStop();
+		} catch (ModelException e) {
+			this.handleException(e);
+		}
 	}
 	public void handleException(ModelException exception) {
 		this.parent.handleException(exception);

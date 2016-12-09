@@ -281,7 +281,6 @@ public class AccountServiceClientView extends BorderPane implements ExceptionAnd
 				}			
 			}
 		});
-		//TODO adjust implementation: handleRefresh()!
 	}
 	/** Is called only once after the connection has been established
 	**/
@@ -293,7 +292,6 @@ public class AccountServiceClientView extends BorderPane implements ExceptionAnd
 				getNavigationTree().getSelectionModel().select( getNavigationTree().getRoot());
 			}
 		});
-		//TODO adjust implementation: initializeConnection
 	}
 	public void handleException(ModelException exception) {
 		this.parent.handleException(exception);

@@ -299,30 +299,14 @@ public class ServerClientView extends BorderPane implements ExceptionAndEventHan
 					customerService.connectCustomerService(ServerClientView.this.getConnection(), view);
 					ServerClientView.this.setCenter(view);
 				}
-
 				@Override
-				public void handleAccountService(AccountServiceView accountService) throws ModelException {
-					// TODO Auto-generated method stub
-					
-				}
-
+				public void handleAccountService(AccountServiceView accountService) throws ModelException {}
 				@Override
-				public void handleCartService(CartServiceView cartService) throws ModelException {
-					// TODO Auto-generated method stub
-					
-				}
-
+				public void handleCartService(CartServiceView cartService) throws ModelException {}
 				@Override
-				public void handleOrderService(OrderServiceView orderService) throws ModelException {
-					// TODO Auto-generated method stub
-					
-				}
-
+				public void handleShopService(ShopServiceView shopService) throws ModelException {}
 				@Override
-				public void handleShopService(ShopServiceView shopService) throws ModelException {
-					// TODO Auto-generated method stub
-					
-				}
+				public void handleOrderService(OrderServiceView orderService) throws ModelException {}
 			});
 			getConnection().refresherStop();
 		} catch (ModelException e) {
