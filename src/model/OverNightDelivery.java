@@ -198,6 +198,8 @@ public class OverNightDelivery extends model.CustomerDelivery implements Persist
     public void initializeOnCreation() 
 				throws PersistenceException{
         super.initializeOnCreation();
+        getThis().setExtraCharge(10);
+        getThis().setTime(10000);
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
