@@ -404,14 +404,15 @@ public class Server extends PersistentObject implements PersistentServer{
         		getThis().getPassword().equals("")){
         	getThis().setService(RegisterService.createRegisterService());
         	return;
+        } else {
+        	PersistentCustomerManager cm = CustomerManager.createCustomerManager();
+            PersistentCustomerService cs = CustomerService.createCustomerService(cm);
+            cs.getServices().add(ShopService.createShopService(cm));
+            cs.getServices().add(CartService.createCartService(cm));
+            cs.getServices().add(AccountService.createAccountService(cm));
+            cs.getServices().add(OrderService.createOrderService(cm));
+        	getThis().setService(cs);
         }
-        PersistentCustomerManager cm = CustomerManager.createCustomerManager();
-        PersistentCustomerService cs = CustomerService.createCustomerService(cm);
-        cs.getServices().add(ShopService.createShopService(cm));
-        cs.getServices().add(CartService.createCartService(cm));
-        cs.getServices().add(AccountService.createAccountService(cm));
-        cs.getServices().add(OrderService.createOrderService(cm));
-    	getThis().setService(cs);
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{

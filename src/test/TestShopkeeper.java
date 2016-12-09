@@ -28,7 +28,6 @@ import persistence.PersistentShopkeeperService;
  */
 public class TestShopkeeper {
 	
-	PersistentServer srvr;
 	PersistentShopkeeper keeper;
 	PersistentCustomerManager cuMngr;
 	
@@ -63,19 +62,24 @@ public class TestShopkeeper {
 		TestSupport.prepareSingletons();
 		TestSupport.prepareDatabase();
 		Cache.getTheCache().reset$For$Test();
-		srvr = Server.createServer("", "", 0, new java.sql.Timestamp(0));
 	}
 
 	/**
 	 * Handles registration for server
-	 * @param server new Server object
 	 * @param password password to use for login
 	 * @param user user to use for login
 	 */
-	public void register(PersistentServer server, String password, String user) {
+	public void register(String password, String user) {
 		try {
-			server.setUser(user);
-			server.setPassword(password);
+			PersistentServer srvr = Server.createServer(password, user, 0, new java.sql.Timestamp(0));
+			handleService(srvr);
+		} catch (PersistenceException e) {
+			fail();
+		}
+	}
+	
+	private void handleService(PersistentServer server) {
+		try {
 			server.getService().accept(new ServiceVisitor() {
 				@Override
 				public void handleShopService(PersistentShopService shopService) throws PersistenceException {}
@@ -93,8 +97,8 @@ public class TestShopkeeper {
 				public void handleRegisterService(PersistentRegisterService registerService) throws PersistenceException {
 					try {
 						registerService.register("Marko", "Polo");
-						PersistentServer newServer = Server.createServer("", "", 0, new java.sql.Timestamp(0));
-						register(newServer, "Polo", "Marko");
+						PersistentServer newServer = Server.createServer("Polo", "Marko", 0, new java.sql.Timestamp(0));
+						handleService(newServer);
 					} catch (DoubleUsername e) {
 						fail();
 					}
@@ -115,7 +119,7 @@ public class TestShopkeeper {
 	@Test
 	public void testDeliveryConfigs() {
 		try {
-			register(srvr, common.RPCConstantsAndServices.AdministratorName, common.RPCConstantsAndServices.AdministratorName);
+			register(common.RPCConstantsAndServices.AdministratorName, common.RPCConstantsAndServices.AdministratorName);
 			if(keeper == null) fail();
 			assertEquals(0, keeper.getStandardDelivery().getExtraCharge());
 			assertEquals(10, keeper.getOnDelivery().getExtraCharge());
@@ -140,14 +144,13 @@ public class TestShopkeeper {
 	@Test
 	public void testAccountConfig() {
 		try {
-			register(srvr, "", common.RPCConstantsAndServices.Public);
+			register("", common.RPCConstantsAndServices.Public);
 			if(cuMngr == null) fail();
 			assertEquals(1000, serverConstants.ConfigConstants.getPresetAccountBalance());
 			assertEquals(0, serverConstants.ConfigConstants.getPresetAccountLowerLimit());
 			assertEquals(1000, cuMngr.getAccMngr().getMyAccount().getBalance());
 			assertEquals(0, cuMngr.getAccMngr().getMyAccount().getLowerLimit());
-			PersistentServer srvr2 = Server.createServer("", "", 0, new java.sql.Timestamp(0));;
-			register(srvr2, common.RPCConstantsAndServices.AdministratorName, common.RPCConstantsAndServices.AdministratorName);
+			register(common.RPCConstantsAndServices.AdministratorName, common.RPCConstantsAndServices.AdministratorName);
 			keeper.presetBalance(2000);
 			keeper.presetLowerLimit(100);
 			assertEquals(2000, serverConstants.ConfigConstants.getPresetAccountBalance());
@@ -165,7 +168,7 @@ public class TestShopkeeper {
 	@Test
 	public void testRetoureConfig() {
 		try {
-			register(srvr, common.RPCConstantsAndServices.AdministratorName, common.RPCConstantsAndServices.AdministratorName);
+			register(common.RPCConstantsAndServices.AdministratorName, common.RPCConstantsAndServices.AdministratorName);
 			if(keeper == null) fail();
 			assertEquals(10, serverConstants.ConfigConstants.getRetourePercentage());
 			keeper.changeRetourePercentage(20);

@@ -496,6 +496,8 @@ public class Shopkeeper extends PersistentObject implements PersistentShopkeeper
     public void initializeOnCreation() 
 				throws PersistenceException{
         getThis().setBasicProductGroup(ProductGroup.createProductGroup("Produkte"));
+        getThis().setStandardDelivery(StandardDelivery.getTheStandardDelivery());
+        getThis().setOnDelivery(OverNightDelivery.getTheOverNightDelivery());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
