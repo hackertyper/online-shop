@@ -228,6 +228,18 @@ public class ShopServiceClientView extends BorderPane implements ExceptionAndEve
 			protected void standardHandling(Anything Anything) throws ModelException {
 				this.result = null;
 			}
+			@Override
+			public void handleArticle(ArticleView article) throws ModelException {
+				this.result = DefaultDetailPanel.getStandardDetailPanel(article.getMyWrapper(), parent);
+			}
+			@Override
+			public void handleProductGroup(ProductGroupView productGroup) throws ModelException {
+				this.result = new StandardDetailPanel(parent);
+			}
+			@Override
+			public void handleManufacturer(ManufacturerView manufacturer) throws ModelException {
+				this.result = new StandardDetailPanel(parent);
+			}
 			//TODO Overwrite all handle methods for the types for which you intend to provide a special panel!
 		}
 		PanelDecider decider = new PanelDecider();
