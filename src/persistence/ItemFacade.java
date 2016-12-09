@@ -25,6 +25,7 @@ public class ItemFacade{
 	}
 
     public long getClass(long objectId) throws PersistenceException{
+        if(Cache.getTheCache().contains(objectId, 279)) return 279;
         if(Cache.getTheCache().contains(objectId, 102)) return 102;
         if(Cache.getTheCache().contains(objectId, 109)) return 109;
         
@@ -36,6 +37,12 @@ public class ItemFacade{
         description = description.replaceAll("_", ".");
         ItemSearchList result = new ItemSearchList();
         java.util.Iterator<?> candidates;
+        candidates = Cache.getTheCache().iterator(279);
+        while (candidates.hasNext()){
+            PersistentItem current = (PersistentItem)((PersistentRoot)candidates.next()).getTheObject();
+            if (current != null && !current.isDltd() && !current.isDelayed$Persistence() && current.getDescription().matches(description))
+                result.add((PersistentItem)PersistentProxi.createProxi(current.getId(), current.getClassId()));
+        }
         candidates = Cache.getTheCache().iterator(102);
         while (candidates.hasNext()){
             PersistentItem current = (PersistentItem)((PersistentRoot)candidates.next()).getTheObject();

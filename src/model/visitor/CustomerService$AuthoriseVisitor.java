@@ -16,6 +16,7 @@ public abstract class CustomerService$AuthoriseVisitor extends AnythingStandardV
     public abstract void handleOverNightDelivery(PersistentOverNightDelivery overNightDelivery) throws PersistenceException;
     public abstract void handleStandardDelivery(PersistentStandardDelivery standardDelivery) throws PersistenceException;
     public abstract void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException;
+    public abstract void handleBasicProductGroup(PersistentBasicProductGroup basicProductGroup) throws PersistenceException;
     public abstract void handleOpenCart(PersistentOpenCart openCart) throws PersistenceException;
     public abstract void handleCustomerManager(PersistentCustomerManager customerManager) throws PersistenceException;
     public abstract void handleShopService(PersistentShopService shopService) throws PersistenceException;

@@ -318,8 +318,43 @@ public class ShopManager extends PersistentObject implements PersistentShopManag
     }
     public void basicProductGroup_update(final model.meta.ProductGroupMssgs event) 
 				throws PersistenceException{
-        //TODO: implement method: basicProductGroup_update
-        
+    	getThis().getBasicProductGroup().getItemList().filter(new Predcate<PersistentItem>() {
+			@Override
+			public boolean test(PersistentItem argument) throws PersistenceException {
+				return argument.accept(new ItemReturnVisitor<Boolean>() {
+					@Override
+					public Boolean handleBasicProductGroup(PersistentBasicProductGroup basicProductGroup)
+							throws PersistenceException {
+						return true;
+					}
+					@Override
+					public Boolean handleArticle(PersistentArticle article) throws PersistenceException {
+						return article.getState().accept(new ArticleStateReturnVisitor<Boolean>() {
+							@Override
+							public Boolean handleNewlyAdded(PersistentNewlyAdded newlyAdded)
+									throws PersistenceException {
+								return false;
+							}
+							@Override
+							public Boolean handleOfferedFSale(PersistentOfferedFSale offeredFSale)
+									throws PersistenceException {
+								return true;
+							}
+							@Override
+							public Boolean handleRemovedFSale(PersistentRemovedFSale removedFSale)
+									throws PersistenceException {
+								return true;
+							}
+						});
+					}
+					@Override
+					public Boolean handleProductGroup(PersistentProductGroup productGroup) throws PersistenceException {
+						return true;
+					}
+				});
+			}
+		});
+        getThis().getCustomerManager().signalChanged();
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
@@ -348,12 +383,16 @@ public class ShopManager extends PersistentObject implements PersistentShopManag
 							public void handleNewlyAdded(PersistentNewlyAdded newlyAdded) throws PersistenceException {}
 						});
 					}
+					@Override
+					public void handleBasicProductGroup(PersistentBasicProductGroup basicProductGroup)
+							throws PersistenceException {}
 				});
 			}
 		});
 	}
     public void initializeOnCreation() 
 				throws PersistenceException{
+    	getThis().setBasicProductGroup(BasicProductGroup.getTheBasicProductGroup());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{

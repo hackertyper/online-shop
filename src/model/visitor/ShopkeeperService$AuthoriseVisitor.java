@@ -12,6 +12,7 @@ public abstract class ShopkeeperService$AuthoriseVisitor extends AnythingStandar
     public abstract void handleOfferedFSale(PersistentOfferedFSale offeredFSale) throws PersistenceException;
     public abstract void handleOverNightDelivery(PersistentOverNightDelivery overNightDelivery) throws PersistenceException;
     public abstract void handleStandardDelivery(PersistentStandardDelivery standardDelivery) throws PersistenceException;
+    public abstract void handleBasicProductGroup(PersistentBasicProductGroup basicProductGroup) throws PersistenceException;
     public abstract void handleCustomerPresets(PersistentCustomerPresets customerPresets) throws PersistenceException;
     public abstract void handleRemovedFSale(PersistentRemovedFSale removedFSale) throws PersistenceException;
     public abstract void handleShopkeeperService(PersistentShopkeeperService shopkeeperService) throws PersistenceException;

@@ -152,7 +152,7 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	}
 	@Override
 	public void handleArticleWrapper(PersistentArticleWrapper articleWrapper) throws PersistenceException {
-		result = articleWrapper.getMyArticle().toString();
+		result = articleWrapper.getMyArticle().getDescription();
 	}
 	@Override
 	public void handlePreOrder(PersistentPreOrder preOrder) throws PersistenceException {
@@ -161,6 +161,10 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleCustomerPresets(PersistentCustomerPresets customerPresets) throws PersistenceException {
 		result = "Standardwerte von Kundenkonten";
+	}
+	@Override
+	public void handleBasicProductGroup(PersistentBasicProductGroup basicProductGroup) throws PersistenceException {
+		result = basicProductGroup.getDescription();
 	}
 
 }

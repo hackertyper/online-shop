@@ -114,6 +114,18 @@ public class ProductGroup extends model.Item implements PersistentProductGroup{
         }return (PersistentProductGroup)this.This;
     }
     
+    public void accept(ProductGroupVisitor visitor) throws PersistenceException {
+        visitor.handleProductGroup(this);
+    }
+    public <R> R accept(ProductGroupReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleProductGroup(this);
+    }
+    public <E extends model.UserException>  void accept(ProductGroupExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleProductGroup(this);
+    }
+    public <R, E extends model.UserException> R accept(ProductGroupReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleProductGroup(this);
+    }
     public void accept(ItemVisitor visitor) throws PersistenceException {
         visitor.handleProductGroup(this);
     }

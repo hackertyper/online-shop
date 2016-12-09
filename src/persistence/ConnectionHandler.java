@@ -116,6 +116,7 @@ public class ConnectionHandler {
     public PreOrderFacade thePreOrderFacade;
     public CartStateFacade theCartStateFacade;
     public RetoureArticleCommandFacade theRetoureArticleCommandFacade;
+    public BasicProductGroupFacade theBasicProductGroupFacade;
     public PresetLowerLimitCommandFacade thePresetLowerLimitCommandFacade;
     public FindArticleCommandFacade theFindArticleCommandFacade;
     public ShopkeeperBasicProductGroupFacade theShopkeeperBasicProductGroupFacade;
@@ -198,6 +199,7 @@ public class ConnectionHandler {
             this.thePreOrderFacade= new PreOrderFacade();
             this.theCartStateFacade= new CartStateFacade();
             this.theRetoureArticleCommandFacade= new RetoureArticleCommandFacade();
+            this.theBasicProductGroupFacade= new BasicProductGroupFacade();
             this.thePresetLowerLimitCommandFacade= new PresetLowerLimitCommandFacade();
             this.theFindArticleCommandFacade= new FindArticleCommandFacade();
             this.theShopkeeperBasicProductGroupFacade= new ShopkeeperBasicProductGroupFacade();

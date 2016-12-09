@@ -56,6 +56,18 @@ public class ProductGroupProxi extends ItemProxi implements ProductGroupView{
         ((ProductGroup)this.getTheObject()).setItemList(newValue);
     }
     
+    public void accept(ProductGroupVisitor visitor) throws ModelException {
+        visitor.handleProductGroup(this);
+    }
+    public <R> R accept(ProductGroupReturnVisitor<R>  visitor) throws ModelException {
+         return visitor.handleProductGroup(this);
+    }
+    public <E extends view.UserException>  void accept(ProductGroupExceptionVisitor<E> visitor) throws ModelException, E {
+         visitor.handleProductGroup(this);
+    }
+    public <R, E extends view.UserException> R accept(ProductGroupReturnExceptionVisitor<R, E>  visitor) throws ModelException, E {
+         return visitor.handleProductGroup(this);
+    }
     public void accept(ItemVisitor visitor) throws ModelException {
         visitor.handleProductGroup(this);
     }

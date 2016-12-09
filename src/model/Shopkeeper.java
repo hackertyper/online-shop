@@ -454,8 +454,7 @@ public class Shopkeeper extends PersistentObject implements PersistentShopkeeper
     
     public void basicProductGroup_update(final model.meta.ProductGroupMssgs event) 
 				throws PersistenceException{
-        //TODO: implement method: basicProductGroup_update
-        
+        getThis().getMyServer().signalChanged(true);
     }
     public void changeCharge(final PersistentCustomerDelivery cd, final long newCharge) 
 				throws PersistenceException{
@@ -495,7 +494,9 @@ public class Shopkeeper extends PersistentObject implements PersistentShopkeeper
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        getThis().setBasicProductGroup(ProductGroup.createProductGroup("Produkte"));
+    	PersistentBasicProductGroup bpg = BasicProductGroup.getTheBasicProductGroup();
+    	bpg.setDescription("Produkte");
+        getThis().setBasicProductGroup(bpg);
         getThis().setStandardDelivery(StandardDelivery.getTheStandardDelivery());
         getThis().setOnDelivery(OverNightDelivery.getTheOverNightDelivery());
     }

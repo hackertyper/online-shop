@@ -95,6 +95,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handlePreOrder(PreOrderView preOrder) throws ModelException{
         this.standardHandling(preOrder);
     }
+    public void handleBasicProductGroup(BasicProductGroupView basicProductGroup) throws ModelException{
+        this.standardHandling(basicProductGroup);
+    }
     public void handleRegisterService(RegisterServiceView registerService) throws ModelException{
         this.standardHandling(registerService);
     }

@@ -20,6 +20,9 @@ public class ProductGroupAddItemItemMssg implements ProductGroupDOWNMssgs,Produc
     public void accept(ItemMssgsVisitor visitor) throws PersistenceException{
         visitor.handleProductGroupAddItemItemMssg(this);
     }
+    public void accept(BasicProductGroupMssgsVisitor visitor) throws PersistenceException{
+        visitor.handleProductGroupAddItemItemMssg(this);
+    }
     public synchronized void execute() {
         if (this.exctDte == null){
             this.exctDte = new java.util.Date();

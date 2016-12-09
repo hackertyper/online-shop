@@ -51,7 +51,7 @@ public class TestShopkeeperDataManipulation {
 	 */
 	@Test
 	public void testBasicSetup() throws PersistenceException {
-		assertEquals(0, basicPg.cumulateArticleCount());
+		assertEquals(1, basicPg.cumulateArticleCount());
 	}
 
 	/**
@@ -184,8 +184,8 @@ public class TestShopkeeperDataManipulation {
 	@Test
 	public void testAddSubPg() throws PersistenceException, InvalidStockNumber {
 		sks.createProductGroup(basicPg, "Subgroup");
-		assertEquals(0, basicPg.cumulateArticleCount());
-		assertEquals(1, basicPg.getItemList().getLength());
+		assertEquals(3, basicPg.cumulateArticleCount());
+		assertEquals(4, basicPg.getItemList().getLength());
 	}
 
 	/**
@@ -201,7 +201,7 @@ public class TestShopkeeperDataManipulation {
 		PersistentProductGroup subPg = ProductGroup.createProductGroup("Subgroup");
 		basicPg.addItem(subPg);
 		sks.createArticle(subPg, "", "", 0, 10, 0, 10);
-		assertEquals(2, basicPg.cumulateArticleCount());
+		assertEquals(6, basicPg.cumulateArticleCount());
 	}
 	
 	/**

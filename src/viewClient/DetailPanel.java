@@ -1278,6 +1278,9 @@ class DetailPanelFactory implements AnythingVisitor {
     public void handlePreOrder(view.PreOrderView object){
         result = new PreOrderDefaultDetailPanel(handler, object);
     }
+    public void handleBasicProductGroup(view.BasicProductGroupView object){
+        result = new BasicProductGroupDefaultDetailPanel(handler, object);
+    }
     public void handleRegisterService(view.RegisterServiceView object){
         result = new RegisterServiceDefaultDetailPanel(handler, object);
     }
@@ -2010,6 +2013,29 @@ class PreOrderDefaultDetailPanel extends DefaultDetailPanel{
     }
     protected view.PreOrderView getAnything(){
         return (view.PreOrderView)this.anything;
+    }
+}
+
+class BasicProductGroupDefaultDetailPanel extends DefaultDetailPanel{
+    
+    protected static final String Item$$description = "Item$$description";
+    protected static final String ProductGroup$$itemList = "ProductGroup$$itemList";
+    
+    protected BasicProductGroupDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
+        super(exceptionHandler, anything);
+    }
+    protected void addFields(){
+        try{
+            BaseTypePanel panel = new StringPanel(this, "description", this.getAnything().getDescription());
+            this.getScrollablePane().getChildren().add(panel);
+            this.panels.put(Item$$description, panel);
+        }catch(ModelException e){
+            this.getExceptionAndEventhandler().handleException(e);
+        }
+        
+    }
+    protected view.BasicProductGroupView getAnything(){
+        return (view.BasicProductGroupView)this.anything;
     }
 }
 

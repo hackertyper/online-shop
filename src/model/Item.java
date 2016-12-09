@@ -110,7 +110,7 @@ public abstract class Item extends PersistentObject implements PersistentItem{
     
     
     
-    public PersistentProductGroup getParent() 
+    public PersistentProductGroup getParentItem() 
 				throws PersistenceException{
         ProductGroupSearchList result = null;
 		if (result == null) result = ConnectionHandler.getTheConnectionHandler().theProductGroupFacade
@@ -137,13 +137,9 @@ public abstract class Item extends PersistentObject implements PersistentItem{
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
-        
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnInstantiation
-        
     }
     
     

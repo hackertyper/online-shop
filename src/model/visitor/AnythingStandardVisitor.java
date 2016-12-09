@@ -161,6 +161,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleRetoureArticleCommand(PersistentRetoureArticleCommand retoureArticleCommand) throws PersistenceException{
         this.standardHandling(retoureArticleCommand);
     }
+    public void handleBasicProductGroup(PersistentBasicProductGroup basicProductGroup) throws PersistenceException{
+        this.standardHandling(basicProductGroup);
+    }
     public void handlePresetLowerLimitCommand(PersistentPresetLowerLimitCommand presetLowerLimitCommand) throws PersistenceException{
         this.standardHandling(presetLowerLimitCommand);
     }

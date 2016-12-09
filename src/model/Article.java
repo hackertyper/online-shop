@@ -413,13 +413,11 @@ public class Article extends model.Item implements PersistentArticle{
     }
     public void changeProductGroup(final PersistentProductGroup newPG) 
 				throws PersistenceException{
-        getThis().getParent().getItemList().removeAll(getThis());
+        getThis().getParentItem().getItemList().removeAll(getThis());
         newPG.addItem(getThis());
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
     }
     public long cumulateArticleCount() 
 				throws PersistenceException{

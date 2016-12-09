@@ -37,6 +37,9 @@ public abstract class SubjInterfaceDirectVisitor implements SubjInterfaceVisitor
     public void handleArticle(PersistentArticle article) throws PersistenceException{
         this.handleItem(article);
     }
+    public void handleBasicProductGroup(PersistentBasicProductGroup basicProductGroup) throws PersistenceException{
+        this.handleItem(basicProductGroup);
+    }
     public abstract void handleCustomerManager(PersistentCustomerManager customerManager) throws PersistenceException;
     
     public abstract void handleManufacturer(PersistentManufacturer manufacturer) throws PersistenceException;

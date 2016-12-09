@@ -32,9 +32,9 @@ public abstract class ItemProxi extends PersistentProxi implements PersistentIte
 				throws PersistenceException{
         ((PersistentItem)this.getTheObject()).deregister(observee);
     }
-    public PersistentProductGroup getParent() 
+    public PersistentProductGroup getParentItem() 
 				throws PersistenceException{
-        return ((PersistentItem)this.getTheObject()).getParent();
+        return ((PersistentItem)this.getTheObject()).getParentItem();
     }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{

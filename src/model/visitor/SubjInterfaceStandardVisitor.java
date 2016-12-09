@@ -44,6 +44,9 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     public void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException{
         this.standardHandling(arrivedOrder);
     }
+    public void handleBasicProductGroup(PersistentBasicProductGroup basicProductGroup) throws PersistenceException{
+        this.standardHandling(basicProductGroup);
+    }
     public void handleCustomerPresets(PersistentCustomerPresets customerPresets) throws PersistenceException{
         this.standardHandling(customerPresets);
     }

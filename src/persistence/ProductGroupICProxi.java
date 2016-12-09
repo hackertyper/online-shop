@@ -29,6 +29,18 @@ public class ProductGroupICProxi extends ItemICProxi implements PersistentProduc
         return ((PersistentProductGroup)this.getTheObject()).getThis();
     }
     
+    public void accept(ProductGroupVisitor visitor) throws PersistenceException {
+        visitor.handleProductGroup(this);
+    }
+    public <R> R accept(ProductGroupReturnVisitor<R>  visitor) throws PersistenceException {
+         return visitor.handleProductGroup(this);
+    }
+    public <E extends model.UserException>  void accept(ProductGroupExceptionVisitor<E> visitor) throws PersistenceException, E {
+         visitor.handleProductGroup(this);
+    }
+    public <R, E extends model.UserException> R accept(ProductGroupReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+         return visitor.handleProductGroup(this);
+    }
     public void accept(ItemVisitor visitor) throws PersistenceException {
         visitor.handleProductGroup(this);
     }
@@ -75,9 +87,9 @@ public class ProductGroupICProxi extends ItemICProxi implements PersistentProduc
 				throws PersistenceException{
         ((PersistentProductGroup)this.getTheObject()).deregister(observee);
     }
-    public PersistentProductGroup getParent() 
+    public PersistentProductGroup getParentItem() 
 				throws PersistenceException{
-        return ((PersistentProductGroup)this.getTheObject()).getParent();
+        return ((PersistentProductGroup)this.getTheObject()).getParentItem();
     }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{

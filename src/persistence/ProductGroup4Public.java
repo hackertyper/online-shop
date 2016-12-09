@@ -6,6 +6,10 @@ import model.visitor.*;
 public interface ProductGroup4Public extends Item4Public {
     
     
+    public void accept(ProductGroupVisitor visitor) throws PersistenceException;
+    public <R> R accept(ProductGroupReturnVisitor<R>  visitor) throws PersistenceException;
+    public <E extends model.UserException>  void accept(ProductGroupExceptionVisitor<E> visitor) throws PersistenceException, E;
+    public <R, E extends model.UserException> R accept(ProductGroupReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     public void accept(ItemVisitor visitor) throws PersistenceException;
     public <R> R accept(ItemReturnVisitor<R>  visitor) throws PersistenceException;
     public <E extends model.UserException>  void accept(ItemExceptionVisitor<E> visitor) throws PersistenceException, E;

@@ -37,6 +37,9 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleArticle(ArticleView article) throws ModelException{
         this.handleItem(article);
     }
+    public void handleBasicProductGroup(BasicProductGroupView basicProductGroup) throws ModelException{
+        this.handleItem(basicProductGroup);
+    }
     public abstract void handleCustomerManager(CustomerManagerView customerManager) throws ModelException;
     
     public abstract void handleManufacturer(ManufacturerView manufacturer) throws ModelException;

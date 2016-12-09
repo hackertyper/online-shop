@@ -7,6 +7,10 @@ public interface ProductGroupView extends ItemView {
     public java.util.Vector<ItemView> getItemList()throws ModelException;
     public void setItemList(java.util.Vector<ItemView> newValue) throws ModelException ;
     
+    public void accept(ProductGroupVisitor visitor) throws ModelException;
+    public <R> R accept(ProductGroupReturnVisitor<R>  visitor) throws ModelException;
+    public <E extends view.UserException>  void accept(ProductGroupExceptionVisitor<E> visitor) throws ModelException, E;
+    public <R, E extends view.UserException> R accept(ProductGroupReturnExceptionVisitor<R, E>  visitor) throws ModelException, E;
     public void accept(ItemVisitor visitor) throws ModelException;
     public <R> R accept(ItemReturnVisitor<R>  visitor) throws ModelException;
     public <E extends view.UserException>  void accept(ItemExceptionVisitor<E> visitor) throws ModelException, E;

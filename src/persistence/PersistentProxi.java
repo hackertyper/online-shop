@@ -19,7 +19,7 @@ public abstract class PersistentProxi extends PersistentRoot implements Persiste
 	
   private static ListProxiFactory [] getTheListProxiFactories(){
 	if (listProxiFactories == null){
-		listProxiFactories = new ListProxiFactory[178];
+		listProxiFactories = new ListProxiFactory[180];
         listProxiFactories[98] = new ListProxiFactory(){
             AbstractPersistentRoot create(long objectId, long entryId){
                 return new AccountListEntryProxi(objectId, entryId);
@@ -280,6 +280,11 @@ public abstract class PersistentProxi extends PersistentRoot implements Persiste
                 return new RetoureArticleCommandListEntryProxi(objectId, entryId);
             }
         };
+        listProxiFactories[178] = new ListProxiFactory(){
+            AbstractPersistentRoot create(long objectId, long entryId){
+                return new BasicProductGroupListEntryProxi(objectId, entryId);
+            }
+        };
         listProxiFactories[143] = new ListProxiFactory(){
             AbstractPersistentRoot create(long objectId, long entryId){
                 return new PresetLowerLimitCommandListEntryProxi(objectId, entryId);
@@ -390,7 +395,7 @@ public abstract class PersistentProxi extends PersistentRoot implements Persiste
   }
   private static ProxiFactory [] getTheProxiFactories(){
 	if (proxiFactories == null){
-		proxiFactories = new ProxiFactory [178];
+		proxiFactories = new ProxiFactory [180];
         proxiFactories[98] = new ProxiFactory(){
             AbstractPersistentRoot create(long objectId){
                 return new AccountProxi(objectId);
@@ -649,6 +654,11 @@ public abstract class PersistentProxi extends PersistentRoot implements Persiste
         proxiFactories[141] = new ProxiFactory(){
             AbstractPersistentRoot create(long objectId){
                 return new RetoureArticleCommandProxi(objectId);
+            }
+        };
+        proxiFactories[178] = new ProxiFactory(){
+            AbstractPersistentRoot create(long objectId){
+                return new BasicProductGroupProxi(objectId);
             }
         };
         proxiFactories[143] = new ProxiFactory(){

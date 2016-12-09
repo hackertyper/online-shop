@@ -132,9 +132,9 @@ public class ArticleICProxi extends ItemICProxi implements PersistentArticle{
 				throws PersistenceException{
         ((PersistentArticle)this.getTheObject()).deregister(observee);
     }
-    public PersistentProductGroup getParent() 
+    public PersistentProductGroup getParentItem() 
 				throws PersistenceException{
-        return ((PersistentArticle)this.getTheObject()).getParent();
+        return ((PersistentArticle)this.getTheObject()).getParentItem();
     }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{

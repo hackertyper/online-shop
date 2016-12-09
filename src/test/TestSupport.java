@@ -22,6 +22,7 @@ public class TestSupport {
         model.meta.CommandCoordinator.reset$For$Test = true;
         model.OpenCart.reset$For$Test = true;
         model.TestDelivery.reset$For$Test = true;
+        model.BasicProductGroup.reset$For$Test = true;
 
 	}
 
