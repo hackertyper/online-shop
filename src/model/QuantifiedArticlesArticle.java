@@ -60,7 +60,7 @@ public class QuantifiedArticlesArticle extends PersistentObject implements Persi
     }
     
     static public long getTypeId() {
-        return 288;
+        return 250;
     }
     
     public long getClassId() {
@@ -69,7 +69,7 @@ public class QuantifiedArticlesArticle extends PersistentObject implements Persi
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 288) ConnectionHandler.getTheConnectionHandler().theQuantifiedArticlesArticleFacade
+        if (this.getClassId() == 250) ConnectionHandler.getTheConnectionHandler().theQuantifiedArticlesArticleFacade
             .newQuantifiedArticlesArticle(this.getId());
         super.store();
         if(this.getObserver() != null){

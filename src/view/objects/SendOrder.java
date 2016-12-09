@@ -9,10 +9,12 @@ import view.visitor.*;
 
 public class SendOrder extends ViewObject implements SendOrderView{
     
+    protected java.util.Date arrivalDate;
     
-    public SendOrder(long id, long classId) {
+    public SendOrder(java.util.Date arrivalDate,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
-        super(id, classId);        
+        super(id, classId);
+        this.arrivalDate = arrivalDate;        
     }
     
     static public long getTypeId() {
@@ -23,6 +25,12 @@ public class SendOrder extends ViewObject implements SendOrderView{
         return getTypeId();
     }
     
+    public java.util.Date getArrivalDate()throws ModelException{
+        return this.arrivalDate;
+    }
+    public void setArrivalDate(java.util.Date newValue) throws ModelException {
+        this.arrivalDate = newValue;
+    }
     
     public void accept(AnythingVisitor visitor) throws ModelException {
         visitor.handleSendOrder(this);
@@ -69,13 +77,21 @@ public class SendOrder extends ViewObject implements SendOrderView{
         
         return -1;
     }
+    public int getArrivalDateIndex() throws ModelException {
+        return 0;
+    }
     public int getRowCount(){
-        return 0 ;
+        return 0 
+            + 1;
     }
     public Object getValueAt(int rowIndex, int columnIndex){
         try {
             if(columnIndex == 0){
+                if(rowIndex == 0) return "arrivalDate";
+                rowIndex = rowIndex - 1;
             } else {
+                if(rowIndex == 0) return ViewRoot.toString(getArrivalDate(), true );
+                rowIndex = rowIndex - 1;
             }
             throw new ModelException("Table index out of bounds!", -1);
         } catch (ModelException e){
@@ -87,7 +103,11 @@ public class SendOrder extends ViewObject implements SendOrderView{
         return true;
     }
     public void setValueAt(String newValue, int rowIndex) throws Exception {
-        
+        if(rowIndex == 0){
+            this.setArrivalDate(new java.text.SimpleDateFormat(TIMESTAMPFORMAT).parse(newValue));
+            return;
+        }
+        rowIndex = rowIndex - 1;
     }
     public boolean hasTransientFields(){
         return false;

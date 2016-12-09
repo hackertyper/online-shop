@@ -25,6 +25,9 @@ public class OrderManagerICProxi extends PersistentInCacheProxiOptimistic implem
     public OrderManager_OrdersProxi getOrders() throws PersistenceException {
         return ((PersistentOrderManager)this.getTheObject()).getOrders();
     }
+    public OrderManager_PreOrdersProxi getPreOrders() throws PersistenceException {
+        return ((PersistentOrderManager)this.getTheObject()).getPreOrders();
+    }
     public long getRetourePrice() throws PersistenceException {
         return ((PersistentOrderManager)this.getTheObject()).getRetourePrice();
     }
@@ -71,6 +74,10 @@ public class OrderManagerICProxi extends PersistentInCacheProxiOptimistic implem
 				throws PersistenceException{
         ((PersistentOrderManager)this.getTheObject()).acceptDelivery(arrivedOrder, invoker);
     }
+    public void cancel(final PersistentPreOrder preOrder, final Invoker invoker) 
+				throws PersistenceException{
+        ((PersistentOrderManager)this.getTheObject()).cancel(preOrder, invoker);
+    }
     public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentOrderManager)this.getTheObject()).deregister(observee);
@@ -87,25 +94,41 @@ public class OrderManagerICProxi extends PersistentInCacheProxiOptimistic implem
 				throws PersistenceException{
         ((PersistentOrderManager)this.getTheObject()).initialize(This, final$$Fields);
     }
+    public void preorder(final PersistentPreOrder preOrder, final PersistentCustomerDelivery deliveryMethod, final Invoker invoker) 
+				throws PersistenceException{
+        ((PersistentOrderManager)this.getTheObject()).preorder(preOrder, deliveryMethod, invoker);
+    }
     public void register(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentOrderManager)this.getTheObject()).register(observee);
     }
-    public void retoureDelivery(final PersistentCustomerOrder arrivedOrder, final QuantifiedArticlesSearchList list, final Invoker invoker) 
+    public void retoureArticle(final PersistentQuantifiedArticles article, final long amount, final Invoker invoker) 
 				throws PersistenceException{
-        ((PersistentOrderManager)this.getTheObject()).retoureDelivery(arrivedOrder, list, invoker);
+        ((PersistentOrderManager)this.getTheObject()).retoureArticle(article, amount, invoker);
+    }
+    public void retoureDelivery(final PersistentCustomerOrder arrivedOrder, final Invoker invoker) 
+				throws PersistenceException{
+        ((PersistentOrderManager)this.getTheObject()).retoureDelivery(arrivedOrder, invoker);
     }
     public void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentOrderManager)this.getTheObject()).updateObservers(event);
     }
     public void acceptDelivery(final PersistentCustomerOrder arrivedOrder) 
-				throws PersistenceException{
+				throws model.NotArrived, PersistenceException{
         ((PersistentOrderManager)this.getTheObject()).acceptDelivery(arrivedOrder);
     }
     public void addOrder(final PersistentCustomerOrder order) 
 				throws PersistenceException{
         ((PersistentOrderManager)this.getTheObject()).addOrder(order);
+    }
+    public void addPreOrder(final PersistentPreOrder preOrder) 
+				throws PersistenceException{
+        ((PersistentOrderManager)this.getTheObject()).addPreOrder(preOrder);
+    }
+    public void cancel(final PersistentPreOrder preOrder) 
+				throws PersistenceException{
+        ((PersistentOrderManager)this.getTheObject()).cancel(preOrder);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
@@ -119,9 +142,17 @@ public class OrderManagerICProxi extends PersistentInCacheProxiOptimistic implem
 				throws PersistenceException{
         ((PersistentOrderManager)this.getTheObject()).initializeOnInstantiation();
     }
-    public void retoureDelivery(final PersistentCustomerOrder arrivedOrder, final QuantifiedArticlesSearchList list) 
+    public void preorder(final PersistentPreOrder preOrder, final PersistentCustomerDelivery deliveryMethod) 
 				throws model.InsufficientFunds, PersistenceException{
-        ((PersistentOrderManager)this.getTheObject()).retoureDelivery(arrivedOrder, list);
+        ((PersistentOrderManager)this.getTheObject()).preorder(preOrder, deliveryMethod);
+    }
+    public void retoureArticle(final PersistentQuantifiedArticles article, final long amount) 
+				throws model.NotArrived, model.InsufficientFunds, PersistenceException{
+        ((PersistentOrderManager)this.getTheObject()).retoureArticle(article, amount);
+    }
+    public void retoureDelivery(final PersistentCustomerOrder arrivedOrder) 
+				throws model.NotArrived, model.InsufficientFunds, PersistenceException{
+        ((PersistentOrderManager)this.getTheObject()).retoureDelivery(arrivedOrder);
     }
 
     

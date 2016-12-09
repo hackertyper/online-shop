@@ -27,12 +27,19 @@ public class ArticleProxi extends ItemProxi implements ArticleView{
             state = view.objects.ViewProxi.createProxi(state$Info,connectionKey);
             state.setToString(state$Info.getToString());
         }
+        ViewProxi myWrapper = null;
+        String myWrapper$String = (String)resultTable.get("myWrapper");
+        if (myWrapper$String != null) {
+            common.ProxiInformation myWrapper$Info = common.RPCConstantsAndServices.createProxiInformation(myWrapper$String);
+            myWrapper = view.objects.ViewProxi.createProxi(myWrapper$Info,connectionKey);
+            myWrapper.setToString(myWrapper$Info.getToString());
+        }
         long price = new Long((String)resultTable.get("price")).longValue();
         long minStock = new Long((String)resultTable.get("minStock")).longValue();
         long maxStock = new Long((String)resultTable.get("maxStock")).longValue();
-        long manuDelivery = new Long((String)resultTable.get("manuDelivery")).longValue();
         long stock = new Long((String)resultTable.get("stock")).longValue();
-        ArticleView result$$ = new Article((String)description,(ManufacturerView)manufacturer,(ArticleState)state,(long)price,(long)minStock,(long)maxStock,(long)manuDelivery,(long)stock, this.getId(), this.getClassId());
+        long reserved = new Long((String)resultTable.get("reserved")).longValue();
+        ArticleView result$$ = new Article((String)description,(ManufacturerView)manufacturer,(ArticleState)state,(ArticleWrapperView)myWrapper,(long)price,(long)minStock,(long)maxStock,(long)stock,(long)reserved, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -42,24 +49,27 @@ public class ArticleProxi extends ItemProxi implements ArticleView{
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
         int index = originalIndex;
-        if(this.getManufacturer() != null && index < this.getManufacturer().getTheObject().getChildCount())
-            return this.getManufacturer().getTheObject().getChild(index);
-        if(this.getManufacturer() != null) index = index - this.getManufacturer().getTheObject().getChildCount();
-        if(this.getState() != null && index < this.getState().getTheObject().getChildCount())
-            return this.getState().getTheObject().getChild(index);
-        if(this.getState() != null) index = index - this.getState().getTheObject().getChildCount();
+        if(index == 0 && this.getManufacturer() != null) return new ManufacturerArticleWrapper(this, originalIndex, (ViewRoot)this.getManufacturer());
+        if(this.getManufacturer() != null) index = index - 1;
+        if(index == 0 && this.getState() != null) return new StateArticleWrapper(this, originalIndex, (ViewRoot)this.getState());
+        if(this.getState() != null) index = index - 1;
+        if(this.getMyWrapper() != null && index < this.getMyWrapper().getTheObject().getChildCount())
+            return this.getMyWrapper().getTheObject().getChild(index);
+        if(this.getMyWrapper() != null) index = index - this.getMyWrapper().getTheObject().getChildCount();
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getManufacturer() == null ? 0 : this.getManufacturer().getTheObject().getChildCount())
-            + (this.getState() == null ? 0 : this.getState().getTheObject().getChildCount());
+            + (this.getManufacturer() == null ? 0 : 1)
+            + (this.getState() == null ? 0 : 1)
+            + (this.getMyWrapper() == null ? 0 : this.getMyWrapper().getTheObject().getChildCount());
     }
     public boolean isLeaf() throws ModelException {
         if (this.object == null) return this.getLeafInfo() == 0;
         return true 
-            && (this.getManufacturer() == null ? true : this.getManufacturer().getTheObject().isLeaf())
-            && (this.getState() == null ? true : this.getState().getTheObject().isLeaf());
+            && (this.getManufacturer() == null ? true : false)
+            && (this.getState() == null ? true : false)
+            && (this.getMyWrapper() == null ? true : this.getMyWrapper().getTheObject().isLeaf());
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
@@ -67,6 +77,8 @@ public class ArticleProxi extends ItemProxi implements ArticleView{
         if(this.getManufacturer() != null) result = result + 1;
         if(this.getState() != null && this.getState().equals(child)) return result;
         if(this.getState() != null) result = result + 1;
+        if(this.getMyWrapper() != null && this.getMyWrapper().equals(child)) return result;
+        if(this.getMyWrapper() != null) result = result + 1;
         return -1;
     }
     
@@ -81,6 +93,12 @@ public class ArticleProxi extends ItemProxi implements ArticleView{
     }
     public void setState(ArticleState newValue) throws ModelException {
         ((Article)this.getTheObject()).setState(newValue);
+    }
+    public ArticleWrapperView getMyWrapper()throws ModelException{
+        return ((Article)this.getTheObject()).getMyWrapper();
+    }
+    public void setMyWrapper(ArticleWrapperView newValue) throws ModelException {
+        ((Article)this.getTheObject()).setMyWrapper(newValue);
     }
     public long getPrice()throws ModelException{
         return ((Article)this.getTheObject()).getPrice();
@@ -100,17 +118,17 @@ public class ArticleProxi extends ItemProxi implements ArticleView{
     public void setMaxStock(long newValue) throws ModelException {
         ((Article)this.getTheObject()).setMaxStock(newValue);
     }
-    public long getManuDelivery()throws ModelException{
-        return ((Article)this.getTheObject()).getManuDelivery();
-    }
-    public void setManuDelivery(long newValue) throws ModelException {
-        ((Article)this.getTheObject()).setManuDelivery(newValue);
-    }
     public long getStock()throws ModelException{
         return ((Article)this.getTheObject()).getStock();
     }
     public void setStock(long newValue) throws ModelException {
         ((Article)this.getTheObject()).setStock(newValue);
+    }
+    public long getReserved()throws ModelException{
+        return ((Article)this.getTheObject()).getReserved();
+    }
+    public void setReserved(long newValue) throws ModelException {
+        ((Article)this.getTheObject()).setReserved(newValue);
     }
     
     public void accept(ItemVisitor visitor) throws ModelException {

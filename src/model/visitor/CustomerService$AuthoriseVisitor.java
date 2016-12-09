@@ -12,6 +12,9 @@ public abstract class CustomerService$AuthoriseVisitor extends AnythingStandardV
     public abstract void handleArticle(PersistentArticle article) throws PersistenceException;
     public abstract void handleOfferedFSale(PersistentOfferedFSale offeredFSale) throws PersistenceException;
     public abstract void handleCustomerOrder(PersistentCustomerOrder customerOrder) throws PersistenceException;
+    public abstract void handlePreOrder(PersistentPreOrder preOrder) throws PersistenceException;
+    public abstract void handleOverNightDelivery(PersistentOverNightDelivery overNightDelivery) throws PersistenceException;
+    public abstract void handleStandardDelivery(PersistentStandardDelivery standardDelivery) throws PersistenceException;
     public abstract void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException;
     public abstract void handleOpenCart(PersistentOpenCart openCart) throws PersistenceException;
     public abstract void handleCustomerManager(PersistentCustomerManager customerManager) throws PersistenceException;
@@ -27,6 +30,7 @@ public abstract class CustomerService$AuthoriseVisitor extends AnythingStandardV
     public abstract void handleAccountManager(PersistentAccountManager accountManager) throws PersistenceException;
     public abstract void handleOrderService(PersistentOrderService orderService) throws PersistenceException;
     public abstract void handleAccountService(PersistentAccountService accountService) throws PersistenceException;
+    public abstract void handleArticleWrapper(PersistentArticleWrapper articleWrapper) throws PersistenceException;
     public abstract void handleCheckedOut(PersistentCheckedOut checkedOut) throws PersistenceException;
     public abstract void handleOrderManager(PersistentOrderManager orderManager) throws PersistenceException;
     public abstract void handleCartManager(PersistentCartManager cartManager) throws PersistenceException;

@@ -87,7 +87,7 @@ public class OfferedFSale extends PersistentObject implements PersistentOfferedF
     }
     
     static public long getTypeId() {
-        return 135;
+        return 110;
     }
     
     public long getClassId() {
@@ -96,7 +96,7 @@ public class OfferedFSale extends PersistentObject implements PersistentOfferedF
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 135) ConnectionHandler.getTheConnectionHandler().theOfferedFSaleFacade
+        if (this.getClassId() == 110) ConnectionHandler.getTheConnectionHandler().theOfferedFSaleFacade
             .newOfferedFSale(this.getId());
         super.store();
         if(this.getSubService() != null){

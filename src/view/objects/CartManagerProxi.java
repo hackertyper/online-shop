@@ -22,6 +22,27 @@ public class CartManagerProxi extends ViewProxi implements CartManagerView{
         }
         java.util.Vector<String> articleList_string = (java.util.Vector<String>)resultTable.get("articleList");
         java.util.Vector<QuantifiedArticlesView> articleList = ViewProxi.getProxiVector(articleList_string, connectionKey);
+        ViewProxi standardDelivery = null;
+        String standardDelivery$String = (String)resultTable.get("standardDelivery");
+        if (standardDelivery$String != null) {
+            common.ProxiInformation standardDelivery$Info = common.RPCConstantsAndServices.createProxiInformation(standardDelivery$String);
+            standardDelivery = view.objects.ViewProxi.createProxi(standardDelivery$Info,connectionKey);
+            standardDelivery.setToString(standardDelivery$Info.getToString());
+        }
+        ViewProxi onDelivery = null;
+        String onDelivery$String = (String)resultTable.get("onDelivery");
+        if (onDelivery$String != null) {
+            common.ProxiInformation onDelivery$Info = common.RPCConstantsAndServices.createProxiInformation(onDelivery$String);
+            onDelivery = view.objects.ViewProxi.createProxi(onDelivery$Info,connectionKey);
+            onDelivery.setToString(onDelivery$Info.getToString());
+        }
+        ViewProxi preOrder = null;
+        String preOrder$String = (String)resultTable.get("preOrder");
+        if (preOrder$String != null) {
+            common.ProxiInformation preOrder$Info = common.RPCConstantsAndServices.createProxiInformation(preOrder$String);
+            preOrder = view.objects.ViewProxi.createProxi(preOrder$Info,connectionKey);
+            preOrder.setToString(preOrder$Info.getToString());
+        }
         ViewProxi customerManager = null;
         String customerManager$String = (String)resultTable.get("customerManager");
         if (customerManager$String != null) {
@@ -36,7 +57,7 @@ public class CartManagerProxi extends ViewProxi implements CartManagerView{
             myCartServer = view.objects.ViewProxi.createProxi(myCartServer$Info,connectionKey);
             myCartServer.setToString(myCartServer$Info.getToString());
         }
-        CartManagerView result$$ = new CartManager((CartView)myCart,articleList,(CustomerManagerView)customerManager,(CartServiceView)myCartServer, this.getId(), this.getClassId());
+        CartManagerView result$$ = new CartManager((CartView)myCart,articleList,(StandardDeliveryView)standardDelivery,(OverNightDeliveryView)onDelivery,(PreOrderView)preOrder,(CustomerManagerView)customerManager,(CartServiceView)myCartServer, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -50,18 +71,26 @@ public class CartManagerProxi extends ViewProxi implements CartManagerView{
         if(this.getMyCart() != null) index = index - 1;
         if(index < this.getArticleList().size()) return new ArticleListCartManagerWrapper(this, originalIndex, (ViewRoot)this.getArticleList().get(index));
         index = index - this.getArticleList().size();
+        if(index == 0 && this.getStandardDelivery() != null) return new StandardDeliveryCartManagerWrapper(this, originalIndex, (ViewRoot)this.getStandardDelivery());
+        if(this.getStandardDelivery() != null) index = index - 1;
+        if(index == 0 && this.getOnDelivery() != null) return new OnDeliveryCartManagerWrapper(this, originalIndex, (ViewRoot)this.getOnDelivery());
+        if(this.getOnDelivery() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
             + (this.getMyCart() == null ? 0 : 1)
-            + (this.getArticleList().size());
+            + (this.getArticleList().size())
+            + (this.getStandardDelivery() == null ? 0 : 1)
+            + (this.getOnDelivery() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
         if (this.object == null) return this.getLeafInfo() == 0;
         return true 
             && (this.getMyCart() == null ? true : false)
-            && (this.getArticleList().size() == 0);
+            && (this.getArticleList().size() == 0)
+            && (this.getStandardDelivery() == null ? true : false)
+            && (this.getOnDelivery() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
@@ -72,6 +101,10 @@ public class CartManagerProxi extends ViewProxi implements CartManagerView{
             if(getArticleListIterator.next().equals(child)) return result;
             result = result + 1;
         }
+        if(this.getStandardDelivery() != null && this.getStandardDelivery().equals(child)) return result;
+        if(this.getStandardDelivery() != null) result = result + 1;
+        if(this.getOnDelivery() != null && this.getOnDelivery().equals(child)) return result;
+        if(this.getOnDelivery() != null) result = result + 1;
         return -1;
     }
     
@@ -86,6 +119,24 @@ public class CartManagerProxi extends ViewProxi implements CartManagerView{
     }
     public void setArticleList(java.util.Vector<QuantifiedArticlesView> newValue) throws ModelException {
         ((CartManager)this.getTheObject()).setArticleList(newValue);
+    }
+    public StandardDeliveryView getStandardDelivery()throws ModelException{
+        return ((CartManager)this.getTheObject()).getStandardDelivery();
+    }
+    public void setStandardDelivery(StandardDeliveryView newValue) throws ModelException {
+        ((CartManager)this.getTheObject()).setStandardDelivery(newValue);
+    }
+    public OverNightDeliveryView getOnDelivery()throws ModelException{
+        return ((CartManager)this.getTheObject()).getOnDelivery();
+    }
+    public void setOnDelivery(OverNightDeliveryView newValue) throws ModelException {
+        ((CartManager)this.getTheObject()).setOnDelivery(newValue);
+    }
+    public PreOrderView getPreOrder()throws ModelException{
+        return ((CartManager)this.getTheObject()).getPreOrder();
+    }
+    public void setPreOrder(PreOrderView newValue) throws ModelException {
+        ((CartManager)this.getTheObject()).setPreOrder(newValue);
     }
     public CustomerManagerView getCustomerManager()throws ModelException{
         return ((CartManager)this.getTheObject()).getCustomerManager();

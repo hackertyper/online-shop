@@ -36,16 +36,18 @@ public class ChangePriceCommand extends PersistentObject implements PersistentCh
     public boolean hasEssentialFields() throws PersistenceException{
         return true;
     }
+    protected PersistentArticle article;
     protected long newPrice;
     protected Invoker invoker;
-    protected PersistentArticle commandReceiver;
+    protected PersistentShopkeeper commandReceiver;
     protected PersistentCommonDate myCommonDate;
     
     private model.UserException commandException = null;
     
-    public ChangePriceCommand(long newPrice,Invoker invoker,PersistentArticle commandReceiver,PersistentCommonDate myCommonDate,long id) throws PersistenceException {
+    public ChangePriceCommand(PersistentArticle article,long newPrice,Invoker invoker,PersistentShopkeeper commandReceiver,PersistentCommonDate myCommonDate,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
+        this.article = article;
         this.newPrice = newPrice;
         this.invoker = invoker;
         this.commandReceiver = commandReceiver;
@@ -65,6 +67,10 @@ public class ChangePriceCommand extends PersistentObject implements PersistentCh
         if (this.getClassId() == 127) ConnectionHandler.getTheConnectionHandler().theChangePriceCommandFacade
             .newChangePriceCommand(newPrice,this.getId());
         super.store();
+        if(this.getArticle() != null){
+            this.getArticle().store();
+            ConnectionHandler.getTheConnectionHandler().theChangePriceCommandFacade.articleSet(this.getId(), getArticle());
+        }
         if(this.getInvoker() != null){
             this.getInvoker().store();
             ConnectionHandler.getTheConnectionHandler().theChangePriceCommandFacade.invokerSet(this.getId(), getInvoker());
@@ -80,6 +86,20 @@ public class ChangePriceCommand extends PersistentObject implements PersistentCh
         
     }
     
+    public PersistentArticle getArticle() throws PersistenceException {
+        return this.article;
+    }
+    public void setArticle(PersistentArticle newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.isTheSameAs(this.article)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.article = (PersistentArticle)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theChangePriceCommandFacade.articleSet(this.getId(), newValue);
+        }
+    }
     public long getNewPrice() throws PersistenceException {
         return this.newPrice;
     }
@@ -101,15 +121,15 @@ public class ChangePriceCommand extends PersistentObject implements PersistentCh
             ConnectionHandler.getTheConnectionHandler().theChangePriceCommandFacade.invokerSet(this.getId(), newValue);
         }
     }
-    public PersistentArticle getCommandReceiver() throws PersistenceException {
+    public PersistentShopkeeper getCommandReceiver() throws PersistenceException {
         return this.commandReceiver;
     }
-    public void setCommandReceiver(PersistentArticle newValue) throws PersistenceException {
+    public void setCommandReceiver(PersistentShopkeeper newValue) throws PersistenceException {
         if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
         if(newValue.isTheSameAs(this.commandReceiver)) return;
         long objectId = newValue.getId();
         long classId = newValue.getClassId();
-        this.commandReceiver = (PersistentArticle)PersistentProxi.createProxi(objectId, classId);
+        this.commandReceiver = (PersistentShopkeeper)PersistentProxi.createProxi(objectId, classId);
         if(!this.isDelayed$Persistence()){
             newValue.store();
             ConnectionHandler.getTheConnectionHandler().theChangePriceCommandFacade.commandReceiverSet(this.getId(), newValue);
@@ -182,19 +202,20 @@ public class ChangePriceCommand extends PersistentObject implements PersistentCh
     public <R, E extends model.UserException> R accept(CommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleChangePriceCommand(this);
     }
-    public void accept(ArticleCommandVisitor visitor) throws PersistenceException {
+    public void accept(ShopkeeperCommandVisitor visitor) throws PersistenceException {
         visitor.handleChangePriceCommand(this);
     }
-    public <R> R accept(ArticleCommandReturnVisitor<R>  visitor) throws PersistenceException {
+    public <R> R accept(ShopkeeperCommandReturnVisitor<R>  visitor) throws PersistenceException {
          return visitor.handleChangePriceCommand(this);
     }
-    public <E extends model.UserException>  void accept(ArticleCommandExceptionVisitor<E> visitor) throws PersistenceException, E {
+    public <E extends model.UserException>  void accept(ShopkeeperCommandExceptionVisitor<E> visitor) throws PersistenceException, E {
          visitor.handleChangePriceCommand(this);
     }
-    public <R, E extends model.UserException> R accept(ArticleCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+    public <R, E extends model.UserException> R accept(ShopkeeperCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleChangePriceCommand(this);
     }
     public int getLeafInfo() throws PersistenceException{
+        if (this.getArticle() != null) return 1;
         if (this.getCommandReceiver() != null) return 1;
         return 0;
     }
@@ -210,7 +231,7 @@ public class ChangePriceCommand extends PersistentObject implements PersistentCh
     }
     public void execute() 
 				throws PersistenceException{
-        this.commandReceiver.changePrice(this.getNewPrice());
+        this.commandReceiver.changePrice(this.getArticle(), this.getNewPrice());
 		
     }
     public Invoker fetchInvoker() 

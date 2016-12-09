@@ -60,7 +60,7 @@ public class ShopkeeperBasicProductGroup extends PersistentObject implements Per
     }
     
     static public long getTypeId() {
-        return 293;
+        return 272;
     }
     
     public long getClassId() {
@@ -69,7 +69,7 @@ public class ShopkeeperBasicProductGroup extends PersistentObject implements Per
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 293) ConnectionHandler.getTheConnectionHandler().theShopkeeperBasicProductGroupFacade
+        if (this.getClassId() == 272) ConnectionHandler.getTheConnectionHandler().theShopkeeperBasicProductGroupFacade
             .newShopkeeperBasicProductGroup(this.getId());
         super.store();
         if(this.getObserver() != null){

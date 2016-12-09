@@ -23,8 +23,17 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleCustomerOrder(CustomerOrderView customerOrder) throws ModelException{
         this.standardHandling(customerOrder);
     }
+    public void handleOverNightDelivery(OverNightDeliveryView overNightDelivery) throws ModelException{
+        this.standardHandling(overNightDelivery);
+    }
+    public void handleStandardDelivery(StandardDeliveryView standardDelivery) throws ModelException{
+        this.standardHandling(standardDelivery);
+    }
     public void handleArrivedOrder(ArrivedOrderView arrivedOrder) throws ModelException{
         this.standardHandling(arrivedOrder);
+    }
+    public void handleCustomerPresets(CustomerPresetsView customerPresets) throws ModelException{
+        this.standardHandling(customerPresets);
     }
     public void handleOpenCart(OpenCartView openCart) throws ModelException{
         this.standardHandling(openCart);
@@ -50,6 +59,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleShopKeeperOrder(ShopKeeperOrderView shopKeeperOrder) throws ModelException{
         this.standardHandling(shopKeeperOrder);
     }
+    public void handleTestDelivery(TestDeliveryView testDelivery) throws ModelException{
+        this.standardHandling(testDelivery);
+    }
     public void handleRemovedFSale(RemovedFSaleView removedFSale) throws ModelException{
         this.standardHandling(removedFSale);
     }
@@ -68,6 +80,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleOrderManager(OrderManagerView orderManager) throws ModelException{
         this.standardHandling(orderManager);
     }
+    public void handleArticleWrapper(ArticleWrapperView articleWrapper) throws ModelException{
+        this.standardHandling(articleWrapper);
+    }
     public void handleShopkeeper(ShopkeeperView shopkeeper) throws ModelException{
         this.standardHandling(shopkeeper);
     }
@@ -76,6 +91,9 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     }
     public void handleOfferedFSale(OfferedFSaleView offeredFSale) throws ModelException{
         this.standardHandling(offeredFSale);
+    }
+    public void handlePreOrder(PreOrderView preOrder) throws ModelException{
+        this.standardHandling(preOrder);
     }
     public void handleRegisterService(RegisterServiceView registerService) throws ModelException{
         this.standardHandling(registerService);

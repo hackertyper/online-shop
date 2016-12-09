@@ -36,15 +36,17 @@ public class OrderCommand extends PersistentObject implements PersistentOrderCom
     public boolean hasEssentialFields() throws PersistenceException{
         return true;
     }
+    protected PersistentCustomerDelivery deliveryMethod;
     protected Invoker invoker;
     protected PersistentCartManager commandReceiver;
     protected PersistentCommonDate myCommonDate;
     
     private model.UserException commandException = null;
     
-    public OrderCommand(Invoker invoker,PersistentCartManager commandReceiver,PersistentCommonDate myCommonDate,long id) throws PersistenceException {
+    public OrderCommand(PersistentCustomerDelivery deliveryMethod,Invoker invoker,PersistentCartManager commandReceiver,PersistentCommonDate myCommonDate,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
+        this.deliveryMethod = deliveryMethod;
         this.invoker = invoker;
         this.commandReceiver = commandReceiver;
         this.myCommonDate = myCommonDate;        
@@ -63,6 +65,10 @@ public class OrderCommand extends PersistentObject implements PersistentOrderCom
         if (this.getClassId() == 104) ConnectionHandler.getTheConnectionHandler().theOrderCommandFacade
             .newOrderCommand(this.getId());
         super.store();
+        if(this.getDeliveryMethod() != null){
+            this.getDeliveryMethod().store();
+            ConnectionHandler.getTheConnectionHandler().theOrderCommandFacade.deliveryMethodSet(this.getId(), getDeliveryMethod());
+        }
         if(this.getInvoker() != null){
             this.getInvoker().store();
             ConnectionHandler.getTheConnectionHandler().theOrderCommandFacade.invokerSet(this.getId(), getInvoker());
@@ -78,6 +84,20 @@ public class OrderCommand extends PersistentObject implements PersistentOrderCom
         
     }
     
+    public PersistentCustomerDelivery getDeliveryMethod() throws PersistenceException {
+        return this.deliveryMethod;
+    }
+    public void setDeliveryMethod(PersistentCustomerDelivery newValue) throws PersistenceException {
+        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
+        if(newValue.isTheSameAs(this.deliveryMethod)) return;
+        long objectId = newValue.getId();
+        long classId = newValue.getClassId();
+        this.deliveryMethod = (PersistentCustomerDelivery)PersistentProxi.createProxi(objectId, classId);
+        if(!this.isDelayed$Persistence()){
+            newValue.store();
+            ConnectionHandler.getTheConnectionHandler().theOrderCommandFacade.deliveryMethodSet(this.getId(), newValue);
+        }
+    }
     public Invoker getInvoker() throws PersistenceException {
         return this.invoker;
     }
@@ -186,6 +206,7 @@ public class OrderCommand extends PersistentObject implements PersistentOrderCom
          return visitor.handleOrderCommand(this);
     }
     public int getLeafInfo() throws PersistenceException{
+        if (this.getDeliveryMethod() != null) return 1;
         if (this.getCommandReceiver() != null) return 1;
         return 0;
     }
@@ -202,7 +223,7 @@ public class OrderCommand extends PersistentObject implements PersistentOrderCom
     public void execute() 
 				throws PersistenceException{
         try{
-			this.commandReceiver.order();
+			this.commandReceiver.order(this.getDeliveryMethod());
 		}
 		catch(model.FirstCheckOut e){
 			this.commandException = e;

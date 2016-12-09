@@ -18,8 +18,8 @@ public class CustomerOrderProxi extends DeliveryProxi implements PersistentCusto
         return 111;
     }
     
-    public CustomerOrder_ArticleListProxi getArticleList() throws PersistenceException {
-        return ((PersistentCustomerOrder)this.getTheObject()).getArticleList();
+    public void setArticleList(PersistentCustomerOrderArticleList newValue) throws PersistenceException {
+        ((PersistentCustomerOrder)this.getTheObject()).setArticleList(newValue);
     }
     public PersistentOrderManager getOrdermngr() throws PersistenceException {
         return ((PersistentCustomerOrder)this.getTheObject()).getOrdermngr();
@@ -79,6 +79,10 @@ public class CustomerOrderProxi extends DeliveryProxi implements PersistentCusto
 				throws PersistenceException{
         ((PersistentCustomerOrder)this.getTheObject()).deregister(observee);
     }
+    public PersistentCustomerOrderArticleList getArticleList() 
+				throws PersistenceException{
+        return ((PersistentCustomerOrder)this.getTheObject()).getArticleList();
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentCustomerOrder)this.getTheObject()).initialize(This, final$$Fields);
@@ -90,6 +94,18 @@ public class CustomerOrderProxi extends DeliveryProxi implements PersistentCusto
     public void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentCustomerOrder)this.getTheObject()).updateObservers(event);
+    }
+    public void accepted() 
+				throws PersistenceException{
+        ((PersistentCustomerOrder)this.getTheObject()).accepted();
+    }
+    public void arrived() 
+				throws PersistenceException{
+        ((PersistentCustomerOrder)this.getTheObject()).arrived();
+    }
+    public void articleList_update(final model.meta.QuantifiedArticlesMssgs event) 
+				throws PersistenceException{
+        ((PersistentCustomerOrder)this.getTheObject()).articleList_update(event);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
@@ -107,9 +123,9 @@ public class CustomerOrderProxi extends DeliveryProxi implements PersistentCusto
 				throws PersistenceException{
         ((PersistentCustomerOrder)this.getTheObject()).initializeOnInstantiation();
     }
-    public void retoure(final QuantifiedArticlesSearchList list) 
-				throws PersistenceException{
-        ((PersistentCustomerOrder)this.getTheObject()).retoure(list);
+    public void retoure() 
+				throws model.NotArrived, PersistenceException{
+        ((PersistentCustomerOrder)this.getTheObject()).retoure();
     }
     public void send() 
 				throws PersistenceException{

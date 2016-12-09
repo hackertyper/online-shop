@@ -29,7 +29,11 @@ public interface OfferedFSale4Public extends Anything, ArticleState, AbstractPer
 				throws PersistenceException;
     public void initializeOnInstantiation() 
 				throws PersistenceException;
+    public void refillStock() 
+				throws PersistenceException;
     public void reorder(final long amount, final long manuDelivery) 
+				throws PersistenceException;
+    public void stopSelling() 
 				throws PersistenceException;
 
 }

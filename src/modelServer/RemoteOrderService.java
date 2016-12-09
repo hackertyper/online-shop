@@ -44,16 +44,42 @@ public  class RemoteOrderService extends RemoteCustomerService {
         }
     }
     
-    public synchronized java.util.HashMap<?,?> retoureDelivery(String customerOrderProxiString, java.util.Vector<String> listTrnsprt){
+    public synchronized java.util.HashMap<?,?> cancel(String preOrderProxiString){
+        try {
+            PersistentPreOrder preOrder = (PersistentPreOrder)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(preOrderProxiString));
+            ((PersistentOrderService)this.server).cancel(preOrder);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
+    public synchronized java.util.HashMap<?,?> preorder(String preOrderProxiString, String deliveryMethodProxiString){
+        try {
+            PersistentPreOrder preOrder = (PersistentPreOrder)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(preOrderProxiString));
+            PersistentCustomerDelivery deliveryMethod = (PersistentCustomerDelivery)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(deliveryMethodProxiString));
+            ((PersistentOrderService)this.server).preorder(preOrder, deliveryMethod);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
+    public synchronized java.util.HashMap<?,?> retoureArticle(String articleProxiString, String amountAsString){
+        try {
+            PersistentQuantifiedArticles article = (PersistentQuantifiedArticles)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(articleProxiString));
+            long amount = new Long(amountAsString).longValue();
+            ((PersistentOrderService)this.server).retoureArticle(article, amount);
+            return createOKResult();
+        }catch(PersistenceException pe){
+            return createExceptionResult(pe);
+        }
+    }
+    
+    public synchronized java.util.HashMap<?,?> retoureDelivery(String customerOrderProxiString){
         try {
             PersistentCustomerOrder customerOrder = (PersistentCustomerOrder)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(customerOrderProxiString));
-            QuantifiedArticlesSearchList list = new QuantifiedArticlesSearchList();
-			java.util.Iterator<String> listItrtr = listTrnsprt.iterator();
-			while (listItrtr.hasNext()){
-				PersistentQuantifiedArticles currentProxi = (PersistentQuantifiedArticles)PersistentProxi.createProxi(common.RPCConstantsAndServices.createProxiInformation(listItrtr.next()));
-				list.add(currentProxi);
-			}
-            ((PersistentOrderService)this.server).retoureDelivery(customerOrder, list);
+            ((PersistentOrderService)this.server).retoureDelivery(customerOrder);
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);

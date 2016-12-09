@@ -7,7 +7,6 @@ public interface RetoureDeliveryCommand4Public extends Anything, OrderManagerCom
     
     public PersistentCustomerOrder getArrivedOrder() throws PersistenceException ;
     public void setArrivedOrder(PersistentCustomerOrder newValue) throws PersistenceException ;
-    public RetoureDeliveryCommand_ListProxi getList() throws PersistenceException ;
     public Invoker getInvoker() throws PersistenceException ;
     public void setInvoker(Invoker newValue) throws PersistenceException ;
     public PersistentOrderManager getCommandReceiver() throws PersistenceException ;

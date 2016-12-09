@@ -31,6 +31,18 @@ public class CartManagerICProxi extends PersistentInCacheProxiOptimistic impleme
     public void setArticleList(PersistentCartManagerArticleList newValue) throws PersistenceException {
         ((PersistentCartManager)this.getTheObject()).setArticleList(newValue);
     }
+    public void setStandardDelivery(PersistentCartManagerStandardDelivery newValue) throws PersistenceException {
+        ((PersistentCartManager)this.getTheObject()).setStandardDelivery(newValue);
+    }
+    public void setOnDelivery(PersistentCartManagerOnDelivery newValue) throws PersistenceException {
+        ((PersistentCartManager)this.getTheObject()).setOnDelivery(newValue);
+    }
+    public PersistentPreOrder getPreOrder() throws PersistenceException {
+        return ((PersistentCartManager)this.getTheObject()).getPreOrder();
+    }
+    public void setPreOrder(PersistentPreOrder newValue) throws PersistenceException {
+        ((PersistentCartManager)this.getTheObject()).setPreOrder(newValue);
+    }
     public SubjInterface getSubService() throws PersistenceException {
         return ((PersistentCartManager)this.getTheObject()).getSubService();
     }
@@ -67,10 +79,6 @@ public class CartManagerICProxi extends PersistentInCacheProxiOptimistic impleme
     }
     
     
-    public void addArticle(final PersistentArticle article, final long amount) 
-				throws PersistenceException{
-        ((PersistentCartManager)this.getTheObject()).addArticle(article, amount);
-    }
     public void addArticle(final PersistentArticle article, final long amount, final Invoker invoker) 
 				throws PersistenceException{
         ((PersistentCartManager)this.getTheObject()).addArticle(article, amount, invoker);
@@ -99,13 +107,21 @@ public class CartManagerICProxi extends PersistentInCacheProxiOptimistic impleme
 				throws PersistenceException{
         return ((PersistentCartManager)this.getTheObject()).getMyCartServer();
     }
+    public PersistentOverNightDelivery getOnDelivery() 
+				throws PersistenceException{
+        return ((PersistentCartManager)this.getTheObject()).getOnDelivery();
+    }
+    public PersistentStandardDelivery getStandardDelivery() 
+				throws PersistenceException{
+        return ((PersistentCartManager)this.getTheObject()).getStandardDelivery();
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentCartManager)this.getTheObject()).initialize(This, final$$Fields);
     }
-    public void order(final Invoker invoker) 
+    public void order(final PersistentCustomerDelivery deliveryMethod, final Invoker invoker) 
 				throws PersistenceException{
-        ((PersistentCartManager)this.getTheObject()).order(invoker);
+        ((PersistentCartManager)this.getTheObject()).order(deliveryMethod, invoker);
     }
     public void register(final ObsInterface observee) 
 				throws PersistenceException{
@@ -115,17 +131,29 @@ public class CartManagerICProxi extends PersistentInCacheProxiOptimistic impleme
 				throws PersistenceException{
         ((PersistentCartManager)this.getTheObject()).removeFCart(article, invoker);
     }
+    public void setOnDelivery(final PersistentOverNightDelivery onDelivery) 
+				throws PersistenceException{
+        ((PersistentCartManager)this.getTheObject()).setOnDelivery(onDelivery);
+    }
+    public void setStandardDelivery(final PersistentStandardDelivery standardDelivery) 
+				throws PersistenceException{
+        ((PersistentCartManager)this.getTheObject()).setStandardDelivery(standardDelivery);
+    }
     public void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentCartManager)this.getTheObject()).updateObservers(event);
     }
-    public void addArticleImplementation(final PersistentArticle article, final long amount) 
+    public void addArticle(final PersistentArticle article, final long amount) 
 				throws PersistenceException{
-        ((PersistentCartManager)this.getTheObject()).addArticleImplementation(article, amount);
+        ((PersistentCartManager)this.getTheObject()).addArticle(article, amount);
     }
     public void addOrder(final PersistentCustomerOrder order) 
 				throws PersistenceException{
         ((PersistentCartManager)this.getTheObject()).addOrder(order);
+    }
+    public void addPreOrder(final PersistentPreOrder preOrder) 
+				throws PersistenceException{
+        ((PersistentCartManager)this.getTheObject()).addPreOrder(preOrder);
     }
     public void addToCart(final PersistentArticle article, final long amount) 
 				throws PersistenceException{
@@ -155,9 +183,13 @@ public class CartManagerICProxi extends PersistentInCacheProxiOptimistic impleme
 				throws PersistenceException{
         ((PersistentCartManager)this.getTheObject()).initializeOnInstantiation();
     }
-    public void order() 
+    public void onDelivery_update(final model.meta.OverNightDeliveryMssgs event) 
+				throws PersistenceException{
+        ((PersistentCartManager)this.getTheObject()).onDelivery_update(event);
+    }
+    public void order(final PersistentCustomerDelivery deliveryMethod) 
 				throws model.FirstCheckOut, model.InsufficientFunds, PersistenceException{
-        ((PersistentCartManager)this.getTheObject()).order();
+        ((PersistentCartManager)this.getTheObject()).order(deliveryMethod);
     }
     public void pay(final long sum) 
 				throws model.InsufficientFunds, PersistenceException{
@@ -166,6 +198,10 @@ public class CartManagerICProxi extends PersistentInCacheProxiOptimistic impleme
     public void removeFCart(final PersistentQuantifiedArticles article) 
 				throws PersistenceException{
         ((PersistentCartManager)this.getTheObject()).removeFCart(article);
+    }
+    public void standardDelivery_update(final model.meta.StandardDeliveryMssgs event) 
+				throws PersistenceException{
+        ((PersistentCartManager)this.getTheObject()).standardDelivery_update(event);
     }
 
     

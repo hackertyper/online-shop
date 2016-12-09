@@ -21,14 +21,18 @@ public interface CustomerOrder4Public extends Delivery4Public {
     
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
+    public void accepted() 
+				throws PersistenceException;
+    public void arrived() 
+				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
     public void initializeOnCreation() 
 				throws PersistenceException;
     public void initializeOnInstantiation() 
 				throws PersistenceException;
-    public void retoure(final QuantifiedArticlesSearchList list) 
-				throws PersistenceException;
+    public void retoure() 
+				throws model.NotArrived, PersistenceException;
 
 }
 

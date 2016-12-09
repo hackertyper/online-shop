@@ -17,13 +17,23 @@ public interface OrderManager4Public extends Anything, SubjInterface, AbstractPe
     
     public void acceptDelivery(final PersistentCustomerOrder arrivedOrder, final Invoker invoker) 
 				throws PersistenceException;
+    public void cancel(final PersistentPreOrder preOrder, final Invoker invoker) 
+				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
-    public void retoureDelivery(final PersistentCustomerOrder arrivedOrder, final QuantifiedArticlesSearchList list, final Invoker invoker) 
+    public void preorder(final PersistentPreOrder preOrder, final PersistentCustomerDelivery deliveryMethod, final Invoker invoker) 
+				throws PersistenceException;
+    public void retoureArticle(final PersistentQuantifiedArticles article, final long amount, final Invoker invoker) 
+				throws PersistenceException;
+    public void retoureDelivery(final PersistentCustomerOrder arrivedOrder, final Invoker invoker) 
 				throws PersistenceException;
     public void acceptDelivery(final PersistentCustomerOrder arrivedOrder) 
-				throws PersistenceException;
+				throws model.NotArrived, PersistenceException;
     public void addOrder(final PersistentCustomerOrder order) 
+				throws PersistenceException;
+    public void addPreOrder(final PersistentPreOrder preOrder) 
+				throws PersistenceException;
+    public void cancel(final PersistentPreOrder preOrder) 
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
@@ -31,8 +41,12 @@ public interface OrderManager4Public extends Anything, SubjInterface, AbstractPe
 				throws PersistenceException;
     public void initializeOnInstantiation() 
 				throws PersistenceException;
-    public void retoureDelivery(final PersistentCustomerOrder arrivedOrder, final QuantifiedArticlesSearchList list) 
+    public void preorder(final PersistentPreOrder preOrder, final PersistentCustomerDelivery deliveryMethod) 
 				throws model.InsufficientFunds, PersistenceException;
+    public void retoureArticle(final PersistentQuantifiedArticles article, final long amount) 
+				throws model.NotArrived, model.InsufficientFunds, PersistenceException;
+    public void retoureDelivery(final PersistentCustomerOrder arrivedOrder) 
+				throws model.NotArrived, model.InsufficientFunds, PersistenceException;
 
 }
 

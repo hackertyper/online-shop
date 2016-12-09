@@ -17,6 +17,8 @@ public interface Manufacturer4Public extends Anything, SubjInterface, AbstractPe
     
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
+    public void changeManuDelivery(final long newManuDelivery) 
+				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
     public void initializeOnCreation() 

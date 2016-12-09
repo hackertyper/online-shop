@@ -6,6 +6,8 @@ import view.visitor.*;
 
 public interface SendOrderView extends CustomerOrderState, Anything, AbstractViewRoot {
     
+    public java.util.Date getArrivalDate()throws ModelException;
+    public void setArrivalDate(java.util.Date newValue) throws ModelException ;
     
     public void accept(AnythingVisitor visitor) throws ModelException;
     public <R> R accept(AnythingReturnVisitor<R>  visitor) throws ModelException;

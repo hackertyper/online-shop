@@ -101,7 +101,7 @@ public class ShopKeeperOrder extends model.Delivery implements PersistentShopKee
     }
     
     static public long getTypeId() {
-        return 152;
+        return 130;
     }
     
     public long getClassId() {
@@ -110,7 +110,7 @@ public class ShopKeeperOrder extends model.Delivery implements PersistentShopKee
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 152) ConnectionHandler.getTheConnectionHandler().theShopKeeperOrderFacade
+        if (this.getClassId() == 130) ConnectionHandler.getTheConnectionHandler().theShopKeeperOrderFacade
             .newShopKeeperOrder(remainingTimeToDelivery,sendDate,amount,this.getId());
         super.store();
         if(this.getArticle() != null){

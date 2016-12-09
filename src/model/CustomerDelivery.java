@@ -46,7 +46,7 @@ public abstract class CustomerDelivery extends PersistentObject implements Persi
     }
     
     static public long getTypeId() {
-        return 270;
+        return 230;
     }
     
     public long getClassId() {

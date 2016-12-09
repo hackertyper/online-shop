@@ -29,6 +29,8 @@ public interface NewlyAdded4Public extends Anything, ArticleState, AbstractPersi
 				throws PersistenceException;
     public void initializeOnInstantiation() 
 				throws PersistenceException;
+    public void order(final long amount) 
+				throws PersistenceException;
     public void startSelling() 
 				throws PersistenceException;
 

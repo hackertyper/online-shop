@@ -18,8 +18,8 @@ public class ShopManagerProxi extends PersistentProxi implements PersistentShopM
         return 186;
     }
     
-    public void setItemRange(PersistentShopManagerItemRange newValue) throws PersistenceException {
-        ((PersistentShopManager)this.getTheObject()).setItemRange(newValue);
+    public void setBasicProductGroup(PersistentShopManagerBasicProductGroup newValue) throws PersistenceException {
+        ((PersistentShopManager)this.getTheObject()).setBasicProductGroup(newValue);
     }
     public SubjInterface getSubService() throws PersistenceException {
         return ((PersistentShopManager)this.getTheObject()).getSubService();
@@ -69,13 +69,13 @@ public class ShopManagerProxi extends PersistentProxi implements PersistentShopM
 				throws PersistenceException{
         ((PersistentShopManager)this.getTheObject()).findArticle(description, invoker);
     }
+    public PersistentProductGroup getBasicProductGroup() 
+				throws PersistenceException{
+        return ((PersistentShopManager)this.getTheObject()).getBasicProductGroup();
+    }
     public PersistentCustomerManager getCustomerManager() 
 				throws PersistenceException{
         return ((PersistentShopManager)this.getTheObject()).getCustomerManager();
-    }
-    public PersistentShopManagerItemRange getItemRange() 
-				throws PersistenceException{
-        return ((PersistentShopManager)this.getTheObject()).getItemRange();
     }
     public PersistentShopService getMyShopServer() 
 				throws PersistenceException{
@@ -89,6 +89,10 @@ public class ShopManagerProxi extends PersistentProxi implements PersistentShopM
 				throws PersistenceException{
         ((PersistentShopManager)this.getTheObject()).register(observee);
     }
+    public void setBasicProductGroup(final PersistentProductGroup basicProductGroup) 
+				throws PersistenceException{
+        ((PersistentShopManager)this.getTheObject()).setBasicProductGroup(basicProductGroup);
+    }
     public void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentShopManager)this.getTheObject()).updateObservers(event);
@@ -96,6 +100,10 @@ public class ShopManagerProxi extends PersistentProxi implements PersistentShopM
     public void addToCartImplementation(final PersistentArticle article, final long amount) 
 				throws PersistenceException{
         ((PersistentShopManager)this.getTheObject()).addToCartImplementation(article, amount);
+    }
+    public void basicProductGroup_update(final model.meta.ProductGroupMssgs event) 
+				throws PersistenceException{
+        ((PersistentShopManager)this.getTheObject()).basicProductGroup_update(event);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
@@ -112,10 +120,6 @@ public class ShopManagerProxi extends PersistentProxi implements PersistentShopM
     public void initializeOnInstantiation() 
 				throws PersistenceException{
         ((PersistentShopManager)this.getTheObject()).initializeOnInstantiation();
-    }
-    public void itemRange_update(final model.meta.ItemMssgs event) 
-				throws PersistenceException{
-        ((PersistentShopManager)this.getTheObject()).itemRange_update(event);
     }
 
     

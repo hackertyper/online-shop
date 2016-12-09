@@ -10,11 +10,13 @@ import view.visitor.*;
 public class Manufacturer extends ViewObject implements ManufacturerView{
     
     protected String name;
+    protected long manuDelivery;
     
-    public Manufacturer(String name,long id, long classId) {
+    public Manufacturer(String name,long manuDelivery,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
-        this.name = name;        
+        this.name = name;
+        this.manuDelivery = manuDelivery;        
     }
     
     static public long getTypeId() {
@@ -30,6 +32,12 @@ public class Manufacturer extends ViewObject implements ManufacturerView{
     }
     public void setName(String newValue) throws ModelException {
         this.name = newValue;
+    }
+    public long getManuDelivery()throws ModelException{
+        return this.manuDelivery;
+    }
+    public void setManuDelivery(long newValue) throws ModelException {
+        this.manuDelivery = newValue;
     }
     
     public void accept(AnythingVisitor visitor) throws ModelException {
@@ -68,8 +76,12 @@ public class Manufacturer extends ViewObject implements ManufacturerView{
     public int getNameIndex() throws ModelException {
         return 0;
     }
+    public int getManuDeliveryIndex() throws ModelException {
+        return 0 + 1;
+    }
     public int getRowCount(){
         return 0 
+            + 1
             + 1;
     }
     public Object getValueAt(int rowIndex, int columnIndex){
@@ -77,8 +89,12 @@ public class Manufacturer extends ViewObject implements ManufacturerView{
             if(columnIndex == 0){
                 if(rowIndex == 0) return "name";
                 rowIndex = rowIndex - 1;
+                if(rowIndex == 0) return "manuDelivery";
+                rowIndex = rowIndex - 1;
             } else {
                 if(rowIndex == 0) return this.getName();
+                rowIndex = rowIndex - 1;
+                if(rowIndex == 0) return new Long(getManuDelivery());
                 rowIndex = rowIndex - 1;
             }
             throw new ModelException("Table index out of bounds!", -1);
@@ -93,6 +109,11 @@ public class Manufacturer extends ViewObject implements ManufacturerView{
     public void setValueAt(String newValue, int rowIndex) throws Exception {
         if(rowIndex == 0){
             this.setName(newValue);
+            return;
+        }
+        rowIndex = rowIndex - 1;
+        if(rowIndex == 0){
+            this.setManuDelivery(Long.parseLong(newValue));
             return;
         }
         rowIndex = rowIndex - 1;

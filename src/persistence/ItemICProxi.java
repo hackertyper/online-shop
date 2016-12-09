@@ -28,13 +28,13 @@ public abstract class ItemICProxi extends PersistentInCacheProxiOptimistic imple
     
     
     
-    public void changeDescription(final String newDescription, final Invoker invoker) 
-				throws PersistenceException{
-        ((PersistentItem)this.getTheObject()).changeDescription(newDescription, invoker);
-    }
     public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentItem)this.getTheObject()).deregister(observee);
+    }
+    public PersistentProductGroup getParent() 
+				throws PersistenceException{
+        return ((PersistentItem)this.getTheObject()).getParent();
     }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
@@ -55,6 +55,10 @@ public abstract class ItemICProxi extends PersistentInCacheProxiOptimistic imple
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentItem)this.getTheObject()).copyingPrivateUserAttributes(copy);
+    }
+    public long cumulateArticleCount() 
+				throws PersistenceException{
+        return ((PersistentItem)this.getTheObject()).cumulateArticleCount();
     }
     public void initializeOnCreation() 
 				throws PersistenceException{

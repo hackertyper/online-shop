@@ -11,14 +11,20 @@ public class CartManager extends ViewObject implements CartManagerView{
     
     protected CartView myCart;
     protected java.util.Vector<QuantifiedArticlesView> articleList;
+    protected StandardDeliveryView standardDelivery;
+    protected OverNightDeliveryView onDelivery;
+    protected PreOrderView preOrder;
     protected CustomerManagerView customerManager;
     protected CartServiceView myCartServer;
     
-    public CartManager(CartView myCart,java.util.Vector<QuantifiedArticlesView> articleList,CustomerManagerView customerManager,CartServiceView myCartServer,long id, long classId) {
+    public CartManager(CartView myCart,java.util.Vector<QuantifiedArticlesView> articleList,StandardDeliveryView standardDelivery,OverNightDeliveryView onDelivery,PreOrderView preOrder,CustomerManagerView customerManager,CartServiceView myCartServer,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
         this.myCart = myCart;
         this.articleList = articleList;
+        this.standardDelivery = standardDelivery;
+        this.onDelivery = onDelivery;
+        this.preOrder = preOrder;
         this.customerManager = customerManager;
         this.myCartServer = myCartServer;        
     }
@@ -42,6 +48,24 @@ public class CartManager extends ViewObject implements CartManagerView{
     }
     public void setArticleList(java.util.Vector<QuantifiedArticlesView> newValue) throws ModelException {
         this.articleList = newValue;
+    }
+    public StandardDeliveryView getStandardDelivery()throws ModelException{
+        return this.standardDelivery;
+    }
+    public void setStandardDelivery(StandardDeliveryView newValue) throws ModelException {
+        this.standardDelivery = newValue;
+    }
+    public OverNightDeliveryView getOnDelivery()throws ModelException{
+        return this.onDelivery;
+    }
+    public void setOnDelivery(OverNightDeliveryView newValue) throws ModelException {
+        this.onDelivery = newValue;
+    }
+    public PreOrderView getPreOrder()throws ModelException{
+        return this.preOrder;
+    }
+    public void setPreOrder(PreOrderView newValue) throws ModelException {
+        this.preOrder = newValue;
     }
     public CustomerManagerView getCustomerManager()throws ModelException{
         return this.customerManager;
@@ -72,6 +96,18 @@ public class CartManager extends ViewObject implements CartManagerView{
         if (articleList != null) {
             ViewObject.resolveVectorProxies(articleList, resultTable);
         }
+        StandardDeliveryView standardDelivery = this.getStandardDelivery();
+        if (standardDelivery != null) {
+            ((ViewProxi)standardDelivery).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(standardDelivery.getClassId(), standardDelivery.getId())));
+        }
+        OverNightDeliveryView onDelivery = this.getOnDelivery();
+        if (onDelivery != null) {
+            ((ViewProxi)onDelivery).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(onDelivery.getClassId(), onDelivery.getId())));
+        }
+        PreOrderView preOrder = this.getPreOrder();
+        if (preOrder != null) {
+            ((ViewProxi)preOrder).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(preOrder.getClassId(), preOrder.getId())));
+        }
         CustomerManagerView customerManager = this.getCustomerManager();
         if (customerManager != null) {
             ((ViewProxi)customerManager).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(customerManager.getClassId(), customerManager.getId())));
@@ -91,17 +127,25 @@ public class CartManager extends ViewObject implements CartManagerView{
         if(this.getMyCart() != null) index = index - 1;
         if(index < this.getArticleList().size()) return new ArticleListCartManagerWrapper(this, originalIndex, (ViewRoot)this.getArticleList().get(index));
         index = index - this.getArticleList().size();
+        if(index == 0 && this.getStandardDelivery() != null) return new StandardDeliveryCartManagerWrapper(this, originalIndex, (ViewRoot)this.getStandardDelivery());
+        if(this.getStandardDelivery() != null) index = index - 1;
+        if(index == 0 && this.getOnDelivery() != null) return new OnDeliveryCartManagerWrapper(this, originalIndex, (ViewRoot)this.getOnDelivery());
+        if(this.getOnDelivery() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
             + (this.getMyCart() == null ? 0 : 1)
-            + (this.getArticleList().size());
+            + (this.getArticleList().size())
+            + (this.getStandardDelivery() == null ? 0 : 1)
+            + (this.getOnDelivery() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
         return true 
             && (this.getMyCart() == null ? true : false)
-            && (this.getArticleList().size() == 0);
+            && (this.getArticleList().size() == 0)
+            && (this.getStandardDelivery() == null ? true : false)
+            && (this.getOnDelivery() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
@@ -112,6 +156,10 @@ public class CartManager extends ViewObject implements CartManagerView{
             if(getArticleListIterator.next().equals(child)) return result;
             result = result + 1;
         }
+        if(this.getStandardDelivery() != null && this.getStandardDelivery().equals(child)) return result;
+        if(this.getStandardDelivery() != null) result = result + 1;
+        if(this.getOnDelivery() != null && this.getOnDelivery().equals(child)) return result;
+        if(this.getOnDelivery() != null) result = result + 1;
         return -1;
     }
     public int getRowCount(){

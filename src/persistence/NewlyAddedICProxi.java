@@ -106,6 +106,10 @@ public class NewlyAddedICProxi extends PersistentInCacheProxiOptimistic implemen
 				throws PersistenceException{
         ((PersistentNewlyAdded)this.getTheObject()).initializeOnInstantiation();
     }
+    public void order(final long amount) 
+				throws PersistenceException{
+        ((PersistentNewlyAdded)this.getTheObject()).order(amount);
+    }
     public void startSelling() 
 				throws PersistenceException{
         ((PersistentNewlyAdded)this.getTheObject()).startSelling();

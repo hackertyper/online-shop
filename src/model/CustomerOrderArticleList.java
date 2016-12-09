@@ -60,7 +60,7 @@ public class CustomerOrderArticleList extends PersistentObject implements Persis
     }
     
     static public long getTypeId() {
-        return 287;
+        return 252;
     }
     
     public long getClassId() {
@@ -69,7 +69,7 @@ public class CustomerOrderArticleList extends PersistentObject implements Persis
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 287) ConnectionHandler.getTheConnectionHandler().theCustomerOrderArticleListFacade
+        if (this.getClassId() == 252) ConnectionHandler.getTheConnectionHandler().theCustomerOrderArticleListFacade
             .newCustomerOrderArticleList(this.getId());
         super.store();
         if(this.getObserver() != null){

@@ -86,7 +86,7 @@ public class OverNightDelivery extends model.CustomerDelivery implements Persist
     }
     
     static public long getTypeId() {
-        return 268;
+        return 228;
     }
     
     public long getClassId() {

@@ -12,14 +12,7 @@ public class OfferedFSaleProxi extends ViewProxi implements OfferedFSaleView{
     }
     
     public OfferedFSaleView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
-        ViewProxi myArticle = null;
-        String myArticle$String = (String)resultTable.get("myArticle");
-        if (myArticle$String != null) {
-            common.ProxiInformation myArticle$Info = common.RPCConstantsAndServices.createProxiInformation(myArticle$String);
-            myArticle = view.objects.ViewProxi.createProxi(myArticle$Info,connectionKey);
-            myArticle.setToString(myArticle$Info.getToString());
-        }
-        OfferedFSaleView result$$ = new OfferedFSale((ArticleView)myArticle, this.getId(), this.getClassId());
+        OfferedFSaleView result$$ = new OfferedFSale( this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -42,9 +35,6 @@ public class OfferedFSaleProxi extends ViewProxi implements OfferedFSaleView{
         return -1;
     }
     
-    public ArticleView getMyArticle()throws ModelException{
-        return ((OfferedFSale)this.getTheObject()).getMyArticle();
-    }
     
     public void accept(AnythingVisitor visitor) throws ModelException {
         visitor.handleOfferedFSale(this);

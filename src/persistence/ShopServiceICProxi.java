@@ -174,6 +174,10 @@ public class ShopServiceICProxi extends CustomerServiceICProxi implements Persis
 				throws PersistenceException{
         ((PersistentShopService)this.getTheObject()).initializeOnInstantiation();
     }
+    public void signalChanged() 
+				throws PersistenceException{
+        ((PersistentShopService)this.getTheObject()).signalChanged();
+    }
 
     
 }

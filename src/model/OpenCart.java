@@ -84,7 +84,7 @@ public class OpenCart extends model.CartState implements PersistentOpenCart{
     }
     
     static public long getTypeId() {
-        return 229;
+        return 216;
     }
     
     public long getClassId() {

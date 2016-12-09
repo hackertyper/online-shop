@@ -47,7 +47,7 @@ public interface CartService4Public extends CustomerService4Public {
 				throws PersistenceException;
     public void initializeOnInstantiation() 
 				throws PersistenceException;
-    public void order() 
+    public void order(final PersistentCart cart, final PersistentCustomerDelivery deliveryMethod) 
 				throws PersistenceException;
     public void removeFCart(final PersistentQuantifiedArticles article) 
 				throws PersistenceException;

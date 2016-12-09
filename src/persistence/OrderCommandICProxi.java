@@ -22,6 +22,12 @@ public class OrderCommandICProxi extends PersistentInCacheProxi implements Persi
         return 104;
     }
     
+    public PersistentCustomerDelivery getDeliveryMethod() throws PersistenceException {
+        return ((PersistentOrderCommand)this.getTheObject()).getDeliveryMethod();
+    }
+    public void setDeliveryMethod(PersistentCustomerDelivery newValue) throws PersistenceException {
+        ((PersistentOrderCommand)this.getTheObject()).setDeliveryMethod(newValue);
+    }
     public Invoker getInvoker() throws PersistenceException {
         return ((PersistentOrderCommand)this.getTheObject()).getInvoker();
     }

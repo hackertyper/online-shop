@@ -29,7 +29,7 @@ public class InvalidStockNumber extends model.UserException{
     }
     
     static public long getTypeId() {
-        return -282;
+        return -278;
     }
     
     public long getClassId() {

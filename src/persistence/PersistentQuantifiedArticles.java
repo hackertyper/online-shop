@@ -3,8 +3,9 @@ package persistence;
 
 public interface PersistentQuantifiedArticles extends Anything, SubjInterface, AbstractPersistentProxi, QuantifiedArticles4Public {
     
-    public PersistentArticle getArticle() throws PersistenceException ;
-    public void setArticle(PersistentArticle newValue) throws PersistenceException ;
+    public void setArticle(PersistentQuantifiedArticlesArticle newValue) throws PersistenceException ;
+    public PersistentCustomerOrder getMyOrder() throws PersistenceException ;
+    public void setMyOrder(PersistentCustomerOrder newValue) throws PersistenceException ;
     public long getAmount() throws PersistenceException ;
     public void setAmount(long newValue) throws PersistenceException ;
     public SubjInterface getSubService() throws PersistenceException ;
@@ -12,6 +13,12 @@ public interface PersistentQuantifiedArticles extends Anything, SubjInterface, A
     public PersistentQuantifiedArticles getThis() throws PersistenceException ;
     
     
+    public PersistentArticle getArticle() 
+				throws PersistenceException;
+    public void setArticle(final PersistentArticle article) 
+				throws PersistenceException;
+    public void article_update(final model.meta.ArticleMssgs event) 
+				throws PersistenceException;
 
 }
 

@@ -37,6 +37,25 @@ public class ProductGroupFacade{
     public ItemList itemListGet(long ProductGroupId) throws PersistenceException {
         return new ItemList(); // remote access for initialization only!
     }
+    public ProductGroupSearchList inverseGetItemList(long objectId, long classId)throws PersistenceException{
+        ProductGroupSearchList result = new ProductGroupSearchList();
+        java.util.Iterator<PersistentInCacheProxi> candidates;
+        candidates = Cache.getTheCache().iterator(102);
+        while (candidates.hasNext()){
+            PersistentProductGroup current = (PersistentProductGroup)((PersistentRoot)candidates.next()).getTheObject();
+            if (current != null){
+                java.util.Iterator<PersistentItem> iterator = ((ProductGroup_ItemListProxi)current.getItemList()).iterator();
+                while(iterator.hasNext()){
+                    PersistentProxi item = (PersistentProxi)iterator.next();
+                    if (!item.isDltd() && !current.isDelayed$Persistence() && item.getClassId() == classId && item.getId() == objectId) {
+                        PersistentProductGroup proxi = (PersistentProductGroup)PersistentProxi.createProxi(current.getId(), current.getClassId());
+                        result.add((PersistentProductGroup)proxi.getThis());
+                    }
+                }
+            }
+        }
+        return result;
+    }
 
 }
 

@@ -11,11 +11,36 @@ public class ShopkeeperProxi extends ViewProxi implements ShopkeeperView{
         super(objectId, classId, connectionKey);
     }
     
-    @SuppressWarnings("unchecked")
     public ShopkeeperView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
-        java.util.Vector<String> itemRange_string = (java.util.Vector<String>)resultTable.get("itemRange");
-        java.util.Vector<ItemView> itemRange = ViewProxi.getProxiVector(itemRange_string, connectionKey);
-        ShopkeeperView result$$ = new Shopkeeper(itemRange, this.getId(), this.getClassId());
+        ViewProxi basicProductGroup = null;
+        String basicProductGroup$String = (String)resultTable.get("basicProductGroup");
+        if (basicProductGroup$String != null) {
+            common.ProxiInformation basicProductGroup$Info = common.RPCConstantsAndServices.createProxiInformation(basicProductGroup$String);
+            basicProductGroup = view.objects.ViewProxi.createProxi(basicProductGroup$Info,connectionKey);
+            basicProductGroup.setToString(basicProductGroup$Info.getToString());
+        }
+        ViewProxi presets = null;
+        String presets$String = (String)resultTable.get("presets");
+        if (presets$String != null) {
+            common.ProxiInformation presets$Info = common.RPCConstantsAndServices.createProxiInformation(presets$String);
+            presets = view.objects.ViewProxi.createProxi(presets$Info,connectionKey);
+            presets.setToString(presets$Info.getToString());
+        }
+        ViewProxi standardDelivery = null;
+        String standardDelivery$String = (String)resultTable.get("standardDelivery");
+        if (standardDelivery$String != null) {
+            common.ProxiInformation standardDelivery$Info = common.RPCConstantsAndServices.createProxiInformation(standardDelivery$String);
+            standardDelivery = view.objects.ViewProxi.createProxi(standardDelivery$Info,connectionKey);
+            standardDelivery.setToString(standardDelivery$Info.getToString());
+        }
+        ViewProxi onDelivery = null;
+        String onDelivery$String = (String)resultTable.get("onDelivery");
+        if (onDelivery$String != null) {
+            common.ProxiInformation onDelivery$Info = common.RPCConstantsAndServices.createProxiInformation(onDelivery$String);
+            onDelivery = view.objects.ViewProxi.createProxi(onDelivery$Info,connectionKey);
+            onDelivery.setToString(onDelivery$Info.getToString());
+        }
+        ShopkeeperView result$$ = new Shopkeeper((ProductGroupView)basicProductGroup,(CustomerPresetsView)presets,(StandardDeliveryView)standardDelivery,(OverNightDeliveryView)onDelivery, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -25,34 +50,67 @@ public class ShopkeeperProxi extends ViewProxi implements ShopkeeperView{
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
         int index = originalIndex;
-        if(index < this.getItemRange().size()) return new ItemRangeShopkeeperWrapper(this, originalIndex, (ViewRoot)this.getItemRange().get(index));
-        index = index - this.getItemRange().size();
+        if(index == 0 && this.getBasicProductGroup() != null) return new BasicProductGroupShopkeeperWrapper(this, originalIndex, (ViewRoot)this.getBasicProductGroup());
+        if(this.getBasicProductGroup() != null) index = index - 1;
+        if(index == 0 && this.getPresets() != null) return new PresetsShopkeeperWrapper(this, originalIndex, (ViewRoot)this.getPresets());
+        if(this.getPresets() != null) index = index - 1;
+        if(index == 0 && this.getStandardDelivery() != null) return new StandardDeliveryShopkeeperWrapper(this, originalIndex, (ViewRoot)this.getStandardDelivery());
+        if(this.getStandardDelivery() != null) index = index - 1;
+        if(index == 0 && this.getOnDelivery() != null) return new OnDeliveryShopkeeperWrapper(this, originalIndex, (ViewRoot)this.getOnDelivery());
+        if(this.getOnDelivery() != null) index = index - 1;
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getItemRange().size());
+            + (this.getBasicProductGroup() == null ? 0 : 1)
+            + (this.getPresets() == null ? 0 : 1)
+            + (this.getStandardDelivery() == null ? 0 : 1)
+            + (this.getOnDelivery() == null ? 0 : 1);
     }
     public boolean isLeaf() throws ModelException {
         if (this.object == null) return this.getLeafInfo() == 0;
         return true 
-            && (this.getItemRange().size() == 0);
+            && (this.getBasicProductGroup() == null ? true : false)
+            && (this.getPresets() == null ? true : false)
+            && (this.getStandardDelivery() == null ? true : false)
+            && (this.getOnDelivery() == null ? true : false);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
-        java.util.Iterator<?> getItemRangeIterator = this.getItemRange().iterator();
-        while(getItemRangeIterator.hasNext()){
-            if(getItemRangeIterator.next().equals(child)) return result;
-            result = result + 1;
-        }
+        if(this.getBasicProductGroup() != null && this.getBasicProductGroup().equals(child)) return result;
+        if(this.getBasicProductGroup() != null) result = result + 1;
+        if(this.getPresets() != null && this.getPresets().equals(child)) return result;
+        if(this.getPresets() != null) result = result + 1;
+        if(this.getStandardDelivery() != null && this.getStandardDelivery().equals(child)) return result;
+        if(this.getStandardDelivery() != null) result = result + 1;
+        if(this.getOnDelivery() != null && this.getOnDelivery().equals(child)) return result;
+        if(this.getOnDelivery() != null) result = result + 1;
         return -1;
     }
     
-    public java.util.Vector<ItemView> getItemRange()throws ModelException{
-        return ((Shopkeeper)this.getTheObject()).getItemRange();
+    public ProductGroupView getBasicProductGroup()throws ModelException{
+        return ((Shopkeeper)this.getTheObject()).getBasicProductGroup();
     }
-    public void setItemRange(java.util.Vector<ItemView> newValue) throws ModelException {
-        ((Shopkeeper)this.getTheObject()).setItemRange(newValue);
+    public void setBasicProductGroup(ProductGroupView newValue) throws ModelException {
+        ((Shopkeeper)this.getTheObject()).setBasicProductGroup(newValue);
+    }
+    public CustomerPresetsView getPresets()throws ModelException{
+        return ((Shopkeeper)this.getTheObject()).getPresets();
+    }
+    public void setPresets(CustomerPresetsView newValue) throws ModelException {
+        ((Shopkeeper)this.getTheObject()).setPresets(newValue);
+    }
+    public StandardDeliveryView getStandardDelivery()throws ModelException{
+        return ((Shopkeeper)this.getTheObject()).getStandardDelivery();
+    }
+    public void setStandardDelivery(StandardDeliveryView newValue) throws ModelException {
+        ((Shopkeeper)this.getTheObject()).setStandardDelivery(newValue);
+    }
+    public OverNightDeliveryView getOnDelivery()throws ModelException{
+        return ((Shopkeeper)this.getTheObject()).getOnDelivery();
+    }
+    public void setOnDelivery(OverNightDeliveryView newValue) throws ModelException {
+        ((Shopkeeper)this.getTheObject()).setOnDelivery(newValue);
     }
     
     public void accept(AnythingVisitor visitor) throws ModelException {

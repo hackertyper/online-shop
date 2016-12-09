@@ -143,7 +143,7 @@ public class Article extends model.Item implements PersistentArticle{
     }
     
     static public long getTypeId() {
-        return 134;
+        return 109;
     }
     
     public long getClassId() {
@@ -152,7 +152,7 @@ public class Article extends model.Item implements PersistentArticle{
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 134) ConnectionHandler.getTheConnectionHandler().theArticleFacade
+        if (this.getClassId() == 109) ConnectionHandler.getTheConnectionHandler().theArticleFacade
             .newArticle(description,price,minStock,maxStock,stock,reserved,this.getId());
         super.store();
         if(this.getManufacturer() != null){

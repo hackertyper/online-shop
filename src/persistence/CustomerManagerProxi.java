@@ -110,6 +110,10 @@ public class CustomerManagerProxi extends PersistentProxi implements PersistentC
 				throws PersistenceException{
         ((PersistentCustomerManager)this.getTheObject()).addOrder(order);
     }
+    public void addPreOrder(final PersistentPreOrder preOrder) 
+				throws PersistenceException{
+        ((PersistentCustomerManager)this.getTheObject()).addPreOrder(preOrder);
+    }
     public void addToCart(final PersistentArticle article, final long amount) 
 				throws PersistenceException{
         ((PersistentCustomerManager)this.getTheObject()).addToCart(article, amount);
@@ -137,6 +141,10 @@ public class CustomerManagerProxi extends PersistentProxi implements PersistentC
     public void returnPayment(final long sum) 
 				throws PersistenceException{
         ((PersistentCustomerManager)this.getTheObject()).returnPayment(sum);
+    }
+    public void signalChanged() 
+				throws PersistenceException{
+        ((PersistentCustomerManager)this.getTheObject()).signalChanged();
     }
     public void withdraw(final long amount) 
 				throws model.InsufficientFunds, PersistenceException{

@@ -106,6 +106,10 @@ public class RemovedFSaleICProxi extends PersistentInCacheProxiOptimistic implem
 				throws PersistenceException{
         ((PersistentRemovedFSale)this.getTheObject()).initializeOnInstantiation();
     }
+    public void startSellingAgain() 
+				throws PersistenceException{
+        ((PersistentRemovedFSale)this.getTheObject()).startSellingAgain();
+    }
 
     
 }

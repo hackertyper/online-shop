@@ -5,8 +5,14 @@ import persistence.*;
 
 public abstract class UserExceptionStandardVisitor implements UserExceptionVisitor {
     
+    public void handleNotArrived(model.NotArrived notArrived) throws PersistenceException{
+        this.standardHandling(notArrived);
+    }
     public void handleDoubleUsername(model.DoubleUsername doubleUsername) throws PersistenceException{
         this.standardHandling(doubleUsername);
+    }
+    public void handleInvalidStockNumber(model.InvalidStockNumber invalidStockNumber) throws PersistenceException{
+        this.standardHandling(invalidStockNumber);
     }
     public void handleInsufficientStock(model.InsufficientStock insufficientStock) throws PersistenceException{
         this.standardHandling(insufficientStock);

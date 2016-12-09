@@ -63,13 +63,17 @@ public class ProductGroupProxi extends ItemProxi implements PersistentProductGro
     }
     
     
-    public void changeDescription(final String newDescription, final Invoker invoker) 
+    public void addItem(final PersistentItem item) 
 				throws PersistenceException{
-        ((PersistentProductGroup)this.getTheObject()).changeDescription(newDescription, invoker);
+        ((PersistentProductGroup)this.getTheObject()).addItem(item);
     }
     public void deregister(final ObsInterface observee) 
 				throws PersistenceException{
         ((PersistentProductGroup)this.getTheObject()).deregister(observee);
+    }
+    public PersistentProductGroup getParent() 
+				throws PersistenceException{
+        return ((PersistentProductGroup)this.getTheObject()).getParent();
     }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
@@ -83,9 +87,9 @@ public class ProductGroupProxi extends ItemProxi implements PersistentProductGro
 				throws PersistenceException{
         ((PersistentProductGroup)this.getTheObject()).updateObservers(event);
     }
-    public void addItem(final PersistentItem item) 
+    public void addItemImplementation(final PersistentItem item) 
 				throws PersistenceException{
-        ((PersistentProductGroup)this.getTheObject()).addItem(item);
+        ((PersistentProductGroup)this.getTheObject()).addItemImplementation(item);
     }
     public void changeDescription(final String newDescription) 
 				throws PersistenceException{
@@ -94,6 +98,10 @@ public class ProductGroupProxi extends ItemProxi implements PersistentProductGro
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentProductGroup)this.getTheObject()).copyingPrivateUserAttributes(copy);
+    }
+    public long cumulateArticleCount() 
+				throws PersistenceException{
+        return ((PersistentProductGroup)this.getTheObject()).cumulateArticleCount();
     }
     public void initializeOnCreation() 
 				throws PersistenceException{

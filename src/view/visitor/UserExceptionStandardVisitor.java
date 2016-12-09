@@ -5,8 +5,14 @@ import view.*;
 
 public abstract class UserExceptionStandardVisitor implements UserExceptionVisitor {
     
+    public void handleNotArrived(NotArrived notArrived) throws ModelException{
+        this.standardHandling(notArrived);
+    }
     public void handleDoubleUsername(DoubleUsername doubleUsername) throws ModelException{
         this.standardHandling(doubleUsername);
+    }
+    public void handleInvalidStockNumber(InvalidStockNumber invalidStockNumber) throws ModelException{
+        this.standardHandling(invalidStockNumber);
     }
     public void handleInsufficientStock(InsufficientStock insufficientStock) throws ModelException{
         this.standardHandling(insufficientStock);

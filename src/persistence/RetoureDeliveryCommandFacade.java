@@ -52,15 +52,6 @@ public class RetoureDeliveryCommandFacade{
     public void arrivedOrderSet(long RetoureDeliveryCommandId, PersistentCustomerOrder arrivedOrderVal) throws PersistenceException {
         
     }
-    public long listAdd(long RetoureDeliveryCommandId, PersistentQuantifiedArticles listVal) throws PersistenceException {
-        return 0;
-    }
-    public void listRem(long listId) throws PersistenceException {
-        
-    }
-    public QuantifiedArticlesList listGet(long RetoureDeliveryCommandId) throws PersistenceException {
-        return new QuantifiedArticlesList(); // remote access for initialization only!
-    }
     public void invokerSet(long RetoureDeliveryCommandId, Invoker invokerVal) throws PersistenceException {
         
     }

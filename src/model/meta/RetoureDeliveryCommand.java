@@ -37,7 +37,6 @@ public class RetoureDeliveryCommand extends PersistentObject implements Persiste
         return true;
     }
     protected PersistentCustomerOrder arrivedOrder;
-    protected RetoureDeliveryCommand_ListProxi list;
     protected Invoker invoker;
     protected PersistentOrderManager commandReceiver;
     protected PersistentCommonDate myCommonDate;
@@ -48,7 +47,6 @@ public class RetoureDeliveryCommand extends PersistentObject implements Persiste
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.arrivedOrder = arrivedOrder;
-        this.list = new RetoureDeliveryCommand_ListProxi(this);
         this.invoker = invoker;
         this.commandReceiver = commandReceiver;
         this.myCommonDate = myCommonDate;        
@@ -71,7 +69,6 @@ public class RetoureDeliveryCommand extends PersistentObject implements Persiste
             this.getArrivedOrder().store();
             ConnectionHandler.getTheConnectionHandler().theRetoureDeliveryCommandFacade.arrivedOrderSet(this.getId(), getArrivedOrder());
         }
-        this.getList().store();
         if(this.getInvoker() != null){
             this.getInvoker().store();
             ConnectionHandler.getTheConnectionHandler().theRetoureDeliveryCommandFacade.invokerSet(this.getId(), getInvoker());
@@ -100,9 +97,6 @@ public class RetoureDeliveryCommand extends PersistentObject implements Persiste
             newValue.store();
             ConnectionHandler.getTheConnectionHandler().theRetoureDeliveryCommandFacade.arrivedOrderSet(this.getId(), newValue);
         }
-    }
-    public RetoureDeliveryCommand_ListProxi getList() throws PersistenceException {
-        return this.list;
     }
     public Invoker getInvoker() throws PersistenceException {
         return this.invoker;
@@ -214,7 +208,6 @@ public class RetoureDeliveryCommand extends PersistentObject implements Persiste
     public int getLeafInfo() throws PersistenceException{
         if (this.getArrivedOrder() != null) return 1;
         if (this.getCommandReceiver() != null) return 1;
-        if (this.getList().getLength() > 0) return 1;
         return 0;
     }
     
@@ -230,7 +223,10 @@ public class RetoureDeliveryCommand extends PersistentObject implements Persiste
     public void execute() 
 				throws PersistenceException{
         try{
-			this.commandReceiver.retoureDelivery(this.getArrivedOrder(), this.getList().getList());
+			this.commandReceiver.retoureDelivery(this.getArrivedOrder());
+		}
+		catch(model.NotArrived e){
+			this.commandException = e;
 		}
 		catch(model.InsufficientFunds e){
 			this.commandException = e;

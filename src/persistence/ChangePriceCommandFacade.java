@@ -28,14 +28,14 @@ public class ChangePriceCommandFacade{
     public PersistentChangePriceCommand newChangePriceCommand(long newPrice,long idCreateIfLessZero) throws PersistenceException {
         if(idCreateIfLessZero > 0) return (PersistentChangePriceCommand)PersistentProxi.createProxi(idCreateIfLessZero, 127);
         long id = ConnectionHandler.getTheConnectionHandler().theChangePriceCommandFacade.getNextId();
-        ChangePriceCommand result = new ChangePriceCommand(newPrice,null,null,null,id);
+        ChangePriceCommand result = new ChangePriceCommand(null,newPrice,null,null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentChangePriceCommand)PersistentProxi.createProxi(id, 127);
     }
     
     public PersistentChangePriceCommand newDelayedChangePriceCommand(long newPrice) throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theChangePriceCommandFacade.getNextId();
-        ChangePriceCommand result = new ChangePriceCommand(newPrice,null,null,null,id);
+        ChangePriceCommand result = new ChangePriceCommand(null,newPrice,null,null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentChangePriceCommand)PersistentProxi.createProxi(id, 127);
     }
@@ -49,13 +49,16 @@ public class ChangePriceCommandFacade{
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         
     }
+    public void articleSet(long ChangePriceCommandId, PersistentArticle articleVal) throws PersistenceException {
+        
+    }
     public void newPriceSet(long ChangePriceCommandId, long newPriceVal) throws PersistenceException {
         
     }
     public void invokerSet(long ChangePriceCommandId, Invoker invokerVal) throws PersistenceException {
         
     }
-    public void commandReceiverSet(long ChangePriceCommandId, PersistentArticle commandReceiverVal) throws PersistenceException {
+    public void commandReceiverSet(long ChangePriceCommandId, PersistentShopkeeper commandReceiverVal) throws PersistenceException {
         
     }
     public void myCommonDateSet(long ChangePriceCommandId, PersistentCommonDate myCommonDateVal) throws PersistenceException {

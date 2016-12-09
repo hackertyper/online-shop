@@ -3,16 +3,19 @@ package model.visitor;
 
 import persistence.*;
 
-public interface SubjInterfaceVisitor extends ArticleStateVisitor,CartStateVisitor,CustomerOrderStateVisitor,DeliveryVisitor,ItemVisitor,ServiceVisitor{
+public interface SubjInterfaceVisitor extends ArticleStateVisitor,CartStateVisitor,CustomerDeliveryVisitor,CustomerOrderStateVisitor,DeliveryVisitor,ItemVisitor,ServiceVisitor{
     
     public void handleAccount(PersistentAccount account) throws PersistenceException;
     public void handleAccountManager(PersistentAccountManager accountManager) throws PersistenceException;
+    public void handleArticleWrapper(PersistentArticleWrapper articleWrapper) throws PersistenceException;
     public void handleCart(PersistentCart cart) throws PersistenceException;
     public void handleCartManager(PersistentCartManager cartManager) throws PersistenceException;
     public void handleCustomerManager(PersistentCustomerManager customerManager) throws PersistenceException;
+    public void handleCustomerPresets(PersistentCustomerPresets customerPresets) throws PersistenceException;
     public void handleErrorDisplay(PersistentErrorDisplay errorDisplay) throws PersistenceException;
     public void handleManufacturer(PersistentManufacturer manufacturer) throws PersistenceException;
     public void handleOrderManager(PersistentOrderManager orderManager) throws PersistenceException;
+    public void handlePreOrder(PersistentPreOrder preOrder) throws PersistenceException;
     public void handleQuantifiedArticles(PersistentQuantifiedArticles quantifiedArticles) throws PersistenceException;
     public void handleServer(PersistentServer server) throws PersistenceException;
     public void handleShopManager(PersistentShopManager shopManager) throws PersistenceException;

@@ -15,6 +15,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handleOfferedFSale(OfferedFSaleView offeredFSale) throws ModelException;
     
+    public abstract void handlePreOrder(PreOrderView preOrder) throws ModelException;
+    
     public abstract void handleArrivedOrder(ArrivedOrderView arrivedOrder) throws ModelException;
     
     public abstract void handleCartState(CartStateView cartState) throws ModelException;
@@ -25,6 +27,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleCheckedOut(CheckedOutView checkedOut) throws ModelException{
         this.handleCartState(checkedOut);
     }
+    public abstract void handleCustomerPresets(CustomerPresetsView customerPresets) throws ModelException;
+    
     public abstract void handleItem(ItemView item) throws ModelException;
     
     public void handleProductGroup(ProductGroupView productGroup) throws ModelException{
@@ -70,6 +74,17 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     public void handleAccountService(AccountServiceView accountService) throws ModelException{
         this.handleService(accountService);
     }
+    public abstract void handleCustomerDelivery(CustomerDeliveryView customerDelivery) throws ModelException;
+    
+    public void handleTestDelivery(TestDeliveryView testDelivery) throws ModelException{
+        this.handleCustomerDelivery(testDelivery);
+    }
+    public void handleOverNightDelivery(OverNightDeliveryView overNightDelivery) throws ModelException{
+        this.handleCustomerDelivery(overNightDelivery);
+    }
+    public void handleStandardDelivery(StandardDeliveryView standardDelivery) throws ModelException{
+        this.handleCustomerDelivery(standardDelivery);
+    }
     public abstract void handleRemovedFSale(RemovedFSaleView removedFSale) throws ModelException;
     
     public abstract void handleAccountManager(AccountManagerView accountManager) throws ModelException;
@@ -86,6 +101,8 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
         this.handleDelivery(shopKeeperOrder);
     }
     public abstract void handleOrderManager(OrderManagerView orderManager) throws ModelException;
+    
+    public abstract void handleArticleWrapper(ArticleWrapperView articleWrapper) throws ModelException;
     
     public abstract void handleCartManager(CartManagerView cartManager) throws ModelException;
     

@@ -87,7 +87,7 @@ public class ProductGroup extends model.Item implements PersistentProductGroup{
     }
     
     static public long getTypeId() {
-        return 130;
+        return 102;
     }
     
     public long getClassId() {
@@ -96,7 +96,7 @@ public class ProductGroup extends model.Item implements PersistentProductGroup{
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 130) ConnectionHandler.getTheConnectionHandler().theProductGroupFacade
+        if (this.getClassId() == 102) ConnectionHandler.getTheConnectionHandler().theProductGroupFacade
             .newProductGroup(description,this.getId());
         super.store();
         this.getItemList().store();

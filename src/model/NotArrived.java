@@ -29,7 +29,7 @@ public class NotArrived extends model.UserException{
     }
     
     static public long getTypeId() {
-        return -301;
+        return -263;
     }
     
     public long getClassId() {

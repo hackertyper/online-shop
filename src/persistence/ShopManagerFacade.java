@@ -49,7 +49,7 @@ public class ShopManagerFacade{
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         
     }
-    public void itemRangeSet(long ShopManagerId, PersistentShopManagerItemRange itemRangeVal) throws PersistenceException {
+    public void basicProductGroupSet(long ShopManagerId, PersistentShopManagerBasicProductGroup basicProductGroupVal) throws PersistenceException {
         
     }
     public void subServiceSet(long ShopManagerId, SubjInterface subServiceVal) throws PersistenceException {

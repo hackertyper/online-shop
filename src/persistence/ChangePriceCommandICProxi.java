@@ -22,6 +22,12 @@ public class ChangePriceCommandICProxi extends PersistentInCacheProxi implements
         return 127;
     }
     
+    public PersistentArticle getArticle() throws PersistenceException {
+        return ((PersistentChangePriceCommand)this.getTheObject()).getArticle();
+    }
+    public void setArticle(PersistentArticle newValue) throws PersistenceException {
+        ((PersistentChangePriceCommand)this.getTheObject()).setArticle(newValue);
+    }
     public long getNewPrice() throws PersistenceException {
         return ((PersistentChangePriceCommand)this.getTheObject()).getNewPrice();
     }
@@ -34,10 +40,10 @@ public class ChangePriceCommandICProxi extends PersistentInCacheProxi implements
     public void setInvoker(Invoker newValue) throws PersistenceException {
         ((PersistentChangePriceCommand)this.getTheObject()).setInvoker(newValue);
     }
-    public PersistentArticle getCommandReceiver() throws PersistenceException {
+    public PersistentShopkeeper getCommandReceiver() throws PersistenceException {
         return ((PersistentChangePriceCommand)this.getTheObject()).getCommandReceiver();
     }
-    public void setCommandReceiver(PersistentArticle newValue) throws PersistenceException {
+    public void setCommandReceiver(PersistentShopkeeper newValue) throws PersistenceException {
         ((PersistentChangePriceCommand)this.getTheObject()).setCommandReceiver(newValue);
     }
     public PersistentCommonDate getMyCommonDate() throws PersistenceException {
@@ -95,16 +101,16 @@ public class ChangePriceCommandICProxi extends PersistentInCacheProxi implements
     public <R, E extends model.UserException> R accept(CommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleChangePriceCommand(this);
     }
-    public void accept(ArticleCommandVisitor visitor) throws PersistenceException {
+    public void accept(ShopkeeperCommandVisitor visitor) throws PersistenceException {
         visitor.handleChangePriceCommand(this);
     }
-    public <R> R accept(ArticleCommandReturnVisitor<R>  visitor) throws PersistenceException {
+    public <R> R accept(ShopkeeperCommandReturnVisitor<R>  visitor) throws PersistenceException {
          return visitor.handleChangePriceCommand(this);
     }
-    public <E extends model.UserException>  void accept(ArticleCommandExceptionVisitor<E> visitor) throws PersistenceException, E {
+    public <E extends model.UserException>  void accept(ShopkeeperCommandExceptionVisitor<E> visitor) throws PersistenceException, E {
          visitor.handleChangePriceCommand(this);
     }
-    public <R, E extends model.UserException> R accept(ArticleCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
+    public <R, E extends model.UserException> R accept(ShopkeeperCommandReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
          return visitor.handleChangePriceCommand(this);
     }
     

@@ -13,7 +13,8 @@ public class ManufacturerProxi extends ViewProxi implements ManufacturerView{
     
     public ManufacturerView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
         String name = (String)resultTable.get("name");
-        ManufacturerView result$$ = new Manufacturer((String)name, this.getId(), this.getClassId());
+        long manuDelivery = new Long((String)resultTable.get("manuDelivery")).longValue();
+        ManufacturerView result$$ = new Manufacturer((String)name,(long)manuDelivery, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -41,6 +42,12 @@ public class ManufacturerProxi extends ViewProxi implements ManufacturerView{
     }
     public void setName(String newValue) throws ModelException {
         ((Manufacturer)this.getTheObject()).setName(newValue);
+    }
+    public long getManuDelivery()throws ModelException{
+        return ((Manufacturer)this.getTheObject()).getManuDelivery();
+    }
+    public void setManuDelivery(long newValue) throws ModelException {
+        ((Manufacturer)this.getTheObject()).setManuDelivery(newValue);
     }
     
     public void accept(AnythingVisitor visitor) throws ModelException {

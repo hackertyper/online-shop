@@ -29,6 +29,8 @@ public interface RemovedFSale4Public extends Anything, ArticleState, AbstractPer
 				throws PersistenceException;
     public void initializeOnInstantiation() 
 				throws PersistenceException;
+    public void startSellingAgain() 
+				throws PersistenceException;
 
 }
 

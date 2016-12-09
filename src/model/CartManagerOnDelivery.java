@@ -60,7 +60,7 @@ public class CartManagerOnDelivery extends PersistentObject implements Persisten
     }
     
     static public long getTypeId() {
-        return 286;
+        return 258;
     }
     
     public long getClassId() {
@@ -69,7 +69,7 @@ public class CartManagerOnDelivery extends PersistentObject implements Persisten
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 286) ConnectionHandler.getTheConnectionHandler().theCartManagerOnDeliveryFacade
+        if (this.getClassId() == 258) ConnectionHandler.getTheConnectionHandler().theCartManagerOnDeliveryFacade
             .newCartManagerOnDelivery(this.getId());
         super.store();
         if(this.getObserver() != null){

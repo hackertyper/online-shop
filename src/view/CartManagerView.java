@@ -10,6 +10,12 @@ public interface CartManagerView extends Anything, AbstractViewRoot {
     public void setMyCart(CartView newValue) throws ModelException ;
     public java.util.Vector<QuantifiedArticlesView> getArticleList()throws ModelException;
     public void setArticleList(java.util.Vector<QuantifiedArticlesView> newValue) throws ModelException ;
+    public StandardDeliveryView getStandardDelivery()throws ModelException;
+    public void setStandardDelivery(StandardDeliveryView newValue) throws ModelException ;
+    public OverNightDeliveryView getOnDelivery()throws ModelException;
+    public void setOnDelivery(OverNightDeliveryView newValue) throws ModelException ;
+    public PreOrderView getPreOrder()throws ModelException;
+    public void setPreOrder(PreOrderView newValue) throws ModelException ;
     public CustomerManagerView getCustomerManager()throws ModelException;
     public CartServiceView getMyCartServer()throws ModelException;
     

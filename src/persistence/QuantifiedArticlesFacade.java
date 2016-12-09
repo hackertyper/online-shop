@@ -28,14 +28,14 @@ public class QuantifiedArticlesFacade{
     public PersistentQuantifiedArticles newQuantifiedArticles(long amount,long idCreateIfLessZero) throws PersistenceException {
         if(idCreateIfLessZero > 0) return (PersistentQuantifiedArticles)PersistentProxi.createProxi(idCreateIfLessZero, 124);
         long id = ConnectionHandler.getTheConnectionHandler().theQuantifiedArticlesFacade.getNextId();
-        QuantifiedArticles result = new QuantifiedArticles(null,amount,null,null,id);
+        QuantifiedArticles result = new QuantifiedArticles(null,null,amount,null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentQuantifiedArticles)PersistentProxi.createProxi(id, 124);
     }
     
     public PersistentQuantifiedArticles newDelayedQuantifiedArticles(long amount) throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theQuantifiedArticlesFacade.getNextId();
-        QuantifiedArticles result = new QuantifiedArticles(null,amount,null,null,id);
+        QuantifiedArticles result = new QuantifiedArticles(null,null,amount,null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentQuantifiedArticles)PersistentProxi.createProxi(id, 124);
     }
@@ -49,7 +49,10 @@ public class QuantifiedArticlesFacade{
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         
     }
-    public void articleSet(long QuantifiedArticlesId, PersistentArticle articleVal) throws PersistenceException {
+    public void articleSet(long QuantifiedArticlesId, PersistentQuantifiedArticlesArticle articleVal) throws PersistenceException {
+        
+    }
+    public void myOrderSet(long QuantifiedArticlesId, PersistentCustomerOrder myOrderVal) throws PersistenceException {
         
     }
     public void amountSet(long QuantifiedArticlesId, long amountVal) throws PersistenceException {

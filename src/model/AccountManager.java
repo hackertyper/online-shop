@@ -114,7 +114,7 @@ public class AccountManager extends PersistentObject implements PersistentAccoun
     }
     
     static public long getTypeId() {
-        return 235;
+        return 188;
     }
     
     public long getClassId() {
@@ -123,7 +123,7 @@ public class AccountManager extends PersistentObject implements PersistentAccoun
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 235) ConnectionHandler.getTheConnectionHandler().theAccountManagerFacade
+        if (this.getClassId() == 188) ConnectionHandler.getTheConnectionHandler().theAccountManagerFacade
             .newAccountManager(this.getId());
         super.store();
         if(this.getMyAccount() != null){

@@ -11,13 +11,13 @@ public interface Item4Public extends Anything, SubjInterface, AbstractPersistent
     public <E extends model.UserException>  void accept(ItemExceptionVisitor<E> visitor) throws PersistenceException, E;
     public <R, E extends model.UserException> R accept(ItemReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E;
     
-    public void changeDescription(final String newDescription, final Invoker invoker) 
-				throws PersistenceException;
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
     public void changeDescription(final String newDescription) 
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
+				throws PersistenceException;
+    public long cumulateArticleCount() 
 				throws PersistenceException;
     public void initializeOnCreation() 
 				throws PersistenceException;

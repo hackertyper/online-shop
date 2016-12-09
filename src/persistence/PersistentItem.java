@@ -10,6 +10,8 @@ public interface PersistentItem extends Anything, SubjInterface, AbstractPersist
     public abstract PersistentItem getThis() throws PersistenceException ;
     
     
+    public PersistentProductGroup getParent() 
+				throws PersistenceException;
 
 }
 

@@ -8,16 +8,18 @@ public interface ArticleView extends ItemView {
     public void setManufacturer(ManufacturerView newValue) throws ModelException ;
     public ArticleState getState()throws ModelException;
     public void setState(ArticleState newValue) throws ModelException ;
+    public ArticleWrapperView getMyWrapper()throws ModelException;
+    public void setMyWrapper(ArticleWrapperView newValue) throws ModelException ;
     public long getPrice()throws ModelException;
     public void setPrice(long newValue) throws ModelException ;
     public long getMinStock()throws ModelException;
     public void setMinStock(long newValue) throws ModelException ;
     public long getMaxStock()throws ModelException;
     public void setMaxStock(long newValue) throws ModelException ;
-    public long getManuDelivery()throws ModelException;
-    public void setManuDelivery(long newValue) throws ModelException ;
     public long getStock()throws ModelException;
     public void setStock(long newValue) throws ModelException ;
+    public long getReserved()throws ModelException;
+    public void setReserved(long newValue) throws ModelException ;
     
     public void accept(ItemVisitor visitor) throws ModelException;
     public <R> R accept(ItemReturnVisitor<R>  visitor) throws ModelException;

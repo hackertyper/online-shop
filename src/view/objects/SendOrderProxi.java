@@ -12,7 +12,8 @@ public class SendOrderProxi extends ViewProxi implements SendOrderView{
     }
     
     public SendOrderView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
-        SendOrderView result$$ = new SendOrder( this.getId(), this.getClassId());
+        java.util.Date arrivalDate = (java.util.Date)resultTable.get("arrivalDate");
+        SendOrderView result$$ = new SendOrder((java.util.Date)arrivalDate, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -35,6 +36,12 @@ public class SendOrderProxi extends ViewProxi implements SendOrderView{
         return -1;
     }
     
+    public java.util.Date getArrivalDate()throws ModelException{
+        return ((SendOrder)this.getTheObject()).getArrivalDate();
+    }
+    public void setArrivalDate(java.util.Date newValue) throws ModelException {
+        ((SendOrder)this.getTheObject()).setArrivalDate(newValue);
+    }
     
     public void accept(AnythingVisitor visitor) throws ModelException {
         visitor.handleSendOrder(this);

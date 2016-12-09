@@ -58,6 +58,15 @@ public class OrderManagerFacade{
     public CustomerOrderList ordersGet(long OrderManagerId) throws PersistenceException {
         return new CustomerOrderList(); // remote access for initialization only!
     }
+    public long preOrdersAdd(long OrderManagerId, PersistentPreOrder preOrdersVal) throws PersistenceException {
+        return 0;
+    }
+    public void preOrdersRem(long preOrdersId) throws PersistenceException {
+        
+    }
+    public PreOrderList preOrdersGet(long OrderManagerId) throws PersistenceException {
+        return new PreOrderList(); // remote access for initialization only!
+    }
     public void retourePriceSet(long OrderManagerId, long retourePriceVal) throws PersistenceException {
         
     }

@@ -5,14 +5,11 @@ import persistence.*;
 
 public abstract class ArticleCommandStandardVisitor implements ArticleCommandVisitor {
     
-    public void handleChangeProductGroupCommand(PersistentChangeProductGroupCommand changeProductGroupCommand) throws PersistenceException{
-        this.standardHandling(changeProductGroupCommand);
+    public void handleChangeMinStockCommand(PersistentChangeMinStockCommand changeMinStockCommand) throws PersistenceException{
+        this.standardHandling(changeMinStockCommand);
     }
-    public void handleChangePriceCommand(PersistentChangePriceCommand changePriceCommand) throws PersistenceException{
-        this.standardHandling(changePriceCommand);
-    }
-    public void handleChangeManuDeliveryCommand(PersistentChangeManuDeliveryCommand changeManuDeliveryCommand) throws PersistenceException{
-        this.standardHandling(changeManuDeliveryCommand);
+    public void handleChangeMaxStockCommand(PersistentChangeMaxStockCommand changeMaxStockCommand) throws PersistenceException{
+        this.standardHandling(changeMaxStockCommand);
     }
     protected abstract void standardHandling(ArticleCommand articleCommand) throws PersistenceException;
 }

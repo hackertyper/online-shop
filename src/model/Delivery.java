@@ -50,7 +50,7 @@ public abstract class Delivery extends PersistentObject implements PersistentDel
     }
     
     static public long getTypeId() {
-        return 157;
+        return 136;
     }
     
     public long getClassId() {

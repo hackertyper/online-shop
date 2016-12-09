@@ -29,11 +29,23 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     public void handleArticle(PersistentArticle article) throws PersistenceException{
         this.standardHandling(article);
     }
+    public void handlePreOrder(PersistentPreOrder preOrder) throws PersistenceException{
+        this.standardHandling(preOrder);
+    }
     public void handleCustomerOrder(PersistentCustomerOrder customerOrder) throws PersistenceException{
         this.standardHandling(customerOrder);
     }
+    public void handleOverNightDelivery(PersistentOverNightDelivery overNightDelivery) throws PersistenceException{
+        this.standardHandling(overNightDelivery);
+    }
+    public void handleStandardDelivery(PersistentStandardDelivery standardDelivery) throws PersistenceException{
+        this.standardHandling(standardDelivery);
+    }
     public void handleArrivedOrder(PersistentArrivedOrder arrivedOrder) throws PersistenceException{
         this.standardHandling(arrivedOrder);
+    }
+    public void handleCustomerPresets(PersistentCustomerPresets customerPresets) throws PersistenceException{
+        this.standardHandling(customerPresets);
     }
     public void handleRegisterService(PersistentRegisterService registerService) throws PersistenceException{
         this.standardHandling(registerService);
@@ -71,6 +83,9 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     public void handleSubj(PersistentSubj subj) throws PersistenceException{
         this.standardHandling(subj);
     }
+    public void handleTestDelivery(PersistentTestDelivery testDelivery) throws PersistenceException{
+        this.standardHandling(testDelivery);
+    }
     public void handleRemovedFSale(PersistentRemovedFSale removedFSale) throws PersistenceException{
         this.standardHandling(removedFSale);
     }
@@ -92,11 +107,14 @@ public abstract class SubjInterfaceStandardVisitor implements SubjInterfaceVisit
     public void handleAccountService(PersistentAccountService accountService) throws PersistenceException{
         this.standardHandling(accountService);
     }
-    public void handleCheckedOut(PersistentCheckedOut checkedOut) throws PersistenceException{
-        this.standardHandling(checkedOut);
-    }
     public void handleOrderManager(PersistentOrderManager orderManager) throws PersistenceException{
         this.standardHandling(orderManager);
+    }
+    public void handleArticleWrapper(PersistentArticleWrapper articleWrapper) throws PersistenceException{
+        this.standardHandling(articleWrapper);
+    }
+    public void handleCheckedOut(PersistentCheckedOut checkedOut) throws PersistenceException{
+        this.standardHandling(checkedOut);
     }
     public void handleCartManager(PersistentCartManager cartManager) throws PersistenceException{
         this.standardHandling(cartManager);

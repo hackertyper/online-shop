@@ -102,6 +102,10 @@ public class RemovedFSaleProxi extends PersistentProxi implements PersistentRemo
 				throws PersistenceException{
         ((PersistentRemovedFSale)this.getTheObject()).initializeOnInstantiation();
     }
+    public void startSellingAgain() 
+				throws PersistenceException{
+        ((PersistentRemovedFSale)this.getTheObject()).startSellingAgain();
+    }
 
     
 }

@@ -12,14 +12,7 @@ public class NewlyAddedProxi extends ViewProxi implements NewlyAddedView{
     }
     
     public NewlyAddedView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
-        ViewProxi myArticle = null;
-        String myArticle$String = (String)resultTable.get("myArticle");
-        if (myArticle$String != null) {
-            common.ProxiInformation myArticle$Info = common.RPCConstantsAndServices.createProxiInformation(myArticle$String);
-            myArticle = view.objects.ViewProxi.createProxi(myArticle$Info,connectionKey);
-            myArticle.setToString(myArticle$Info.getToString());
-        }
-        NewlyAddedView result$$ = new NewlyAdded((ArticleView)myArticle, this.getId(), this.getClassId());
+        NewlyAddedView result$$ = new NewlyAdded( this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -42,9 +35,6 @@ public class NewlyAddedProxi extends ViewProxi implements NewlyAddedView{
         return -1;
     }
     
-    public ArticleView getMyArticle()throws ModelException{
-        return ((NewlyAdded)this.getTheObject()).getMyArticle();
-    }
     
     public void accept(AnythingVisitor visitor) throws ModelException {
         visitor.handleNewlyAdded(this);

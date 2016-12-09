@@ -87,7 +87,7 @@ public class ErrorDisplay extends PersistentObject implements PersistentErrorDis
     }
     
     static public long getTypeId() {
-        return -106;
+        return -108;
     }
     
     public long getClassId() {
@@ -96,7 +96,7 @@ public class ErrorDisplay extends PersistentObject implements PersistentErrorDis
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == -106) ConnectionHandler.getTheConnectionHandler().theErrorDisplayFacade
+        if (this.getClassId() == -108) ConnectionHandler.getTheConnectionHandler().theErrorDisplayFacade
             .newErrorDisplay(this.getId());
         super.store();
         

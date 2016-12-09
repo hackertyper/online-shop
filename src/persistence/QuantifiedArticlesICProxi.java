@@ -22,11 +22,14 @@ public class QuantifiedArticlesICProxi extends PersistentInCacheProxiOptimistic 
         return 124;
     }
     
-    public PersistentArticle getArticle() throws PersistenceException {
-        return ((PersistentQuantifiedArticles)this.getTheObject()).getArticle();
-    }
-    public void setArticle(PersistentArticle newValue) throws PersistenceException {
+    public void setArticle(PersistentQuantifiedArticlesArticle newValue) throws PersistenceException {
         ((PersistentQuantifiedArticles)this.getTheObject()).setArticle(newValue);
+    }
+    public PersistentCustomerOrder getMyOrder() throws PersistenceException {
+        return ((PersistentQuantifiedArticles)this.getTheObject()).getMyOrder();
+    }
+    public void setMyOrder(PersistentCustomerOrder newValue) throws PersistenceException {
+        ((PersistentQuantifiedArticles)this.getTheObject()).setMyOrder(newValue);
     }
     public long getAmount() throws PersistenceException {
         return ((PersistentQuantifiedArticles)this.getTheObject()).getAmount();
@@ -74,6 +77,14 @@ public class QuantifiedArticlesICProxi extends PersistentInCacheProxiOptimistic 
 				throws PersistenceException{
         ((PersistentQuantifiedArticles)this.getTheObject()).deregister(observee);
     }
+    public void fireArticleChanged(final model.meta.ArticleMssgs evnt) 
+				throws PersistenceException{
+        ((PersistentQuantifiedArticles)this.getTheObject()).fireArticleChanged(evnt);
+    }
+    public PersistentArticle getArticle() 
+				throws PersistenceException{
+        return ((PersistentQuantifiedArticles)this.getTheObject()).getArticle();
+    }
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException{
         ((PersistentQuantifiedArticles)this.getTheObject()).initialize(This, final$$Fields);
@@ -82,9 +93,17 @@ public class QuantifiedArticlesICProxi extends PersistentInCacheProxiOptimistic 
 				throws PersistenceException{
         ((PersistentQuantifiedArticles)this.getTheObject()).register(observee);
     }
+    public void setArticle(final PersistentArticle article) 
+				throws PersistenceException{
+        ((PersistentQuantifiedArticles)this.getTheObject()).setArticle(article);
+    }
     public void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentQuantifiedArticles)this.getTheObject()).updateObservers(event);
+    }
+    public void article_update(final model.meta.ArticleMssgs event) 
+				throws PersistenceException{
+        ((PersistentQuantifiedArticles)this.getTheObject()).article_update(event);
     }
     public void changeAmount(final long newAmount) 
 				throws PersistenceException{
@@ -102,6 +121,10 @@ public class QuantifiedArticlesICProxi extends PersistentInCacheProxiOptimistic 
 				throws PersistenceException{
         return ((PersistentQuantifiedArticles)this.getTheObject()).fetchPrice();
     }
+    public void fireArticleChangedImplementation(final model.meta.ArticleMssgs evnt) 
+				throws PersistenceException{
+        ((PersistentQuantifiedArticles)this.getTheObject()).fireArticleChangedImplementation(evnt);
+    }
     public void initializeOnCreation() 
 				throws PersistenceException{
         ((PersistentQuantifiedArticles)this.getTheObject()).initializeOnCreation();
@@ -117,6 +140,10 @@ public class QuantifiedArticlesICProxi extends PersistentInCacheProxiOptimistic 
     public void reserve() 
 				throws model.InsufficientStock, PersistenceException{
         ((PersistentQuantifiedArticles)this.getTheObject()).reserve();
+    }
+    public void retoure(final long amount) 
+				throws model.NotArrived, PersistenceException{
+        ((PersistentQuantifiedArticles)this.getTheObject()).retoure(amount);
     }
 
     

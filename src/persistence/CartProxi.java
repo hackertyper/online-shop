@@ -99,7 +99,7 @@ public class CartProxi extends PersistentProxi implements PersistentCart{
         ((PersistentCart)this.getTheObject()).checkOutReverse();
     }
     public void checkOut() 
-				throws model.InsufficientStock, PersistenceException{
+				throws PersistenceException{
         ((PersistentCart)this.getTheObject()).checkOut();
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
@@ -118,9 +118,9 @@ public class CartProxi extends PersistentProxi implements PersistentCart{
 				throws PersistenceException{
         ((PersistentCart)this.getTheObject()).initializeOnInstantiation();
     }
-    public void order() 
+    public void order(final PersistentCustomerDelivery deliveryMethod) 
 				throws model.FirstCheckOut, model.InsufficientFunds, PersistenceException{
-        ((PersistentCart)this.getTheObject()).order();
+        ((PersistentCart)this.getTheObject()).order(deliveryMethod);
     }
     public void removeArticle(final PersistentQuantifiedArticles article) 
 				throws PersistenceException{

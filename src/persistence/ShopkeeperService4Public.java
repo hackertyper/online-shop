@@ -33,23 +33,45 @@ public interface ShopkeeperService4Public extends Service4Public {
 				throws PersistenceException;
     public void changeDescription(final PersistentItem item, final String newDescription) 
 				throws PersistenceException;
-    public void changeManufacturerDelivery(final long newManuDelivery) 
+    public void changeExtraCharge(final PersistentCustomerDelivery cd, final long newCharge) 
 				throws PersistenceException;
+    public void changeManufacturerDelivery(final PersistentArticle article, final long newManuDelivery) 
+				throws PersistenceException;
+    public void changeMaxStock(final PersistentArticle article, final long maxStock) 
+				throws model.InvalidStockNumber, PersistenceException;
+    public void changeMinStock(final PersistentArticle article, final long minStock) 
+				throws model.InvalidStockNumber, PersistenceException;
     public void changePrice(final PersistentArticle article, final long newPrice) 
 				throws PersistenceException;
     public void changeProductGroup(final PersistentArticle article, final PersistentProductGroup newPG) 
 				throws PersistenceException;
+    public void changeRetourePercentage(final long newPercentage) 
+				throws PersistenceException;
+    public void changeTime(final PersistentCustomerDelivery cd, final long newTime) 
+				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
+				throws PersistenceException;
+    public long countArticles(final PersistentProductGroup pg) 
+				throws PersistenceException;
+    public void createArticle(final PersistentProductGroup parent, final String description, final String manufacturer, final long price, final long maxStock, final long minStock, final long manuDelivery) 
+				throws model.InvalidStockNumber, PersistenceException;
+    public void createProductGroup(final PersistentProductGroup parent, final String description) 
 				throws PersistenceException;
     public void initializeOnCreation() 
 				throws PersistenceException;
     public void initializeOnInstantiation() 
 				throws PersistenceException;
+    public void orderNew(final PersistentNewlyAdded article, final long amount) 
+				throws PersistenceException;
     public void presetBalance(final long amount) 
 				throws PersistenceException;
     public void presetLowerLimit(final long amount) 
 				throws PersistenceException;
+    public void startSellingAgain(final PersistentRemovedFSale article) 
+				throws PersistenceException;
     public void startSelling(final PersistentNewlyAdded article) 
+				throws PersistenceException;
+    public void stopSelling(final PersistentOfferedFSale article) 
 				throws PersistenceException;
 
 }

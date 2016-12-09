@@ -18,6 +18,12 @@ public class SendOrderProxi extends PersistentProxi implements PersistentSendOrd
         return 126;
     }
     
+    public java.sql.Timestamp getArrivalDate() throws PersistenceException {
+        return ((PersistentSendOrder)this.getTheObject()).getArrivalDate();
+    }
+    public void setArrivalDate(java.sql.Timestamp newValue) throws PersistenceException {
+        ((PersistentSendOrder)this.getTheObject()).setArrivalDate(newValue);
+    }
     public SubjInterface getSubService() throws PersistenceException {
         return ((PersistentSendOrder)this.getTheObject()).getSubService();
     }
@@ -81,10 +87,6 @@ public class SendOrderProxi extends PersistentProxi implements PersistentSendOrd
     public void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         ((PersistentSendOrder)this.getTheObject()).updateObservers(event);
-    }
-    public void arrived() 
-				throws PersistenceException{
-        ((PersistentSendOrder)this.getTheObject()).arrived();
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{

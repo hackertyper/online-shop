@@ -24,18 +24,6 @@ public class ShopkeeperServiceProxi extends ServiceProxi implements PersistentSh
     public void setManager(PersistentShopkeeper newValue) throws PersistenceException {
         ((PersistentShopkeeperService)this.getTheObject()).setManager(newValue);
     }
-    public long getLowerLimitPreset() throws PersistenceException {
-        return ((PersistentShopkeeperService)this.getTheObject()).getLowerLimitPreset();
-    }
-    public void setLowerLimitPreset(long newValue) throws PersistenceException {
-        ((PersistentShopkeeperService)this.getTheObject()).setLowerLimitPreset(newValue);
-    }
-    public long getBalancePreset() throws PersistenceException {
-        return ((PersistentShopkeeperService)this.getTheObject()).getBalancePreset();
-    }
-    public void setBalancePreset(long newValue) throws PersistenceException {
-        ((PersistentShopkeeperService)this.getTheObject()).setBalancePreset(newValue);
-    }
     public PersistentShopkeeperService getThis() throws PersistenceException {
         return ((PersistentShopkeeperService)this.getTheObject()).getThis();
     }
@@ -130,9 +118,21 @@ public class ShopkeeperServiceProxi extends ServiceProxi implements PersistentSh
 				throws PersistenceException{
         ((PersistentShopkeeperService)this.getTheObject()).changeDescription(item, newDescription);
     }
-    public void changeManufacturerDelivery(final long newManuDelivery) 
+    public void changeExtraCharge(final PersistentCustomerDelivery cd, final long newCharge) 
 				throws PersistenceException{
-        ((PersistentShopkeeperService)this.getTheObject()).changeManufacturerDelivery(newManuDelivery);
+        ((PersistentShopkeeperService)this.getTheObject()).changeExtraCharge(cd, newCharge);
+    }
+    public void changeManufacturerDelivery(final PersistentArticle article, final long newManuDelivery) 
+				throws PersistenceException{
+        ((PersistentShopkeeperService)this.getTheObject()).changeManufacturerDelivery(article, newManuDelivery);
+    }
+    public void changeMaxStock(final PersistentArticle article, final long maxStock) 
+				throws model.InvalidStockNumber, PersistenceException{
+        ((PersistentShopkeeperService)this.getTheObject()).changeMaxStock(article, maxStock);
+    }
+    public void changeMinStock(final PersistentArticle article, final long minStock) 
+				throws model.InvalidStockNumber, PersistenceException{
+        ((PersistentShopkeeperService)this.getTheObject()).changeMinStock(article, minStock);
     }
     public void changePrice(final PersistentArticle article, final long newPrice) 
 				throws PersistenceException{
@@ -142,6 +142,14 @@ public class ShopkeeperServiceProxi extends ServiceProxi implements PersistentSh
 				throws PersistenceException{
         ((PersistentShopkeeperService)this.getTheObject()).changeProductGroup(article, newPG);
     }
+    public void changeRetourePercentage(final long newPercentage) 
+				throws PersistenceException{
+        ((PersistentShopkeeperService)this.getTheObject()).changeRetourePercentage(newPercentage);
+    }
+    public void changeTime(final PersistentCustomerDelivery cd, final long newTime) 
+				throws PersistenceException{
+        ((PersistentShopkeeperService)this.getTheObject()).changeTime(cd, newTime);
+    }
     public void connected(final String user) 
 				throws PersistenceException{
         ((PersistentShopkeeperService)this.getTheObject()).connected(user);
@@ -149,6 +157,18 @@ public class ShopkeeperServiceProxi extends ServiceProxi implements PersistentSh
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentShopkeeperService)this.getTheObject()).copyingPrivateUserAttributes(copy);
+    }
+    public long countArticles(final PersistentProductGroup pg) 
+				throws PersistenceException{
+        return ((PersistentShopkeeperService)this.getTheObject()).countArticles(pg);
+    }
+    public void createArticle(final PersistentProductGroup parent, final String description, final String manufacturer, final long price, final long maxStock, final long minStock, final long manuDelivery) 
+				throws model.InvalidStockNumber, PersistenceException{
+        ((PersistentShopkeeperService)this.getTheObject()).createArticle(parent, description, manufacturer, price, maxStock, minStock, manuDelivery);
+    }
+    public void createProductGroup(final PersistentProductGroup parent, final String description) 
+				throws PersistenceException{
+        ((PersistentShopkeeperService)this.getTheObject()).createProductGroup(parent, description);
     }
     public void disconnected() 
 				throws PersistenceException{
@@ -174,6 +194,10 @@ public class ShopkeeperServiceProxi extends ServiceProxi implements PersistentSh
 				throws PersistenceException{
         ((PersistentShopkeeperService)this.getTheObject()).initializeOnInstantiation();
     }
+    public void orderNew(final PersistentNewlyAdded article, final long amount) 
+				throws PersistenceException{
+        ((PersistentShopkeeperService)this.getTheObject()).orderNew(article, amount);
+    }
     public void presetBalance(final long amount) 
 				throws PersistenceException{
         ((PersistentShopkeeperService)this.getTheObject()).presetBalance(amount);
@@ -182,9 +206,17 @@ public class ShopkeeperServiceProxi extends ServiceProxi implements PersistentSh
 				throws PersistenceException{
         ((PersistentShopkeeperService)this.getTheObject()).presetLowerLimit(amount);
     }
+    public void startSellingAgain(final PersistentRemovedFSale article) 
+				throws PersistenceException{
+        ((PersistentShopkeeperService)this.getTheObject()).startSellingAgain(article);
+    }
     public void startSelling(final PersistentNewlyAdded article) 
 				throws PersistenceException{
         ((PersistentShopkeeperService)this.getTheObject()).startSelling(article);
+    }
+    public void stopSelling(final PersistentOfferedFSale article) 
+				throws PersistenceException{
+        ((PersistentShopkeeperService)this.getTheObject()).stopSelling(article);
     }
 
     

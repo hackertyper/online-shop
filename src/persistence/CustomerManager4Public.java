@@ -23,6 +23,8 @@ public interface CustomerManager4Public extends Anything, SubjInterface, Abstrac
 				throws PersistenceException;
     public void addOrder(final PersistentCustomerOrder order) 
 				throws PersistenceException;
+    public void addPreOrder(final PersistentPreOrder preOrder) 
+				throws PersistenceException;
     public void addToCart(final PersistentArticle article, final long amount) 
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
@@ -36,6 +38,8 @@ public interface CustomerManager4Public extends Anything, SubjInterface, Abstrac
     public void pay(final long sum) 
 				throws model.InsufficientFunds, PersistenceException;
     public void returnPayment(final long sum) 
+				throws PersistenceException;
+    public void signalChanged() 
 				throws PersistenceException;
     public void withdraw(final long amount) 
 				throws model.InsufficientFunds, PersistenceException;
