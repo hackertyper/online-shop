@@ -73,7 +73,7 @@ public class TestShopkeeperDataManipulation {
 	 */
 	@Test
 	public void testArticleStates() throws PersistenceException, InvalidStockNumber, InterruptedException {
-		PersistentArticle article = Article.createArticle("", Manufacturer.createManufacturer(""), 0, 0, 0, 0);
+		PersistentArticle article = Article.createArticle("", Manufacturer.createManufacturer("",0), 0, 0, 0);
 		basicPg.addItem(article);
 
 		assertEquals(NewlyAdded.createNewlyAdded().getClass(), article.getState().getClass());
@@ -127,7 +127,7 @@ public class TestShopkeeperDataManipulation {
 	 */
 	@Test
 	public void testChangeMaxStock() throws PersistenceException, InvalidStockNumber {
-		PersistentArticle a = Article.createArticle("", Manufacturer.createManufacturer(""), 0, 10, 10, 10);
+		PersistentArticle a = Article.createArticle("", Manufacturer.createManufacturer("",10), 0, 10, 10);
 		basicPg.addItem(a);
 		sks.changeMaxStock(a, 15);
 		assertEquals(15, a.getMaxStock());
@@ -142,7 +142,7 @@ public class TestShopkeeperDataManipulation {
 	 */
 	@Test
 	public void testChangeMinStock() throws PersistenceException, InvalidStockNumber {
-		PersistentArticle a = Article.createArticle("", Manufacturer.createManufacturer(""), 0, 10, 10, 10);
+		PersistentArticle a = Article.createArticle("", Manufacturer.createManufacturer("",10), 0, 10, 10);
 		basicPg.addItem(a);
 		sks.changeMinStock(a, 5);
 		assertEquals(5, a.getMinStock());
@@ -157,7 +157,7 @@ public class TestShopkeeperDataManipulation {
 	 */
 	@Test(expected = InvalidStockNumber.class)
 	public void testChangeMaxStockInvalid() throws PersistenceException, InvalidStockNumber {
-		PersistentArticle a = Article.createArticle("", Manufacturer.createManufacturer(""), 0, 10, 10, 10);
+		PersistentArticle a = Article.createArticle("", Manufacturer.createManufacturer("", 10), 0, 10, 10);
 		basicPg.addItem(a);
 		sks.changeMaxStock(a, 5);
 	}
@@ -171,7 +171,7 @@ public class TestShopkeeperDataManipulation {
 	 */
 	@Test(expected = InvalidStockNumber.class)
 	public void testChangeMinStockInvalid() throws PersistenceException, InvalidStockNumber {
-		PersistentArticle a = Article.createArticle("", Manufacturer.createManufacturer(""), 0, 10, 10, 10);
+		PersistentArticle a = Article.createArticle("", Manufacturer.createManufacturer("", 10), 0, 10, 10);
 		basicPg.addItem(a);
 		sks.changeMinStock(a, 15);
 	}
@@ -212,7 +212,7 @@ public class TestShopkeeperDataManipulation {
 	@Test
 	public void testChangeProductGroup() throws InvalidStockNumber, PersistenceException {
 		// Artikel erstellen und einbinden
-		PersistentArticle a = Article.createArticle("", Manufacturer.createManufacturer(""), 0, 10, 10, 10);
+		PersistentArticle a = Article.createArticle("", Manufacturer.createManufacturer("", 10), 0, 10, 10);
 		basicPg.addItem(a);
 		// Produktgruppe erstellen und Artikel verschieben
 		PersistentProductGroup subGroup = ProductGroup.createProductGroup("Subgroup");

@@ -9,7 +9,6 @@ import model.Article;
 import model.InsufficientStock;
 import model.InvalidStockNumber;
 import model.Manufacturer;
-import model.ReserveNegative;
 import model.ShopkeeperService;
 import persistence.PersistenceException;
 import persistence.PersistentArticle;
@@ -38,8 +37,7 @@ public class TestTriggeredShopkeeperActions {
 		sks = ShopkeeperService.createShopkeeperService();
 		sk = sks.getManager();
 		basicPg = sk.getBasicProductGroup();
-		articleInTest = Article.createArticle("Bleistift", Manufacturer.createManufacturer("Pelikan"), 100, 10, 100,
-				1000);
+		articleInTest = Article.createArticle("Bleistift", Manufacturer.createManufacturer("Pelikan", 1000), 100, 10, 100);
 	}
 
 	/**
@@ -92,17 +90,17 @@ public class TestTriggeredShopkeeperActions {
 	 * @throws PersistenceException
 	 * @throws InsufficientStock
 	 */
-	@Test
-	public void testPackInOfferedFSaleWithoutFullStock() throws PersistenceException, InsufficientStock {
-		articleInTest.receiveDelivery(50);
-		((NewlyAddedProxi) articleInTest.getState()).startSelling();
-		try {
-			articleInTest.pack(60);
-		} catch (InsufficientStock e) {
-		}
-		assertEquals(50, articleInTest.getStock());
-		assertEquals(60, articleInTest.getReserved());
-	}
+//	@Test
+//	public void testPackInOfferedFSaleWithoutFullStock() throws PersistenceException, InsufficientStock {
+//		articleInTest.receiveDelivery(50);
+//		((NewlyAddedProxi) articleInTest.getState()).startSelling();
+//		try {
+//			articleInTest.pack(60);
+//		} catch (InsufficientStock e) {
+//		}
+//		assertEquals(50, articleInTest.getStock());
+//		assertEquals(60, articleInTest.getReserved());
+//	}
 
 	/**
 	 * Packen eines Artikels im RemovedFromSale-State ohne ausreichenden
@@ -116,17 +114,5 @@ public class TestTriggeredShopkeeperActions {
 		((NewlyAddedProxi) articleInTest.getState()).startSelling();
 		((OfferedFSaleProxi) articleInTest.getState()).stopSelling();
 		articleInTest.pack(60);
-	}
-
-	/**
-	 * Test der übermäßigen Verringerung des reservierten Lagerbestandes. Eine ReserveNegative-Exception wird erwartet.
-	 * @throws PersistenceException
-	 * @throws InsufficientStock
-	 * @throws ReserveNegative
-	 */
-	@Test(expected = ReserveNegative.class)
-	public void testDeleteReservedOnError() throws PersistenceException, InsufficientStock, ReserveNegative {
-		articleInTest.reserve(20);
-		articleInTest.deleteReserve(30);
 	}
 }

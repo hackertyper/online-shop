@@ -39,13 +39,13 @@ public class TestCart {
 		TestSupport.prepareSingletons();
 		TestSupport.prepareDatabase();
 		cm = CartManager.createCartManager();
-		m1 = Manufacturer.createManufacturer("M1");
-		a1 = Article.createArticle("A1", m1, 100, 10, 150, 0);
+		m1 = Manufacturer.createManufacturer("M1", 1000);
+		a1 = Article.createArticle("A1", m1, 100, 10, 150);
 		a1.setStock(100);
 		cm.addArticle(a1, 10);
-		a2 = Article.createArticle("A2", m1, 20, 5, 60, 0);
+		a2 = Article.createArticle("A2", m1, 20, 5, 60);
 		a2.setStock(34);
-		a3 = Article.createArticle("A3", m1, 18, 20, 100, 0);
+		a3 = Article.createArticle("A3", m1, 18, 20, 100);
 		a3.setStock(40);
 	}
 
@@ -167,7 +167,7 @@ public class TestCart {
 	@Test
 	public void testOrderException() throws PersistenceException {
 		try {
-			cm.order();
+			cm.order(null);
 		} catch (FirstCheckOut | InsufficientFunds e) {
 			assertEquals(serverConstants.ErrorMessages.FirstCheckOut, e.getMessage());
 		}
