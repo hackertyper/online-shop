@@ -6,8 +6,8 @@ import view.visitor.*;
 
 public interface ShopManagerView extends Anything, AbstractViewRoot {
     
-    public ProductGroupView getBasicProductGroup()throws ModelException;
-    public void setBasicProductGroup(ProductGroupView newValue) throws ModelException ;
+    public java.util.Vector<ArticleView> getArticleRange()throws ModelException;
+    public void setArticleRange(java.util.Vector<ArticleView> newValue) throws ModelException ;
     public CustomerManagerView getCustomerManager()throws ModelException;
     public ShopServiceView getMyShopServer()throws ModelException;
     

@@ -14,9 +14,6 @@ public abstract class ObsInterfaceStandardVisitor implements ObsInterfaceVisitor
     public void handlePreOrderArticleList(PersistentPreOrderArticleList preOrderArticleList) throws PersistenceException{
         this.standardHandling(preOrderArticleList);
     }
-    public void handleShopManagerBasicProductGroup(PersistentShopManagerBasicProductGroup shopManagerBasicProductGroup) throws PersistenceException{
-        this.standardHandling(shopManagerBasicProductGroup);
-    }
     public void handleCartManagerOnDelivery(PersistentCartManagerOnDelivery cartManagerOnDelivery) throws PersistenceException{
         this.standardHandling(cartManagerOnDelivery);
     }

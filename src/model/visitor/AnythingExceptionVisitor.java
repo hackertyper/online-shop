@@ -55,7 +55,6 @@ public interface AnythingExceptionVisitor<E extends model.UserException> extends
     public void handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException, E;
     public void handleServer(PersistentServer server) throws PersistenceException, E;
     public void handleShopManager(PersistentShopManager shopManager) throws PersistenceException, E;
-    public void handleShopManagerBasicProductGroup(PersistentShopManagerBasicProductGroup shopManagerBasicProductGroup) throws PersistenceException, E;
     public void handleShopkeeper(PersistentShopkeeper shopkeeper) throws PersistenceException, E;
     public void handleShopkeeperBasicProductGroup(PersistentShopkeeperBasicProductGroup shopkeeperBasicProductGroup) throws PersistenceException, E;
     public void handleStartSellingCommand(PersistentStartSellingCommand startSellingCommand) throws PersistenceException, E;

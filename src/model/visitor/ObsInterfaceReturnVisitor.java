@@ -11,7 +11,6 @@ public interface ObsInterfaceReturnVisitor<R> {
     public R handleCustomerOrderArticleList(PersistentCustomerOrderArticleList customerOrderArticleList) throws PersistenceException;
     public R handlePreOrderArticleList(PersistentPreOrderArticleList preOrderArticleList) throws PersistenceException;
     public R handleQuantifiedArticlesArticle(PersistentQuantifiedArticlesArticle quantifiedArticlesArticle) throws PersistenceException;
-    public R handleShopManagerBasicProductGroup(PersistentShopManagerBasicProductGroup shopManagerBasicProductGroup) throws PersistenceException;
     public R handleShopkeeperBasicProductGroup(PersistentShopkeeperBasicProductGroup shopkeeperBasicProductGroup) throws PersistenceException;
     
 }

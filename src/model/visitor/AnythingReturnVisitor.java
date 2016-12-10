@@ -55,7 +55,6 @@ public interface AnythingReturnVisitor<R> extends CartStateReturnVisitor<R> ,Com
     public R handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException;
     public R handleServer(PersistentServer server) throws PersistenceException;
     public R handleShopManager(PersistentShopManager shopManager) throws PersistenceException;
-    public R handleShopManagerBasicProductGroup(PersistentShopManagerBasicProductGroup shopManagerBasicProductGroup) throws PersistenceException;
     public R handleShopkeeper(PersistentShopkeeper shopkeeper) throws PersistenceException;
     public R handleShopkeeperBasicProductGroup(PersistentShopkeeperBasicProductGroup shopkeeperBasicProductGroup) throws PersistenceException;
     public R handleStartSellingCommand(PersistentStartSellingCommand startSellingCommand) throws PersistenceException;

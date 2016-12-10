@@ -197,9 +197,6 @@ public abstract class AnythingStandardVisitor implements AnythingVisitor {
     public void handleChangeMinStockCommand(PersistentChangeMinStockCommand changeMinStockCommand) throws PersistenceException{
         this.standardHandling(changeMinStockCommand);
     }
-    public void handleShopManagerBasicProductGroup(PersistentShopManagerBasicProductGroup shopManagerBasicProductGroup) throws PersistenceException{
-        this.standardHandling(shopManagerBasicProductGroup);
-    }
     public void handleSubj(PersistentSubj subj) throws PersistenceException{
         this.standardHandling(subj);
     }

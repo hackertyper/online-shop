@@ -340,11 +340,6 @@ public abstract class PersistentProxi extends PersistentRoot implements Persiste
                 return new ChangeMinStockCommandListEntryProxi(objectId, entryId);
             }
         };
-        listProxiFactories[107] = new ListProxiFactory(){
-            AbstractPersistentRoot create(long objectId, long entryId){
-                return new ShopManagerBasicProductGroupListEntryProxi(objectId, entryId);
-            }
-        };
         listProxiFactories[108] = new ListProxiFactory(){
             AbstractPersistentRoot create(long objectId, long entryId){
                 return new SubjListEntryProxi(objectId, entryId);
@@ -714,11 +709,6 @@ public abstract class PersistentProxi extends PersistentRoot implements Persiste
         proxiFactories[106] = new ProxiFactory(){
             AbstractPersistentRoot create(long objectId){
                 return new ChangeMinStockCommandProxi(objectId);
-            }
-        };
-        proxiFactories[107] = new ProxiFactory(){
-            AbstractPersistentRoot create(long objectId){
-                return new ShopManagerBasicProductGroupProxi(objectId);
             }
         };
         proxiFactories[108] = new ProxiFactory(){

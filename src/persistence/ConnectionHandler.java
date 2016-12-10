@@ -128,7 +128,6 @@ public class ConnectionHandler {
     public ChangePriceCommandFacade theChangePriceCommandFacade;
     public RetoureDeliveryCommandFacade theRetoureDeliveryCommandFacade;
     public ChangeMinStockCommandFacade theChangeMinStockCommandFacade;
-    public ShopManagerBasicProductGroupFacade theShopManagerBasicProductGroupFacade;
     public ServiceFacade theServiceFacade;
     public SubjFacade theSubjFacade;
     public CancelCommandFacade theCancelCommandFacade;
@@ -211,7 +210,6 @@ public class ConnectionHandler {
             this.theChangePriceCommandFacade= new ChangePriceCommandFacade();
             this.theRetoureDeliveryCommandFacade= new RetoureDeliveryCommandFacade();
             this.theChangeMinStockCommandFacade= new ChangeMinStockCommandFacade();
-            this.theShopManagerBasicProductGroupFacade= new ShopManagerBasicProductGroupFacade();
             this.theServiceFacade= new ServiceFacade();
             this.theSubjFacade= new SubjFacade();
             this.theCancelCommandFacade= new CancelCommandFacade();

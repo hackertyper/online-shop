@@ -5,8 +5,8 @@ import persistence.*;
 
 public abstract class Server$AuthoriseVisitor extends AnythingStandardVisitor{
     
-    public abstract void handleProductGroup(PersistentProductGroup productGroup) throws PersistenceException;
     public abstract void handleAccount(PersistentAccount account) throws PersistenceException;
+    public abstract void handleProductGroup(PersistentProductGroup productGroup) throws PersistenceException;
     public abstract void handleCustomerService(PersistentCustomerService customerService) throws PersistenceException;
     public abstract void handleServer(PersistentServer server) throws PersistenceException;
     public abstract void handleShopkeeper(PersistentShopkeeper shopkeeper) throws PersistenceException;

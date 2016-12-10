@@ -11,14 +11,10 @@ public class ShopManagerProxi extends ViewProxi implements ShopManagerView{
         super(objectId, classId, connectionKey);
     }
     
+    @SuppressWarnings("unchecked")
     public ShopManagerView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
-        ViewProxi basicProductGroup = null;
-        String basicProductGroup$String = (String)resultTable.get("basicProductGroup");
-        if (basicProductGroup$String != null) {
-            common.ProxiInformation basicProductGroup$Info = common.RPCConstantsAndServices.createProxiInformation(basicProductGroup$String);
-            basicProductGroup = view.objects.ViewProxi.createProxi(basicProductGroup$Info,connectionKey);
-            basicProductGroup.setToString(basicProductGroup$Info.getToString());
-        }
+        java.util.Vector<String> articleRange_string = (java.util.Vector<String>)resultTable.get("articleRange");
+        java.util.Vector<ArticleView> articleRange = ViewProxi.getProxiVector(articleRange_string, connectionKey);
         ViewProxi customerManager = null;
         String customerManager$String = (String)resultTable.get("customerManager");
         if (customerManager$String != null) {
@@ -33,7 +29,7 @@ public class ShopManagerProxi extends ViewProxi implements ShopManagerView{
             myShopServer = view.objects.ViewProxi.createProxi(myShopServer$Info,connectionKey);
             myShopServer.setToString(myShopServer$Info.getToString());
         }
-        ShopManagerView result$$ = new ShopManager((ProductGroupView)basicProductGroup,(CustomerManagerView)customerManager,(ShopServiceView)myShopServer, this.getId(), this.getClassId());
+        ShopManagerView result$$ = new ShopManager(articleRange,(CustomerManagerView)customerManager,(ShopServiceView)myShopServer, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -43,31 +39,34 @@ public class ShopManagerProxi extends ViewProxi implements ShopManagerView{
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
         int index = originalIndex;
-        if(index == 0 && this.getBasicProductGroup() != null) return new BasicProductGroupShopManagerWrapper(this, originalIndex, (ViewRoot)this.getBasicProductGroup());
-        if(this.getBasicProductGroup() != null) index = index - 1;
+        if(index < this.getArticleRange().size()) return new ArticleRangeShopManagerWrapper(this, originalIndex, (ViewRoot)this.getArticleRange().get(index));
+        index = index - this.getArticleRange().size();
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getBasicProductGroup() == null ? 0 : 1);
+            + (this.getArticleRange().size());
     }
     public boolean isLeaf() throws ModelException {
         if (this.object == null) return this.getLeafInfo() == 0;
         return true 
-            && (this.getBasicProductGroup() == null ? true : false);
+            && (this.getArticleRange().size() == 0);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
-        if(this.getBasicProductGroup() != null && this.getBasicProductGroup().equals(child)) return result;
-        if(this.getBasicProductGroup() != null) result = result + 1;
+        java.util.Iterator<?> getArticleRangeIterator = this.getArticleRange().iterator();
+        while(getArticleRangeIterator.hasNext()){
+            if(getArticleRangeIterator.next().equals(child)) return result;
+            result = result + 1;
+        }
         return -1;
     }
     
-    public ProductGroupView getBasicProductGroup()throws ModelException{
-        return ((ShopManager)this.getTheObject()).getBasicProductGroup();
+    public java.util.Vector<ArticleView> getArticleRange()throws ModelException{
+        return ((ShopManager)this.getTheObject()).getArticleRange();
     }
-    public void setBasicProductGroup(ProductGroupView newValue) throws ModelException {
-        ((ShopManager)this.getTheObject()).setBasicProductGroup(newValue);
+    public void setArticleRange(java.util.Vector<ArticleView> newValue) throws ModelException {
+        ((ShopManager)this.getTheObject()).setArticleRange(newValue);
     }
     public CustomerManagerView getCustomerManager()throws ModelException{
         return ((ShopManager)this.getTheObject()).getCustomerManager();

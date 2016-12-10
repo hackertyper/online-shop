@@ -55,7 +55,6 @@ public interface AnythingVisitor extends CartStateVisitor,CommonDateVisitor,Cust
     public void handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException;
     public void handleServer(PersistentServer server) throws PersistenceException;
     public void handleShopManager(PersistentShopManager shopManager) throws PersistenceException;
-    public void handleShopManagerBasicProductGroup(PersistentShopManagerBasicProductGroup shopManagerBasicProductGroup) throws PersistenceException;
     public void handleShopkeeper(PersistentShopkeeper shopkeeper) throws PersistenceException;
     public void handleShopkeeperBasicProductGroup(PersistentShopkeeperBasicProductGroup shopkeeperBasicProductGroup) throws PersistenceException;
     public void handleStartSellingCommand(PersistentStartSellingCommand startSellingCommand) throws PersistenceException;

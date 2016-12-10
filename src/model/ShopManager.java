@@ -61,15 +61,7 @@ public class ShopManager extends PersistentObject implements PersistentShopManag
     java.util.HashMap<String,Object> result = null;
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
-            AbstractPersistentRoot basicProductGroup = (AbstractPersistentRoot)this.getBasicProductGroup();
-            if (basicProductGroup != null) {
-                result.put("basicProductGroup", basicProductGroup.createProxiInformation(false, essentialLevel <= 1));
-                if(depth > 1) {
-                    basicProductGroup.toHashtable(allResults, depth - 1, essentialLevel, forGUI, true , tdObserver);
-                }else{
-                    if(forGUI && basicProductGroup.hasEssentialFields())basicProductGroup.toHashtable(allResults, depth, essentialLevel + 1, false, true, tdObserver);
-                }
-            }
+            result.put("articleRange", this.getArticleRange().getVector(allResults, depth, essentialLevel, forGUI, tdObserver, false, true));
             AbstractPersistentRoot customerManager = (AbstractPersistentRoot)this.getCustomerManager();
             if (customerManager != null) {
                 result.put("customerManager", customerManager.createProxiInformation(false, essentialLevel <= 1));
@@ -96,10 +88,10 @@ public class ShopManager extends PersistentObject implements PersistentShopManag
     
     public ShopManager provideCopy() throws PersistenceException{
         ShopManager result = this;
-        result = new ShopManager(this.basicProductGroup, 
-                                 this.subService, 
+        result = new ShopManager(this.subService, 
                                  this.This, 
                                  this.getId());
+        result.articleRange = this.articleRange.copy(result);
         this.copyingPrivateUserAttributes(result);
         return result;
     }
@@ -107,14 +99,14 @@ public class ShopManager extends PersistentObject implements PersistentShopManag
     public boolean hasEssentialFields() throws PersistenceException{
         return false;
     }
-    protected PersistentShopManagerBasicProductGroup basicProductGroup;
+    protected ShopManager_ArticleRangeProxi articleRange;
     protected SubjInterface subService;
     protected PersistentShopManager This;
     
-    public ShopManager(PersistentShopManagerBasicProductGroup basicProductGroup,SubjInterface subService,PersistentShopManager This,long id) throws PersistenceException {
+    public ShopManager(SubjInterface subService,PersistentShopManager This,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
-        this.basicProductGroup = basicProductGroup;
+        this.articleRange = new ShopManager_ArticleRangeProxi(this);
         this.subService = subService;
         if (This != null && !(this.isTheSameAs(This))) this.This = This;        
     }
@@ -132,10 +124,7 @@ public class ShopManager extends PersistentObject implements PersistentShopManag
         if (this.getClassId() == 168) ConnectionHandler.getTheConnectionHandler().theShopManagerFacade
             .newShopManager(this.getId());
         super.store();
-        if(this.basicProductGroup != null){
-            this.basicProductGroup.store();
-            ConnectionHandler.getTheConnectionHandler().theShopManagerFacade.basicProductGroupSet(this.getId(), basicProductGroup);
-        }
+        this.getArticleRange().store();
         if(this.getSubService() != null){
             this.getSubService().store();
             ConnectionHandler.getTheConnectionHandler().theShopManagerFacade.subServiceSet(this.getId(), getSubService());
@@ -147,16 +136,8 @@ public class ShopManager extends PersistentObject implements PersistentShopManag
         
     }
     
-    public void setBasicProductGroup(PersistentShopManagerBasicProductGroup newValue) throws PersistenceException {
-        if (newValue == null) throw new PersistenceException("Null values not allowed!", 0);
-        if(newValue.isTheSameAs(this.basicProductGroup)) return;
-        long objectId = newValue.getId();
-        long classId = newValue.getClassId();
-        this.basicProductGroup = (PersistentShopManagerBasicProductGroup)PersistentProxi.createProxi(objectId, classId);
-        if(!this.isDelayed$Persistence()){
-            newValue.store();
-            ConnectionHandler.getTheConnectionHandler().theShopManagerFacade.basicProductGroupSet(this.getId(), newValue);
-        }
+    public ShopManager_ArticleRangeProxi getArticleRange() throws PersistenceException {
+        return this.articleRange;
     }
     public SubjInterface getSubService() throws PersistenceException {
         return this.subService;
@@ -220,7 +201,7 @@ public class ShopManager extends PersistentObject implements PersistentShopManag
          return visitor.handleShopManager(this);
     }
     public int getLeafInfo() throws PersistenceException{
-        if (this.getBasicProductGroup() != null) return 1;
+        if (this.getArticleRange().getLength() > 0) return 1;
         return 0;
     }
     
@@ -248,11 +229,6 @@ public class ShopManager extends PersistentObject implements PersistentShopManag
 		command.setInvoker(invoker);
 		command.setCommandReceiver(getThis());
 		model.meta.CommandCoordinator.getTheCommandCoordinator().coordinate(command);
-    }
-    public PersistentProductGroup getBasicProductGroup() 
-				throws PersistenceException{
-        if (this.basicProductGroup== null) return null;
-		return this.basicProductGroup.getObservee();
     }
     public PersistentCustomerManager getCustomerManager() 
 				throws PersistenceException{
@@ -291,14 +267,6 @@ public class ShopManager extends PersistentObject implements PersistentShopManag
 		}
 		subService.register(observee);
     }
-    public void setBasicProductGroup(final PersistentProductGroup basicProductGroup) 
-				throws PersistenceException{
-        if (this.basicProductGroup == null) {
-			this.setBasicProductGroup(model.ShopManagerBasicProductGroup.createShopManagerBasicProductGroup(this.isDelayed$Persistence()));
-			this.basicProductGroup.setObserver(getThis());
-		}
-		this.basicProductGroup.setObservee(basicProductGroup);
-    }
     public synchronized void updateObservers(final model.meta.Mssgs event) 
 				throws PersistenceException{
         SubjInterface subService = getThis().getSubService();
@@ -316,51 +284,19 @@ public class ShopManager extends PersistentObject implements PersistentShopManag
 				throws PersistenceException{
         getThis().getCustomerManager().addToCart(article, amount);
     }
-    public void basicProductGroup_update(final model.meta.ProductGroupMssgs event) 
-				throws PersistenceException{
-    	getThis().getBasicProductGroup().getItemList().filter(new Predcate<PersistentItem>() {
-			@Override
-			public boolean test(PersistentItem argument) throws PersistenceException {
-				return argument.accept(new ItemReturnVisitor<Boolean>() {
-					@Override
-					public Boolean handleBasicProductGroup(PersistentBasicProductGroup basicProductGroup)
-							throws PersistenceException {
-						return true;
-					}
-					@Override
-					public Boolean handleArticle(PersistentArticle article) throws PersistenceException {
-						return article.getState().accept(new ArticleStateReturnVisitor<Boolean>() {
-							@Override
-							public Boolean handleNewlyAdded(PersistentNewlyAdded newlyAdded)
-									throws PersistenceException {
-								return false;
-							}
-							@Override
-							public Boolean handleOfferedFSale(PersistentOfferedFSale offeredFSale)
-									throws PersistenceException {
-								return true;
-							}
-							@Override
-							public Boolean handleRemovedFSale(PersistentRemovedFSale removedFSale)
-									throws PersistenceException {
-								return true;
-							}
-						});
-					}
-					@Override
-					public Boolean handleProductGroup(PersistentProductGroup productGroup) throws PersistenceException {
-						return true;
-					}
-				});
-			}
-		});
-        getThis().getCustomerManager().signalChanged();
-    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }
     public void findArticle(final String description) 
 				throws PersistenceException{
+    	while(getThis().getArticleRange().getLength()>0) {
+    	getThis().getArticleRange().removeFirstSuccess(new Predcate<PersistentArticle>() {
+			@Override
+			public boolean test(PersistentArticle argument) throws PersistenceException {
+				return true;
+			}
+		});
+    	}
 		ItemSearchList result = Item.getItemByDescription(description);
 	    result.applyToAll(new Procdure<PersistentItem>() {
 			@Override
@@ -373,14 +309,16 @@ public class ShopManager extends PersistentObject implements PersistentShopManag
 						article.getState().accept(new ArticleStateVisitor() {
 							@Override
 							public void handleRemovedFSale(PersistentRemovedFSale removedFSale) throws PersistenceException {
-								getThis().getBasicProductGroup().getItemList().add(article);
+								getThis().getArticleRange().add(removedFSale.getMyArticle());
 							}
 							@Override
 							public void handleOfferedFSale(PersistentOfferedFSale offeredFSale) throws PersistenceException {
-								getThis().getBasicProductGroup().getItemList().add(article);
+								getThis().getArticleRange().add(offeredFSale.getMyArticle());
 							}
 							@Override
-							public void handleNewlyAdded(PersistentNewlyAdded newlyAdded) throws PersistenceException {}
+							public void handleNewlyAdded(PersistentNewlyAdded newlyAdded) throws PersistenceException {
+								
+							}
 						});
 					}
 					@Override
@@ -389,10 +327,16 @@ public class ShopManager extends PersistentObject implements PersistentShopManag
 				});
 			}
 		});
+//	    getThis().getBasicProductGroup().getItemList().applyToAll(new Procdure<PersistentItem>() {	
+//			@Override
+//			public void doItTo(PersistentItem argument) throws PersistenceException {
+//				getThis().getBasicProductGroup().getItemList().removeFirst(argument);
+//			}
+//		});
 	}
     public void initializeOnCreation() 
 				throws PersistenceException{
-    	getThis().setBasicProductGroup(BasicProductGroup.getTheBasicProductGroup());
+//    	getThis().setBasicProductGroup(BasicProductGroup.getTheBasicProductGroup());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{

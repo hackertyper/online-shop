@@ -86,7 +86,7 @@ class CustomerManager {
 	void addPreOrder(PreOrder preOrder);
 }
 class ShopManager {
-	observe ProductGroup basicProductGroup;
+	Article ** articleRange;
 	event void addToCart(Article article, Integer amount);
 	active void findArticle(String description);
 }
@@ -175,14 +175,15 @@ abstract class Item {
 	abstract Integer cumulateArticleCount();
 }
 class ProductGroup extends Item {
-	one-to-one (server-only parent) Item ** itemList;
+	one-to-one (server-only parentItem) Item ** itemList;
 	event void addItem(Item item);
 }
+singleton BasicProductGroup extends ProductGroup {}
 class Article extends Item{
 	//Attributes
 	prior Manufacturer manufacturer;
 	one-to-one (server-only myArticle) ArticleState state;
-	skip-view one-to-one (no-view myArticle) ArticleWrapper myWrapper; 
+	skip-view one-to-one (no-view myArticle) ArticleWrapper myWrapper;
 	prior Integer price;
 	prior Integer minStock;
 	prior Integer maxStock;
@@ -217,12 +218,10 @@ class NewlyAdded implements ArticleState{
 }
 class OfferedFSale implements ArticleState {
 	void addToCart(Integer amount, Cart cart);
-	void refillStock();
 	void stopSelling();
 	void reorder(Integer amount, Integer manuDelivery);
 }
 class RemovedFSale implements ArticleState {
-	void addToCart(Integer amount, Cart cart) throws InsufficientStock;
 	void startSellingAgain();
 }
 class QuantifiedArticles {

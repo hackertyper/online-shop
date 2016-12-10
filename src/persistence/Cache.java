@@ -338,7 +338,6 @@ public class Cache {
 		this.number2NameMap.put(-102, "Server");
 		this.number2NameMap.put(175, "ShopKeeperOrder");
 		this.number2NameMap.put(168, "ShopManager");
-		this.number2NameMap.put(208, "ShopManagerBasicProductGroup");
 		this.number2NameMap.put(-163, "ShopService");
 		this.number2NameMap.put(192, "Shopkeeper");
 		this.number2NameMap.put(200, "ShopkeeperBasicProductGroup");

@@ -28,14 +28,14 @@ public class ShopManagerFacade{
     public PersistentShopManager newShopManager(long idCreateIfLessZero) throws PersistenceException {
         if(idCreateIfLessZero > 0) return (PersistentShopManager)PersistentProxi.createProxi(idCreateIfLessZero, 168);
         long id = ConnectionHandler.getTheConnectionHandler().theShopManagerFacade.getNextId();
-        ShopManager result = new ShopManager(null,null,null,id);
+        ShopManager result = new ShopManager(null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentShopManager)PersistentProxi.createProxi(id, 168);
     }
     
     public PersistentShopManager newDelayedShopManager() throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theShopManagerFacade.getNextId();
-        ShopManager result = new ShopManager(null,null,null,id);
+        ShopManager result = new ShopManager(null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentShopManager)PersistentProxi.createProxi(id, 168);
     }
@@ -49,8 +49,14 @@ public class ShopManagerFacade{
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         
     }
-    public void basicProductGroupSet(long ShopManagerId, PersistentShopManagerBasicProductGroup basicProductGroupVal) throws PersistenceException {
+    public long articleRangeAdd(long ShopManagerId, PersistentArticle articleRangeVal) throws PersistenceException {
+        return 0;
+    }
+    public void articleRangeRem(long articleRangeId) throws PersistenceException {
         
+    }
+    public ArticleList articleRangeGet(long ShopManagerId) throws PersistenceException {
+        return new ArticleList(); // remote access for initialization only!
     }
     public void subServiceSet(long ShopManagerId, SubjInterface subServiceVal) throws PersistenceException {
         

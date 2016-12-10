@@ -55,7 +55,6 @@ public interface AnythingReturnExceptionVisitor<R, E extends model.UserException
     public R handleSendOrder(PersistentSendOrder sendOrder) throws PersistenceException, E;
     public R handleServer(PersistentServer server) throws PersistenceException, E;
     public R handleShopManager(PersistentShopManager shopManager) throws PersistenceException, E;
-    public R handleShopManagerBasicProductGroup(PersistentShopManagerBasicProductGroup shopManagerBasicProductGroup) throws PersistenceException, E;
     public R handleShopkeeper(PersistentShopkeeper shopkeeper) throws PersistenceException, E;
     public R handleShopkeeperBasicProductGroup(PersistentShopkeeperBasicProductGroup shopkeeperBasicProductGroup) throws PersistenceException, E;
     public R handleStartSellingCommand(PersistentStartSellingCommand startSellingCommand) throws PersistenceException, E;

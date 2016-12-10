@@ -70,8 +70,6 @@ public abstract class AnythingDirectVisitor implements AnythingVisitor {
     
     public abstract void handlePreOrderArticleList(PersistentPreOrderArticleList preOrderArticleList) throws PersistenceException;
     
-    public abstract void handleShopManagerBasicProductGroup(PersistentShopManagerBasicProductGroup shopManagerBasicProductGroup) throws PersistenceException;
-    
     public abstract void handleService(PersistentService service) throws PersistenceException;
     
     public void handleRegisterService(PersistentRegisterService registerService) throws PersistenceException{

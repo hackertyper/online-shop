@@ -9,14 +9,14 @@ import view.visitor.*;
 
 public class ShopManager extends ViewObject implements ShopManagerView{
     
-    protected ProductGroupView basicProductGroup;
+    protected java.util.Vector<ArticleView> articleRange;
     protected CustomerManagerView customerManager;
     protected ShopServiceView myShopServer;
     
-    public ShopManager(ProductGroupView basicProductGroup,CustomerManagerView customerManager,ShopServiceView myShopServer,long id, long classId) {
+    public ShopManager(java.util.Vector<ArticleView> articleRange,CustomerManagerView customerManager,ShopServiceView myShopServer,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
-        this.basicProductGroup = basicProductGroup;
+        this.articleRange = articleRange;
         this.customerManager = customerManager;
         this.myShopServer = myShopServer;        
     }
@@ -29,11 +29,11 @@ public class ShopManager extends ViewObject implements ShopManagerView{
         return getTypeId();
     }
     
-    public ProductGroupView getBasicProductGroup()throws ModelException{
-        return this.basicProductGroup;
+    public java.util.Vector<ArticleView> getArticleRange()throws ModelException{
+        return this.articleRange;
     }
-    public void setBasicProductGroup(ProductGroupView newValue) throws ModelException {
-        this.basicProductGroup = newValue;
+    public void setArticleRange(java.util.Vector<ArticleView> newValue) throws ModelException {
+        this.articleRange = newValue;
     }
     public CustomerManagerView getCustomerManager()throws ModelException{
         return this.customerManager;
@@ -56,9 +56,9 @@ public class ShopManager extends ViewObject implements ShopManagerView{
     }
     
     public void resolveProxies(java.util.HashMap<String,Object> resultTable) throws ModelException {
-        ProductGroupView basicProductGroup = this.getBasicProductGroup();
-        if (basicProductGroup != null) {
-            ((ViewProxi)basicProductGroup).setObject((ViewObject)resultTable.get(common.RPCConstantsAndServices.createHashtableKey(basicProductGroup.getClassId(), basicProductGroup.getId())));
+        java.util.Vector<?> articleRange = this.getArticleRange();
+        if (articleRange != null) {
+            ViewObject.resolveVectorProxies(articleRange, resultTable);
         }
         CustomerManagerView customerManager = this.getCustomerManager();
         if (customerManager != null) {
@@ -75,22 +75,25 @@ public class ShopManager extends ViewObject implements ShopManagerView{
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
         int index = originalIndex;
-        if(index == 0 && this.getBasicProductGroup() != null) return new BasicProductGroupShopManagerWrapper(this, originalIndex, (ViewRoot)this.getBasicProductGroup());
-        if(this.getBasicProductGroup() != null) index = index - 1;
+        if(index < this.getArticleRange().size()) return new ArticleRangeShopManagerWrapper(this, originalIndex, (ViewRoot)this.getArticleRange().get(index));
+        index = index - this.getArticleRange().size();
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getBasicProductGroup() == null ? 0 : 1);
+            + (this.getArticleRange().size());
     }
     public boolean isLeaf() throws ModelException {
         return true 
-            && (this.getBasicProductGroup() == null ? true : false);
+            && (this.getArticleRange().size() == 0);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
-        if(this.getBasicProductGroup() != null && this.getBasicProductGroup().equals(child)) return result;
-        if(this.getBasicProductGroup() != null) result = result + 1;
+        java.util.Iterator<?> getArticleRangeIterator = this.getArticleRange().iterator();
+        while(getArticleRangeIterator.hasNext()){
+            if(getArticleRangeIterator.next().equals(child)) return result;
+            result = result + 1;
+        }
         return -1;
     }
     public int getRowCount(){
