@@ -92,7 +92,7 @@ public class CustomerPresets extends PersistentObject implements PersistentCusto
     }
     
     static public long getTypeId() {
-        return 271;
+        return 157;
     }
     
     public long getClassId() {
@@ -101,7 +101,7 @@ public class CustomerPresets extends PersistentObject implements PersistentCusto
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 271) ConnectionHandler.getTheConnectionHandler().theCustomerPresetsFacade
+        if (this.getClassId() == 157) ConnectionHandler.getTheConnectionHandler().theCustomerPresetsFacade
             .newCustomerPresets(lowerLimit,retourePercentage,this.getId());
         super.store();
         if(this.getSubService() != null){

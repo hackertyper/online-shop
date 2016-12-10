@@ -18,7 +18,7 @@ public class CustomerManager extends ViewObject implements CustomerManagerView{
     }
     
     static public long getTypeId() {
-        return 184;
+        return 162;
     }
     
     public long getClassId() {

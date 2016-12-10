@@ -19,7 +19,7 @@ public class AccountICProxi extends PersistentInCacheProxiOptimistic implements 
     }
     
     public long getClassId() {
-        return 199;
+        return 148;
     }
     
     public long getLowerLimit() throws PersistenceException {

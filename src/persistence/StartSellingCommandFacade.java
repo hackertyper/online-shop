@@ -26,25 +26,25 @@ public class StartSellingCommandFacade{
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
     public PersistentStartSellingCommand newStartSellingCommand(long idCreateIfLessZero) throws PersistenceException {
-        if(idCreateIfLessZero > 0) return (PersistentStartSellingCommand)PersistentProxi.createProxi(idCreateIfLessZero, 128);
+        if(idCreateIfLessZero > 0) return (PersistentStartSellingCommand)PersistentProxi.createProxi(idCreateIfLessZero, 174);
         long id = ConnectionHandler.getTheConnectionHandler().theStartSellingCommandFacade.getNextId();
         StartSellingCommand result = new StartSellingCommand(null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentStartSellingCommand)PersistentProxi.createProxi(id, 128);
+        return (PersistentStartSellingCommand)PersistentProxi.createProxi(id, 174);
     }
     
     public PersistentStartSellingCommand newDelayedStartSellingCommand() throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theStartSellingCommandFacade.getNextId();
         StartSellingCommand result = new StartSellingCommand(null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentStartSellingCommand)PersistentProxi.createProxi(id, 128);
+        return (PersistentStartSellingCommand)PersistentProxi.createProxi(id, 174);
     }
     
     public StartSellingCommand getStartSellingCommand(long StartSellingCommandId) throws PersistenceException{
         return null; //All data is in the cache!
     }
     public long getClass(long objectId) throws PersistenceException{
-        if(Cache.getTheCache().contains(objectId, 128)) return 128;
+        if(Cache.getTheCache().contains(objectId, 174)) return 174;
         
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         

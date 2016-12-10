@@ -139,7 +139,7 @@ public class PreOrder extends PersistentObject implements PersistentPreOrder{
     }
     
     static public long getTypeId() {
-        return 240;
+        return 195;
     }
     
     public long getClassId() {
@@ -148,7 +148,7 @@ public class PreOrder extends PersistentObject implements PersistentPreOrder{
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 240) ConnectionHandler.getTheConnectionHandler().thePreOrderFacade
+        if (this.getClassId() == 195) ConnectionHandler.getTheConnectionHandler().thePreOrderFacade
             .newPreOrder(sum,this.getId());
         super.store();
         if(this.getCartManager() != null){

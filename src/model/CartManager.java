@@ -157,7 +157,7 @@ public class CartManager extends PersistentObject implements PersistentCartManag
     }
     
     static public long getTypeId() {
-        return 190;
+        return 216;
     }
     
     public long getClassId() {
@@ -166,7 +166,7 @@ public class CartManager extends PersistentObject implements PersistentCartManag
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 190) ConnectionHandler.getTheConnectionHandler().theCartManagerFacade
+        if (this.getClassId() == 216) ConnectionHandler.getTheConnectionHandler().theCartManagerFacade
             .newCartManager(this.getId());
         super.store();
         if(this.getMyCart() != null){

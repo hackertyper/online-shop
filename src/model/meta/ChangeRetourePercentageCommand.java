@@ -53,7 +53,7 @@ public class ChangeRetourePercentageCommand extends PersistentObject implements 
     }
     
     static public long getTypeId() {
-        return 262;
+        return 190;
     }
     
     public long getClassId() {
@@ -62,7 +62,7 @@ public class ChangeRetourePercentageCommand extends PersistentObject implements 
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 262) ConnectionHandler.getTheConnectionHandler().theChangeRetourePercentageCommandFacade
+        if (this.getClassId() == 190) ConnectionHandler.getTheConnectionHandler().theChangeRetourePercentageCommandFacade
             .newChangeRetourePercentageCommand(newPercentage,this.getId());
         super.store();
         if(this.getInvoker() != null){

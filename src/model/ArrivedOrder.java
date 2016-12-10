@@ -89,7 +89,7 @@ public class ArrivedOrder extends PersistentObject implements PersistentArrivedO
     }
     
     static public long getTypeId() {
-        return 112;
+        return 155;
     }
     
     public long getClassId() {
@@ -98,7 +98,7 @@ public class ArrivedOrder extends PersistentObject implements PersistentArrivedO
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 112) ConnectionHandler.getTheConnectionHandler().theArrivedOrderFacade
+        if (this.getClassId() == 155) ConnectionHandler.getTheConnectionHandler().theArrivedOrderFacade
             .newArrivedOrder(timeToAccept,this.getId());
         super.store();
         if(this.getSubService() != null){

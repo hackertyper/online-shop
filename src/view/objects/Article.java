@@ -32,7 +32,7 @@ public class Article extends view.objects.Item implements ArticleView{
     }
     
     static public long getTypeId() {
-        return 109;
+        return 193;
     }
     
     public long getClassId() {

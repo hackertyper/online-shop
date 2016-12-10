@@ -93,7 +93,7 @@ public class ShopService extends model.CustomerService implements PersistentShop
     }
     
     static public long getTypeId() {
-        return -185;
+        return -163;
     }
     
     public long getClassId() {
@@ -102,7 +102,7 @@ public class ShopService extends model.CustomerService implements PersistentShop
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == -185) ConnectionHandler.getTheConnectionHandler().theShopServiceFacade
+        if (this.getClassId() == -163) ConnectionHandler.getTheConnectionHandler().theShopServiceFacade
             .newShopService(this.getId());
         super.store();
         if(this.getShopMngr() != null){

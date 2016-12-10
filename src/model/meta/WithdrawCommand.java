@@ -53,7 +53,7 @@ public class WithdrawCommand extends PersistentObject implements PersistentWithd
     }
     
     static public long getTypeId() {
-        return 118;
+        return 201;
     }
     
     public long getClassId() {
@@ -62,7 +62,7 @@ public class WithdrawCommand extends PersistentObject implements PersistentWithd
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 118) ConnectionHandler.getTheConnectionHandler().theWithdrawCommandFacade
+        if (this.getClassId() == 201) ConnectionHandler.getTheConnectionHandler().theWithdrawCommandFacade
             .newWithdrawCommand(amount,this.getId());
         super.store();
         if(this.getInvoker() != null){

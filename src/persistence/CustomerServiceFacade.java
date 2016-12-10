@@ -11,18 +11,18 @@ public class CustomerServiceFacade{
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
     public PersistentCustomerService newCustomerService(long idCreateIfLessZero) throws PersistenceException {
-        if(idCreateIfLessZero > 0) return (PersistentCustomerService)PersistentProxi.createProxi(idCreateIfLessZero, -103);
+        if(idCreateIfLessZero > 0) return (PersistentCustomerService)PersistentProxi.createProxi(idCreateIfLessZero, -140);
         long id = ConnectionHandler.getTheConnectionHandler().theServiceFacade.getNextId();
         CustomerService result = new CustomerService(null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentCustomerService)PersistentProxi.createProxi(id, -103);
+        return (PersistentCustomerService)PersistentProxi.createProxi(id, -140);
     }
     
     public PersistentCustomerService newDelayedCustomerService() throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theServiceFacade.getNextId();
         CustomerService result = new CustomerService(null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentCustomerService)PersistentProxi.createProxi(id, -103);
+        return (PersistentCustomerService)PersistentProxi.createProxi(id, -140);
     }
     
     public CustomerService getCustomerService(long CustomerServiceId) throws PersistenceException{
@@ -43,6 +43,26 @@ public class CustomerServiceFacade{
     public CustomerServiceSearchList inverseGetManager(long objectId, long classId)throws PersistenceException{
         CustomerServiceSearchList result = new CustomerServiceSearchList();
         java.util.Iterator<PersistentInCacheProxi> candidates;
+        candidates = Cache.getTheCache().iterator(-163);
+        while (candidates.hasNext()){
+            PersistentCustomerService current = (PersistentCustomerService)((PersistentRoot)candidates.next()).getTheObject();
+            if (current != null && !current.isDltd() && !current.isDelayed$Persistence() && current.getManager() != null){
+                if (current.getManager().getClassId() == classId && current.getManager().getId() == objectId) {
+                    PersistentCustomerService proxi = (PersistentCustomerService)PersistentProxi.createProxi(current.getId(), current.getClassId());
+                    result.add((PersistentCustomerService)proxi.getThis());
+                }
+            }
+        }
+        candidates = Cache.getTheCache().iterator(-211);
+        while (candidates.hasNext()){
+            PersistentCustomerService current = (PersistentCustomerService)((PersistentRoot)candidates.next()).getTheObject();
+            if (current != null && !current.isDltd() && !current.isDelayed$Persistence() && current.getManager() != null){
+                if (current.getManager().getClassId() == classId && current.getManager().getId() == objectId) {
+                    PersistentCustomerService proxi = (PersistentCustomerService)PersistentProxi.createProxi(current.getId(), current.getClassId());
+                    result.add((PersistentCustomerService)proxi.getThis());
+                }
+            }
+        }
         candidates = Cache.getTheCache().iterator(-185);
         while (candidates.hasNext()){
             PersistentCustomerService current = (PersistentCustomerService)((PersistentRoot)candidates.next()).getTheObject();
@@ -53,7 +73,7 @@ public class CustomerServiceFacade{
                 }
             }
         }
-        candidates = Cache.getTheCache().iterator(-187);
+        candidates = Cache.getTheCache().iterator(-186);
         while (candidates.hasNext()){
             PersistentCustomerService current = (PersistentCustomerService)((PersistentRoot)candidates.next()).getTheObject();
             if (current != null && !current.isDltd() && !current.isDelayed$Persistence() && current.getManager() != null){
@@ -63,27 +83,7 @@ public class CustomerServiceFacade{
                 }
             }
         }
-        candidates = Cache.getTheCache().iterator(-223);
-        while (candidates.hasNext()){
-            PersistentCustomerService current = (PersistentCustomerService)((PersistentRoot)candidates.next()).getTheObject();
-            if (current != null && !current.isDltd() && !current.isDelayed$Persistence() && current.getManager() != null){
-                if (current.getManager().getClassId() == classId && current.getManager().getId() == objectId) {
-                    PersistentCustomerService proxi = (PersistentCustomerService)PersistentProxi.createProxi(current.getId(), current.getClassId());
-                    result.add((PersistentCustomerService)proxi.getThis());
-                }
-            }
-        }
-        candidates = Cache.getTheCache().iterator(-189);
-        while (candidates.hasNext()){
-            PersistentCustomerService current = (PersistentCustomerService)((PersistentRoot)candidates.next()).getTheObject();
-            if (current != null && !current.isDltd() && !current.isDelayed$Persistence() && current.getManager() != null){
-                if (current.getManager().getClassId() == classId && current.getManager().getId() == objectId) {
-                    PersistentCustomerService proxi = (PersistentCustomerService)PersistentProxi.createProxi(current.getId(), current.getClassId());
-                    result.add((PersistentCustomerService)proxi.getThis());
-                }
-            }
-        }
-        candidates = Cache.getTheCache().iterator(-103);
+        candidates = Cache.getTheCache().iterator(-140);
         while (candidates.hasNext()){
             PersistentCustomerService current = (PersistentCustomerService)((PersistentRoot)candidates.next()).getTheObject();
             if (current != null && !current.isDltd() && !current.isDelayed$Persistence() && current.getManager() != null){

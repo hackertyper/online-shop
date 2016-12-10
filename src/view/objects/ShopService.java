@@ -19,7 +19,7 @@ public class ShopService extends view.objects.CustomerService implements ShopSer
     }
     
     static public long getTypeId() {
-        return -185;
+        return -163;
     }
     
     public long getClassId() {

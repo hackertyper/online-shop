@@ -26,25 +26,25 @@ public class CartManagerArticleListFacade{
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
     public PersistentCartManagerArticleList newCartManagerArticleList(long idCreateIfLessZero) throws PersistenceException {
-        if(idCreateIfLessZero > 0) return (PersistentCartManagerArticleList)PersistentProxi.createProxi(idCreateIfLessZero, 213);
+        if(idCreateIfLessZero > 0) return (PersistentCartManagerArticleList)PersistentProxi.createProxi(idCreateIfLessZero, 202);
         long id = ConnectionHandler.getTheConnectionHandler().theCartManagerArticleListFacade.getNextId();
         CartManagerArticleList result = new CartManagerArticleList(null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentCartManagerArticleList)PersistentProxi.createProxi(id, 213);
+        return (PersistentCartManagerArticleList)PersistentProxi.createProxi(id, 202);
     }
     
     public PersistentCartManagerArticleList newDelayedCartManagerArticleList() throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theCartManagerArticleListFacade.getNextId();
         CartManagerArticleList result = new CartManagerArticleList(null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentCartManagerArticleList)PersistentProxi.createProxi(id, 213);
+        return (PersistentCartManagerArticleList)PersistentProxi.createProxi(id, 202);
     }
     
     public CartManagerArticleList getCartManagerArticleList(long CartManagerArticleListId) throws PersistenceException{
         return null; //All data is in the cache!
     }
     public long getClass(long objectId) throws PersistenceException{
-        if(Cache.getTheCache().contains(objectId, 213)) return 213;
+        if(Cache.getTheCache().contains(objectId, 202)) return 202;
         
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         

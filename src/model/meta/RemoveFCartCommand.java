@@ -53,7 +53,7 @@ public class RemoveFCartCommand extends PersistentObject implements PersistentRe
     }
     
     static public long getTypeId() {
-        return 215;
+        return 150;
     }
     
     public long getClassId() {
@@ -62,7 +62,7 @@ public class RemoveFCartCommand extends PersistentObject implements PersistentRe
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 215) ConnectionHandler.getTheConnectionHandler().theRemoveFCartCommandFacade
+        if (this.getClassId() == 150) ConnectionHandler.getTheConnectionHandler().theRemoveFCartCommandFacade
             .newRemoveFCartCommand(this.getId());
         super.store();
         if(this.getArticle() != null){

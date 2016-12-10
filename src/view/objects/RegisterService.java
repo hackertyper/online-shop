@@ -17,7 +17,7 @@ public class RegisterService extends view.objects.Service implements RegisterSer
     }
     
     static public long getTypeId() {
-        return -115;
+        return -142;
     }
     
     public long getClassId() {

@@ -26,25 +26,25 @@ public class ChangeAmountCommandFacade{
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
     public PersistentChangeAmountCommand newChangeAmountCommand(long newAmount,long idCreateIfLessZero) throws PersistenceException {
-        if(idCreateIfLessZero > 0) return (PersistentChangeAmountCommand)PersistentProxi.createProxi(idCreateIfLessZero, 201);
+        if(idCreateIfLessZero > 0) return (PersistentChangeAmountCommand)PersistentProxi.createProxi(idCreateIfLessZero, 214);
         long id = ConnectionHandler.getTheConnectionHandler().theChangeAmountCommandFacade.getNextId();
         ChangeAmountCommand result = new ChangeAmountCommand(null,newAmount,null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentChangeAmountCommand)PersistentProxi.createProxi(id, 201);
+        return (PersistentChangeAmountCommand)PersistentProxi.createProxi(id, 214);
     }
     
     public PersistentChangeAmountCommand newDelayedChangeAmountCommand(long newAmount) throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theChangeAmountCommandFacade.getNextId();
         ChangeAmountCommand result = new ChangeAmountCommand(null,newAmount,null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentChangeAmountCommand)PersistentProxi.createProxi(id, 201);
+        return (PersistentChangeAmountCommand)PersistentProxi.createProxi(id, 214);
     }
     
     public ChangeAmountCommand getChangeAmountCommand(long ChangeAmountCommandId) throws PersistenceException{
         return null; //All data is in the cache!
     }
     public long getClass(long objectId) throws PersistenceException{
-        if(Cache.getTheCache().contains(objectId, 201)) return 201;
+        if(Cache.getTheCache().contains(objectId, 214)) return 214;
         
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         

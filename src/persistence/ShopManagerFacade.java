@@ -26,25 +26,25 @@ public class ShopManagerFacade{
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
     public PersistentShopManager newShopManager(long idCreateIfLessZero) throws PersistenceException {
-        if(idCreateIfLessZero > 0) return (PersistentShopManager)PersistentProxi.createProxi(idCreateIfLessZero, 186);
+        if(idCreateIfLessZero > 0) return (PersistentShopManager)PersistentProxi.createProxi(idCreateIfLessZero, 168);
         long id = ConnectionHandler.getTheConnectionHandler().theShopManagerFacade.getNextId();
         ShopManager result = new ShopManager(null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentShopManager)PersistentProxi.createProxi(id, 186);
+        return (PersistentShopManager)PersistentProxi.createProxi(id, 168);
     }
     
     public PersistentShopManager newDelayedShopManager() throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theShopManagerFacade.getNextId();
         ShopManager result = new ShopManager(null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentShopManager)PersistentProxi.createProxi(id, 186);
+        return (PersistentShopManager)PersistentProxi.createProxi(id, 168);
     }
     
     public ShopManager getShopManager(long ShopManagerId) throws PersistenceException{
         return null; //All data is in the cache!
     }
     public long getClass(long objectId) throws PersistenceException{
-        if(Cache.getTheCache().contains(objectId, 186)) return 186;
+        if(Cache.getTheCache().contains(objectId, 168)) return 168;
         
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         

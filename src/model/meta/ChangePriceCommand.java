@@ -55,7 +55,7 @@ public class ChangePriceCommand extends PersistentObject implements PersistentCh
     }
     
     static public long getTypeId() {
-        return 127;
+        return 205;
     }
     
     public long getClassId() {
@@ -64,7 +64,7 @@ public class ChangePriceCommand extends PersistentObject implements PersistentCh
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 127) ConnectionHandler.getTheConnectionHandler().theChangePriceCommandFacade
+        if (this.getClassId() == 205) ConnectionHandler.getTheConnectionHandler().theChangePriceCommandFacade
             .newChangePriceCommand(newPrice,this.getId());
         super.store();
         if(this.getArticle() != null){

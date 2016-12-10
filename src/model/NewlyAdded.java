@@ -88,7 +88,7 @@ public class NewlyAdded extends PersistentObject implements PersistentNewlyAdded
     }
     
     static public long getTypeId() {
-        return 120;
+        return 166;
     }
     
     public long getClassId() {
@@ -97,7 +97,7 @@ public class NewlyAdded extends PersistentObject implements PersistentNewlyAdded
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 120) ConnectionHandler.getTheConnectionHandler().theNewlyAddedFacade
+        if (this.getClassId() == 166) ConnectionHandler.getTheConnectionHandler().theNewlyAddedFacade
             .newNewlyAdded(this.getId());
         super.store();
         if(this.getSubService() != null){

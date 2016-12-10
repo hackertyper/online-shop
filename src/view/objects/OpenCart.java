@@ -16,7 +16,7 @@ public class OpenCart extends view.objects.CartState implements OpenCartView{
     }
     
     static public long getTypeId() {
-        return 216;
+        return 161;
     }
     
     public long getClassId() {

@@ -86,7 +86,7 @@ public class StandardDelivery extends model.CustomerDelivery implements Persiste
     }
     
     static public long getTypeId() {
-        return 229;
+        return 154;
     }
     
     public long getClassId() {

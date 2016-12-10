@@ -90,7 +90,7 @@ public class SendOrder extends PersistentObject implements PersistentSendOrder{
     }
     
     static public long getTypeId() {
-        return 126;
+        return 172;
     }
     
     public long getClassId() {
@@ -99,7 +99,7 @@ public class SendOrder extends PersistentObject implements PersistentSendOrder{
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 126) ConnectionHandler.getTheConnectionHandler().theSendOrderFacade
+        if (this.getClassId() == 172) ConnectionHandler.getTheConnectionHandler().theSendOrderFacade
             .newSendOrder(arrivalDate,this.getId());
         super.store();
         if(this.getSubService() != null){

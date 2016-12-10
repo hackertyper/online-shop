@@ -95,7 +95,7 @@ public class ArticleWrapper extends PersistentObject implements PersistentArticl
     }
     
     static public long getTypeId() {
-        return 238;
+        return 188;
     }
     
     public long getClassId() {
@@ -104,7 +104,7 @@ public class ArticleWrapper extends PersistentObject implements PersistentArticl
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 238) ConnectionHandler.getTheConnectionHandler().theArticleWrapperFacade
+        if (this.getClassId() == 188) ConnectionHandler.getTheConnectionHandler().theArticleWrapperFacade
             .newArticleWrapper(this.getId());
         super.store();
         if(this.getSubService() != null){

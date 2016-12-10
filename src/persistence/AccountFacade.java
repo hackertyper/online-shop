@@ -26,25 +26,25 @@ public class AccountFacade{
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
     public PersistentAccount newAccount(long lowerLimit,long balance,long idCreateIfLessZero) throws PersistenceException {
-        if(idCreateIfLessZero > 0) return (PersistentAccount)PersistentProxi.createProxi(idCreateIfLessZero, 199);
+        if(idCreateIfLessZero > 0) return (PersistentAccount)PersistentProxi.createProxi(idCreateIfLessZero, 148);
         long id = ConnectionHandler.getTheConnectionHandler().theAccountFacade.getNextId();
         Account result = new Account(lowerLimit,balance,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentAccount)PersistentProxi.createProxi(id, 199);
+        return (PersistentAccount)PersistentProxi.createProxi(id, 148);
     }
     
     public PersistentAccount newDelayedAccount(long lowerLimit,long balance) throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theAccountFacade.getNextId();
         Account result = new Account(lowerLimit,balance,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentAccount)PersistentProxi.createProxi(id, 199);
+        return (PersistentAccount)PersistentProxi.createProxi(id, 148);
     }
     
     public Account getAccount(long AccountId) throws PersistenceException{
         return null; //All data is in the cache!
     }
     public long getClass(long objectId) throws PersistenceException{
-        if(Cache.getTheCache().contains(objectId, 199)) return 199;
+        if(Cache.getTheCache().contains(objectId, 148)) return 148;
         
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         

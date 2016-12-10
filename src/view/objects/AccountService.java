@@ -19,7 +19,7 @@ public class AccountService extends view.objects.CustomerService implements Acco
     }
     
     static public long getTypeId() {
-        return -189;
+        return -186;
     }
     
     public long getClassId() {

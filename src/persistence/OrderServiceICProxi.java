@@ -19,7 +19,7 @@ public class OrderServiceICProxi extends CustomerServiceICProxi implements Persi
     }
     
     public long getClassId() {
-        return -223;
+        return -185;
     }
     
     public PersistentOrderManager getOrderMngr() throws PersistenceException {

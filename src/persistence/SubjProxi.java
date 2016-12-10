@@ -15,7 +15,7 @@ public class SubjProxi extends PersistentProxi implements PersistentSubj{
     
     
     public long getClassId() {
-        return 205;
+        return 209;
     }
     
     public Subj_ObserveeProxi getObservee() throws PersistenceException {

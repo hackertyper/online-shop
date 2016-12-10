@@ -15,7 +15,7 @@ public class AccountManagerProxi extends PersistentProxi implements PersistentAc
     
     
     public long getClassId() {
-        return 188;
+        return 184;
     }
     
     public PersistentAccount getMyAccount() throws PersistenceException {

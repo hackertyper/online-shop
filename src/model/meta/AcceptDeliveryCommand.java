@@ -53,7 +53,7 @@ public class AcceptDeliveryCommand extends PersistentObject implements Persisten
     }
     
     static public long getTypeId() {
-        return 198;
+        return 178;
     }
     
     public long getClassId() {
@@ -62,7 +62,7 @@ public class AcceptDeliveryCommand extends PersistentObject implements Persisten
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 198) ConnectionHandler.getTheConnectionHandler().theAcceptDeliveryCommandFacade
+        if (this.getClassId() == 178) ConnectionHandler.getTheConnectionHandler().theAcceptDeliveryCommandFacade
             .newAcceptDeliveryCommand(this.getId());
         super.store();
         if(this.getArrivedOrder() != null){

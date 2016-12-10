@@ -20,7 +20,7 @@ public class ShopKeeperOrder extends view.objects.Delivery implements ShopKeeper
     }
     
     static public long getTypeId() {
-        return 130;
+        return 175;
     }
     
     public long getClassId() {

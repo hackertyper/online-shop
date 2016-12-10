@@ -13,7 +13,7 @@ public class OpenCartFacade{
         long id = ConnectionHandler.getTheConnectionHandler().theCartStateFacade.getNextId();
         OpenCart result = new OpenCart(null, null, id);
         PersistentInCacheProxi cached = Cache.getTheCache().putSingleton(result);
-        return (PersistentOpenCart)PersistentProxi.createProxi(cached.getId()  * (cached.getTheObject().isTheSameAs(result) ? -1 : 1), 216);
+        return (PersistentOpenCart)PersistentProxi.createProxi(cached.getId()  * (cached.getTheObject().isTheSameAs(result) ? -1 : 1), 161);
     }
     
     public OpenCart getOpenCart(long OpenCartId) throws PersistenceException{

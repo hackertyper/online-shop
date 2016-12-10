@@ -15,7 +15,7 @@ public class CartManagerArticleListProxi extends PersistentProxi implements Pers
     
     
     public long getClassId() {
-        return 213;
+        return 202;
     }
     
     public PersistentCartManager getObserver() throws PersistenceException {

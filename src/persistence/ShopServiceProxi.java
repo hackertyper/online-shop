@@ -15,7 +15,7 @@ public class ShopServiceProxi extends CustomerServiceProxi implements Persistent
     
     
     public long getClassId() {
-        return -185;
+        return -163;
     }
     
     public PersistentShopManager getShopMngr() throws PersistenceException {

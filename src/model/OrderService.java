@@ -93,7 +93,7 @@ public class OrderService extends model.CustomerService implements PersistentOrd
     }
     
     static public long getTypeId() {
-        return -223;
+        return -185;
     }
     
     public long getClassId() {
@@ -102,7 +102,7 @@ public class OrderService extends model.CustomerService implements PersistentOrd
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == -223) ConnectionHandler.getTheConnectionHandler().theOrderServiceFacade
+        if (this.getClassId() == -185) ConnectionHandler.getTheConnectionHandler().theOrderServiceFacade
             .newOrderService(this.getId());
         super.store();
         if(this.getOrderMngr() != null){

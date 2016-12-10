@@ -86,7 +86,7 @@ public class BasicProductGroup extends model.ProductGroup implements PersistentB
     }
     
     static public long getTypeId() {
-        return 279;
+        return 276;
     }
     
     public long getClassId() {

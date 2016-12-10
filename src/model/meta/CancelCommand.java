@@ -53,7 +53,7 @@ public class CancelCommand extends PersistentObject implements PersistentCancelC
     }
     
     static public long getTypeId() {
-        return 266;
+        return 210;
     }
     
     public long getClassId() {
@@ -62,7 +62,7 @@ public class CancelCommand extends PersistentObject implements PersistentCancelC
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 266) ConnectionHandler.getTheConnectionHandler().theCancelCommandFacade
+        if (this.getClassId() == 210) ConnectionHandler.getTheConnectionHandler().theCancelCommandFacade
             .newCancelCommand(this.getId());
         super.store();
         if(this.getPreOrder() != null){

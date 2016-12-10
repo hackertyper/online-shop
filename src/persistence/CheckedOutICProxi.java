@@ -19,7 +19,7 @@ public class CheckedOutICProxi extends CartStateICProxi implements PersistentChe
     }
     
     public long getClassId() {
-        return 218;
+        return 215;
     }
     
     public PersistentCheckedOut getThis() throws PersistenceException {

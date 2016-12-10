@@ -56,7 +56,7 @@ public class ChangeDescriptionCommand extends PersistentObject implements Persis
     }
     
     static public long getTypeId() {
-        return 131;
+        return 176;
     }
     
     public long getClassId() {
@@ -65,7 +65,7 @@ public class ChangeDescriptionCommand extends PersistentObject implements Persis
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 131) ConnectionHandler.getTheConnectionHandler().theChangeDescriptionCommandFacade
+        if (this.getClassId() == 176) ConnectionHandler.getTheConnectionHandler().theChangeDescriptionCommandFacade
             .newChangeDescriptionCommand(newDescription,this.getId());
         super.store();
         if(this.getItem() != null){

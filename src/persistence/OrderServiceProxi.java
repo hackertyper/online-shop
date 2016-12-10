@@ -15,7 +15,7 @@ public class OrderServiceProxi extends CustomerServiceProxi implements Persisten
     
     
     public long getClassId() {
-        return -223;
+        return -185;
     }
     
     public PersistentOrderManager getOrderMngr() throws PersistenceException {

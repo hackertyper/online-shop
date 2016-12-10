@@ -19,7 +19,7 @@ public class CartManagerArticleListICProxi extends PersistentInCacheProxiOptimis
     }
     
     public long getClassId() {
-        return 213;
+        return 202;
     }
     
     public PersistentCartManager getObserver() throws PersistenceException {

@@ -120,7 +120,7 @@ public class ShopManager extends PersistentObject implements PersistentShopManag
     }
     
     static public long getTypeId() {
-        return 186;
+        return 168;
     }
     
     public long getClassId() {
@@ -129,7 +129,7 @@ public class ShopManager extends PersistentObject implements PersistentShopManag
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 186) ConnectionHandler.getTheConnectionHandler().theShopManagerFacade
+        if (this.getClassId() == 168) ConnectionHandler.getTheConnectionHandler().theShopManagerFacade
             .newShopManager(this.getId());
         super.store();
         if(this.basicProductGroup != null){

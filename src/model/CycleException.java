@@ -29,7 +29,7 @@ public class CycleException extends model.UserException{
     }
     
     static public long getTypeId() {
-        return -180;
+        return -118;
     }
     
     public long getClassId() {

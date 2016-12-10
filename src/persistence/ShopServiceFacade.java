@@ -11,18 +11,18 @@ public class ShopServiceFacade{
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
     public PersistentShopService newShopService(long idCreateIfLessZero) throws PersistenceException {
-        if(idCreateIfLessZero > 0) return (PersistentShopService)PersistentProxi.createProxi(idCreateIfLessZero, -185);
+        if(idCreateIfLessZero > 0) return (PersistentShopService)PersistentProxi.createProxi(idCreateIfLessZero, -163);
         long id = ConnectionHandler.getTheConnectionHandler().theServiceFacade.getNextId();
         ShopService result = new ShopService(null,null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentShopService)PersistentProxi.createProxi(id, -185);
+        return (PersistentShopService)PersistentProxi.createProxi(id, -163);
     }
     
     public PersistentShopService newDelayedShopService() throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theServiceFacade.getNextId();
         ShopService result = new ShopService(null,null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentShopService)PersistentProxi.createProxi(id, -185);
+        return (PersistentShopService)PersistentProxi.createProxi(id, -163);
     }
     
     public ShopService getShopService(long ShopServiceId) throws PersistenceException{
@@ -34,7 +34,7 @@ public class ShopServiceFacade{
     public ShopServiceSearchList inverseGetShopMngr(long objectId, long classId)throws PersistenceException{
         ShopServiceSearchList result = new ShopServiceSearchList();
         java.util.Iterator<PersistentInCacheProxi> candidates;
-        candidates = Cache.getTheCache().iterator(-185);
+        candidates = Cache.getTheCache().iterator(-163);
         while (candidates.hasNext()){
             PersistentShopService current = (PersistentShopService)((PersistentRoot)candidates.next()).getTheObject();
             if (current != null && !current.isDltd() && !current.isDelayed$Persistence() && current.getShopMngr() != null){

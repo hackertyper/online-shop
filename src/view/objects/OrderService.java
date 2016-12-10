@@ -19,7 +19,7 @@ public class OrderService extends view.objects.CustomerService implements OrderS
     }
     
     static public long getTypeId() {
-        return -223;
+        return -185;
     }
     
     public long getClassId() {

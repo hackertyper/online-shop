@@ -19,7 +19,7 @@ public class ShopkeeperICProxi extends PersistentInCacheProxiOptimistic implemen
     }
     
     public long getClassId() {
-        return 107;
+        return 192;
     }
     
     public void setBasicProductGroup(PersistentShopkeeperBasicProductGroup newValue) throws PersistenceException {

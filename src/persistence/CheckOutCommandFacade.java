@@ -26,25 +26,25 @@ public class CheckOutCommandFacade{
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
     public PersistentCheckOutCommand newCheckOutCommand(long idCreateIfLessZero) throws PersistenceException {
-        if(idCreateIfLessZero > 0) return (PersistentCheckOutCommand)PersistentProxi.createProxi(idCreateIfLessZero, 137);
+        if(idCreateIfLessZero > 0) return (PersistentCheckOutCommand)PersistentProxi.createProxi(idCreateIfLessZero, 213);
         long id = ConnectionHandler.getTheConnectionHandler().theCheckOutCommandFacade.getNextId();
         CheckOutCommand result = new CheckOutCommand(null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentCheckOutCommand)PersistentProxi.createProxi(id, 137);
+        return (PersistentCheckOutCommand)PersistentProxi.createProxi(id, 213);
     }
     
     public PersistentCheckOutCommand newDelayedCheckOutCommand() throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theCheckOutCommandFacade.getNextId();
         CheckOutCommand result = new CheckOutCommand(null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentCheckOutCommand)PersistentProxi.createProxi(id, 137);
+        return (PersistentCheckOutCommand)PersistentProxi.createProxi(id, 213);
     }
     
     public CheckOutCommand getCheckOutCommand(long CheckOutCommandId) throws PersistenceException{
         return null; //All data is in the cache!
     }
     public long getClass(long objectId) throws PersistenceException{
-        if(Cache.getTheCache().contains(objectId, 137)) return 137;
+        if(Cache.getTheCache().contains(objectId, 213)) return 213;
         
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         

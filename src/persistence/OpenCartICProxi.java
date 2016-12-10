@@ -19,7 +19,7 @@ public class OpenCartICProxi extends CartStateICProxi implements PersistentOpenC
     }
     
     public long getClassId() {
-        return 216;
+        return 161;
     }
     
     public PersistentOpenCart getThis() throws PersistenceException {

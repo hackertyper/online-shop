@@ -26,25 +26,25 @@ public class ChangeProductGroupCommandFacade{
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
     public PersistentChangeProductGroupCommand newChangeProductGroupCommand(long idCreateIfLessZero) throws PersistenceException {
-        if(idCreateIfLessZero > 0) return (PersistentChangeProductGroupCommand)PersistentProxi.createProxi(idCreateIfLessZero, 249);
+        if(idCreateIfLessZero > 0) return (PersistentChangeProductGroupCommand)PersistentProxi.createProxi(idCreateIfLessZero, 171);
         long id = ConnectionHandler.getTheConnectionHandler().theChangeProductGroupCommandFacade.getNextId();
         ChangeProductGroupCommand result = new ChangeProductGroupCommand(null,null,null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentChangeProductGroupCommand)PersistentProxi.createProxi(id, 249);
+        return (PersistentChangeProductGroupCommand)PersistentProxi.createProxi(id, 171);
     }
     
     public PersistentChangeProductGroupCommand newDelayedChangeProductGroupCommand() throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theChangeProductGroupCommandFacade.getNextId();
         ChangeProductGroupCommand result = new ChangeProductGroupCommand(null,null,null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentChangeProductGroupCommand)PersistentProxi.createProxi(id, 249);
+        return (PersistentChangeProductGroupCommand)PersistentProxi.createProxi(id, 171);
     }
     
     public ChangeProductGroupCommand getChangeProductGroupCommand(long ChangeProductGroupCommandId) throws PersistenceException{
         return null; //All data is in the cache!
     }
     public long getClass(long objectId) throws PersistenceException{
-        if(Cache.getTheCache().contains(objectId, 249)) return 249;
+        if(Cache.getTheCache().contains(objectId, 171)) return 171;
         
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         

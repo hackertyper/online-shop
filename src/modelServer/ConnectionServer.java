@@ -67,14 +67,14 @@ public class ConnectionServer extends RemoteServerMaster {
 
 	public RemoteServerMaster createRemoteServer(String connectionName, String userName, long objectId, long classId){
 		try {
-			if(classId == -115)return new RemoteRegisterService(connectionName, userName, (PersistentRegisterService)PersistentProxi.createProxi(objectId, classId));
-			if(classId == -103)return new RemoteCustomerService(connectionName, userName, (PersistentCustomerService)PersistentProxi.createProxi(objectId, classId));
-			if(classId == -105)return new RemoteServer(connectionName, userName, (PersistentServer)PersistentProxi.createProxi(objectId, classId));
-			if(classId == -133)return new RemoteShopkeeperService(connectionName, userName, (PersistentShopkeeperService)PersistentProxi.createProxi(objectId, classId));
-			if(classId == -185)return new RemoteShopService(connectionName, userName, (PersistentShopService)PersistentProxi.createProxi(objectId, classId));
-			if(classId == -187)return new RemoteCartService(connectionName, userName, (PersistentCartService)PersistentProxi.createProxi(objectId, classId));
-			if(classId == -223)return new RemoteOrderService(connectionName, userName, (PersistentOrderService)PersistentProxi.createProxi(objectId, classId));
-			if(classId == -189)return new RemoteAccountService(connectionName, userName, (PersistentAccountService)PersistentProxi.createProxi(objectId, classId));
+			if(classId == -142)return new RemoteRegisterService(connectionName, userName, (PersistentRegisterService)PersistentProxi.createProxi(objectId, classId));
+			if(classId == -140)return new RemoteCustomerService(connectionName, userName, (PersistentCustomerService)PersistentProxi.createProxi(objectId, classId));
+			if(classId == -102)return new RemoteServer(connectionName, userName, (PersistentServer)PersistentProxi.createProxi(objectId, classId));
+			if(classId == -143)return new RemoteShopkeeperService(connectionName, userName, (PersistentShopkeeperService)PersistentProxi.createProxi(objectId, classId));
+			if(classId == -163)return new RemoteShopService(connectionName, userName, (PersistentShopService)PersistentProxi.createProxi(objectId, classId));
+			if(classId == -211)return new RemoteCartService(connectionName, userName, (PersistentCartService)PersistentProxi.createProxi(objectId, classId));
+			if(classId == -185)return new RemoteOrderService(connectionName, userName, (PersistentOrderService)PersistentProxi.createProxi(objectId, classId));
+			if(classId == -186)return new RemoteAccountService(connectionName, userName, (PersistentAccountService)PersistentProxi.createProxi(objectId, classId));
 			
 		}catch(PersistenceException pe){
 			return null;

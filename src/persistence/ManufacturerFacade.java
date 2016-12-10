@@ -26,25 +26,25 @@ public class ManufacturerFacade{
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
     public PersistentManufacturer newManufacturer(String name,long manuDelivery,long idCreateIfLessZero) throws PersistenceException {
-        if(idCreateIfLessZero > 0) return (PersistentManufacturer)PersistentProxi.createProxi(idCreateIfLessZero, 119);
+        if(idCreateIfLessZero > 0) return (PersistentManufacturer)PersistentProxi.createProxi(idCreateIfLessZero, 165);
         long id = ConnectionHandler.getTheConnectionHandler().theManufacturerFacade.getNextId();
         Manufacturer result = new Manufacturer(name,manuDelivery,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentManufacturer)PersistentProxi.createProxi(id, 119);
+        return (PersistentManufacturer)PersistentProxi.createProxi(id, 165);
     }
     
     public PersistentManufacturer newDelayedManufacturer(String name,long manuDelivery) throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theManufacturerFacade.getNextId();
         Manufacturer result = new Manufacturer(name,manuDelivery,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentManufacturer)PersistentProxi.createProxi(id, 119);
+        return (PersistentManufacturer)PersistentProxi.createProxi(id, 165);
     }
     
     public Manufacturer getManufacturer(long ManufacturerId) throws PersistenceException{
         return null; //All data is in the cache!
     }
     public long getClass(long objectId) throws PersistenceException{
-        if(Cache.getTheCache().contains(objectId, 119)) return 119;
+        if(Cache.getTheCache().contains(objectId, 165)) return 165;
         
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         

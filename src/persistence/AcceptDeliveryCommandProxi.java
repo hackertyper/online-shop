@@ -15,7 +15,7 @@ public class AcceptDeliveryCommandProxi extends PersistentProxi implements Persi
     
     
     public long getClassId() {
-        return 198;
+        return 178;
     }
     
     public PersistentCustomerOrder getArrivedOrder() throws PersistenceException {

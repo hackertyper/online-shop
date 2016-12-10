@@ -15,7 +15,7 @@ public class FindArticleCommandProxi extends PersistentProxi implements Persiste
     
     
     public long getClassId() {
-        return 113;
+        return 199;
     }
     
     public String getDescription() throws PersistenceException {

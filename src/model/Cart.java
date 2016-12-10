@@ -111,7 +111,7 @@ public class Cart extends PersistentObject implements PersistentCart{
     }
     
     static public long getTypeId() {
-        return 123;
+        return 203;
     }
     
     public long getClassId() {
@@ -120,7 +120,7 @@ public class Cart extends PersistentObject implements PersistentCart{
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 123) ConnectionHandler.getTheConnectionHandler().theCartFacade
+        if (this.getClassId() == 203) ConnectionHandler.getTheConnectionHandler().theCartFacade
             .newCart(currentSum,this.getId());
         super.store();
         if(this.getState() != null){

@@ -18,7 +18,7 @@ public class Retoure extends view.objects.Delivery implements RetoureView{
     }
     
     static public long getTypeId() {
-        return 134;
+        return 181;
     }
     
     public long getClassId() {

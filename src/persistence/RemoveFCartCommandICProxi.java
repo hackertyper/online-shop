@@ -19,7 +19,7 @@ public class RemoveFCartCommandICProxi extends PersistentInCacheProxi implements
     }
     
     public long getClassId() {
-        return 215;
+        return 150;
     }
     
     public PersistentQuantifiedArticles getArticle() throws PersistenceException {

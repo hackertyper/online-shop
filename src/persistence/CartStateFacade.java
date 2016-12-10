@@ -25,8 +25,8 @@ public class CartStateFacade{
 	}
 
     public long getClass(long objectId) throws PersistenceException{
-        if(Cache.getTheCache().contains(objectId, 216)) return 216;
-        if(Cache.getTheCache().contains(objectId, 218)) return 218;
+        if(Cache.getTheCache().contains(objectId, 161)) return 161;
+        if(Cache.getTheCache().contains(objectId, 215)) return 215;
         
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         

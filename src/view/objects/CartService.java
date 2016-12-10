@@ -19,7 +19,7 @@ public class CartService extends view.objects.CustomerService implements CartSer
     }
     
     static public long getTypeId() {
-        return -187;
+        return -211;
     }
     
     public long getClassId() {

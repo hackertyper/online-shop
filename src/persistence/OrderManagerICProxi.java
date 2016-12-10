@@ -19,7 +19,7 @@ public class OrderManagerICProxi extends PersistentInCacheProxiOptimistic implem
     }
     
     public long getClassId() {
-        return 224;
+        return 187;
     }
     
     public OrderManager_OrdersProxi getOrders() throws PersistenceException {

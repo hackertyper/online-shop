@@ -60,7 +60,7 @@ public class PreOrderArticleList extends PersistentObject implements PersistentP
     }
     
     static public long getTypeId() {
-        return 264;
+        return 173;
     }
     
     public long getClassId() {
@@ -69,7 +69,7 @@ public class PreOrderArticleList extends PersistentObject implements PersistentP
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 264) ConnectionHandler.getTheConnectionHandler().thePreOrderArticleListFacade
+        if (this.getClassId() == 173) ConnectionHandler.getTheConnectionHandler().thePreOrderArticleListFacade
             .newPreOrderArticleList(this.getId());
         super.store();
         if(this.getObserver() != null){

@@ -82,7 +82,7 @@ public class RegisterService extends model.Service implements PersistentRegister
     }
     
     static public long getTypeId() {
-        return -115;
+        return -142;
     }
     
     public long getClassId() {
@@ -91,7 +91,7 @@ public class RegisterService extends model.Service implements PersistentRegister
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == -115) ConnectionHandler.getTheConnectionHandler().theRegisterServiceFacade
+        if (this.getClassId() == -142) ConnectionHandler.getTheConnectionHandler().theRegisterServiceFacade
             .newRegisterService(this.getId());
         super.store();
         

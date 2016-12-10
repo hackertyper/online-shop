@@ -11,18 +11,18 @@ public class ArticleFacade{
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
     public PersistentArticle newArticle(String description,long price,long minStock,long maxStock,long stock,long reserved,long idCreateIfLessZero) throws PersistenceException {
-        if(idCreateIfLessZero > 0) return (PersistentArticle)PersistentProxi.createProxi(idCreateIfLessZero, 109);
+        if(idCreateIfLessZero > 0) return (PersistentArticle)PersistentProxi.createProxi(idCreateIfLessZero, 193);
         long id = ConnectionHandler.getTheConnectionHandler().theItemFacade.getNextId();
         Article result = new Article(description,null,null,null,null,null,price,minStock,maxStock,stock,reserved,id);
         Cache.getTheCache().put(result);
-        return (PersistentArticle)PersistentProxi.createProxi(id, 109);
+        return (PersistentArticle)PersistentProxi.createProxi(id, 193);
     }
     
     public PersistentArticle newDelayedArticle(String description,long price,long minStock,long maxStock,long stock,long reserved) throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theItemFacade.getNextId();
         Article result = new Article(description,null,null,null,null,null,price,minStock,maxStock,stock,reserved,id);
         Cache.getTheCache().put(result);
-        return (PersistentArticle)PersistentProxi.createProxi(id, 109);
+        return (PersistentArticle)PersistentProxi.createProxi(id, 193);
     }
     
     public Article getArticle(long ArticleId) throws PersistenceException{
@@ -55,7 +55,7 @@ public class ArticleFacade{
     public ArticleSearchList inverseGetState(long objectId, long classId)throws PersistenceException{
         ArticleSearchList result = new ArticleSearchList();
         java.util.Iterator<PersistentInCacheProxi> candidates;
-        candidates = Cache.getTheCache().iterator(109);
+        candidates = Cache.getTheCache().iterator(193);
         while (candidates.hasNext()){
             PersistentArticle current = (PersistentArticle)((PersistentRoot)candidates.next()).getTheObject();
             if (current != null && !current.isDltd() && !current.isDelayed$Persistence() && current.getState() != null){
@@ -70,7 +70,7 @@ public class ArticleFacade{
     public ArticleSearchList inverseGetMyWrapper(long objectId, long classId)throws PersistenceException{
         ArticleSearchList result = new ArticleSearchList();
         java.util.Iterator<PersistentInCacheProxi> candidates;
-        candidates = Cache.getTheCache().iterator(109);
+        candidates = Cache.getTheCache().iterator(193);
         while (candidates.hasNext()){
             PersistentArticle current = (PersistentArticle)((PersistentRoot)candidates.next()).getTheObject();
             if (current != null && !current.isDltd() && !current.isDelayed$Persistence() && current.getMyWrapper() != null){

@@ -19,7 +19,7 @@ public class DepositCommandICProxi extends PersistentInCacheProxi implements Per
     }
     
     public long getClassId() {
-        return 122;
+        return 170;
     }
     
     public long getAmount() throws PersistenceException {

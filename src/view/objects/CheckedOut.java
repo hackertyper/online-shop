@@ -16,7 +16,7 @@ public class CheckedOut extends view.objects.CartState implements CheckedOutView
     }
     
     static public long getTypeId() {
-        return 218;
+        return 215;
     }
     
     public long getClassId() {

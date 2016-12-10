@@ -26,25 +26,25 @@ public class AddArticleCommandFacade{
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
     public PersistentAddArticleCommand newAddArticleCommand(long amount,long idCreateIfLessZero) throws PersistenceException {
-        if(idCreateIfLessZero > 0) return (PersistentAddArticleCommand)PersistentProxi.createProxi(idCreateIfLessZero, 202);
+        if(idCreateIfLessZero > 0) return (PersistentAddArticleCommand)PersistentProxi.createProxi(idCreateIfLessZero, 164);
         long id = ConnectionHandler.getTheConnectionHandler().theAddArticleCommandFacade.getNextId();
         AddArticleCommand result = new AddArticleCommand(null,amount,null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentAddArticleCommand)PersistentProxi.createProxi(id, 202);
+        return (PersistentAddArticleCommand)PersistentProxi.createProxi(id, 164);
     }
     
     public PersistentAddArticleCommand newDelayedAddArticleCommand(long amount) throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theAddArticleCommandFacade.getNextId();
         AddArticleCommand result = new AddArticleCommand(null,amount,null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentAddArticleCommand)PersistentProxi.createProxi(id, 202);
+        return (PersistentAddArticleCommand)PersistentProxi.createProxi(id, 164);
     }
     
     public AddArticleCommand getAddArticleCommand(long AddArticleCommandId) throws PersistenceException{
         return null; //All data is in the cache!
     }
     public long getClass(long objectId) throws PersistenceException{
-        if(Cache.getTheCache().contains(objectId, 202)) return 202;
+        if(Cache.getTheCache().contains(objectId, 164)) return 164;
         
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         

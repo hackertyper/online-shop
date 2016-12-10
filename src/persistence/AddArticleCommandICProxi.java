@@ -19,7 +19,7 @@ public class AddArticleCommandICProxi extends PersistentInCacheProxi implements 
     }
     
     public long getClassId() {
-        return 202;
+        return 164;
     }
     
     public PersistentArticle getArticle() throws PersistenceException {

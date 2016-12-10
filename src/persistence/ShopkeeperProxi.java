@@ -15,7 +15,7 @@ public class ShopkeeperProxi extends PersistentProxi implements PersistentShopke
     
     
     public long getClassId() {
-        return 107;
+        return 192;
     }
     
     public void setBasicProductGroup(PersistentShopkeeperBasicProductGroup newValue) throws PersistenceException {

@@ -15,7 +15,7 @@ public class CustomerServiceProxi extends ServiceProxi implements PersistentCust
     
     
     public long getClassId() {
-        return -103;
+        return -140;
     }
     
     public CustomerService_ServicesProxi getServices() throws PersistenceException {

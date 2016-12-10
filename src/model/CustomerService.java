@@ -95,7 +95,7 @@ public class CustomerService extends model.Service implements PersistentCustomer
     }
     
     static public long getTypeId() {
-        return -103;
+        return -140;
     }
     
     public long getClassId() {
@@ -104,7 +104,7 @@ public class CustomerService extends model.Service implements PersistentCustomer
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == -103) ConnectionHandler.getTheConnectionHandler().theCustomerServiceFacade
+        if (this.getClassId() == -140) ConnectionHandler.getTheConnectionHandler().theCustomerServiceFacade
             .newCustomerService(this.getId());
         super.store();
         this.getServices().store();

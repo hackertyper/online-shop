@@ -15,7 +15,7 @@ public class AddArticleCommandProxi extends PersistentProxi implements Persisten
     
     
     public long getClassId() {
-        return 202;
+        return 164;
     }
     
     public PersistentArticle getArticle() throws PersistenceException {

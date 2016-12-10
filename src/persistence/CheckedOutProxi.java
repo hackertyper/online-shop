@@ -15,7 +15,7 @@ public class CheckedOutProxi extends CartStateProxi implements PersistentChecked
     
     
     public long getClassId() {
-        return 218;
+        return 215;
     }
     
     public PersistentCheckedOut getThis() throws PersistenceException {

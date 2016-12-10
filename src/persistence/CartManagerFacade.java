@@ -26,25 +26,25 @@ public class CartManagerFacade{
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
     public PersistentCartManager newCartManager(long idCreateIfLessZero) throws PersistenceException {
-        if(idCreateIfLessZero > 0) return (PersistentCartManager)PersistentProxi.createProxi(idCreateIfLessZero, 190);
+        if(idCreateIfLessZero > 0) return (PersistentCartManager)PersistentProxi.createProxi(idCreateIfLessZero, 216);
         long id = ConnectionHandler.getTheConnectionHandler().theCartManagerFacade.getNextId();
         CartManager result = new CartManager(null,null,null,null,null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentCartManager)PersistentProxi.createProxi(id, 190);
+        return (PersistentCartManager)PersistentProxi.createProxi(id, 216);
     }
     
     public PersistentCartManager newDelayedCartManager() throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theCartManagerFacade.getNextId();
         CartManager result = new CartManager(null,null,null,null,null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentCartManager)PersistentProxi.createProxi(id, 190);
+        return (PersistentCartManager)PersistentProxi.createProxi(id, 216);
     }
     
     public CartManager getCartManager(long CartManagerId) throws PersistenceException{
         return null; //All data is in the cache!
     }
     public long getClass(long objectId) throws PersistenceException{
-        if(Cache.getTheCache().contains(objectId, 190)) return 190;
+        if(Cache.getTheCache().contains(objectId, 216)) return 216;
         
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         
@@ -73,7 +73,7 @@ public class CartManagerFacade{
     public CartManagerSearchList inverseGetMyCart(long objectId, long classId)throws PersistenceException{
         CartManagerSearchList result = new CartManagerSearchList();
         java.util.Iterator<PersistentInCacheProxi> candidates;
-        candidates = Cache.getTheCache().iterator(190);
+        candidates = Cache.getTheCache().iterator(216);
         while (candidates.hasNext()){
             PersistentCartManager current = (PersistentCartManager)((PersistentRoot)candidates.next()).getTheObject();
             if (current != null && !current.isDltd() && !current.isDelayed$Persistence() && current.getMyCart() != null){

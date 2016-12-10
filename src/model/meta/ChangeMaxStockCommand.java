@@ -53,7 +53,7 @@ public class ChangeMaxStockCommand extends PersistentObject implements Persisten
     }
     
     static public long getTypeId() {
-        return 270;
+        return 156;
     }
     
     public long getClassId() {
@@ -62,7 +62,7 @@ public class ChangeMaxStockCommand extends PersistentObject implements Persisten
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 270) ConnectionHandler.getTheConnectionHandler().theChangeMaxStockCommandFacade
+        if (this.getClassId() == 156) ConnectionHandler.getTheConnectionHandler().theChangeMaxStockCommandFacade
             .newChangeMaxStockCommand(maxStock,this.getId());
         super.store();
         if(this.getInvoker() != null){

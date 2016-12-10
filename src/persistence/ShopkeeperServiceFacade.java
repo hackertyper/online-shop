@@ -11,18 +11,18 @@ public class ShopkeeperServiceFacade{
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
     public PersistentShopkeeperService newShopkeeperService(long idCreateIfLessZero) throws PersistenceException {
-        if(idCreateIfLessZero > 0) return (PersistentShopkeeperService)PersistentProxi.createProxi(idCreateIfLessZero, -133);
+        if(idCreateIfLessZero > 0) return (PersistentShopkeeperService)PersistentProxi.createProxi(idCreateIfLessZero, -143);
         long id = ConnectionHandler.getTheConnectionHandler().theServiceFacade.getNextId();
         ShopkeeperService result = new ShopkeeperService(null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentShopkeeperService)PersistentProxi.createProxi(id, -133);
+        return (PersistentShopkeeperService)PersistentProxi.createProxi(id, -143);
     }
     
     public PersistentShopkeeperService newDelayedShopkeeperService() throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theServiceFacade.getNextId();
         ShopkeeperService result = new ShopkeeperService(null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentShopkeeperService)PersistentProxi.createProxi(id, -133);
+        return (PersistentShopkeeperService)PersistentProxi.createProxi(id, -143);
     }
     
     public ShopkeeperService getShopkeeperService(long ShopkeeperServiceId) throws PersistenceException{
@@ -34,7 +34,7 @@ public class ShopkeeperServiceFacade{
     public ShopkeeperServiceSearchList inverseGetManager(long objectId, long classId)throws PersistenceException{
         ShopkeeperServiceSearchList result = new ShopkeeperServiceSearchList();
         java.util.Iterator<PersistentInCacheProxi> candidates;
-        candidates = Cache.getTheCache().iterator(-133);
+        candidates = Cache.getTheCache().iterator(-143);
         while (candidates.hasNext()){
             PersistentShopkeeperService current = (PersistentShopkeeperService)((PersistentRoot)candidates.next()).getTheObject();
             if (current != null && !current.isDltd() && !current.isDelayed$Persistence() && current.getManager() != null){

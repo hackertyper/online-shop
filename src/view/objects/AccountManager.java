@@ -22,7 +22,7 @@ public class AccountManager extends ViewObject implements AccountManagerView{
     }
     
     static public long getTypeId() {
-        return 188;
+        return 184;
     }
     
     public long getClassId() {

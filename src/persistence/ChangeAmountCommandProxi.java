@@ -15,7 +15,7 @@ public class ChangeAmountCommandProxi extends PersistentProxi implements Persist
     
     
     public long getClassId() {
-        return 201;
+        return 214;
     }
     
     public PersistentQuantifiedArticles getArticle() throws PersistenceException {

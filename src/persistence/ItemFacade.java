@@ -25,9 +25,9 @@ public class ItemFacade{
 	}
 
     public long getClass(long objectId) throws PersistenceException{
-        if(Cache.getTheCache().contains(objectId, 279)) return 279;
-        if(Cache.getTheCache().contains(objectId, 102)) return 102;
-        if(Cache.getTheCache().contains(objectId, 109)) return 109;
+        if(Cache.getTheCache().contains(objectId, 276)) return 276;
+        if(Cache.getTheCache().contains(objectId, 149)) return 149;
+        if(Cache.getTheCache().contains(objectId, 193)) return 193;
         
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         
@@ -37,19 +37,19 @@ public class ItemFacade{
         description = description.replaceAll("_", ".");
         ItemSearchList result = new ItemSearchList();
         java.util.Iterator<?> candidates;
-        candidates = Cache.getTheCache().iterator(279);
+        candidates = Cache.getTheCache().iterator(276);
         while (candidates.hasNext()){
             PersistentItem current = (PersistentItem)((PersistentRoot)candidates.next()).getTheObject();
             if (current != null && !current.isDltd() && !current.isDelayed$Persistence() && current.getDescription().matches(description))
                 result.add((PersistentItem)PersistentProxi.createProxi(current.getId(), current.getClassId()));
         }
-        candidates = Cache.getTheCache().iterator(102);
+        candidates = Cache.getTheCache().iterator(149);
         while (candidates.hasNext()){
             PersistentItem current = (PersistentItem)((PersistentRoot)candidates.next()).getTheObject();
             if (current != null && !current.isDltd() && !current.isDelayed$Persistence() && current.getDescription().matches(description))
                 result.add((PersistentItem)PersistentProxi.createProxi(current.getId(), current.getClassId()));
         }
-        candidates = Cache.getTheCache().iterator(109);
+        candidates = Cache.getTheCache().iterator(193);
         while (candidates.hasNext()){
             PersistentItem current = (PersistentItem)((PersistentRoot)candidates.next()).getTheObject();
             if (current != null && !current.isDltd() && !current.isDelayed$Persistence() && current.getDescription().matches(description))

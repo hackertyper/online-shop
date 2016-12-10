@@ -19,7 +19,7 @@ public class CartServiceICProxi extends CustomerServiceICProxi implements Persis
     }
     
     public long getClassId() {
-        return -187;
+        return -211;
     }
     
     public PersistentCartManager getCartMngr() throws PersistenceException {

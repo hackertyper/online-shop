@@ -53,7 +53,7 @@ public class ChangeMinStockCommand extends PersistentObject implements Persisten
     }
     
     static public long getTypeId() {
-        return 273;
+        return 207;
     }
     
     public long getClassId() {
@@ -62,7 +62,7 @@ public class ChangeMinStockCommand extends PersistentObject implements Persisten
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 273) ConnectionHandler.getTheConnectionHandler().theChangeMinStockCommandFacade
+        if (this.getClassId() == 207) ConnectionHandler.getTheConnectionHandler().theChangeMinStockCommandFacade
             .newChangeMinStockCommand(minStock,this.getId());
         super.store();
         if(this.getInvoker() != null){

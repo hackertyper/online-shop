@@ -55,7 +55,7 @@ public class ChangeAmountCommand extends PersistentObject implements PersistentC
     }
     
     static public long getTypeId() {
-        return 201;
+        return 214;
     }
     
     public long getClassId() {
@@ -64,7 +64,7 @@ public class ChangeAmountCommand extends PersistentObject implements PersistentC
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 201) ConnectionHandler.getTheConnectionHandler().theChangeAmountCommandFacade
+        if (this.getClassId() == 214) ConnectionHandler.getTheConnectionHandler().theChangeAmountCommandFacade
             .newChangeAmountCommand(newAmount,this.getId());
         super.store();
         if(this.getArticle() != null){

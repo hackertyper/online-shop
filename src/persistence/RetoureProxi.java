@@ -15,7 +15,7 @@ public class RetoureProxi extends DeliveryProxi implements PersistentRetoure{
     
     
     public long getClassId() {
-        return 134;
+        return 181;
     }
     
     public Retoure_ArticleListProxi getArticleList() throws PersistenceException {

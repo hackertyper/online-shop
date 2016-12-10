@@ -19,7 +19,7 @@ public class ShopKeeperOrderICProxi extends DeliveryICProxi implements Persisten
     }
     
     public long getClassId() {
-        return 130;
+        return 175;
     }
     
     public PersistentArticle getArticle() throws PersistenceException {

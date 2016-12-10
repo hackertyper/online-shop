@@ -105,7 +105,7 @@ public class CustomerManager extends PersistentObject implements PersistentCusto
     }
     
     static public long getTypeId() {
-        return 184;
+        return 162;
     }
     
     public long getClassId() {
@@ -114,7 +114,7 @@ public class CustomerManager extends PersistentObject implements PersistentCusto
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 184) ConnectionHandler.getTheConnectionHandler().theCustomerManagerFacade
+        if (this.getClassId() == 162) ConnectionHandler.getTheConnectionHandler().theCustomerManagerFacade
             .newCustomerManager(this.getId());
         super.store();
         if(this.getShopMngr() != null){

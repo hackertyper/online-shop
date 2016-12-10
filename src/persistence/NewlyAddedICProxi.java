@@ -19,7 +19,7 @@ public class NewlyAddedICProxi extends PersistentInCacheProxiOptimistic implemen
     }
     
     public long getClassId() {
-        return 120;
+        return 166;
     }
     
     public SubjInterface getSubService() throws PersistenceException {

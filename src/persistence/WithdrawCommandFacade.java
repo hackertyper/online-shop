@@ -26,25 +26,25 @@ public class WithdrawCommandFacade{
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
     public PersistentWithdrawCommand newWithdrawCommand(long amount,long idCreateIfLessZero) throws PersistenceException {
-        if(idCreateIfLessZero > 0) return (PersistentWithdrawCommand)PersistentProxi.createProxi(idCreateIfLessZero, 118);
+        if(idCreateIfLessZero > 0) return (PersistentWithdrawCommand)PersistentProxi.createProxi(idCreateIfLessZero, 201);
         long id = ConnectionHandler.getTheConnectionHandler().theWithdrawCommandFacade.getNextId();
         WithdrawCommand result = new WithdrawCommand(amount,null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentWithdrawCommand)PersistentProxi.createProxi(id, 118);
+        return (PersistentWithdrawCommand)PersistentProxi.createProxi(id, 201);
     }
     
     public PersistentWithdrawCommand newDelayedWithdrawCommand(long amount) throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theWithdrawCommandFacade.getNextId();
         WithdrawCommand result = new WithdrawCommand(amount,null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentWithdrawCommand)PersistentProxi.createProxi(id, 118);
+        return (PersistentWithdrawCommand)PersistentProxi.createProxi(id, 201);
     }
     
     public WithdrawCommand getWithdrawCommand(long WithdrawCommandId) throws PersistenceException{
         return null; //All data is in the cache!
     }
     public long getClass(long objectId) throws PersistenceException{
-        if(Cache.getTheCache().contains(objectId, 118)) return 118;
+        if(Cache.getTheCache().contains(objectId, 201)) return 201;
         
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         

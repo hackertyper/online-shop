@@ -15,7 +15,7 @@ public class ArticleProxi extends ItemProxi implements PersistentArticle{
     
     
     public long getClassId() {
-        return 109;
+        return 193;
     }
     
     public PersistentManufacturer getManufacturer() throws PersistenceException {

@@ -19,7 +19,7 @@ public class RetoureDeliveryCommandICProxi extends PersistentInCacheProxi implem
     }
     
     public long getClassId() {
-        return 225;
+        return 206;
     }
     
     public PersistentCustomerOrder getArrivedOrder() throws PersistenceException {

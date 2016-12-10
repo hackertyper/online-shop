@@ -26,25 +26,25 @@ public class SubjFacade{
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
     public PersistentSubj newSubj(long idCreateIfLessZero) throws PersistenceException {
-        if(idCreateIfLessZero > 0) return (PersistentSubj)PersistentProxi.createProxi(idCreateIfLessZero, 205);
+        if(idCreateIfLessZero > 0) return (PersistentSubj)PersistentProxi.createProxi(idCreateIfLessZero, 209);
         long id = ConnectionHandler.getTheConnectionHandler().theSubjFacade.getNextId();
         Subj result = new Subj(null,id);
         Cache.getTheCache().put(result);
-        return (PersistentSubj)PersistentProxi.createProxi(id, 205);
+        return (PersistentSubj)PersistentProxi.createProxi(id, 209);
     }
     
     public PersistentSubj newDelayedSubj() throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theSubjFacade.getNextId();
         Subj result = new Subj(null,id);
         Cache.getTheCache().put(result);
-        return (PersistentSubj)PersistentProxi.createProxi(id, 205);
+        return (PersistentSubj)PersistentProxi.createProxi(id, 209);
     }
     
     public Subj getSubj(long SubjId) throws PersistenceException{
         return null; //All data is in the cache!
     }
     public long getClass(long objectId) throws PersistenceException{
-        if(Cache.getTheCache().contains(objectId, 205)) return 205;
+        if(Cache.getTheCache().contains(objectId, 209)) return 209;
         
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         

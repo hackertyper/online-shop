@@ -19,7 +19,7 @@ public class CustomerServiceICProxi extends ServiceICProxi implements Persistent
     }
     
     public long getClassId() {
-        return -103;
+        return -140;
     }
     
     public CustomerService_ServicesProxi getServices() throws PersistenceException {

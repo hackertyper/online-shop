@@ -19,7 +19,7 @@ public class WithdrawCommandICProxi extends PersistentInCacheProxi implements Pe
     }
     
     public long getClassId() {
-        return 118;
+        return 201;
     }
     
     public long getAmount() throws PersistenceException {

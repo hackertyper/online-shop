@@ -47,7 +47,7 @@ public abstract class Service extends PersistentObject implements PersistentServ
     }
     
     static public long getTypeId() {
-        return -129;
+        return -141;
     }
     
     public long getClassId() {

@@ -55,7 +55,7 @@ public class ChangeTimeCommand extends PersistentObject implements PersistentCha
     }
     
     static public long getTypeId() {
-        return 237;
+        return 183;
     }
     
     public long getClassId() {
@@ -64,7 +64,7 @@ public class ChangeTimeCommand extends PersistentObject implements PersistentCha
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 237) ConnectionHandler.getTheConnectionHandler().theChangeTimeCommandFacade
+        if (this.getClassId() == 183) ConnectionHandler.getTheConnectionHandler().theChangeTimeCommandFacade
             .newChangeTimeCommand(newTime,this.getId());
         super.store();
         if(this.getCd() != null){

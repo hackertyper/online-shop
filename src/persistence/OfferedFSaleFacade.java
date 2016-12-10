@@ -26,25 +26,25 @@ public class OfferedFSaleFacade{
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
     public PersistentOfferedFSale newOfferedFSale(long idCreateIfLessZero) throws PersistenceException {
-        if(idCreateIfLessZero > 0) return (PersistentOfferedFSale)PersistentProxi.createProxi(idCreateIfLessZero, 110);
+        if(idCreateIfLessZero > 0) return (PersistentOfferedFSale)PersistentProxi.createProxi(idCreateIfLessZero, 194);
         long id = ConnectionHandler.getTheConnectionHandler().theOfferedFSaleFacade.getNextId();
         OfferedFSale result = new OfferedFSale(null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentOfferedFSale)PersistentProxi.createProxi(id, 110);
+        return (PersistentOfferedFSale)PersistentProxi.createProxi(id, 194);
     }
     
     public PersistentOfferedFSale newDelayedOfferedFSale() throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theOfferedFSaleFacade.getNextId();
         OfferedFSale result = new OfferedFSale(null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentOfferedFSale)PersistentProxi.createProxi(id, 110);
+        return (PersistentOfferedFSale)PersistentProxi.createProxi(id, 194);
     }
     
     public OfferedFSale getOfferedFSale(long OfferedFSaleId) throws PersistenceException{
         return null; //All data is in the cache!
     }
     public long getClass(long objectId) throws PersistenceException{
-        if(Cache.getTheCache().contains(objectId, 110)) return 110;
+        if(Cache.getTheCache().contains(objectId, 194)) return 194;
         
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         

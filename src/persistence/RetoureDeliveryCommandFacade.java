@@ -26,25 +26,25 @@ public class RetoureDeliveryCommandFacade{
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
     public PersistentRetoureDeliveryCommand newRetoureDeliveryCommand(long idCreateIfLessZero) throws PersistenceException {
-        if(idCreateIfLessZero > 0) return (PersistentRetoureDeliveryCommand)PersistentProxi.createProxi(idCreateIfLessZero, 225);
+        if(idCreateIfLessZero > 0) return (PersistentRetoureDeliveryCommand)PersistentProxi.createProxi(idCreateIfLessZero, 206);
         long id = ConnectionHandler.getTheConnectionHandler().theRetoureDeliveryCommandFacade.getNextId();
         RetoureDeliveryCommand result = new RetoureDeliveryCommand(null,null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentRetoureDeliveryCommand)PersistentProxi.createProxi(id, 225);
+        return (PersistentRetoureDeliveryCommand)PersistentProxi.createProxi(id, 206);
     }
     
     public PersistentRetoureDeliveryCommand newDelayedRetoureDeliveryCommand() throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theRetoureDeliveryCommandFacade.getNextId();
         RetoureDeliveryCommand result = new RetoureDeliveryCommand(null,null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentRetoureDeliveryCommand)PersistentProxi.createProxi(id, 225);
+        return (PersistentRetoureDeliveryCommand)PersistentProxi.createProxi(id, 206);
     }
     
     public RetoureDeliveryCommand getRetoureDeliveryCommand(long RetoureDeliveryCommandId) throws PersistenceException{
         return null; //All data is in the cache!
     }
     public long getClass(long objectId) throws PersistenceException{
-        if(Cache.getTheCache().contains(objectId, 225)) return 225;
+        if(Cache.getTheCache().contains(objectId, 206)) return 206;
         
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         

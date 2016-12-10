@@ -19,7 +19,7 @@ public class CartICProxi extends PersistentInCacheProxiOptimistic implements Per
     }
     
     public long getClassId() {
-        return 123;
+        return 203;
     }
     
     public long getCurrentSum() throws PersistenceException {

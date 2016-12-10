@@ -15,7 +15,7 @@ public class CartServiceProxi extends CustomerServiceProxi implements Persistent
     
     
     public long getClassId() {
-        return -187;
+        return -211;
     }
     
     public PersistentCartManager getCartMngr() throws PersistenceException {

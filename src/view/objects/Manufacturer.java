@@ -20,7 +20,7 @@ public class Manufacturer extends ViewObject implements ManufacturerView{
     }
     
     static public long getTypeId() {
-        return 119;
+        return 165;
     }
     
     public long getClassId() {

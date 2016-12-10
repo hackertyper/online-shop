@@ -26,25 +26,25 @@ public class RemoveFCartCommandFacade{
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
     public PersistentRemoveFCartCommand newRemoveFCartCommand(long idCreateIfLessZero) throws PersistenceException {
-        if(idCreateIfLessZero > 0) return (PersistentRemoveFCartCommand)PersistentProxi.createProxi(idCreateIfLessZero, 215);
+        if(idCreateIfLessZero > 0) return (PersistentRemoveFCartCommand)PersistentProxi.createProxi(idCreateIfLessZero, 150);
         long id = ConnectionHandler.getTheConnectionHandler().theRemoveFCartCommandFacade.getNextId();
         RemoveFCartCommand result = new RemoveFCartCommand(null,null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentRemoveFCartCommand)PersistentProxi.createProxi(id, 215);
+        return (PersistentRemoveFCartCommand)PersistentProxi.createProxi(id, 150);
     }
     
     public PersistentRemoveFCartCommand newDelayedRemoveFCartCommand() throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theRemoveFCartCommandFacade.getNextId();
         RemoveFCartCommand result = new RemoveFCartCommand(null,null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentRemoveFCartCommand)PersistentProxi.createProxi(id, 215);
+        return (PersistentRemoveFCartCommand)PersistentProxi.createProxi(id, 150);
     }
     
     public RemoveFCartCommand getRemoveFCartCommand(long RemoveFCartCommandId) throws PersistenceException{
         return null; //All data is in the cache!
     }
     public long getClass(long objectId) throws PersistenceException{
-        if(Cache.getTheCache().contains(objectId, 215)) return 215;
+        if(Cache.getTheCache().contains(objectId, 150)) return 150;
         
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         

@@ -22,7 +22,7 @@ public class ShopManager extends ViewObject implements ShopManagerView{
     }
     
     static public long getTypeId() {
-        return 186;
+        return 168;
     }
     
     public long getClassId() {

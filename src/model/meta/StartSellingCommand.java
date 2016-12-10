@@ -51,7 +51,7 @@ public class StartSellingCommand extends PersistentObject implements PersistentS
     }
     
     static public long getTypeId() {
-        return 128;
+        return 174;
     }
     
     public long getClassId() {
@@ -60,7 +60,7 @@ public class StartSellingCommand extends PersistentObject implements PersistentS
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 128) ConnectionHandler.getTheConnectionHandler().theStartSellingCommandFacade
+        if (this.getClassId() == 174) ConnectionHandler.getTheConnectionHandler().theStartSellingCommandFacade
             .newStartSellingCommand(this.getId());
         super.store();
         if(this.getInvoker() != null){

@@ -55,7 +55,7 @@ public class PreorderCommand extends PersistentObject implements PersistentPreor
     }
     
     static public long getTypeId() {
-        return 267;
+        return 167;
     }
     
     public long getClassId() {
@@ -64,7 +64,7 @@ public class PreorderCommand extends PersistentObject implements PersistentPreor
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 267) ConnectionHandler.getTheConnectionHandler().thePreorderCommandFacade
+        if (this.getClassId() == 167) ConnectionHandler.getTheConnectionHandler().thePreorderCommandFacade
             .newPreorderCommand(this.getId());
         super.store();
         if(this.getPreOrder() != null){

@@ -22,7 +22,7 @@ public class QuantifiedArticles extends ViewObject implements QuantifiedArticles
     }
     
     static public long getTypeId() {
-        return 124;
+        return 204;
     }
     
     public long getClassId() {

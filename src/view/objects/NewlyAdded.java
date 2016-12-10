@@ -16,7 +16,7 @@ public class NewlyAdded extends ViewObject implements NewlyAddedView{
     }
     
     static public long getTypeId() {
-        return 120;
+        return 166;
     }
     
     public long getClassId() {

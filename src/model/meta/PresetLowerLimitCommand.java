@@ -53,7 +53,7 @@ public class PresetLowerLimitCommand extends PersistentObject implements Persist
     }
     
     static public long getTypeId() {
-        return 244;
+        return 198;
     }
     
     public long getClassId() {
@@ -62,7 +62,7 @@ public class PresetLowerLimitCommand extends PersistentObject implements Persist
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 244) ConnectionHandler.getTheConnectionHandler().thePresetLowerLimitCommandFacade
+        if (this.getClassId() == 198) ConnectionHandler.getTheConnectionHandler().thePresetLowerLimitCommandFacade
             .newPresetLowerLimitCommand(amount,this.getId());
         super.store();
         if(this.getInvoker() != null){

@@ -15,7 +15,7 @@ public class ProductGroupProxi extends ItemProxi implements PersistentProductGro
     
     
     public long getClassId() {
-        return 102;
+        return 149;
     }
     
     public ProductGroup_ItemListProxi getItemList() throws PersistenceException {

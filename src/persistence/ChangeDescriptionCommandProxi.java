@@ -15,7 +15,7 @@ public class ChangeDescriptionCommandProxi extends PersistentProxi implements Pe
     
     
     public long getClassId() {
-        return 131;
+        return 176;
     }
     
     public PersistentItem getItem() throws PersistenceException {

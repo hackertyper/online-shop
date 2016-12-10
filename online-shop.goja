@@ -175,15 +175,14 @@ abstract class Item {
 	abstract Integer cumulateArticleCount();
 }
 class ProductGroup extends Item {
-	one-to-one (server-only parentItem) Item ** itemList;
+	one-to-one (server-only parent) Item ** itemList;
 	event void addItem(Item item);
 }
-singleton BasicProductGroup extends ProductGroup {}
 class Article extends Item{
 	//Attributes
 	prior Manufacturer manufacturer;
 	one-to-one (server-only myArticle) ArticleState state;
-	skip-view one-to-one (no-view myArticle) ArticleWrapper myWrapper;
+	skip-view one-to-one (no-view myArticle) ArticleWrapper myWrapper; 
 	prior Integer price;
 	prior Integer minStock;
 	prior Integer maxStock;

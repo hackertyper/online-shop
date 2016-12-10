@@ -15,7 +15,7 @@ public class OpenCartProxi extends CartStateProxi implements PersistentOpenCart{
     
     
     public long getClassId() {
-        return 216;
+        return 161;
     }
     
     public PersistentOpenCart getThis() throws PersistenceException {

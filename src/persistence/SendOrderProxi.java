@@ -15,7 +15,7 @@ public class SendOrderProxi extends PersistentProxi implements PersistentSendOrd
     
     
     public long getClassId() {
-        return 126;
+        return 172;
     }
     
     public java.sql.Timestamp getArrivalDate() throws PersistenceException {

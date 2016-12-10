@@ -117,7 +117,7 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
     }
     
     static public long getTypeId() {
-        return 224;
+        return 187;
     }
     
     public long getClassId() {
@@ -126,7 +126,7 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 224) ConnectionHandler.getTheConnectionHandler().theOrderManagerFacade
+        if (this.getClassId() == 187) ConnectionHandler.getTheConnectionHandler().theOrderManagerFacade
             .newOrderManager(retourePrice,this.getId());
         super.store();
         this.getOrders().store();

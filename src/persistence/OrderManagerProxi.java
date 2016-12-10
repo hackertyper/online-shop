@@ -15,7 +15,7 @@ public class OrderManagerProxi extends PersistentProxi implements PersistentOrde
     
     
     public long getClassId() {
-        return 224;
+        return 187;
     }
     
     public OrderManager_OrdersProxi getOrders() throws PersistenceException {

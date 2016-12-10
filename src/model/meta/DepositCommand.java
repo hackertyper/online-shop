@@ -53,7 +53,7 @@ public class DepositCommand extends PersistentObject implements PersistentDeposi
     }
     
     static public long getTypeId() {
-        return 122;
+        return 170;
     }
     
     public long getClassId() {
@@ -62,7 +62,7 @@ public class DepositCommand extends PersistentObject implements PersistentDeposi
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 122) ConnectionHandler.getTheConnectionHandler().theDepositCommandFacade
+        if (this.getClassId() == 170) ConnectionHandler.getTheConnectionHandler().theDepositCommandFacade
             .newDepositCommand(amount,this.getId());
         super.store();
         if(this.getInvoker() != null){

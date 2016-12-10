@@ -21,7 +21,7 @@ public class CustomerService extends view.objects.Service implements CustomerSer
     }
     
     static public long getTypeId() {
-        return -103;
+        return -140;
     }
     
     public long getClassId() {

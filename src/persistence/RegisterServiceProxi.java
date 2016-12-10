@@ -15,7 +15,7 @@ public class RegisterServiceProxi extends ServiceProxi implements PersistentRegi
     
     
     public long getClassId() {
-        return -115;
+        return -142;
     }
     
     public PersistentRegisterService getThis() throws PersistenceException {

@@ -19,7 +19,7 @@ public class CheckOutCommandICProxi extends PersistentInCacheProxi implements Pe
     }
     
     public long getClassId() {
-        return 137;
+        return 213;
     }
     
     public Invoker getInvoker() throws PersistenceException {

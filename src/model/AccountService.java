@@ -93,7 +93,7 @@ public class AccountService extends model.CustomerService implements PersistentA
     }
     
     static public long getTypeId() {
-        return -189;
+        return -186;
     }
     
     public long getClassId() {
@@ -102,7 +102,7 @@ public class AccountService extends model.CustomerService implements PersistentA
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == -189) ConnectionHandler.getTheConnectionHandler().theAccountServiceFacade
+        if (this.getClassId() == -186) ConnectionHandler.getTheConnectionHandler().theAccountServiceFacade
             .newAccountService(this.getId());
         super.store();
         if(this.getAccMngr() != null){

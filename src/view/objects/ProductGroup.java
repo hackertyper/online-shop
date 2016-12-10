@@ -18,7 +18,7 @@ public class ProductGroup extends view.objects.Item implements ProductGroupView{
     }
     
     static public long getTypeId() {
-        return 102;
+        return 149;
     }
     
     public long getClassId() {

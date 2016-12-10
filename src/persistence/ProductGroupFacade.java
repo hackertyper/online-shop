@@ -11,18 +11,18 @@ public class ProductGroupFacade{
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
     public PersistentProductGroup newProductGroup(String description,long idCreateIfLessZero) throws PersistenceException {
-        if(idCreateIfLessZero > 0) return (PersistentProductGroup)PersistentProxi.createProxi(idCreateIfLessZero, 102);
+        if(idCreateIfLessZero > 0) return (PersistentProductGroup)PersistentProxi.createProxi(idCreateIfLessZero, 149);
         long id = ConnectionHandler.getTheConnectionHandler().theItemFacade.getNextId();
         ProductGroup result = new ProductGroup(description,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentProductGroup)PersistentProxi.createProxi(id, 102);
+        return (PersistentProductGroup)PersistentProxi.createProxi(id, 149);
     }
     
     public PersistentProductGroup newDelayedProductGroup(String description) throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theItemFacade.getNextId();
         ProductGroup result = new ProductGroup(description,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentProductGroup)PersistentProxi.createProxi(id, 102);
+        return (PersistentProductGroup)PersistentProxi.createProxi(id, 149);
     }
     
     public ProductGroup getProductGroup(long ProductGroupId) throws PersistenceException{
@@ -40,7 +40,7 @@ public class ProductGroupFacade{
     public ProductGroupSearchList inverseGetItemList(long objectId, long classId)throws PersistenceException{
         ProductGroupSearchList result = new ProductGroupSearchList();
         java.util.Iterator<PersistentInCacheProxi> candidates;
-        candidates = Cache.getTheCache().iterator(279);
+        candidates = Cache.getTheCache().iterator(276);
         while (candidates.hasNext()){
             PersistentProductGroup current = (PersistentProductGroup)((PersistentRoot)candidates.next()).getTheObject();
             if (current != null){
@@ -54,7 +54,7 @@ public class ProductGroupFacade{
                 }
             }
         }
-        candidates = Cache.getTheCache().iterator(102);
+        candidates = Cache.getTheCache().iterator(149);
         while (candidates.hasNext()){
             PersistentProductGroup current = (PersistentProductGroup)((PersistentRoot)candidates.next()).getTheObject();
             if (current != null){

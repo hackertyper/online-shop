@@ -19,7 +19,7 @@ public class CartManagerICProxi extends PersistentInCacheProxiOptimistic impleme
     }
     
     public long getClassId() {
-        return 190;
+        return 216;
     }
     
     public PersistentCart getMyCart() throws PersistenceException {

@@ -29,7 +29,7 @@ public class DoubleUsername extends model.UserException{
     }
     
     static public long getTypeId() {
-        return -178;
+        return -271;
     }
     
     public long getClassId() {

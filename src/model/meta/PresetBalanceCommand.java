@@ -53,7 +53,7 @@ public class PresetBalanceCommand extends PersistentObject implements Persistent
     }
     
     static public long getTypeId() {
-        return 243;
+        return 189;
     }
     
     public long getClassId() {
@@ -62,7 +62,7 @@ public class PresetBalanceCommand extends PersistentObject implements Persistent
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 243) ConnectionHandler.getTheConnectionHandler().thePresetBalanceCommandFacade
+        if (this.getClassId() == 189) ConnectionHandler.getTheConnectionHandler().thePresetBalanceCommandFacade
             .newPresetBalanceCommand(amount,this.getId());
         super.store();
         if(this.getInvoker() != null){

@@ -98,7 +98,7 @@ public class Manufacturer extends PersistentObject implements PersistentManufact
     }
     
     static public long getTypeId() {
-        return 119;
+        return 165;
     }
     
     public long getClassId() {
@@ -107,7 +107,7 @@ public class Manufacturer extends PersistentObject implements PersistentManufact
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 119) ConnectionHandler.getTheConnectionHandler().theManufacturerFacade
+        if (this.getClassId() == 165) ConnectionHandler.getTheConnectionHandler().theManufacturerFacade
             .newManufacturer(name,manuDelivery,this.getId());
         super.store();
         if(this.getSubService() != null){

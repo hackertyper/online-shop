@@ -26,25 +26,25 @@ public class CustomerManagerFacade{
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
     public PersistentCustomerManager newCustomerManager(long idCreateIfLessZero) throws PersistenceException {
-        if(idCreateIfLessZero > 0) return (PersistentCustomerManager)PersistentProxi.createProxi(idCreateIfLessZero, 184);
+        if(idCreateIfLessZero > 0) return (PersistentCustomerManager)PersistentProxi.createProxi(idCreateIfLessZero, 162);
         long id = ConnectionHandler.getTheConnectionHandler().theCustomerManagerFacade.getNextId();
         CustomerManager result = new CustomerManager(null,null,null,null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentCustomerManager)PersistentProxi.createProxi(id, 184);
+        return (PersistentCustomerManager)PersistentProxi.createProxi(id, 162);
     }
     
     public PersistentCustomerManager newDelayedCustomerManager() throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theCustomerManagerFacade.getNextId();
         CustomerManager result = new CustomerManager(null,null,null,null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentCustomerManager)PersistentProxi.createProxi(id, 184);
+        return (PersistentCustomerManager)PersistentProxi.createProxi(id, 162);
     }
     
     public CustomerManager getCustomerManager(long CustomerManagerId) throws PersistenceException{
         return null; //All data is in the cache!
     }
     public long getClass(long objectId) throws PersistenceException{
-        if(Cache.getTheCache().contains(objectId, 184)) return 184;
+        if(Cache.getTheCache().contains(objectId, 162)) return 162;
         
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         
@@ -70,7 +70,7 @@ public class CustomerManagerFacade{
     public CustomerManagerSearchList inverseGetShopMngr(long objectId, long classId)throws PersistenceException{
         CustomerManagerSearchList result = new CustomerManagerSearchList();
         java.util.Iterator<PersistentInCacheProxi> candidates;
-        candidates = Cache.getTheCache().iterator(184);
+        candidates = Cache.getTheCache().iterator(162);
         while (candidates.hasNext()){
             PersistentCustomerManager current = (PersistentCustomerManager)((PersistentRoot)candidates.next()).getTheObject();
             if (current != null && !current.isDltd() && !current.isDelayed$Persistence() && current.getShopMngr() != null){
@@ -85,7 +85,7 @@ public class CustomerManagerFacade{
     public CustomerManagerSearchList inverseGetAccMngr(long objectId, long classId)throws PersistenceException{
         CustomerManagerSearchList result = new CustomerManagerSearchList();
         java.util.Iterator<PersistentInCacheProxi> candidates;
-        candidates = Cache.getTheCache().iterator(184);
+        candidates = Cache.getTheCache().iterator(162);
         while (candidates.hasNext()){
             PersistentCustomerManager current = (PersistentCustomerManager)((PersistentRoot)candidates.next()).getTheObject();
             if (current != null && !current.isDltd() && !current.isDelayed$Persistence() && current.getAccMngr() != null){
@@ -100,7 +100,7 @@ public class CustomerManagerFacade{
     public CustomerManagerSearchList inverseGetCartMngr(long objectId, long classId)throws PersistenceException{
         CustomerManagerSearchList result = new CustomerManagerSearchList();
         java.util.Iterator<PersistentInCacheProxi> candidates;
-        candidates = Cache.getTheCache().iterator(184);
+        candidates = Cache.getTheCache().iterator(162);
         while (candidates.hasNext()){
             PersistentCustomerManager current = (PersistentCustomerManager)((PersistentRoot)candidates.next()).getTheObject();
             if (current != null && !current.isDltd() && !current.isDelayed$Persistence() && current.getCartMngr() != null){
@@ -115,7 +115,7 @@ public class CustomerManagerFacade{
     public CustomerManagerSearchList inverseGetOrderMngr(long objectId, long classId)throws PersistenceException{
         CustomerManagerSearchList result = new CustomerManagerSearchList();
         java.util.Iterator<PersistentInCacheProxi> candidates;
-        candidates = Cache.getTheCache().iterator(184);
+        candidates = Cache.getTheCache().iterator(162);
         while (candidates.hasNext()){
             PersistentCustomerManager current = (PersistentCustomerManager)((PersistentRoot)candidates.next()).getTheObject();
             if (current != null && !current.isDltd() && !current.isDelayed$Persistence() && current.getOrderMngr() != null){

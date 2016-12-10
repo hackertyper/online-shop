@@ -26,25 +26,25 @@ public class AcceptDeliveryCommandFacade{
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
     public PersistentAcceptDeliveryCommand newAcceptDeliveryCommand(long idCreateIfLessZero) throws PersistenceException {
-        if(idCreateIfLessZero > 0) return (PersistentAcceptDeliveryCommand)PersistentProxi.createProxi(idCreateIfLessZero, 198);
+        if(idCreateIfLessZero > 0) return (PersistentAcceptDeliveryCommand)PersistentProxi.createProxi(idCreateIfLessZero, 178);
         long id = ConnectionHandler.getTheConnectionHandler().theAcceptDeliveryCommandFacade.getNextId();
         AcceptDeliveryCommand result = new AcceptDeliveryCommand(null,null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentAcceptDeliveryCommand)PersistentProxi.createProxi(id, 198);
+        return (PersistentAcceptDeliveryCommand)PersistentProxi.createProxi(id, 178);
     }
     
     public PersistentAcceptDeliveryCommand newDelayedAcceptDeliveryCommand() throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theAcceptDeliveryCommandFacade.getNextId();
         AcceptDeliveryCommand result = new AcceptDeliveryCommand(null,null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentAcceptDeliveryCommand)PersistentProxi.createProxi(id, 198);
+        return (PersistentAcceptDeliveryCommand)PersistentProxi.createProxi(id, 178);
     }
     
     public AcceptDeliveryCommand getAcceptDeliveryCommand(long AcceptDeliveryCommandId) throws PersistenceException{
         return null; //All data is in the cache!
     }
     public long getClass(long objectId) throws PersistenceException{
-        if(Cache.getTheCache().contains(objectId, 198)) return 198;
+        if(Cache.getTheCache().contains(objectId, 178)) return 178;
         
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         

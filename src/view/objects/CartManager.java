@@ -30,7 +30,7 @@ public class CartManager extends ViewObject implements CartManagerView{
     }
     
     static public long getTypeId() {
-        return 190;
+        return 216;
     }
     
     public long getClassId() {

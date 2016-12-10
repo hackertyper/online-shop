@@ -55,7 +55,7 @@ public class RetoureArticleCommand extends PersistentObject implements Persisten
     }
     
     static public long getTypeId() {
-        return 242;
+        return 197;
     }
     
     public long getClassId() {
@@ -64,7 +64,7 @@ public class RetoureArticleCommand extends PersistentObject implements Persisten
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 242) ConnectionHandler.getTheConnectionHandler().theRetoureArticleCommandFacade
+        if (this.getClassId() == 197) ConnectionHandler.getTheConnectionHandler().theRetoureArticleCommandFacade
             .newRetoureArticleCommand(amount,this.getId());
         super.store();
         if(this.getArticle() != null){

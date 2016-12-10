@@ -19,7 +19,7 @@ public class SendOrderICProxi extends PersistentInCacheProxiOptimistic implement
     }
     
     public long getClassId() {
-        return 126;
+        return 172;
     }
     
     public java.sql.Timestamp getArrivalDate() throws PersistenceException {

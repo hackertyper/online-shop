@@ -40,7 +40,7 @@ public abstract class CartState extends PersistentObject implements PersistentCa
     }
     
     static public long getTypeId() {
-        return 217;
+        return 196;
     }
     
     public long getClassId() {

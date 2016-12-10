@@ -138,7 +138,7 @@ public class Shopkeeper extends PersistentObject implements PersistentShopkeeper
     }
     
     static public long getTypeId() {
-        return 107;
+        return 192;
     }
     
     public long getClassId() {
@@ -147,7 +147,7 @@ public class Shopkeeper extends PersistentObject implements PersistentShopkeeper
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 107) ConnectionHandler.getTheConnectionHandler().theShopkeeperFacade
+        if (this.getClassId() == 192) ConnectionHandler.getTheConnectionHandler().theShopkeeperFacade
             .newShopkeeper(this.getId());
         super.store();
         if(this.basicProductGroup != null){

@@ -26,25 +26,25 @@ public class ChangeDescriptionCommandFacade{
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
     public PersistentChangeDescriptionCommand newChangeDescriptionCommand(String newDescription,long idCreateIfLessZero) throws PersistenceException {
-        if(idCreateIfLessZero > 0) return (PersistentChangeDescriptionCommand)PersistentProxi.createProxi(idCreateIfLessZero, 131);
+        if(idCreateIfLessZero > 0) return (PersistentChangeDescriptionCommand)PersistentProxi.createProxi(idCreateIfLessZero, 176);
         long id = ConnectionHandler.getTheConnectionHandler().theChangeDescriptionCommandFacade.getNextId();
         ChangeDescriptionCommand result = new ChangeDescriptionCommand(null,newDescription,null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentChangeDescriptionCommand)PersistentProxi.createProxi(id, 131);
+        return (PersistentChangeDescriptionCommand)PersistentProxi.createProxi(id, 176);
     }
     
     public PersistentChangeDescriptionCommand newDelayedChangeDescriptionCommand(String newDescription) throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theChangeDescriptionCommandFacade.getNextId();
         ChangeDescriptionCommand result = new ChangeDescriptionCommand(null,newDescription,null,null,null,id);
         Cache.getTheCache().put(result);
-        return (PersistentChangeDescriptionCommand)PersistentProxi.createProxi(id, 131);
+        return (PersistentChangeDescriptionCommand)PersistentProxi.createProxi(id, 176);
     }
     
     public ChangeDescriptionCommand getChangeDescriptionCommand(long ChangeDescriptionCommandId) throws PersistenceException{
         return null; //All data is in the cache!
     }
     public long getClass(long objectId) throws PersistenceException{
-        if(Cache.getTheCache().contains(objectId, 131)) return 131;
+        if(Cache.getTheCache().contains(objectId, 176)) return 176;
         
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         

@@ -26,7 +26,7 @@ public class OrderManager extends ViewObject implements OrderManagerView{
     }
     
     static public long getTypeId() {
-        return 224;
+        return 187;
     }
     
     public long getClassId() {

@@ -55,7 +55,7 @@ public class ChangeChargeCommand extends PersistentObject implements PersistentC
     }
     
     static public long getTypeId() {
-        return 236;
+        return 182;
     }
     
     public long getClassId() {
@@ -64,7 +64,7 @@ public class ChangeChargeCommand extends PersistentObject implements PersistentC
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 236) ConnectionHandler.getTheConnectionHandler().theChangeChargeCommandFacade
+        if (this.getClassId() == 182) ConnectionHandler.getTheConnectionHandler().theChangeChargeCommandFacade
             .newChangeChargeCommand(newCharge,this.getId());
         super.store();
         if(this.getCd() != null){

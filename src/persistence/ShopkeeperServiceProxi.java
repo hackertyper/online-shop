@@ -15,7 +15,7 @@ public class ShopkeeperServiceProxi extends ServiceProxi implements PersistentSh
     
     
     public long getClassId() {
-        return -133;
+        return -143;
     }
     
     public PersistentShopkeeper getManager() throws PersistenceException {

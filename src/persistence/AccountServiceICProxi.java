@@ -19,7 +19,7 @@ public class AccountServiceICProxi extends CustomerServiceICProxi implements Per
     }
     
     public long getClassId() {
-        return -189;
+        return -186;
     }
     
     public PersistentAccountManager getAccMngr() throws PersistenceException {

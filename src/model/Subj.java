@@ -68,7 +68,7 @@ public class Subj extends PersistentObject implements PersistentSubj{
     }
     
     static public long getTypeId() {
-        return 205;
+        return 209;
     }
     
     public long getClassId() {
@@ -77,7 +77,7 @@ public class Subj extends PersistentObject implements PersistentSubj{
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 205) ConnectionHandler.getTheConnectionHandler().theSubjFacade
+        if (this.getClassId() == 209) ConnectionHandler.getTheConnectionHandler().theSubjFacade
             .newSubj(this.getId());
         super.store();
         this.getObservee().store();

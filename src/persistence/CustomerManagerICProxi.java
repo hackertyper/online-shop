@@ -19,7 +19,7 @@ public class CustomerManagerICProxi extends PersistentInCacheProxiOptimistic imp
     }
     
     public long getClassId() {
-        return 184;
+        return 162;
     }
     
     public PersistentShopManager getShopMngr() throws PersistenceException {

@@ -15,7 +15,7 @@ public class ShopManagerProxi extends PersistentProxi implements PersistentShopM
     
     
     public long getClassId() {
-        return 186;
+        return 168;
     }
     
     public void setBasicProductGroup(PersistentShopManagerBasicProductGroup newValue) throws PersistenceException {

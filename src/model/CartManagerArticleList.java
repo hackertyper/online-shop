@@ -60,7 +60,7 @@ public class CartManagerArticleList extends PersistentObject implements Persiste
     }
     
     static public long getTypeId() {
-        return 213;
+        return 202;
     }
     
     public long getClassId() {
@@ -69,7 +69,7 @@ public class CartManagerArticleList extends PersistentObject implements Persiste
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 213) ConnectionHandler.getTheConnectionHandler().theCartManagerArticleListFacade
+        if (this.getClassId() == 202) ConnectionHandler.getTheConnectionHandler().theCartManagerArticleListFacade
             .newCartManagerArticleList(this.getId());
         super.store();
         if(this.getObserver() != null){

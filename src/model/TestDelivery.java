@@ -86,7 +86,7 @@ public class TestDelivery extends model.CustomerDelivery implements PersistentTe
     }
     
     static public long getTypeId() {
-        return 231;
+        return 179;
     }
     
     public long getClassId() {

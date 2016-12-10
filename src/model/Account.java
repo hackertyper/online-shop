@@ -101,7 +101,7 @@ public class Account extends PersistentObject implements PersistentAccount{
     }
     
     static public long getTypeId() {
-        return 199;
+        return 148;
     }
     
     public long getClassId() {
@@ -110,7 +110,7 @@ public class Account extends PersistentObject implements PersistentAccount{
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 199) ConnectionHandler.getTheConnectionHandler().theAccountFacade
+        if (this.getClassId() == 148) ConnectionHandler.getTheConnectionHandler().theAccountFacade
             .newAccount(lowerLimit,balance,this.getId());
         super.store();
         if(this.getSubService() != null){

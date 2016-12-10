@@ -55,7 +55,7 @@ public class AddArticleCommand extends PersistentObject implements PersistentAdd
     }
     
     static public long getTypeId() {
-        return 202;
+        return 164;
     }
     
     public long getClassId() {
@@ -64,7 +64,7 @@ public class AddArticleCommand extends PersistentObject implements PersistentAdd
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 202) ConnectionHandler.getTheConnectionHandler().theAddArticleCommandFacade
+        if (this.getClassId() == 164) ConnectionHandler.getTheConnectionHandler().theAddArticleCommandFacade
             .newAddArticleCommand(amount,this.getId());
         super.store();
         if(this.getArticle() != null){

@@ -19,7 +19,7 @@ public class OfferedFSaleICProxi extends PersistentInCacheProxiOptimistic implem
     }
     
     public long getClassId() {
-        return 110;
+        return 194;
     }
     
     public SubjInterface getSubService() throws PersistenceException {

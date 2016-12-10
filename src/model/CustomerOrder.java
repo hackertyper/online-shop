@@ -118,7 +118,7 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
     }
     
     static public long getTypeId() {
-        return 111;
+        return 151;
     }
     
     public long getClassId() {
@@ -127,7 +127,7 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 111) ConnectionHandler.getTheConnectionHandler().theCustomerOrderFacade
+        if (this.getClassId() == 151) ConnectionHandler.getTheConnectionHandler().theCustomerOrderFacade
             .newCustomerOrder(remainingTimeToDelivery,sendDate,this.getId());
         super.store();
         if(this.articleList != null){

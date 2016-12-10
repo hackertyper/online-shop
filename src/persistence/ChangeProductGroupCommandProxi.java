@@ -15,7 +15,7 @@ public class ChangeProductGroupCommandProxi extends PersistentProxi implements P
     
     
     public long getClassId() {
-        return 249;
+        return 171;
     }
     
     public PersistentArticle getArticle() throws PersistenceException {

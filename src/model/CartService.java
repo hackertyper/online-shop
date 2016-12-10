@@ -93,7 +93,7 @@ public class CartService extends model.CustomerService implements PersistentCart
     }
     
     static public long getTypeId() {
-        return -187;
+        return -211;
     }
     
     public long getClassId() {
@@ -102,7 +102,7 @@ public class CartService extends model.CustomerService implements PersistentCart
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == -187) ConnectionHandler.getTheConnectionHandler().theCartServiceFacade
+        if (this.getClassId() == -211) ConnectionHandler.getTheConnectionHandler().theCartServiceFacade
             .newCartService(this.getId());
         super.store();
         if(this.getCartMngr() != null){

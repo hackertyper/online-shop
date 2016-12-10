@@ -15,7 +15,7 @@ public class CheckOutCommandProxi extends PersistentProxi implements PersistentC
     
     
     public long getClassId() {
-        return 137;
+        return 213;
     }
     
     public Invoker getInvoker() throws PersistenceException {

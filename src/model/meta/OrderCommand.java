@@ -53,7 +53,7 @@ public class OrderCommand extends PersistentObject implements PersistentOrderCom
     }
     
     static public long getTypeId() {
-        return 104;
+        return 191;
     }
     
     public long getClassId() {
@@ -62,7 +62,7 @@ public class OrderCommand extends PersistentObject implements PersistentOrderCom
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 104) ConnectionHandler.getTheConnectionHandler().theOrderCommandFacade
+        if (this.getClassId() == 191) ConnectionHandler.getTheConnectionHandler().theOrderCommandFacade
             .newOrderCommand(this.getId());
         super.store();
         if(this.getDeliveryMethod() != null){

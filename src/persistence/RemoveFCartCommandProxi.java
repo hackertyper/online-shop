@@ -15,7 +15,7 @@ public class RemoveFCartCommandProxi extends PersistentProxi implements Persiste
     
     
     public long getClassId() {
-        return 215;
+        return 150;
     }
     
     public PersistentQuantifiedArticles getArticle() throws PersistenceException {

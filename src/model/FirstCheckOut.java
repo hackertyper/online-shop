@@ -29,7 +29,7 @@ public class FirstCheckOut extends model.UserException{
     }
     
     static public long getTypeId() {
-        return -222;
+        return -274;
     }
     
     public long getClassId() {
