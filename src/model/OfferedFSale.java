@@ -251,10 +251,6 @@ public class OfferedFSale extends PersistentObject implements PersistentOfferedF
 				throws PersistenceException{
     	getThis().getMyArticle().setStock(0);
     }
-    public void refillStock() 
-				throws PersistenceException{
-    	//TODO: implement
-    }
     public void reorder(final long amount, final long manuDelivery) 
 				throws PersistenceException{
     	Timestamp ts = new Timestamp(System.currentTimeMillis());

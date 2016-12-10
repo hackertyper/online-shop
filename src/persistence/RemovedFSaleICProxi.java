@@ -90,10 +90,6 @@ public class RemovedFSaleICProxi extends PersistentInCacheProxiOptimistic implem
 				throws PersistenceException{
         ((PersistentRemovedFSale)this.getTheObject()).updateObservers(event);
     }
-    public void addToCart(final long amount, final PersistentCart cart) 
-				throws model.InsufficientStock, PersistenceException{
-        ((PersistentRemovedFSale)this.getTheObject()).addToCart(amount, cart);
-    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentRemovedFSale)this.getTheObject()).copyingPrivateUserAttributes(copy);

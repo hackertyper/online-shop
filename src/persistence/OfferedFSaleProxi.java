@@ -102,10 +102,6 @@ public class OfferedFSaleProxi extends PersistentProxi implements PersistentOffe
 				throws PersistenceException{
         ((PersistentOfferedFSale)this.getTheObject()).initializeOnInstantiation();
     }
-    public void refillStock() 
-				throws PersistenceException{
-        ((PersistentOfferedFSale)this.getTheObject()).refillStock();
-    }
     public void reorder(final long amount, final long manuDelivery) 
 				throws PersistenceException{
         ((PersistentOfferedFSale)this.getTheObject()).reorder(amount, manuDelivery);

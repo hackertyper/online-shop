@@ -233,11 +233,6 @@ public class RemovedFSale extends PersistentObject implements PersistentRemovedF
     
     // Start of section that contains operations that must be implemented.
     
-    public void addToCart(final long amount, final PersistentCart cart) 
-				throws model.InsufficientStock, PersistenceException{
-        //TODO: implement method: addToCart
-        
-    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }

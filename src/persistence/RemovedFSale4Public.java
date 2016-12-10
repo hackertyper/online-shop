@@ -21,8 +21,6 @@ public interface RemovedFSale4Public extends Anything, ArticleState, AbstractPer
     
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
-    public void addToCart(final long amount, final PersistentCart cart) 
-				throws model.InsufficientStock, PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
     public void initializeOnCreation() 
