@@ -42,7 +42,7 @@ public class RegisterServiceConnection extends ServiceConnection {
     }
     
     @SuppressWarnings("unchecked")
-    public synchronized void register(String accountName, String password) throws ModelException, DoubleUsername{
+    public synchronized void register(String accountName, String password) throws ModelException, DuplicateUsername{
         try {
             Vector<Object> parameters = new Vector<Object>();
             parameters.add(accountName);
@@ -51,8 +51,8 @@ public class RegisterServiceConnection extends ServiceConnection {
             if(!((Boolean)success.get(common.RPCConstantsAndServices.OKOrNotOKResultFieldName)).booleanValue()){
                 if (((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == 0)
                     throw new ModelException((String)success.get(common.RPCConstantsAndServices.ExceptionMessageFieldName), ((Integer)success.get(common.RPCConstantsAndServices.ExceptionNumberFieldName)).intValue());
-                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -271)
-                    throw DoubleUsername.fromHashtableToDoubleUsername((java.util.HashMap<String,Object>)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
+                if(((Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName)).intValue() == -279)
+                    throw DuplicateUsername.fromHashtableToDuplicateUsername((java.util.HashMap<String,Object>)success.get(common.RPCConstantsAndServices.ResultFieldName), this.getHandler());
                 throw new ModelException ("Fatal error (unknown exception code:" + (Integer)success.get(common.RPCConstantsAndServices.ErrorNumberFieldName) + ")",0);
             }
         }catch(IOException ioe){

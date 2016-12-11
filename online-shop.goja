@@ -7,7 +7,7 @@ server Server {
 abstract server Service {
 }
 server RegisterService extends Service {
-	void register@@Registrieren(String accountName, String password PASSWORD) throws DoubleUsername;
+	void register@@Registrieren(String accountName, String password PASSWORD) throws DuplicateUsername;
 }
 server ShopkeeperService extends Service {
 	skip-view one-to-one (server-only myServer) Shopkeeper manager;
@@ -44,7 +44,7 @@ server ShopService extends CustomerService {
 	skip-view one-to-one (no-view myShopServer) ShopManager shopMngr;
 	//Shopview
 	void findArticle@@Artikel_suchen(String description);
-	void addToCart@@Zum_Einkaufswagen_hinzufügen(Article article, Integer amount);
+	void addToCart@@Zum_Einkaufswagen_hinzufügen(Article article, Integer amount) throws InvalidOrderAmount;
 }
 server AccountService extends CustomerService {
 	skip-view one-to-one (no-view myAccServer) AccountManager accMngr;
@@ -56,7 +56,7 @@ server CartService extends CustomerService {
 	skip-view one-to-one (no-view myCartServer) CartManager cartMngr;
 	//Einkaufswagenview
 	server-only void addToCart(Article article, Integer amount);
-	void changeAmount@@Anzahl_ändern(QuantifiedArticles article, Integer newAmount);
+	void changeAmount@@Anzahl_ändern(QuantifiedArticles article, Integer newAmount) throws InvalidOrderAmount;
 	void removeFCart@@Löschen(QuantifiedArticles article);
 	void checkOut@@Zur_Kasse_gehen();
 	void order@@Bestellen(Cart cart, CustomerDelivery deliveryMethod);
@@ -287,10 +287,11 @@ singleton OverNightDelivery extends CustomerDelivery {}
 singleton TestDelivery extends CustomerDelivery {}
 
 // Exceptions
-exception DoubleUsername{}
+exception DuplicateUsername{}
 exception InsufficientFunds{}
 exception InsufficientStock{}
 exception FirstCheckOut{}
 exception NotArrived{}
 exception InvalidStockNumber{}
+exception InvalidOrderAmount{}
 }

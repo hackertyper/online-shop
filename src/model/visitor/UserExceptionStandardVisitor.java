@@ -8,9 +8,6 @@ public abstract class UserExceptionStandardVisitor implements UserExceptionVisit
     public void handleNotArrived(model.NotArrived notArrived) throws PersistenceException{
         this.standardHandling(notArrived);
     }
-    public void handleDoubleUsername(model.DoubleUsername doubleUsername) throws PersistenceException{
-        this.standardHandling(doubleUsername);
-    }
     public void handleInvalidStockNumber(model.InvalidStockNumber invalidStockNumber) throws PersistenceException{
         this.standardHandling(invalidStockNumber);
     }
@@ -28,6 +25,9 @@ public abstract class UserExceptionStandardVisitor implements UserExceptionVisit
     }
     public void handleRestrictionException(model.RestrictionException restrictionException) throws PersistenceException{
         this.standardHandling(restrictionException);
+    }
+    public void handleDuplicateUsername(model.DuplicateUsername duplicateUsername) throws PersistenceException{
+        this.standardHandling(duplicateUsername);
     }
     public void handleInsufficientFunds(model.InsufficientFunds insufficientFunds) throws PersistenceException{
         this.standardHandling(insufficientFunds);

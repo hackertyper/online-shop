@@ -230,10 +230,10 @@ public class RegisterService extends model.Service implements PersistentRegister
         super.initializeOnInstantiation();
     }
     public void register(final String accountName, final String password) 
-				throws model.DoubleUsername, PersistenceException{
+				throws model.DuplicateUsername, PersistenceException{
     	Iterator<PersistentServer> servers = Server.getServerByUser(accountName).iterator();
     	if(servers.hasNext()) {
-    		throw new DoubleUsername("AccountName " + accountName + " is already in use!"); 
+    		throw new DuplicateUsername("AccountName " + accountName + " is already in use!"); 
     	} else {
     		Server.createServer(password, accountName, 0, Timestamp.valueOf(LocalDateTime.now()));
     	}

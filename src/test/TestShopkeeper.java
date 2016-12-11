@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import model.DoubleUsername;
+import model.DuplicateUsername;
 import model.Server;
 import model.visitor.ServiceVisitor;
 import persistence.Cache;
@@ -99,7 +99,7 @@ public class TestShopkeeper {
 						registerService.register("Marko", "Polo");
 						PersistentServer newServer = Server.createServer("Polo", "Marko", 0, new java.sql.Timestamp(0));
 						handleService(newServer);
-					} catch (DoubleUsername e) {
+					} catch (DuplicateUsername e) {
 						fail();
 					}
 				}

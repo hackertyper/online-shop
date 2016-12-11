@@ -8,9 +8,6 @@ public abstract class UserExceptionStandardVisitor implements UserExceptionVisit
     public void handleNotArrived(NotArrived notArrived) throws ModelException{
         this.standardHandling(notArrived);
     }
-    public void handleDoubleUsername(DoubleUsername doubleUsername) throws ModelException{
-        this.standardHandling(doubleUsername);
-    }
     public void handleInvalidStockNumber(InvalidStockNumber invalidStockNumber) throws ModelException{
         this.standardHandling(invalidStockNumber);
     }
@@ -28,6 +25,9 @@ public abstract class UserExceptionStandardVisitor implements UserExceptionVisit
     }
     public void handleRestrictionException(RestrictionException restrictionException) throws ModelException{
         this.standardHandling(restrictionException);
+    }
+    public void handleDuplicateUsername(DuplicateUsername duplicateUsername) throws ModelException{
+        this.standardHandling(duplicateUsername);
     }
     public void handleInsufficientFunds(InsufficientFunds insufficientFunds) throws ModelException{
         this.standardHandling(insufficientFunds);

@@ -8,7 +8,7 @@ import model.visitor.*;
 /* Additional import section end */
 
 @SuppressWarnings("serial")
-public class DoubleUsername extends model.UserException{
+public class DuplicateUsername extends model.UserException{
     
     
     public java.util.HashMap<String,Object> toHashtable(java.util.HashMap<String,Object> allResults, int depth, int essentialLevel, boolean forGUI, boolean leaf, TDObserver tdObserver) throws PersistenceException {
@@ -24,12 +24,12 @@ public class DoubleUsername extends model.UserException{
         return false;
     }
     
-    public DoubleUsername(String message) throws PersistenceException {
+    public DuplicateUsername(String message) throws PersistenceException {
         super(message);        
     }
     
     static public long getTypeId() {
-        return -271;
+        return -279;
     }
     
     public long getClassId() {
@@ -38,16 +38,16 @@ public class DoubleUsername extends model.UserException{
     
     
     public void accept(UserExceptionVisitor visitor) throws PersistenceException {
-        visitor.handleDoubleUsername(this);
+        visitor.handleDuplicateUsername(this);
     }
     public <R> R accept(UserExceptionReturnVisitor<R>  visitor) throws PersistenceException {
-         return visitor.handleDoubleUsername(this);
+         return visitor.handleDuplicateUsername(this);
     }
     public <E extends model.UserException>  void accept(UserExceptionExceptionVisitor<E> visitor) throws PersistenceException, E {
-         visitor.handleDoubleUsername(this);
+         visitor.handleDuplicateUsername(this);
     }
     public <R, E extends model.UserException> R accept(UserExceptionReturnExceptionVisitor<R, E>  visitor) throws PersistenceException, E {
-         return visitor.handleDoubleUsername(this);
+         return visitor.handleDuplicateUsername(this);
     }
     public int getLeafInfo() throws PersistenceException{
         return 0;

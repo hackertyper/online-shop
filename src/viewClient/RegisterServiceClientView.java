@@ -392,7 +392,7 @@ public class RegisterServiceClientView extends BorderPane implements ExceptionAn
 				handleException(me);
 				this.close();
 			}
-			catch(DoubleUsername e) {
+			catch(DuplicateUsername e) {
 				getStatusBar().setText(e.getMessage());
 			}
 			

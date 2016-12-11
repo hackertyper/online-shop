@@ -6,7 +6,7 @@ import persistence.*;
 public interface UserExceptionReturnVisitor<R> {
     
     public R handleCycleException(model.CycleException cycleException) throws PersistenceException;
-    public R handleDoubleUsername(model.DoubleUsername doubleUsername) throws PersistenceException;
+    public R handleDuplicateUsername(model.DuplicateUsername duplicateUsername) throws PersistenceException;
     public R handleFirstCheckOut(model.FirstCheckOut firstCheckOut) throws PersistenceException;
     public R handleInsufficientFunds(model.InsufficientFunds insufficientFunds) throws PersistenceException;
     public R handleInsufficientStock(model.InsufficientStock insufficientStock) throws PersistenceException;

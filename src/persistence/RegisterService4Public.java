@@ -38,7 +38,7 @@ public interface RegisterService4Public extends Service4Public {
     public void initializeOnInstantiation() 
 				throws PersistenceException;
     public void register(final String accountName, final String password) 
-				throws model.DoubleUsername, PersistenceException;
+				throws model.DuplicateUsername, PersistenceException;
 
 }
 

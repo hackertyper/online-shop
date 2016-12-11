@@ -30,7 +30,7 @@ public  class RemoteRegisterService extends RemoteService {
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
-        }catch(model.DoubleUsername e0){
+        }catch(model.DuplicateUsername e0){
             return createExceptionResult(e0, this);
         }
     }

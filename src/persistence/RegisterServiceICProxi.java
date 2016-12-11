@@ -145,7 +145,7 @@ public class RegisterServiceICProxi extends ServiceICProxi implements Persistent
         ((PersistentRegisterService)this.getTheObject()).initializeOnInstantiation();
     }
     public void register(final String accountName, final String password) 
-				throws model.DoubleUsername, PersistenceException{
+				throws model.DuplicateUsername, PersistenceException{
         ((PersistentRegisterService)this.getTheObject()).register(accountName, password);
     }
 
