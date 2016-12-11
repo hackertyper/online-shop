@@ -14,6 +14,9 @@ public abstract class UserExceptionStandardVisitor implements UserExceptionVisit
     public void handleInvalidStockNumber(model.InvalidStockNumber invalidStockNumber) throws PersistenceException{
         this.standardHandling(invalidStockNumber);
     }
+    public void handleInvalidOrderAmount(model.InvalidOrderAmount invalidOrderAmount) throws PersistenceException{
+        this.standardHandling(invalidOrderAmount);
+    }
     public void handleInsufficientStock(model.InsufficientStock insufficientStock) throws PersistenceException{
         this.standardHandling(insufficientStock);
     }

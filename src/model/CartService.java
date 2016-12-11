@@ -235,7 +235,9 @@ public class CartService extends model.CustomerService implements PersistentCart
         getThis().getCartMngr().addArticle(article, amount, getThis());
     }
     public void changeAmount(final PersistentQuantifiedArticles article, final long newAmount) 
-				throws PersistenceException{
+				throws model.InvalidOrderAmount, PersistenceException{
+    	if(newAmount<1)
+    		throw new InvalidOrderAmount(serverConstants.ErrorMessages.InvalidOrderAmount);
         getThis().getCartMngr().changeAmount(article, newAmount, getThis());
     }
     public void checkOut() 

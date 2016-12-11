@@ -42,6 +42,8 @@ public  class RemoteCartService extends RemoteCustomerService {
             return createOKResult();
         }catch(PersistenceException pe){
             return createExceptionResult(pe);
+        }catch(model.InvalidOrderAmount e0){
+            return createExceptionResult(e0, this);
         }
     }
     

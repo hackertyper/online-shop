@@ -10,6 +10,7 @@ public interface UserExceptionVisitor {
     public void handleFirstCheckOut(FirstCheckOut firstCheckOut) throws ModelException;
     public void handleInsufficientFunds(InsufficientFunds insufficientFunds) throws ModelException;
     public void handleInsufficientStock(InsufficientStock insufficientStock) throws ModelException;
+    public void handleInvalidOrderAmount(InvalidOrderAmount invalidOrderAmount) throws ModelException;
     public void handleInvalidStockNumber(InvalidStockNumber invalidStockNumber) throws ModelException;
     public void handleNotArrived(NotArrived notArrived) throws ModelException;
     public void handleRestrictionException(RestrictionException restrictionException) throws ModelException;

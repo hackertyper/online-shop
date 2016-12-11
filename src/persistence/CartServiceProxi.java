@@ -135,7 +135,7 @@ public class CartServiceProxi extends CustomerServiceProxi implements Persistent
         ((PersistentCartService)this.getTheObject()).addToCart(article, amount);
     }
     public void changeAmount(final PersistentQuantifiedArticles article, final long newAmount) 
-				throws PersistenceException{
+				throws model.InvalidOrderAmount, PersistenceException{
         ((PersistentCartService)this.getTheObject()).changeAmount(article, newAmount);
     }
     public void checkOut() 

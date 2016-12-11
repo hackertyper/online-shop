@@ -231,7 +231,9 @@ public class ShopService extends model.CustomerService implements PersistentShop
     // Start of section that contains operations that must be implemented.
     
     public void addToCart(final PersistentArticle article, final long amount) 
-				throws PersistenceException{
+				throws model.InvalidOrderAmount, PersistenceException{
+    	if(amount<1)
+    		throw new InvalidOrderAmount(serverConstants.ErrorMessages.InvalidOrderAmount);
         getThis().getShopMngr().addToCart(article, amount);
     }
     public void copyingPrivateUserAttributes(final Anything copy) 

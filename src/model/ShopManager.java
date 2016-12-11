@@ -289,6 +289,7 @@ public class ShopManager extends PersistentObject implements PersistentShopManag
     }
     public void findArticle(final String description) 
 				throws PersistenceException{
+    	// ItemRange leeren
     	while(getThis().getArticleRange().getLength()>0) {
     	getThis().getArticleRange().removeFirstSuccess(new Predcate<PersistentArticle>() {
 			@Override
@@ -297,6 +298,7 @@ public class ShopManager extends PersistentObject implements PersistentShopManag
 			}
 		});
     	}
+    	// Artikel suchen und der ItemRange hinzufügen
 		ItemSearchList result = Item.getItemByDescription(description);
 	    result.applyToAll(new Procdure<PersistentItem>() {
 			@Override
@@ -327,16 +329,9 @@ public class ShopManager extends PersistentObject implements PersistentShopManag
 				});
 			}
 		});
-//	    getThis().getBasicProductGroup().getItemList().applyToAll(new Procdure<PersistentItem>() {	
-//			@Override
-//			public void doItTo(PersistentItem argument) throws PersistenceException {
-//				getThis().getBasicProductGroup().getItemList().removeFirst(argument);
-//			}
-//		});
 	}
     public void initializeOnCreation() 
 				throws PersistenceException{
-//    	getThis().setBasicProductGroup(BasicProductGroup.getTheBasicProductGroup());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{

@@ -38,7 +38,7 @@ public interface CartService4Public extends CustomerService4Public {
     public void addToCart(final PersistentArticle article, final long amount) 
 				throws PersistenceException;
     public void changeAmount(final PersistentQuantifiedArticles article, final long newAmount) 
-				throws PersistenceException;
+				throws model.InvalidOrderAmount, PersistenceException;
     public void checkOut() 
 				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 

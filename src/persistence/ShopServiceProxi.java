@@ -131,7 +131,7 @@ public class ShopServiceProxi extends CustomerServiceProxi implements Persistent
         ((PersistentShopService)this.getTheObject()).updateObservers(event);
     }
     public void addToCart(final PersistentArticle article, final long amount) 
-				throws PersistenceException{
+				throws model.InvalidOrderAmount, PersistenceException{
         ((PersistentShopService)this.getTheObject()).addToCart(article, amount);
     }
     public void connected(final String user) 

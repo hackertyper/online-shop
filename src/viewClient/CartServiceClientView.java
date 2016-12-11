@@ -478,6 +478,9 @@ public class CartServiceClientView extends BorderPane implements ExceptionAndEve
 				handleException(me);
 				this.close();
 			}
+			catch(InvalidOrderAmount e) {
+				getStatusBar().setText(e.getMessage());
+			}
 			
 		}
 		protected String checkCompleteParameterSet(){

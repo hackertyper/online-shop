@@ -36,7 +36,7 @@ public interface ShopService4Public extends CustomerService4Public {
     public String shopService_Menu_Filter(final Anything anything) 
 				throws PersistenceException;
     public void addToCart(final PersistentArticle article, final long amount) 
-				throws PersistenceException;
+				throws model.InvalidOrderAmount, PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
     public void findArticle(final String description) 
