@@ -219,9 +219,8 @@ class NewlyAdded implements ArticleState{
 	void order(Integer amount);
 }
 class OfferedFSale implements ArticleState {
-	void addToCart(Integer amount, Cart cart);
 	void stopSelling();
-	void reorder(Integer amount, Integer manuDelivery);
+	void reorder();
 }
 class RemovedFSale implements ArticleState {
 	void startSellingAgain();
@@ -241,13 +240,13 @@ class QuantifiedArticles {
 //Order classes
 abstract class Delivery {
 	prior Integer remainingTimeToDelivery##rmngTmDlvr;
-	prior Timestamp sendDate;
+	prior Timestamp sentDate;
 	void send();
 	abstract void deliver();
 }
 class ShopKeeperOrder extends Delivery {
 	prior Article article;
-	prior Integer amount;	
+	prior Integer amount;
 }
 class Retoure extends Delivery {
 	QuantifiedArticles ** articleList;
