@@ -1424,7 +1424,7 @@ class ErrorDisplayDefaultDetailPanel extends DefaultDetailPanel{
 class CustomerOrderDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String Delivery$$remainingTimeToDelivery = "Delivery$$remainingTimeToDelivery";
-    protected static final String Delivery$$sendDate = "Delivery$$sendDate";
+    protected static final String Delivery$$sentDate = "Delivery$$sentDate";
     protected static final String CustomerOrder$$articleList = "CustomerOrder$$articleList";
     
     protected CustomerOrderDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
@@ -1439,9 +1439,9 @@ class CustomerOrderDefaultDetailPanel extends DefaultDetailPanel{
             this.getExceptionAndEventhandler().handleException(e);
         }
         try{
-            BaseTypePanel panel = new TimestampPanel(this, "sendDate", this.getAnything().getSendDate());
+            BaseTypePanel panel = new TimestampPanel(this, "sentDate", this.getAnything().getSentDate());
             this.getScrollablePane().getChildren().add(panel);
-            this.panels.put(Delivery$$sendDate, panel);
+            this.panels.put(Delivery$$sentDate, panel);
         }catch(ModelException e){
             this.getExceptionAndEventhandler().handleException(e);
         }
@@ -1698,7 +1698,7 @@ class SendOrderDefaultDetailPanel extends DefaultDetailPanel{
 class ShopKeeperOrderDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String Delivery$$remainingTimeToDelivery = "Delivery$$remainingTimeToDelivery";
-    protected static final String Delivery$$sendDate = "Delivery$$sendDate";
+    protected static final String Delivery$$sentDate = "Delivery$$sentDate";
     protected static final String ShopKeeperOrder$$article = "ShopKeeperOrder$$article";
     protected static final String ShopKeeperOrder$$amount = "ShopKeeperOrder$$amount";
     
@@ -1714,9 +1714,9 @@ class ShopKeeperOrderDefaultDetailPanel extends DefaultDetailPanel{
             this.getExceptionAndEventhandler().handleException(e);
         }
         try{
-            BaseTypePanel panel = new TimestampPanel(this, "sendDate", this.getAnything().getSendDate());
+            BaseTypePanel panel = new TimestampPanel(this, "sentDate", this.getAnything().getSentDate());
             this.getScrollablePane().getChildren().add(panel);
-            this.panels.put(Delivery$$sendDate, panel);
+            this.panels.put(Delivery$$sentDate, panel);
         }catch(ModelException e){
             this.getExceptionAndEventhandler().handleException(e);
         }
@@ -1780,7 +1780,7 @@ class RemovedFSaleDefaultDetailPanel extends DefaultDetailPanel{
 class RetoureDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String Delivery$$remainingTimeToDelivery = "Delivery$$remainingTimeToDelivery";
-    protected static final String Delivery$$sendDate = "Delivery$$sendDate";
+    protected static final String Delivery$$sentDate = "Delivery$$sentDate";
     protected static final String Retoure$$articleList = "Retoure$$articleList";
     
     protected RetoureDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
@@ -1795,9 +1795,9 @@ class RetoureDefaultDetailPanel extends DefaultDetailPanel{
             this.getExceptionAndEventhandler().handleException(e);
         }
         try{
-            BaseTypePanel panel = new TimestampPanel(this, "sendDate", this.getAnything().getSendDate());
+            BaseTypePanel panel = new TimestampPanel(this, "sentDate", this.getAnything().getSentDate());
             this.getScrollablePane().getChildren().add(panel);
-            this.panels.put(Delivery$$sendDate, panel);
+            this.panels.put(Delivery$$sentDate, panel);
         }catch(ModelException e){
             this.getExceptionAndEventhandler().handleException(e);
         }

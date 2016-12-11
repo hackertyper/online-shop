@@ -237,7 +237,6 @@ public class CustomerPresets extends PersistentObject implements PersistentCusto
     
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{}
-    
     public void initializeOnCreation() 
 				throws PersistenceException{
     	getThis().updatePresets();

@@ -14,7 +14,7 @@ public class CustomerOrderProxi extends DeliveryProxi implements CustomerOrderVi
     @SuppressWarnings("unchecked")
     public CustomerOrderView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
         long remainingTimeToDelivery = new Long((String)resultTable.get("remainingTimeToDelivery")).longValue();
-        java.util.Date sendDate = (java.util.Date)resultTable.get("sendDate");
+        java.util.Date sentDate = (java.util.Date)resultTable.get("sentDate");
         java.util.Vector<String> articleList_string = (java.util.Vector<String>)resultTable.get("articleList");
         java.util.Vector<QuantifiedArticlesView> articleList = ViewProxi.getProxiVector(articleList_string, connectionKey);
         ViewProxi ordermngr = null;
@@ -31,7 +31,7 @@ public class CustomerOrderProxi extends DeliveryProxi implements CustomerOrderVi
             myState = view.objects.ViewProxi.createProxi(myState$Info,connectionKey);
             myState.setToString(myState$Info.getToString());
         }
-        CustomerOrderView result$$ = new CustomerOrder((long)remainingTimeToDelivery,(java.util.Date)sendDate,articleList,(OrderManagerView)ordermngr,(CustomerOrderState)myState, this.getId(), this.getClassId());
+        CustomerOrderView result$$ = new CustomerOrder((long)remainingTimeToDelivery,(java.util.Date)sentDate,articleList,(OrderManagerView)ordermngr,(CustomerOrderState)myState, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }

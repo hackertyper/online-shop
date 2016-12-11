@@ -18,11 +18,11 @@ public abstract class DeliveryICProxi extends PersistentInCacheProxiOptimistic i
     public void setRemainingTimeToDelivery(long newValue) throws PersistenceException {
         ((PersistentDelivery)this.getTheObject()).setRemainingTimeToDelivery(newValue);
     }
-    public java.sql.Timestamp getSendDate() throws PersistenceException {
-        return ((PersistentDelivery)this.getTheObject()).getSendDate();
+    public java.sql.Timestamp getSentDate() throws PersistenceException {
+        return ((PersistentDelivery)this.getTheObject()).getSentDate();
     }
-    public void setSendDate(java.sql.Timestamp newValue) throws PersistenceException {
-        ((PersistentDelivery)this.getTheObject()).setSendDate(newValue);
+    public void setSentDate(java.sql.Timestamp newValue) throws PersistenceException {
+        ((PersistentDelivery)this.getTheObject()).setSentDate(newValue);
     }
     public SubjInterface getSubService() throws PersistenceException {
         return ((PersistentDelivery)this.getTheObject()).getSubService();

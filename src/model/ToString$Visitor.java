@@ -58,8 +58,8 @@ public class ToString$Visitor extends model.visitor.ToString$Visitor {
 	@Override
 	public void handleCustomerOrder(PersistentCustomerOrder customerOrder) throws PersistenceException {
 		result = serverConstants.StringConstants.Order + 
-				customerOrder.getSendDate().getDate() + serverConstants.StringConstants.Point + customerOrder.getSendDate().getMonth() + serverConstants.StringConstants.PointWBlank + 
-				customerOrder.getSendDate().getHours() + serverConstants.StringConstants.ColonSeparator + customerOrder.getSendDate().getMinutes() +
+				customerOrder.getSentDate().getDate() + serverConstants.StringConstants.Point + customerOrder.getSentDate().getMonth() + serverConstants.StringConstants.PointWBlank + 
+				customerOrder.getSentDate().getHours() + serverConstants.StringConstants.ColonSeparator + customerOrder.getSentDate().getMinutes() +
 				customerOrder.getMyState().toString();
 	}
 	@Override

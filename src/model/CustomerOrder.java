@@ -19,41 +19,41 @@ import model.visitor.*;
 public class CustomerOrder extends model.Delivery implements PersistentCustomerOrder{
     
     
-    public static PersistentCustomerOrder createCustomerOrder(long remainingTimeToDelivery,java.sql.Timestamp sendDate) throws PersistenceException{
-        return createCustomerOrder(remainingTimeToDelivery,sendDate,false);
+    public static PersistentCustomerOrder createCustomerOrder(long remainingTimeToDelivery,java.sql.Timestamp sentDate) throws PersistenceException{
+        return createCustomerOrder(remainingTimeToDelivery,sentDate,false);
     }
     
-    public static PersistentCustomerOrder createCustomerOrder(long remainingTimeToDelivery,java.sql.Timestamp sendDate,boolean delayed$Persistence) throws PersistenceException {
+    public static PersistentCustomerOrder createCustomerOrder(long remainingTimeToDelivery,java.sql.Timestamp sentDate,boolean delayed$Persistence) throws PersistenceException {
         PersistentCustomerOrder result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theCustomerOrderFacade
-                .newDelayedCustomerOrder(remainingTimeToDelivery,sendDate);
+                .newDelayedCustomerOrder(remainingTimeToDelivery,sentDate);
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theCustomerOrderFacade
-                .newCustomerOrder(remainingTimeToDelivery,sendDate,-1);
+                .newCustomerOrder(remainingTimeToDelivery,sentDate,-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         final$$Fields.put("remainingTimeToDelivery", remainingTimeToDelivery);
-        final$$Fields.put("sendDate", sendDate);
+        final$$Fields.put("sentDate", sentDate);
         result.initialize(result, final$$Fields);
         result.initializeOnCreation();
         return result;
     }
     
-    public static PersistentCustomerOrder createCustomerOrder(long remainingTimeToDelivery,java.sql.Timestamp sendDate,boolean delayed$Persistence,PersistentCustomerOrder This) throws PersistenceException {
+    public static PersistentCustomerOrder createCustomerOrder(long remainingTimeToDelivery,java.sql.Timestamp sentDate,boolean delayed$Persistence,PersistentCustomerOrder This) throws PersistenceException {
         PersistentCustomerOrder result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theCustomerOrderFacade
-                .newDelayedCustomerOrder(remainingTimeToDelivery,sendDate);
+                .newDelayedCustomerOrder(remainingTimeToDelivery,sentDate);
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theCustomerOrderFacade
-                .newCustomerOrder(remainingTimeToDelivery,sendDate,-1);
+                .newCustomerOrder(remainingTimeToDelivery,sentDate,-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         final$$Fields.put("remainingTimeToDelivery", remainingTimeToDelivery);
-        final$$Fields.put("sendDate", sendDate);
+        final$$Fields.put("sentDate", sentDate);
         result.initialize(This, final$$Fields);
         result.initializeOnCreation();
         return result;
@@ -91,7 +91,7 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
     public CustomerOrder provideCopy() throws PersistenceException{
         CustomerOrder result = this;
         result = new CustomerOrder(this.remainingTimeToDelivery, 
-                                   this.sendDate, 
+                                   this.sentDate, 
                                    this.subService, 
                                    this.This, 
                                    this.articleList, 
@@ -109,9 +109,9 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
     protected PersistentOrderManager ordermngr;
     protected CustomerOrderState myState;
     
-    public CustomerOrder(long remainingTimeToDelivery,java.sql.Timestamp sendDate,SubjInterface subService,PersistentDelivery This,PersistentCustomerOrderArticleList articleList,PersistentOrderManager ordermngr,CustomerOrderState myState,long id) throws PersistenceException {
+    public CustomerOrder(long remainingTimeToDelivery,java.sql.Timestamp sentDate,SubjInterface subService,PersistentDelivery This,PersistentCustomerOrderArticleList articleList,PersistentOrderManager ordermngr,CustomerOrderState myState,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((long)remainingTimeToDelivery,(java.sql.Timestamp)sendDate,(SubjInterface)subService,(PersistentDelivery)This,id);
+        super((long)remainingTimeToDelivery,(java.sql.Timestamp)sentDate,(SubjInterface)subService,(PersistentDelivery)This,id);
         this.articleList = articleList;
         this.ordermngr = ordermngr;
         this.myState = myState;        
@@ -128,7 +128,7 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
         if (this.getClassId() == 151) ConnectionHandler.getTheConnectionHandler().theCustomerOrderFacade
-            .newCustomerOrder(remainingTimeToDelivery,sendDate,this.getId());
+            .newCustomerOrder(remainingTimeToDelivery,sentDate,this.getId());
         super.store();
         if(this.articleList != null){
             this.articleList.store();
@@ -256,7 +256,7 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
         this.setThis((PersistentCustomerOrder)This);
 		if(this.isTheSameAs(This)){
 			this.setRemainingTimeToDelivery((Long)final$$Fields.get("remainingTimeToDelivery"));
-			this.setSendDate((java.sql.Timestamp)final$$Fields.get("sendDate"));
+			this.setSentDate((java.sql.Timestamp)final$$Fields.get("sentDate"));
 		}
     }
     public synchronized void register(final ObsInterface observee) 
@@ -331,7 +331,7 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
     public void initializeOnCreation() 
 				throws PersistenceException{
         super.initializeOnCreation();
-        Timestamp expectedArrival = new Timestamp(getThis().getSendDate().getTime() + getThis().getRemainingTimeToDelivery());
+        Timestamp expectedArrival = new Timestamp(getThis().getSentDate().getTime() + getThis().getRemainingTimeToDelivery());
 		getThis().setMyState(SendOrder.createSendOrder(expectedArrival));
     }
     public void initializeOnInstantiation() 

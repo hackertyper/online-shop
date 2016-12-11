@@ -13,9 +13,9 @@ public class CustomerOrder extends view.objects.Delivery implements CustomerOrde
     protected OrderManagerView ordermngr;
     protected CustomerOrderState myState;
     
-    public CustomerOrder(long remainingTimeToDelivery,java.util.Date sendDate,java.util.Vector<QuantifiedArticlesView> articleList,OrderManagerView ordermngr,CustomerOrderState myState,long id, long classId) {
+    public CustomerOrder(long remainingTimeToDelivery,java.util.Date sentDate,java.util.Vector<QuantifiedArticlesView> articleList,OrderManagerView ordermngr,CustomerOrderState myState,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
-        super((long)remainingTimeToDelivery,(java.util.Date)sendDate,id, classId);
+        super((long)remainingTimeToDelivery,(java.util.Date)sentDate,id, classId);
         this.articleList = articleList;
         this.ordermngr = ordermngr;
         this.myState = myState;        
@@ -117,7 +117,7 @@ public class CustomerOrder extends view.objects.Delivery implements CustomerOrde
     public int getRemainingTimeToDeliveryIndex() throws ModelException {
         return 0;
     }
-    public int getSendDateIndex() throws ModelException {
+    public int getSentDateIndex() throws ModelException {
         return 0 + 1;
     }
     public int getRowCount(){
@@ -130,12 +130,12 @@ public class CustomerOrder extends view.objects.Delivery implements CustomerOrde
             if(columnIndex == 0){
                 if(rowIndex == 0) return "remainingTimeToDelivery";
                 rowIndex = rowIndex - 1;
-                if(rowIndex == 0) return "sendDate";
+                if(rowIndex == 0) return "sentDate";
                 rowIndex = rowIndex - 1;
             } else {
                 if(rowIndex == 0) return new Long(getRemainingTimeToDelivery());
                 rowIndex = rowIndex - 1;
-                if(rowIndex == 0) return ViewRoot.toString(getSendDate(), true );
+                if(rowIndex == 0) return ViewRoot.toString(getSentDate(), true );
                 rowIndex = rowIndex - 1;
             }
             throw new ModelException("Table index out of bounds!", -1);
@@ -154,7 +154,7 @@ public class CustomerOrder extends view.objects.Delivery implements CustomerOrde
         }
         rowIndex = rowIndex - 1;
         if(rowIndex == 0){
-            this.setSendDate(new java.text.SimpleDateFormat(TIMESTAMPFORMAT).parse(newValue));
+            this.setSentDate(new java.text.SimpleDateFormat(TIMESTAMPFORMAT).parse(newValue));
             return;
         }
         rowIndex = rowIndex - 1;

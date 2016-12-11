@@ -457,7 +457,7 @@ public class Article extends model.Item implements PersistentArticle{
 				
 				@Override
 				public void handleOfferedFSale(PersistentOfferedFSale offeredFSale) throws PersistenceException {
-					offeredFSale.reorder(getThis().getMaxStock()-getThis().getStock(), getThis().getManufacturer().getManuDelivery());
+					offeredFSale.reorder();
 				}
 			});
         }

@@ -10,17 +10,17 @@ public class CustomerOrderFacade{
 	}
 
     /* If idCreateIfLessZero is negative, a new id is generated. */
-    public PersistentCustomerOrder newCustomerOrder(long remainingTimeToDelivery,java.sql.Timestamp sendDate,long idCreateIfLessZero) throws PersistenceException {
+    public PersistentCustomerOrder newCustomerOrder(long remainingTimeToDelivery,java.sql.Timestamp sentDate,long idCreateIfLessZero) throws PersistenceException {
         if(idCreateIfLessZero > 0) return (PersistentCustomerOrder)PersistentProxi.createProxi(idCreateIfLessZero, 151);
         long id = ConnectionHandler.getTheConnectionHandler().theDeliveryFacade.getNextId();
-        CustomerOrder result = new CustomerOrder(remainingTimeToDelivery,sendDate,null,null,null,null,null,id);
+        CustomerOrder result = new CustomerOrder(remainingTimeToDelivery,sentDate,null,null,null,null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentCustomerOrder)PersistentProxi.createProxi(id, 151);
     }
     
-    public PersistentCustomerOrder newDelayedCustomerOrder(long remainingTimeToDelivery,java.sql.Timestamp sendDate) throws PersistenceException {
+    public PersistentCustomerOrder newDelayedCustomerOrder(long remainingTimeToDelivery,java.sql.Timestamp sentDate) throws PersistenceException {
         long id = ConnectionHandler.getTheConnectionHandler().theDeliveryFacade.getNextId();
-        CustomerOrder result = new CustomerOrder(remainingTimeToDelivery,sendDate,null,null,null,null,null,id);
+        CustomerOrder result = new CustomerOrder(remainingTimeToDelivery,sentDate,null,null,null,null,null,id);
         Cache.getTheCache().put(result);
         return (PersistentCustomerOrder)PersistentProxi.createProxi(id, 151);
     }

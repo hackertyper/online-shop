@@ -10,41 +10,41 @@ import model.visitor.*;
 public class Retoure extends model.Delivery implements PersistentRetoure{
     
     
-    public static PersistentRetoure createRetoure(long remainingTimeToDelivery,java.sql.Timestamp sendDate) throws PersistenceException{
-        return createRetoure(remainingTimeToDelivery,sendDate,false);
+    public static PersistentRetoure createRetoure(long remainingTimeToDelivery,java.sql.Timestamp sentDate) throws PersistenceException{
+        return createRetoure(remainingTimeToDelivery,sentDate,false);
     }
     
-    public static PersistentRetoure createRetoure(long remainingTimeToDelivery,java.sql.Timestamp sendDate,boolean delayed$Persistence) throws PersistenceException {
+    public static PersistentRetoure createRetoure(long remainingTimeToDelivery,java.sql.Timestamp sentDate,boolean delayed$Persistence) throws PersistenceException {
         PersistentRetoure result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theRetoureFacade
-                .newDelayedRetoure(remainingTimeToDelivery,sendDate);
+                .newDelayedRetoure(remainingTimeToDelivery,sentDate);
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theRetoureFacade
-                .newRetoure(remainingTimeToDelivery,sendDate,-1);
+                .newRetoure(remainingTimeToDelivery,sentDate,-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         final$$Fields.put("remainingTimeToDelivery", remainingTimeToDelivery);
-        final$$Fields.put("sendDate", sendDate);
+        final$$Fields.put("sentDate", sentDate);
         result.initialize(result, final$$Fields);
         result.initializeOnCreation();
         return result;
     }
     
-    public static PersistentRetoure createRetoure(long remainingTimeToDelivery,java.sql.Timestamp sendDate,boolean delayed$Persistence,PersistentRetoure This) throws PersistenceException {
+    public static PersistentRetoure createRetoure(long remainingTimeToDelivery,java.sql.Timestamp sentDate,boolean delayed$Persistence,PersistentRetoure This) throws PersistenceException {
         PersistentRetoure result = null;
         if(delayed$Persistence){
             result = ConnectionHandler.getTheConnectionHandler().theRetoureFacade
-                .newDelayedRetoure(remainingTimeToDelivery,sendDate);
+                .newDelayedRetoure(remainingTimeToDelivery,sentDate);
             result.setDelayed$Persistence(true);
         }else{
             result = ConnectionHandler.getTheConnectionHandler().theRetoureFacade
-                .newRetoure(remainingTimeToDelivery,sendDate,-1);
+                .newRetoure(remainingTimeToDelivery,sentDate,-1);
         }
         java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
         final$$Fields.put("remainingTimeToDelivery", remainingTimeToDelivery);
-        final$$Fields.put("sendDate", sendDate);
+        final$$Fields.put("sentDate", sentDate);
         result.initialize(This, final$$Fields);
         result.initializeOnCreation();
         return result;
@@ -64,7 +64,7 @@ public class Retoure extends model.Delivery implements PersistentRetoure{
     public Retoure provideCopy() throws PersistenceException{
         Retoure result = this;
         result = new Retoure(this.remainingTimeToDelivery, 
-                             this.sendDate, 
+                             this.sentDate, 
                              this.subService, 
                              this.This, 
                              this.getId());
@@ -78,9 +78,9 @@ public class Retoure extends model.Delivery implements PersistentRetoure{
     }
     protected Retoure_ArticleListProxi articleList;
     
-    public Retoure(long remainingTimeToDelivery,java.sql.Timestamp sendDate,SubjInterface subService,PersistentDelivery This,long id) throws PersistenceException {
+    public Retoure(long remainingTimeToDelivery,java.sql.Timestamp sentDate,SubjInterface subService,PersistentDelivery This,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
-        super((long)remainingTimeToDelivery,(java.sql.Timestamp)sendDate,(SubjInterface)subService,(PersistentDelivery)This,id);
+        super((long)remainingTimeToDelivery,(java.sql.Timestamp)sentDate,(SubjInterface)subService,(PersistentDelivery)This,id);
         this.articleList = new Retoure_ArticleListProxi(this);        
     }
     
@@ -95,7 +95,7 @@ public class Retoure extends model.Delivery implements PersistentRetoure{
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
         if (this.getClassId() == 181) ConnectionHandler.getTheConnectionHandler().theRetoureFacade
-            .newRetoure(remainingTimeToDelivery,sendDate,this.getId());
+            .newRetoure(remainingTimeToDelivery,sentDate,this.getId());
         super.store();
         this.getArticleList().store();
         
@@ -168,7 +168,7 @@ public class Retoure extends model.Delivery implements PersistentRetoure{
         this.setThis((PersistentRetoure)This);
 		if(this.isTheSameAs(This)){
 			this.setRemainingTimeToDelivery((Long)final$$Fields.get("remainingTimeToDelivery"));
-			this.setSendDate((java.sql.Timestamp)final$$Fields.get("sendDate"));
+			this.setSentDate((java.sql.Timestamp)final$$Fields.get("sentDate"));
 		}
     }
     public synchronized void register(final ObsInterface observee) 

@@ -250,18 +250,14 @@ public class NewlyAdded extends PersistentObject implements PersistentNewlyAdded
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
-        
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnInstantiation
-        
     }
     public void order(final long amount) 
 				throws PersistenceException{
         PersistentShopKeeperOrder sko = ShopKeeperOrder.createShopKeeperOrder(getThis().getMyArticle().getManufacturer().getManuDelivery(), new Timestamp(new Date().getTime()), getThis().getMyArticle(), amount);
-        sko.deliver();
+        sko.send();
     }
     public void startSelling() 
 				throws PersistenceException{

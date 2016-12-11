@@ -9,13 +9,13 @@ import view.*;
 public abstract class Delivery extends ViewObject implements DeliveryView{
     
     protected long remainingTimeToDelivery;
-    protected java.util.Date sendDate;
+    protected java.util.Date sentDate;
     
-    public Delivery(long remainingTimeToDelivery,java.util.Date sendDate,long id, long classId) {
+    public Delivery(long remainingTimeToDelivery,java.util.Date sentDate,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
         this.remainingTimeToDelivery = remainingTimeToDelivery;
-        this.sendDate = sendDate;        
+        this.sentDate = sentDate;        
     }
     
     public long getRemainingTimeToDelivery()throws ModelException{
@@ -24,11 +24,11 @@ public abstract class Delivery extends ViewObject implements DeliveryView{
     public void setRemainingTimeToDelivery(long newValue) throws ModelException {
         this.remainingTimeToDelivery = newValue;
     }
-    public java.util.Date getSendDate()throws ModelException{
-        return this.sendDate;
+    public java.util.Date getSentDate()throws ModelException{
+        return this.sentDate;
     }
-    public void setSendDate(java.util.Date newValue) throws ModelException {
-        this.sendDate = newValue;
+    public void setSentDate(java.util.Date newValue) throws ModelException {
+        this.sentDate = newValue;
     }
     
     
@@ -55,7 +55,7 @@ public abstract class Delivery extends ViewObject implements DeliveryView{
     public int getRemainingTimeToDeliveryIndex() throws ModelException {
         return 0;
     }
-    public int getSendDateIndex() throws ModelException {
+    public int getSentDateIndex() throws ModelException {
         return 0 + 1;
     }
     public int getRowCount(){
@@ -68,12 +68,12 @@ public abstract class Delivery extends ViewObject implements DeliveryView{
             if(columnIndex == 0){
                 if(rowIndex == 0) return "remainingTimeToDelivery";
                 rowIndex = rowIndex - 1;
-                if(rowIndex == 0) return "sendDate";
+                if(rowIndex == 0) return "sentDate";
                 rowIndex = rowIndex - 1;
             } else {
                 if(rowIndex == 0) return new Long(getRemainingTimeToDelivery());
                 rowIndex = rowIndex - 1;
-                if(rowIndex == 0) return ViewRoot.toString(getSendDate(), true );
+                if(rowIndex == 0) return ViewRoot.toString(getSentDate(), true );
                 rowIndex = rowIndex - 1;
             }
             throw new ModelException("Table index out of bounds!", -1);
@@ -92,7 +92,7 @@ public abstract class Delivery extends ViewObject implements DeliveryView{
         }
         rowIndex = rowIndex - 1;
         if(rowIndex == 0){
-            this.setSendDate(new java.text.SimpleDateFormat(TIMESTAMPFORMAT).parse(newValue));
+            this.setSentDate(new java.text.SimpleDateFormat(TIMESTAMPFORMAT).parse(newValue));
             return;
         }
         rowIndex = rowIndex - 1;

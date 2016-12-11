@@ -86,10 +86,6 @@ public class OfferedFSaleProxi extends PersistentProxi implements PersistentOffe
 				throws PersistenceException{
         ((PersistentOfferedFSale)this.getTheObject()).updateObservers(event);
     }
-    public void addToCart(final long amount, final PersistentCart cart) 
-				throws PersistenceException{
-        ((PersistentOfferedFSale)this.getTheObject()).addToCart(amount, cart);
-    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
         ((PersistentOfferedFSale)this.getTheObject()).copyingPrivateUserAttributes(copy);
@@ -102,9 +98,9 @@ public class OfferedFSaleProxi extends PersistentProxi implements PersistentOffe
 				throws PersistenceException{
         ((PersistentOfferedFSale)this.getTheObject()).initializeOnInstantiation();
     }
-    public void reorder(final long amount, final long manuDelivery) 
+    public void reorder() 
 				throws PersistenceException{
-        ((PersistentOfferedFSale)this.getTheObject()).reorder(amount, manuDelivery);
+        ((PersistentOfferedFSale)this.getTheObject()).reorder();
     }
     public void stopSelling() 
 				throws PersistenceException{

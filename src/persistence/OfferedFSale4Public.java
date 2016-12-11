@@ -21,15 +21,13 @@ public interface OfferedFSale4Public extends Anything, ArticleState, AbstractPer
     
     public void initialize(final Anything This, final java.util.HashMap<String,Object> final$$Fields) 
 				throws PersistenceException;
-    public void addToCart(final long amount, final PersistentCart cart) 
-				throws PersistenceException;
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException;
     public void initializeOnCreation() 
 				throws PersistenceException;
     public void initializeOnInstantiation() 
 				throws PersistenceException;
-    public void reorder(final long amount, final long manuDelivery) 
+    public void reorder() 
 				throws PersistenceException;
     public void stopSelling() 
 				throws PersistenceException;

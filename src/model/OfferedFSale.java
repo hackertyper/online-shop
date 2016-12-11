@@ -2,6 +2,7 @@
 package model;
 
 import persistence.*;
+import sun.util.calendar.BaseCalendar.Date;
 
 import java.sql.Timestamp;
 
@@ -236,25 +237,24 @@ public class OfferedFSale extends PersistentObject implements PersistentOfferedF
     
     // Start of section that contains operations that must be implemented.
     
-    public void addToCart(final long amount, final PersistentCart cart) 
-				throws PersistenceException{
-        //TODO: implement method: addToCart
-        
-    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
+    	new Thread(new common.ArticleStockChecker(getThis())).start();
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-    	getThis().getMyArticle().setStock(0);
     }
-    public void reorder(final long amount, final long manuDelivery) 
+    public void reorder() 
 				throws PersistenceException{
-    	Timestamp ts = new Timestamp(System.currentTimeMillis());
-        ShopKeeperOrder.createShopKeeperOrder(manuDelivery, ts, getThis().getMyArticle(), amount).deliver();
+    	PersistentArticle a = getThis().getMyArticle();
+    	if(a.getStock()<a.getMinStock()) {
+    		long amount = a.getMaxStock() - a.getStock();
+        	PersistentShopKeeperOrder sko = ShopKeeperOrder.createShopKeeperOrder(a.getManufacturer().getManuDelivery(), new Timestamp(System.currentTimeMillis()), a, amount);
+        	sko.send();
+    	}
     }
     public void stopSelling() 
 				throws PersistenceException{
