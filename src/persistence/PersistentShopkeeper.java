@@ -4,6 +4,7 @@ package persistence;
 public interface PersistentShopkeeper extends Anything, SubjInterface, AbstractPersistentProxi, Shopkeeper4Public {
     
     public void setBasicProductGroup(PersistentShopkeeperBasicProductGroup newValue) throws PersistenceException ;
+    public PersistentCustomerPresets getPresets() throws PersistenceException ;
     public void setPresets(PersistentCustomerPresets newValue) throws PersistenceException ;
     public PersistentStandardDelivery getStandardDelivery() throws PersistenceException ;
     public void setStandardDelivery(PersistentStandardDelivery newValue) throws PersistenceException ;

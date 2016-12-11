@@ -475,6 +475,7 @@ public class Shopkeeper extends PersistentObject implements PersistentShopkeeper
     public void changeRetourePercentage(final long newPercentage) 
 				throws PersistenceException{
         serverConstants.ConfigConstants.setRetourePercentage(newPercentage);
+    	getThis().getPresets().updatePresets();
     }
     public void changeTime(final PersistentCustomerDelivery cd, final long newTime) 
 				throws PersistenceException{
@@ -499,6 +500,7 @@ public class Shopkeeper extends PersistentObject implements PersistentShopkeeper
         getThis().setBasicProductGroup(bpg);
         getThis().setStandardDelivery(StandardDelivery.getTheStandardDelivery());
         getThis().setOnDelivery(OverNightDelivery.getTheOverNightDelivery());
+        getThis().setPresets(CustomerPresets.getTheCustomerPresets());
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
@@ -506,10 +508,12 @@ public class Shopkeeper extends PersistentObject implements PersistentShopkeeper
     public void presetBalance(final long amount) 
 				throws PersistenceException{
         serverConstants.ConfigConstants.setPresetAccountBalance(amount);
+        getThis().getPresets().updatePresets();
     }
     public void presetLowerLimit(final long amount) 
 				throws PersistenceException{
         serverConstants.ConfigConstants.setPresetAccountLowerLimit(amount);
+        getThis().getPresets().updatePresets();
     }
     
     

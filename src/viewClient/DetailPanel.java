@@ -1537,6 +1537,7 @@ class ArrivedOrderDefaultDetailPanel extends DefaultDetailPanel{
 class CustomerPresetsDefaultDetailPanel extends DefaultDetailPanel{
     
     protected static final String CustomerPresets$$lowerLimit = "CustomerPresets$$lowerLimit";
+    protected static final String CustomerPresets$$presetAccountBalance = "CustomerPresets$$presetAccountBalance";
     protected static final String CustomerPresets$$retourePercentage = "CustomerPresets$$retourePercentage";
     
     protected CustomerPresetsDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
@@ -1547,6 +1548,13 @@ class CustomerPresetsDefaultDetailPanel extends DefaultDetailPanel{
             BaseTypePanel panel = new IntegerPanel(this, "lowerLimit", this.getAnything().getLowerLimit());
             this.getScrollablePane().getChildren().add(panel);
             this.panels.put(CustomerPresets$$lowerLimit, panel);
+        }catch(ModelException e){
+            this.getExceptionAndEventhandler().handleException(e);
+        }
+        try{
+            BaseTypePanel panel = new IntegerPanel(this, "presetAccountBalance", this.getAnything().getPresetAccountBalance());
+            this.getScrollablePane().getChildren().add(panel);
+            this.panels.put(CustomerPresets$$presetAccountBalance, panel);
         }catch(ModelException e){
             this.getExceptionAndEventhandler().handleException(e);
         }

@@ -5,7 +5,6 @@ import model.visitor.*;
 
 public interface Shopkeeper4Public extends Anything, SubjInterface, AbstractPersistentProxi {
     
-    public PersistentCustomerPresets getPresets() throws PersistenceException ;
     
     public void accept(AnythingVisitor visitor) throws PersistenceException;
     public <R> R accept(AnythingReturnVisitor<R>  visitor) throws PersistenceException;

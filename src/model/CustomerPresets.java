@@ -9,53 +9,58 @@ import model.visitor.*;
 
 public class CustomerPresets extends PersistentObject implements PersistentCustomerPresets{
     
-    /** Throws persistence exception if the object with the given id does not exist. */
-    public static PersistentCustomerPresets getById(long objectId) throws PersistenceException{
-        long classId = ConnectionHandler.getTheConnectionHandler().theCustomerPresetsFacade.getClass(objectId);
-        return (PersistentCustomerPresets)PersistentProxi.createProxi(objectId, classId);
-    }
-    
-    public static PersistentCustomerPresets createCustomerPresets() throws PersistenceException{
-        return createCustomerPresets(false);
-    }
-    
-    public static PersistentCustomerPresets createCustomerPresets(boolean delayed$Persistence) throws PersistenceException {
-        PersistentCustomerPresets result = null;
-        if(delayed$Persistence){
-            result = ConnectionHandler.getTheConnectionHandler().theCustomerPresetsFacade
-                .newDelayedCustomerPresets(0,0);
-            result.setDelayed$Persistence(true);
-        }else{
-            result = ConnectionHandler.getTheConnectionHandler().theCustomerPresetsFacade
-                .newCustomerPresets(0,0,-1);
+    private static PersistentCustomerPresets theCustomerPresets = null;
+    public static boolean reset$For$Test = false;
+    private static final Object $$lock = new Object();
+    public static PersistentCustomerPresets getTheCustomerPresets() throws PersistenceException{
+        if (theCustomerPresets == null || reset$For$Test){
+            if (reset$For$Test) theCustomerPresets = null;
+            class Initializer implements Runnable {
+                PersistenceException exception = null;
+                public void /* internal */ run(){
+                    this.produceSingleton();
+                }
+                void produceSingleton() {
+                    synchronized ($$lock){
+                        try {
+                            PersistentCustomerPresets proxi = null;
+                            proxi = ConnectionHandler.getTheConnectionHandler().theCustomerPresetsFacade.getTheCustomerPresets();
+                            theCustomerPresets = proxi;
+                            if(proxi.getId() < 0) {
+                                ((AbstractPersistentRoot)proxi).setId(proxi.getId() * -1);
+                                proxi.initialize(proxi, new java.util.HashMap<String,Object>());
+                                proxi.initializeOnCreation();
+                            }
+                        } catch (PersistenceException e){
+                            exception = e;
+                        } finally {
+                            $$lock.notify();
+                        }
+                        
+                    }
+                }
+                PersistentCustomerPresets getResult() throws PersistenceException{
+                    synchronized ($$lock) {
+                        if (exception == null && theCustomerPresets== null) try {$$lock.wait();} catch (InterruptedException e) {}
+                        if(exception != null) throw exception;
+                        return theCustomerPresets;
+                    }
+                }
+                
+            }
+            reset$For$Test = false;
+            Initializer initializer = new Initializer();
+            new Thread(initializer).start();
+            return initializer.getResult();
         }
-        java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
-        result.initialize(result, final$$Fields);
-        result.initializeOnCreation();
-        return result;
+        return theCustomerPresets;
     }
-    
-    public static PersistentCustomerPresets createCustomerPresets(boolean delayed$Persistence,PersistentCustomerPresets This) throws PersistenceException {
-        PersistentCustomerPresets result = null;
-        if(delayed$Persistence){
-            result = ConnectionHandler.getTheConnectionHandler().theCustomerPresetsFacade
-                .newDelayedCustomerPresets(0,0);
-            result.setDelayed$Persistence(true);
-        }else{
-            result = ConnectionHandler.getTheConnectionHandler().theCustomerPresetsFacade
-                .newCustomerPresets(0,0,-1);
-        }
-        java.util.HashMap<String,Object> final$$Fields = new java.util.HashMap<String,Object>();
-        result.initialize(This, final$$Fields);
-        result.initializeOnCreation();
-        return result;
-    }
-    
     public java.util.HashMap<String,Object> toHashtable(java.util.HashMap<String,Object> allResults, int depth, int essentialLevel, boolean forGUI, boolean leaf, TDObserver tdObserver) throws PersistenceException {
     java.util.HashMap<String,Object> result = null;
         if (depth > 0 && essentialLevel <= common.RPCConstantsAndServices.EssentialDepth){
             result = super.toHashtable(allResults, depth, essentialLevel, forGUI, false, tdObserver);
             result.put("lowerLimit", new Long(this.getLowerLimit()).toString());
+            result.put("presetAccountBalance", new Long(this.getPresetAccountBalance()).toString());
             result.put("retourePercentage", new Long(this.getRetourePercentage()).toString());
             String uniqueKey = common.RPCConstantsAndServices.createHashtableKey(this.getClassId(), this.getId());
             if (leaf && !allResults.containsKey(uniqueKey)) allResults.put(uniqueKey, result);
@@ -66,6 +71,7 @@ public class CustomerPresets extends PersistentObject implements PersistentCusto
     public CustomerPresets provideCopy() throws PersistenceException{
         CustomerPresets result = this;
         result = new CustomerPresets(this.lowerLimit, 
+                                     this.presetAccountBalance, 
                                      this.retourePercentage, 
                                      this.subService, 
                                      this.This, 
@@ -78,14 +84,16 @@ public class CustomerPresets extends PersistentObject implements PersistentCusto
         return false;
     }
     protected long lowerLimit;
+    protected long presetAccountBalance;
     protected long retourePercentage;
     protected SubjInterface subService;
     protected PersistentCustomerPresets This;
     
-    public CustomerPresets(long lowerLimit,long retourePercentage,SubjInterface subService,PersistentCustomerPresets This,long id) throws PersistenceException {
+    public CustomerPresets(long lowerLimit,long presetAccountBalance,long retourePercentage,SubjInterface subService,PersistentCustomerPresets This,long id) throws PersistenceException {
         /* Shall not be used by clients for object construction! Use static create operation instead! */
         super(id);
         this.lowerLimit = lowerLimit;
+        this.presetAccountBalance = presetAccountBalance;
         this.retourePercentage = retourePercentage;
         this.subService = subService;
         if (This != null && !(this.isTheSameAs(This))) this.This = This;        
@@ -100,19 +108,7 @@ public class CustomerPresets extends PersistentObject implements PersistentCusto
     }
     
     public void store() throws PersistenceException {
-        if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 157) ConnectionHandler.getTheConnectionHandler().theCustomerPresetsFacade
-            .newCustomerPresets(lowerLimit,retourePercentage,this.getId());
-        super.store();
-        if(this.getSubService() != null){
-            this.getSubService().store();
-            ConnectionHandler.getTheConnectionHandler().theCustomerPresetsFacade.subServiceSet(this.getId(), getSubService());
-        }
-        if(!this.isTheSameAs(this.getThis())){
-            this.getThis().store();
-            ConnectionHandler.getTheConnectionHandler().theCustomerPresetsFacade.ThisSet(this.getId(), getThis());
-        }
-        
+        // Singletons cannot be delayed!
     }
     
     public long getLowerLimit() throws PersistenceException {
@@ -121,6 +117,13 @@ public class CustomerPresets extends PersistentObject implements PersistentCusto
     public void setLowerLimit(long newValue) throws PersistenceException {
         if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theCustomerPresetsFacade.lowerLimitSet(this.getId(), newValue);
         this.lowerLimit = newValue;
+    }
+    public long getPresetAccountBalance() throws PersistenceException {
+        return this.presetAccountBalance;
+    }
+    public void setPresetAccountBalance(long newValue) throws PersistenceException {
+        if(!this.isDelayed$Persistence()) ConnectionHandler.getTheConnectionHandler().theCustomerPresetsFacade.presetAccountBalanceSet(this.getId(), newValue);
+        this.presetAccountBalance = newValue;
     }
     public long getRetourePercentage() throws PersistenceException {
         return this.retourePercentage;
@@ -233,19 +236,21 @@ public class CustomerPresets extends PersistentObject implements PersistentCusto
     // Start of section that contains operations that must be implemented.
     
     public void copyingPrivateUserAttributes(final Anything copy) 
-				throws PersistenceException{
-        //TODO: implement method: copyingPrivateUserAttributes
-        
-    }
+				throws PersistenceException{}
+    
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
-        
+    	getThis().updatePresets();
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnInstantiation
-        
+        getThis().updatePresets();
+    }
+    public void updatePresets() 
+				throws PersistenceException{
+        getThis().setLowerLimit(serverConstants.ConfigConstants.getPresetAccountLowerLimit());
+        getThis().setPresetAccountBalance(serverConstants.ConfigConstants.getPresetAccountBalance());
+        getThis().setRetourePercentage(serverConstants.ConfigConstants.getRetourePercentage());
     }
     
     
