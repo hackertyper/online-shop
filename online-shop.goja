@@ -133,9 +133,11 @@ class Account {
 	void returnPayment(Integer sum);
 	void pay(Integer sum) throws InsufficientFunds;
 }
-class CustomerPresets {
+singleton CustomerPresets {
 	Integer lowerLimit;
+	Integer presetAccountBalance##preset;
 	Integer retourePercentage;
+	void updatePresets();
 }
 class Cart {
 	Integer currentSum;
@@ -153,7 +155,7 @@ class CheckedOut extends CartState{}
 //Shopkeeper classes
 class Shopkeeper {
 	observe ProductGroup basicProductGroup;
-	public CustomerPresets presets;
+	CustomerPresets presets;
 	// data creation methods
 	void createProductGroup(ProductGroup parent, String description);
 	void createArticle(ProductGroup parent, String description, String manufacturer, Integer price, Integer maxStock, Integer minStock, Integer manuDelivery) throws InvalidStockNumber;
