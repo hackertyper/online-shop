@@ -13,13 +13,17 @@ import org.junit.Test;
 
 import model.Article;
 import model.CartManager;
+import model.CartService;
 import model.CustomerManager;
 import model.CustomerService;
 import model.FirstCheckOut;
 import model.InsufficientFunds;
 import model.InsufficientStock;
+import model.InvalidOrderAmount;
 import model.Manufacturer;
 import model.QuantifiedArticles;
+import model.ShopService;
+import model.ShopkeeperService;
 import persistence.PersistenceException;
 import persistence.PersistentArticle;
 import persistence.PersistentCartManager;
@@ -29,6 +33,7 @@ import persistence.PersistentCustomerService;
 import persistence.PersistentManufacturer;
 import persistence.PersistentOpenCart;
 import persistence.PersistentQuantifiedArticles;
+import persistence.PersistentShopService;
 import persistence.Predcate;
 
 public class TestCart {
@@ -38,6 +43,7 @@ public class TestCart {
 	PersistentArticle a2;
 	PersistentArticle a3;
 	PersistentManufacturer m1;
+	PersistentShopService pss;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -47,6 +53,7 @@ public class TestCart {
 		cs = CustomerService.createCustomerService(cm);
 		m1 = Manufacturer.createManufacturer("M1", 1000);
 		a1 = Article.createArticle("A1", m1, 100, 10, 150);
+		pss = ShopService.createShopService(cm);
 		a1.setStock(100);
 		cm.getCartMngr().addArticle(a1, 10);
 		a2 = Article.createArticle("A2", m1, 20, 5, 60);
@@ -80,6 +87,16 @@ public class TestCart {
 		}
 	}
 	
+	@Test(expected = InvalidOrderAmount.class)
+	public void testAddToCartInvalidAmount() throws PersistenceException, InvalidOrderAmount {
+		pss.addToCart(a1, 0);
+	}
+	
+	@Test(expected = InvalidOrderAmount.class)
+	public void testAddToCartInvalidAmountNegative() throws PersistenceException, InvalidOrderAmount {
+		pss.addToCart(a1, -10);
+	}
+		
 	@Test
 	public void testRemoveFCart() throws PersistenceException {
 		testAddToCart();
@@ -125,6 +142,29 @@ public class TestCart {
 		}
 		assertEquals(500, cm.getCartMngr().getMyCart().getCurrentSum());
 	}
+	
+	@Test(expected = InvalidOrderAmount.class)
+	public void testChangeAmountZero() throws PersistenceException, InvalidOrderAmount {
+		PersistentQuantifiedArticles qa1 = cm.getCartMngr().getArticleList().findFirst(new Predcate<PersistentQuantifiedArticles>() {
+			@Override
+			public boolean test(PersistentQuantifiedArticles argument) throws PersistenceException {
+				return argument.getArticle().equals(a1);
+			}
+		});
+		CartService.createCartService(pss.getManager()).changeAmount(qa1, 0);;
+	}
+	
+	@Test(expected = InvalidOrderAmount.class)
+	public void testChangeAmountNegative() throws PersistenceException, InvalidOrderAmount {
+		PersistentQuantifiedArticles qa1 = cm.getCartMngr().getArticleList().findFirst(new Predcate<PersistentQuantifiedArticles>() {
+			@Override
+			public boolean test(PersistentQuantifiedArticles argument) throws PersistenceException {
+				return argument.getArticle().equals(a1);
+			}
+		});
+		CartService.createCartService(pss.getManager()).changeAmount(qa1, -10);;
+	}
+
 	
 	@Test
 	public void testCheckOut() throws PersistenceException, InsufficientStock {
