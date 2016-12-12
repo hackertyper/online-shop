@@ -23,6 +23,11 @@ import persistence.PersistentShopkeeper;
 import persistence.PersistentShopkeeperService;
 import persistence.Predcate;
 
+/**
+ * This class is intended for testing all actions the shopkeeper might want to
+ * perform like editing articles and product groups.
+ *
+ */
 public class TestShopkeeperDataManipulation {
 
 	private PersistentShopkeeperService sks;
@@ -30,8 +35,8 @@ public class TestShopkeeperDataManipulation {
 	private PersistentProductGroup basicPg;
 
 	/**
-	 * Vor jedem Test werden die Singletons und die Datenbank vorbereitet sowie
-	 * die Instanzvariablen gesetzt.
+	 * Prior to every single test singletons, database and fields have to be
+	 * prepared again.
 	 * 
 	 * @throws PersistenceException
 	 */
@@ -45,7 +50,8 @@ public class TestShopkeeperDataManipulation {
 	}
 
 	/**
-	 * Prüfen der essentiellen Teile des Lagers nach Programmstart.
+	 * Check the essentials of shopkeeper after program start; that means there
+	 * has to be one basicProductGroup which contains one article.
 	 * 
 	 * @throws PersistenceException
 	 */
@@ -55,17 +61,16 @@ public class TestShopkeeperDataManipulation {
 	}
 
 	/**
-	 * Erstellung eines Artikels und Hinzufügen zur basicProductGroup.
+	 * An article is created and added to basicProductGroup.
 	 * 
-	 * Es erfolgen drei Tests:
+	 * Three scenarios are tested:
 	 * 
-	 * Zuerst wird geprüft, ob der State des neuen Artikels NewlyAdded ist.
+	 * Fist test is wether the state of the new article is NewlyAdded
 	 * 
-	 * Dann wird er durch startSelling(...) in den Verkauf genommen und es wird
-	 * getestet, ob er jetzt den State OfferedFSale besitzt.
+	 * Second the article will be offered for sale and the correct state
+	 * OfferedFSale is tested.
 	 * 
-	 * Nun wird er durch stopSelling aus dem Verkauf genommen und der Arikel
-	 * wird auf den Status RemovedFSale getestet.
+	 * Finally the article is removed from sale and its state is tested again.
 	 * 
 	 * @throws PersistenceException
 	 * @throws InvalidStockNumber
@@ -73,7 +78,7 @@ public class TestShopkeeperDataManipulation {
 	 */
 	@Test
 	public void testArticleStates() throws PersistenceException, InvalidStockNumber, InterruptedException {
-		PersistentArticle article = Article.createArticle("", Manufacturer.createManufacturer("",0), 0, 0, 0);
+		PersistentArticle article = Article.createArticle("", Manufacturer.createManufacturer("", 0), 0, 0, 0);
 		basicPg.addItem(article);
 
 		assertEquals(NewlyAdded.createNewlyAdded().getClass(), article.getState().getClass());
@@ -84,10 +89,9 @@ public class TestShopkeeperDataManipulation {
 	}
 
 	/**
-	 * Hinzufügen eines Artikels namens "Bleistift" zur basicProductGroup
-	 * 
-	 * Test, ob der Artikel dort enthalten ist und die gewünschte Beschreibung
-	 * besitzt.
+	 * Add an article called "Bleistift" to basicProductGroup and test, whether
+	 * basicProductGroup contains an article which has the exact same
+	 * description.
 	 * 
 	 * @throws PersistenceException
 	 * @throws InvalidStockNumber
@@ -106,9 +110,9 @@ public class TestShopkeeperDataManipulation {
 	}
 
 	/**
-	 * Anlage eines Artikels, dessen minimaler Lagerbestand den maximalen
-	 * übersteigt. So ein Fall darf nicht vorkommen, deswegen wird eine
-	 * Exception geworfen.
+	 * An article is created whose minimum stock number is above the maximum.
+	 * Since this is an invalid option an InvalidStockNumber-Exception is
+	 * expected.
 	 * 
 	 * @throws PersistenceException
 	 * @throws InvalidStockNumber
@@ -119,39 +123,36 @@ public class TestShopkeeperDataManipulation {
 	}
 
 	/**
-	 * Test der Änderung des maximalen Lagerbestandes.
+	 * Test changing maximum stock number
 	 * 
-	 * Dieser darf nicht kleiner als der Minimale sein.
 	 * @throws PersistenceException
 	 * @throws InvalidStockNumber
 	 */
 	@Test
 	public void testChangeMaxStock() throws PersistenceException, InvalidStockNumber {
-		PersistentArticle a = Article.createArticle("", Manufacturer.createManufacturer("",10), 0, 10, 10);
+		PersistentArticle a = Article.createArticle("", Manufacturer.createManufacturer("", 10), 0, 10, 10);
 		basicPg.addItem(a);
 		sks.changeMaxStock(a, 15);
 		assertEquals(15, a.getMaxStock());
 	}
 
 	/**
-	 * Test der Änderung des minimalen Lagerbestandes.
+	 * Test changing minimum stock number
 	 * 
-	 * Dieser darf nicht größer als der Maximale sein.
 	 * @throws PersistenceException
 	 * @throws InvalidStockNumber
 	 */
 	@Test
 	public void testChangeMinStock() throws PersistenceException, InvalidStockNumber {
-		PersistentArticle a = Article.createArticle("", Manufacturer.createManufacturer("",10), 0, 10, 10);
+		PersistentArticle a = Article.createArticle("", Manufacturer.createManufacturer("", 10), 0, 10, 10);
 		basicPg.addItem(a);
 		sks.changeMinStock(a, 5);
 		assertEquals(5, a.getMinStock());
 	}
 
 	/**
-	 * Test der Änderung des maximalen Lagerbestandes bei ungültiger Eingabe.
+	 * Changing the maximum stock below minimum has to cause an exception.
 	 * 
-	 * Dieser darf nicht kleiner als der Minimale sein.
 	 * @throws PersistenceException
 	 * @throws InvalidStockNumber
 	 */
@@ -163,9 +164,8 @@ public class TestShopkeeperDataManipulation {
 	}
 
 	/**
-	 * Test der Änderung des minimalen Lagerbestandes bei ungültiger Eingabe.
+	 * Changing the minimum stock above maximum has to cause an exception.
 	 * 
-	 * Dieser darf nicht größer als der Maximale sein.
 	 * @throws PersistenceException
 	 * @throws InvalidStockNumber
 	 */
@@ -178,6 +178,7 @@ public class TestShopkeeperDataManipulation {
 
 	/**
 	 * Anlage einer Produktgruppe.
+	 * 
 	 * @throws PersistenceException
 	 * @throws InvalidStockNumber
 	 */
@@ -189,9 +190,11 @@ public class TestShopkeeperDataManipulation {
 	}
 
 	/**
-	 * Anlage eines Artikels sowie einer Produktgruppe und darin eines Artikels.
+	 * Creation of an article as well as a product group wich contains an
+	 * article.
 	 * 
-	 * Zum Test wird die Gesamtartikelanzahl der basicProductGroup abgefragt (die 2 sein muss)
+	 * In this test the number of articles in basicProductGroup has to be 2.
+	 * 
 	 * @throws PersistenceException
 	 * @throws InvalidStockNumber
 	 */
@@ -203,8 +206,9 @@ public class TestShopkeeperDataManipulation {
 		sks.createArticle(subPg, "", "", 0, 10, 0, 10);
 		assertEquals(6, basicPg.cumulateArticleCount());
 	}
-	
+
 	/**
+	 * Test of changing the product group of an article.
 	 * 
 	 * @throws InvalidStockNumber
 	 * @throws PersistenceException
@@ -225,7 +229,8 @@ public class TestShopkeeperDataManipulation {
 				return argument.equals(a);
 			}
 		}));
-		// Test, ob sich der Artikel nicht mehr in der basicProductGroup befindet
+		// Test, ob sich der Artikel nicht mehr in der basicProductGroup
+		// befindet
 		assertEquals(null, basicPg.getItemList().findFirst(new Predcate<PersistentItem>() {
 
 			@Override

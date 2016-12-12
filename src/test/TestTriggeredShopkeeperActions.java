@@ -16,6 +16,13 @@ import persistence.PersistentProductGroup;
 import persistence.PersistentShopkeeper;
 import persistence.PersistentShopkeeperService;
 
+/**
+ * Test of all actions which the shopkeeper cannot execute themselves but which
+ * can be triggered by e.g. customers.
+ * 
+ * @author admin
+ *
+ */
 public class TestTriggeredShopkeeperActions {
 
 	private PersistentShopkeeperService sks;
@@ -24,8 +31,10 @@ public class TestTriggeredShopkeeperActions {
 	private PersistentArticle articleInTest;
 
 	/**
-	 * Vor jedem Test werden die Singletons und die Datenbank vorbereitet sowie
-	 * die Instanzvariablen gesetzt.
+	 * Prior to every single test singletons, database and fields have to be
+	 * prepared again.
+	 * 
+	 * Additionally an article is created to perform tests on.
 	 * 
 	 * @throws PersistenceException
 	 * @throws InvalidStockNumber
@@ -37,12 +46,13 @@ public class TestTriggeredShopkeeperActions {
 		sks = ShopkeeperService.createShopkeeperService();
 		sk = sks.getManager();
 		basicPg = sk.getBasicProductGroup();
-		articleInTest = Article.createArticle("Bleistift", Manufacturer.createManufacturer("Pelikan", 1000), 100, 10, 100);
+		articleInTest = Article.createArticle("Bleistift", Manufacturer.createManufacturer("Pelikan", 1000), 100, 10,
+				100);
 	}
 
 	/**
-	 * Empfangen einer Lieferung. Der Lagerbestand muss entsprechend der
-	 * Liefermenge erhöht werden.
+	 * Check whether stock number is equal the delivery amount (after the
+	 * delivery has been performed of course).
 	 * 
 	 * @throws PersistenceException
 	 */
@@ -53,9 +63,8 @@ public class TestTriggeredShopkeeperActions {
 	}
 
 	/**
-	 * Packen eines Artikels im OfferedForSale-State mit ausreichendem
-	 * Lagerbestand. Lagerbestand muss am Ende dem des Anfangs abzüglich der
-	 * Packmenge betragen.
+	 * Packing of an article being offered for sale with sufficient stock.
+	 * Article stock number must be lower than before.
 	 * 
 	 * @throws PersistenceException
 	 * @throws InsufficientStock
@@ -69,9 +78,9 @@ public class TestTriggeredShopkeeperActions {
 	}
 
 	/**
-	 * Packen eines Artikels im RemovedFromSale-State mit ausreichendem
-	 * Lagerbestand. Lagerbestand muss am Ende dem des Anfangs abzüglich der
-	 * Packmenge betragen.
+	 * Packing of an article being removed from sale with sufficient stock.
+	 * Article stock number must be lower than before.
+	 * 
 	 * @throws PersistenceException
 	 * @throws InsufficientStock
 	 */
@@ -85,26 +94,12 @@ public class TestTriggeredShopkeeperActions {
 	}
 
 	/**
-	 * Packen eines Artikels im OfferedForSale-State ohne ausreichenden
-	 * Lagerbestand. Eine Exception muss geworfen werden und die gewünschte Menge reserviert werden.
-	 * @throws PersistenceException
-	 * @throws InsufficientStock
-	 */
-//	@Test
-//	public void testPackInOfferedFSaleWithoutFullStock() throws PersistenceException, InsufficientStock {
-//		articleInTest.receiveDelivery(50);
-//		((NewlyAddedProxi) articleInTest.getState()).startSelling();
-//		try {
-//			articleInTest.pack(60);
-//		} catch (InsufficientStock e) {
-//		}
-//		assertEquals(50, articleInTest.getStock());
-//		assertEquals(60, articleInTest.getReserved());
-//	}
-
-	/**
 	 * Packen eines Artikels im RemovedFromSale-State ohne ausreichenden
 	 * Lagerbestand. Eine InsufficientSotck-Exception wird erwartet.
+	 * 
+	 * Packing of an article being removed from sale with insufficient stock.
+	 * Since this is impossible an InsufficientStock-Exception is expected.
+	 * 
 	 * @throws PersistenceException
 	 * @throws InsufficientStock
 	 */
