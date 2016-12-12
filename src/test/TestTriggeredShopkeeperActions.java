@@ -1,6 +1,10 @@
 package test;
 
 import static org.junit.Assert.*;
+
+import java.io.IOException;
+import java.sql.SQLException;
+
 import persistence.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,7 +46,11 @@ public class TestTriggeredShopkeeperActions {
 	@Before
 	public void initialize() throws PersistenceException, InvalidStockNumber {
 		TestSupport.prepareSingletons();
-		TestSupport.prepareDatabase();
+		try {
+			TestSupport.prepareDatabase();
+		} catch (SQLException | IOException e) {
+			fail();
+		}
 		sks = ShopkeeperService.createShopkeeperService();
 		sk = sks.getManager();
 		basicPg = sk.getBasicProductGroup();

@@ -2,6 +2,9 @@ package test;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+import java.sql.SQLException;
+
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -38,8 +41,8 @@ public class TestShopkeeper {
 	public static void initialiseFramework(){
 		try {
 			TestSupport.prepareDatabase();
-		} catch (PersistenceException e) {
-			throw new Error(e);
+		} catch (PersistenceException | SQLException | IOException e) {
+			fail();
 		}
 	}
 	/**
@@ -51,6 +54,9 @@ public class TestShopkeeper {
 			TestSupport.clearDatabase();
 		} catch (PersistenceException e) {
 			throw new Error(e);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	/**
