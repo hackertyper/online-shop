@@ -1,6 +1,5 @@
 package common;
 
-import persistence.PersistenceException;
 import persistence.PersistentOfferedFSale;
 
 public class ArticleStockChecker implements Runnable {
@@ -13,16 +12,12 @@ public class ArticleStockChecker implements Runnable {
 
 	@Override
 	public void run() {
-		while (true) {
-			try {
+		try {
+			while (true) {
 				Thread.sleep(10000);
 				article.reorder();
-			} catch (PersistenceException e) {
-				e.printStackTrace();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
 			}
+		} catch (Exception e) {
 		}
 	}
-
 }
