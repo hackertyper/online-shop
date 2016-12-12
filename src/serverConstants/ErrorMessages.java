@@ -10,6 +10,7 @@ public class ErrorMessages {
 	public static final String invalidStocknumbers = "Minimallagerbestand muss weniger oder gleich dem Maximallagerbestand sein!";
 	public static final String reserveNegative = "Achten Sie darauf das Reserve nicht negativ ist!";
 	public static final String InvalidOrderAmount = "Die Bestellmenge muss mindestens 1 sein!";
+	public static final String CartPreorder = "Einkaufswagen wurde vorbestellt. Vorbestellung einsehbar unter Bestellungen.";
 
 	public ErrorMessages() {}
 	
