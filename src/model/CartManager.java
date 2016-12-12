@@ -157,7 +157,7 @@ public class CartManager extends PersistentObject implements PersistentCartManag
     }
     
     static public long getTypeId() {
-        return 216;
+        return 156;
     }
     
     public long getClassId() {
@@ -166,7 +166,7 @@ public class CartManager extends PersistentObject implements PersistentCartManag
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 216) ConnectionHandler.getTheConnectionHandler().theCartManagerFacade
+        if (this.getClassId() == 156) ConnectionHandler.getTheConnectionHandler().theCartManagerFacade
             .newCartManager(this.getId());
         super.store();
         if(this.getMyCart() != null){
@@ -512,7 +512,6 @@ public class CartManager extends PersistentObject implements PersistentCartManag
 				throws model.InsufficientStock, PersistenceException{
         getThis().getMyCart().checkOut();
         if(getThis().getPreOrder() != null) {
-        	//TODO: Meldung ausgeben dass vorbestellt
         	getThis().setMyCart(Cart.createCart(OpenCart.getTheOpenCart()));
         	// empty the article list
 	        getThis().getArticleList().filter(new Predcate<PersistentQuantifiedArticles>() {
@@ -521,6 +520,7 @@ public class CartManager extends PersistentObject implements PersistentCartManag
 					return false;
 				}
 			});
+	        getThis().getMyCartServer().getErrors().add(ErrorDisplay.createErrorDisplay(serverConstants.ErrorMessages.CartPreorder));
         }
     }
     public void copyingPrivateUserAttributes(final Anything copy) 
