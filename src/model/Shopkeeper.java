@@ -484,11 +484,26 @@ public class Shopkeeper extends PersistentObject implements PersistentShopkeeper
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{        
     }
+    /**
+     * Creates a new article.
+     * 
+     * @param parent - parent product group for this article
+     * @param manufacturer - manufacturer of article 
+     * @param price - price for article
+     * @param maxStock - maxStock of article
+     * @param minStock - minStocjk of article
+     * @param manuDelivery - manuDelivery of article
+     */
     public void createArticle(final PersistentProductGroup parent, final String description, final String manufacturer, final long price, final long maxStock, final long minStock, final long manuDelivery) 
 				throws model.InvalidStockNumber, PersistenceException{
     	if(minStock>maxStock) throw new InvalidStockNumber(serverConstants.ErrorMessages.invalidStocknumbers);
         parent.addItem(Article.createArticle(description, Manufacturer.createManufacturer(manufacturer, manuDelivery), price, minStock, maxStock));        
     }
+    /**
+     * Creates a new product group.
+     * 
+     * @param parent - the parent group of this product group
+     */
     public void createProductGroup(final PersistentProductGroup parent, final String description) 
 				throws PersistenceException{
         parent.addItem(ProductGroup.createProductGroup(description));
@@ -505,11 +520,21 @@ public class Shopkeeper extends PersistentObject implements PersistentShopkeeper
     public void initializeOnInstantiation() 
 				throws PersistenceException{
     }
+    /**
+     * Changes the preset balance.
+     * 
+     * @param amount - new preset balance
+     */
     public void presetBalance(final long amount) 
 				throws PersistenceException{
         serverConstants.ConfigConstants.setPresetAccountBalance(amount);
         getThis().getPresets().updatePresets();
     }
+    /**
+     * Changes the preset lower limit
+     * 
+     * @param amount - new preset lower limit
+     */
     public void presetLowerLimit(final long amount) 
 				throws PersistenceException{
         serverConstants.ConfigConstants.setPresetAccountLowerLimit(amount);

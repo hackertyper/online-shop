@@ -310,6 +310,11 @@ public class QuantifiedArticles extends PersistentObject implements PersistentQu
 				throws PersistenceException{
         getThis().fireArticleChanged(event);
     }
+    /**
+     * Changes the amount of this quantified article.
+     * 
+     * @param newAmount - the new amount of quantified article
+     */
     public void changeAmount(final long newAmount) 
 				throws PersistenceException{
         getThis().setAmount(newAmount);

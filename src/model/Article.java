@@ -390,27 +390,55 @@ public class Article extends model.Item implements PersistentArticle{
     
     
     // Start of section that contains operations that must be implemented.
-    
+    /**
+     * Changes the time for manuDelivery
+     * 
+     * @param newManuDelivery - new time for the manufacturer delivery
+     */
     public void changeManuDelivery(final long newManuDelivery) 
 				throws PersistenceException{
     	getThis().getManufacturer().changeManuDelivery(newManuDelivery);
     }
+    /**
+     * Changes the maxStock of article to given amount
+     * 
+     * @param maxStock - new maxStock of article
+     * 
+     * @throws invalidStockNumber if given amount is lower than minStock
+     */
     public void changeMaxStock(final long maxStock) 
 				throws model.InvalidStockNumber, PersistenceException{
        	if(maxStock<getThis().getMinStock())
     		throw new InvalidStockNumber(ErrorMessages.invalidStocknumbers);
         getThis().setMaxStock(maxStock);
     }
+    /**
+     * Changes the minStock of article
+     * 
+     * @param minStock - new minStock of article
+     * 
+     * @throws invalidStockNumber if given amount is higher than maxStock
+     */
     public void changeMinStock(final long minStock) 
 				throws model.InvalidStockNumber, PersistenceException{
     	if(minStock>getThis().getMaxStock())
     		throw new InvalidStockNumber(ErrorMessages.invalidStocknumbers);
         getThis().setMinStock(minStock);
     }
+    /**
+     * Changes the price of article
+     * 
+     * @param newPrice - the new price of the article
+     */
     public void changePriceImplementation(final long newPrice) 
 				throws PersistenceException{
         getThis().setPrice(newPrice);
     }
+    /**
+     * Changes the productGroup of article
+     * 
+     * @param newPG - the new productGroup of article
+     */
     public void changeProductGroup(final PersistentProductGroup newPG) 
 				throws PersistenceException{
         getThis().getParentItem().getItemList().removeAll(getThis());
@@ -462,6 +490,11 @@ public class Article extends model.Item implements PersistentArticle{
 			});
         }
     }
+    /**
+     * Adds amount to current stock
+     * 
+     * @param amount - the amount by which to increase the current stock
+     */
     public void receiveDeliveryImplementation(final long amount) 
 				throws PersistenceException{
         getThis().setStock(getThis().getStock() + amount);
@@ -482,7 +515,11 @@ public class Article extends model.Item implements PersistentArticle{
     
     
     // Start of section that contains overridden operations only.
-    
+    /**
+     * Changes the description of article
+     * 
+     * @param newDescription - the new description of article
+     */
     public void changeDescription(final String newDescription) 
 				throws PersistenceException{
 		getThis().setDescription(newDescription);

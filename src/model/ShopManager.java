@@ -287,6 +287,11 @@ public class ShopManager extends PersistentObject implements PersistentShopManag
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }
+    /**
+     * Searches and shows articles which meet description.
+     * 
+     * @param description - the description for which to search
+     */
     public void findArticle(final String description) 
 				throws PersistenceException{
     	// ItemRange leeren

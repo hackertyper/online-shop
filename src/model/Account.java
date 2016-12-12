@@ -256,6 +256,11 @@ public class Account extends PersistentObject implements PersistentAccount{
 				throws PersistenceException{
     	// do nothing
     }
+    /**
+     * Increases the balance of account.
+     * 
+     * @param amount - the amount by which to increase the balance of account
+     */
     public void deposit(final long amount) 
 				throws PersistenceException{
     	getThis().setBalance(getThis().getBalance() + amount);
@@ -269,6 +274,13 @@ public class Account extends PersistentObject implements PersistentAccount{
 				throws PersistenceException{
     	// do nothing
     }
+    /**
+     * Decreases the balance by sum.
+     * 
+     * @param sum - the sum by which to decrease the balance
+     * 
+     * @throws InsufficientFunds if sum > balance or balance - sum < lowerLimit
+     */
     public void pay(final long sum) 
 				throws model.InsufficientFunds, PersistenceException{
         if(sum > getThis().getBalance() || getThis().getBalance() - sum < getLowerLimit()) {
@@ -276,10 +288,22 @@ public class Account extends PersistentObject implements PersistentAccount{
         }
         getThis().setBalance(getThis().getBalance() - sum);
     }
+    /**
+     * Increases the balance by sum.
+     * 
+     * @param sum - the sum by which to increase the balance
+     */
     public void returnPayment(final long sum) 
 				throws PersistenceException{
         getThis().setBalance(getThis().getBalance() + sum);
     }
+    /**
+     * Decreases the balance of account.
+     * 
+     * @param amount - the amount by which to decrease the balance of account
+     * 
+     * @throws InsufficientFunds if amount > balance or balance - amount < lowerLimit
+     */
     public void withdraw(final long amount) 
 				throws model.InsufficientFunds, PersistenceException{
     	if(amount > getThis().getBalance() || getThis().getBalance() - amount < getLowerLimit())

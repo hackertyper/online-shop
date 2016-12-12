@@ -241,6 +241,11 @@ public class Manufacturer extends PersistentObject implements PersistentManufact
     
     // Start of section that contains operations that must be implemented.
     
+    /**
+     * Changes the manuDelivery time.
+     * 
+     * @param newManuDelivery - the new time for manuDelivery
+     */
     public void changeManuDelivery(final long newManuDelivery) 
 				throws PersistenceException{
         getThis().setManuDelivery(newManuDelivery);
@@ -250,13 +255,9 @@ public class Manufacturer extends PersistentObject implements PersistentManufact
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
-        
     }
     public void initializeOnInstantiation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnInstantiation
-        
     }
     
     

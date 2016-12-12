@@ -143,6 +143,9 @@ public abstract class Delivery extends PersistentObject implements PersistentDel
     
     // Start of section that contains overridden operations only.
     
+    /**
+     * Starts the concurrent sending of order.
+     */
     public void send() 
 				throws PersistenceException{
 		OrderTimer.getInstance().send(new DeliveryTask(getThis()), getThis().getRemainingTimeToDelivery());

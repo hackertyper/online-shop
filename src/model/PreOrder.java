@@ -353,50 +353,52 @@ public class PreOrder extends PersistentObject implements PersistentPreOrder{
     
     
     // Start of section that contains operations that must be implemented.
-    
+    /**
+     * Called if articleList changed.
+     */
     public void articleList_update(final model.meta.QuantifiedArticlesMssgs event) 
 				throws PersistenceException{
-    event.accept(new QuantifiedArticlesMssgsVisitor() {
-		@Override
-		public void handleQuantifiedArticlesFireArticleChangedArticleMssgsMssg(
-				QuantifiedArticlesFireArticleChangedArticleMssgsMssg event) throws PersistenceException {
-			event.evnt.accept(new ArticleMssgsVisitor() {
-				@Override
-				public void handleArticleReserveIntegerMssg(ArticleReserveIntegerMssg event) throws PersistenceException {}
-				@Override
-				public void handleArticleReceiveDeliveryIntegerMssg(ArticleReceiveDeliveryIntegerMssg event)
-						throws PersistenceException {
-					getThis().getArticleList().applyToAll(new Procdure<PersistentQuantifiedArticles>() {
-						@Override
-						public void doItTo(PersistentQuantifiedArticles argument) throws PersistenceException {
-							try {
-								argument.reserve();
-							} catch (InsufficientStock e) {}
-						}
-					});
-				}
-				@Override
-				public void handleArticleDeleteReserveIntegerMssg(ArticleDeleteReserveIntegerMssg event)
-						throws PersistenceException {
-					getThis().getArticleList().applyToAll(new Procdure<PersistentQuantifiedArticles>() {
-						@Override
-						public void doItTo(PersistentQuantifiedArticles argument) throws PersistenceException {
-							try {
-								argument.reserve();
-							} catch (InsufficientStock e) {}
-						}
-					});
-				}
-				@Override
-				public void handleArticleChangePriceIntegerMssg(ArticleChangePriceIntegerMssg event) throws PersistenceException {}
-			});
-		}
-	});
-}
+	    event.accept(new QuantifiedArticlesMssgsVisitor() {
+			@Override
+			public void handleQuantifiedArticlesFireArticleChangedArticleMssgsMssg(
+					QuantifiedArticlesFireArticleChangedArticleMssgsMssg event) throws PersistenceException {
+				event.evnt.accept(new ArticleMssgsVisitor() {
+					@Override
+					public void handleArticleReserveIntegerMssg(ArticleReserveIntegerMssg event) throws PersistenceException {}
+					@Override
+					public void handleArticleReceiveDeliveryIntegerMssg(ArticleReceiveDeliveryIntegerMssg event)
+							throws PersistenceException {
+						getThis().getArticleList().applyToAll(new Procdure<PersistentQuantifiedArticles>() {
+							@Override
+							public void doItTo(PersistentQuantifiedArticles argument) throws PersistenceException {
+								try {
+									argument.reserve();
+								} catch (InsufficientStock e) {}
+							}
+						});
+					}
+					@Override
+					public void handleArticleDeleteReserveIntegerMssg(ArticleDeleteReserveIntegerMssg event)
+							throws PersistenceException {
+						getThis().getArticleList().applyToAll(new Procdure<PersistentQuantifiedArticles>() {
+							@Override
+							public void doItTo(PersistentQuantifiedArticles argument) throws PersistenceException {
+								try {
+									argument.reserve();
+								} catch (InsufficientStock e) {}
+							}
+						});
+					}
+					@Override
+					public void handleArticleChangePriceIntegerMssg(ArticleChangePriceIntegerMssg event) throws PersistenceException {}
+				});
+			}
+		});
+    }
     public void cancel() 
-				throws PersistenceException{
-	// Nothing to do
-}
+    		throws PersistenceException{
+    	// Nothing to do
+    }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{}
     public void initializeOnCreation() 
@@ -406,37 +408,45 @@ public class PreOrder extends PersistentObject implements PersistentPreOrder{
 }
     public void initializeOnInstantiation() 
 				throws PersistenceException{}
+    /**
+     * Tries to reserve all articles. If successful creates a customerOrder and returns it.
+     * @param deliveryMethod - the chosen delivery method
+     * @return customerOrder if enough stock is accessible
+     * @throws InsufficientFunds if not enough money on account to pay 
+     */
     public PersistentCustomerOrder preorder(final PersistentCustomerDelivery deliveryMethod) 
-				throws model.InsufficientFunds, PersistenceException{
-	try {
-		getThis().getArticleList().applyToAllException(new ProcdureException<PersistentQuantifiedArticles, InsufficientStock>() {
+			throws model.InsufficientFunds, PersistenceException{
+	    // reserve articles
+		try {
+			getThis().getArticleList().applyToAllException(new ProcdureException<PersistentQuantifiedArticles, InsufficientStock>() {
+				@Override
+				public void doItTo(PersistentQuantifiedArticles argument) throws PersistenceException, InsufficientStock {
+					argument.reserve();
+				}
+			});
+		} catch (InsufficientStock e) {
+			// if not enough stock, do nothing
+			return null;
+		}
+		// pay the sum of the articles from the account
+		getThis().getCartManager().pay(getThis().getSum() + deliveryMethod.getExtraCharge());
+		// create order to deliver with this article list
+		PersistentCustomerOrder co = CustomerOrder.createCustomerOrder(deliveryMethod.getTime(), serverConstants.OrderConstants.current);
+		getThis().getArticleList().applyToAll(new Procdure<PersistentQuantifiedArticles>() {
 			@Override
-			public void doItTo(PersistentQuantifiedArticles argument) throws PersistenceException, InsufficientStock {
-				argument.reserve();
+			public void doItTo(PersistentQuantifiedArticles argument) throws PersistenceException {
+				co.getArticleList().add(argument);
 			}
 		});
-	} catch (InsufficientStock e) {
-		return null;
+		// cause reorder if necessary
+	    getThis().getArticleList().applyToAll(new Procdure<PersistentQuantifiedArticles>() {
+			@Override
+			public void doItTo(PersistentQuantifiedArticles argument) throws PersistenceException {
+				argument.pack();
+			}
+		});
+	    return co;
 	}
-	// pay the sum of the articles from the account
-	getThis().getCartManager().pay(getThis().getSum() + deliveryMethod.getExtraCharge());
-	// create order to deliver with this article list
-	PersistentCustomerOrder co = CustomerOrder.createCustomerOrder(deliveryMethod.getTime(), serverConstants.OrderConstants.current);
-	getThis().getArticleList().applyToAll(new Procdure<PersistentQuantifiedArticles>() {
-		@Override
-		public void doItTo(PersistentQuantifiedArticles argument) throws PersistenceException {
-			co.getArticleList().add(argument);
-		}
-	});
-	// cause reorder if necessary
-    getThis().getArticleList().applyToAll(new Procdure<PersistentQuantifiedArticles>() {
-		@Override
-		public void doItTo(PersistentQuantifiedArticles argument) throws PersistenceException {
-			argument.pack();
-		}
-	});
-    return co;
-}
     
     
     // Start of section that contains overridden operations only.

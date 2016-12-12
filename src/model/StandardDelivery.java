@@ -183,10 +183,18 @@ public class StandardDelivery extends model.CustomerDelivery implements Persiste
     
     // Start of section that contains operations that must be implemented.
     
+    /**
+     * Changes the charge of the delivery method
+     * @param newCharge - the new charge of the delivery method
+     */
     public void changeExtraChargeImplementation(final long newCharge) 
 				throws PersistenceException{
     	getThis().setExtraCharge(newCharge);
     }
+    /**
+     * Changes the time of the delivery method
+     * @param newTime - the new time of the delivery method
+     */
     public void changeTimeImplementation(final long newTime) 
 				throws PersistenceException{
     	getThis().setTime(newTime);

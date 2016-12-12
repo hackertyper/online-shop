@@ -212,7 +212,11 @@ public class ProductGroup extends model.Item implements PersistentProductGroup{
     
     
     // Start of section that contains operations that must be implemented.
-    
+    /**
+     * Adds item to productGroup.
+     * 
+     * @param item - the item to add to productGroup
+     */
     public void addItemImplementation(final PersistentItem item) 
 				throws PersistenceException{
         getThis().getItemList().add(item);
@@ -220,6 +224,11 @@ public class ProductGroup extends model.Item implements PersistentProductGroup{
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{
     }
+    /**
+     * Cumulates article count.
+     * 
+     * @return amount of articles in productGroup
+     */
     public long cumulateArticleCount() 
 				throws PersistenceException{
     	long result = 0;
@@ -240,7 +249,11 @@ public class ProductGroup extends model.Item implements PersistentProductGroup{
     
     
     // Start of section that contains overridden operations only.
-    
+    /**
+     * Changes the description.
+     * 
+     * @param newDescription - the new description of productGroup
+     */
     public void changeDescription(final String newDescription) 
 				throws PersistenceException{
 		getThis().setDescription(newDescription);

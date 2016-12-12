@@ -279,6 +279,9 @@ public class CustomerService extends model.Service implements PersistentCustomer
 				throws PersistenceException{
         super.initializeOnInstantiation();
     }
+    /**
+     * Calls signalChanged on all services.
+     */
     public void signalChanged() 
 				throws PersistenceException{
         getThis().getServices().applyToAll(new Procdure<PersistentCustomerService>() {

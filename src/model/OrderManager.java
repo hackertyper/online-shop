@@ -365,11 +365,19 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
     	getThis().getOrders().add(order);
     	getThis().getCustomerManager().signalChanged();
     }
+    /**
+     * Adds new preorder to view.
+     */
     public void addPreOrder(final PersistentPreOrder preOrder) 
 				throws PersistenceException{
         getThis().getPreOrders().add(preOrder);
         getThis().getCustomerManager().signalChanged();
     }
+    /**
+     * Cancels a preorder.
+     * 
+     * @param preOrder - the preorder to cancel
+     */
     public void cancel(final PersistentPreOrder preOrder) 
 				throws PersistenceException{
         preOrder.cancel();
@@ -390,6 +398,12 @@ public class OrderManager extends PersistentObject implements PersistentOrderMan
     public void initializeOnInstantiation() 
 				throws PersistenceException{
     }
+    /**
+     * Creates a new order from preOrder and sends it.
+     * 
+     * @param preOrder - the preOrder which to order
+     * @param deliveryMethod - the chosen delivery method
+     */
     public void preorder(final PersistentPreOrder preOrder, final PersistentCustomerDelivery deliveryMethod) 
 				throws model.InsufficientFunds, PersistenceException{
     	PersistentCustomerOrder co = preOrder.preorder(deliveryMethod);

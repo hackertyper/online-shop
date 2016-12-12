@@ -254,14 +254,21 @@ public class NewlyAdded extends PersistentObject implements PersistentNewlyAdded
     public void initializeOnInstantiation() 
 				throws PersistenceException{
     }
+    /**
+     * Creates a shopkeeper order and sends it.
+     */
     public void order(final long amount) 
 				throws PersistenceException{
         PersistentShopKeeperOrder sko = ShopKeeperOrder.createShopKeeperOrder(getThis().getMyArticle().getManufacturer().getManuDelivery(), new Timestamp(new Date().getTime()), getThis().getMyArticle(), amount);
         sko.send();
     }
+    /**
+     * Changes the state to OfferedFSale, orders maxStock
+     */
     public void startSelling() 
 				throws PersistenceException{
         getThis().getMyArticle().setState(OfferedFSale.createOfferedFSale());
+        getThis().order(getThis().getMyArticle().getMaxStock());
     }
     
     
