@@ -139,7 +139,7 @@ public class PreOrder extends PersistentObject implements PersistentPreOrder{
     }
     
     static public long getTypeId() {
-        return 195;
+        return 238;
     }
     
     public long getClassId() {
@@ -148,7 +148,7 @@ public class PreOrder extends PersistentObject implements PersistentPreOrder{
     
     public void store() throws PersistenceException {
         if(!this.isDelayed$Persistence()) return;
-        if (this.getClassId() == 195) ConnectionHandler.getTheConnectionHandler().thePreOrderFacade
+        if (this.getClassId() == 238) ConnectionHandler.getTheConnectionHandler().thePreOrderFacade
             .newPreOrder(sum,this.getId());
         super.store();
         if(this.getCartManager() != null){
@@ -359,6 +359,7 @@ public class PreOrder extends PersistentObject implements PersistentPreOrder{
      */
     public void articleList_update(final model.meta.QuantifiedArticlesMssgs event) 
 				throws PersistenceException{
+    	if(!cancelled) {
     event.accept(new QuantifiedArticlesMssgsVisitor() {
 		@Override
 		public void handleQuantifiedArticlesFireArticleChangedArticleMssgsMssg(
@@ -395,10 +396,12 @@ public class PreOrder extends PersistentObject implements PersistentPreOrder{
 			});
 		}
 	});
+    	}
 }
     public void cancel() 
 				throws PersistenceException{
-	// Nothing to do
+	this.cancelled = true;
+	getThis().getCartManager().setPreOrder(null);
 }
     public void copyingPrivateUserAttributes(final Anything copy) 
 				throws PersistenceException{}
@@ -454,7 +457,7 @@ public class PreOrder extends PersistentObject implements PersistentPreOrder{
     
 
     /* Start of protected part that is not overridden by persistence generator */
-
+    private boolean cancelled = false;
 /* End of protected part that is not overridden by persistence generator */
     
 }
