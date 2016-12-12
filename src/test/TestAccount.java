@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import model.Account;
@@ -20,6 +21,14 @@ import persistence.PersistentAccount;
 public class TestAccount {
 	PersistentAccount acc;
 
+	@BeforeClass
+	public static void initialiseFramework() {
+		try {
+			TestSupport.prepareDatabase();
+		} catch (PersistenceException | SQLException | IOException e) {
+			throw new Error(e);
+		}
+	}
 	/**
 	 * Set up all data including an account under test.
 	 * @throws PersistenceException 

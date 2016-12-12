@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import model.Article;
@@ -37,6 +38,14 @@ public class TestShopkeeperDataManipulation {
 	private PersistentShopkeeper sk;
 	private PersistentProductGroup basicPg;
 
+	@BeforeClass
+	public static void initialiseFramework() {
+		try {
+			TestSupport.prepareDatabase();
+		} catch (PersistenceException | SQLException | IOException e) {
+			throw new Error(e);
+		}
+	}
 	/**
 	 * Prior to every single test singletons, database and fields have to be
 	 * prepared again.
@@ -47,8 +56,8 @@ public class TestShopkeeperDataManipulation {
 	public void initialize() throws PersistenceException {
 		TestSupport.prepareSingletons();
 		try {
-			TestSupport.prepareDatabase();
-		} catch (SQLException | IOException e) {
+			TestSupport.clearDatabase();
+		} catch (SQLException e) {
 			fail();
 		}
 		sks = ShopkeeperService.createShopkeeperService();
@@ -64,7 +73,7 @@ public class TestShopkeeperDataManipulation {
 	 */
 	@Test
 	public void testBasicSetup() throws PersistenceException {
-		assertEquals(1, basicPg.cumulateArticleCount());
+		assertEquals(0, basicPg.cumulateArticleCount());
 	}
 
 	/**
@@ -192,8 +201,8 @@ public class TestShopkeeperDataManipulation {
 	@Test
 	public void testAddSubPg() throws PersistenceException, InvalidStockNumber {
 		sks.createProductGroup(basicPg, "Subgroup");
-		assertEquals(3, basicPg.cumulateArticleCount());
-		assertEquals(4, basicPg.getItemList().getLength());
+		assertEquals(0, basicPg.cumulateArticleCount());
+		assertEquals(1, basicPg.getItemList().getLength());
 	}
 
 	/**
@@ -211,7 +220,7 @@ public class TestShopkeeperDataManipulation {
 		PersistentProductGroup subPg = ProductGroup.createProductGroup("Subgroup");
 		basicPg.addItem(subPg);
 		sks.createArticle(subPg, "", "", 0, 10, 0, 10);
-		assertEquals(6, basicPg.cumulateArticleCount());
+		assertEquals(2, basicPg.cumulateArticleCount());
 	}
 
 	/**

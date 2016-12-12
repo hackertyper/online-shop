@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 import persistence.*;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import model.Article;
@@ -34,6 +35,14 @@ public class TestTriggeredShopkeeperActions {
 	private PersistentProductGroup basicPg;
 	private PersistentArticle articleInTest;
 
+	@BeforeClass
+	public static void initialiseFramework() {
+		try {
+			TestSupport.prepareDatabase();
+		} catch (PersistenceException | SQLException | IOException e) {
+			throw new Error(e);
+		}
+	}
 	/**
 	 * Prior to every single test singletons, database and fields have to be
 	 * prepared again.
@@ -47,8 +56,8 @@ public class TestTriggeredShopkeeperActions {
 	public void initialize() throws PersistenceException, InvalidStockNumber {
 		TestSupport.prepareSingletons();
 		try {
-			TestSupport.prepareDatabase();
-		} catch (SQLException | IOException e) {
+			TestSupport.clearDatabase();
+		} catch (SQLException e) {
 			fail();
 		}
 		sks = ShopkeeperService.createShopkeeperService();

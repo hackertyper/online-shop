@@ -66,7 +66,7 @@ public class TestShopkeeper {
 	@Before
 	public void setUp() throws Exception {
 		TestSupport.prepareSingletons();
-		TestSupport.prepareDatabase();
+		TestSupport.clearDatabase();
 		Cache.getTheCache().reset$For$Test();
 	}
 

@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import model.Article;
@@ -29,6 +30,7 @@ import model.Manufacturer;
 import model.QuantifiedArticles;
 import model.ShopService;
 import model.ShopkeeperService;
+import persistence.Cache;
 import persistence.PersistenceException;
 import persistence.PersistentArticle;
 import persistence.PersistentCartManager;
@@ -50,12 +52,22 @@ public class TestCart {
 	PersistentManufacturer m1;
 	PersistentShopService pss;
 
-	@Before
-	public void setUp() throws PersistenceException {
-		TestSupport.prepareSingletons();
+	@BeforeClass
+	public static void initialiseFramework() {
 		try {
 			TestSupport.prepareDatabase();
 		} catch (PersistenceException | SQLException | IOException e) {
+			throw new Error(e);
+		}
+	}
+	
+	@Before
+	public void setUp() throws PersistenceException {
+		try {
+			TestSupport.clearDatabase();
+			TestSupport.prepareSingletons();
+			Cache.getTheCache().reset$For$Test();
+		} catch (PersistenceException | SQLException e) {
 			fail();
 		}
 		cm = CustomerManager.createCustomerManager();
