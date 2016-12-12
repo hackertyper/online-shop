@@ -297,6 +297,11 @@ public class Cart extends PersistentObject implements PersistentCart{
         // Calculation of new sum
         getThis().setCurrentSum(getThis().fetchCurrentSum());
     }
+    /**
+     * Changes the state of the cart
+     * 
+     * @param newState - the new state of this cart
+     */
     public void changeState(final PersistentCartState newState) 
 				throws PersistenceException{
         getThis().setState(newState);
@@ -384,6 +389,13 @@ public class Cart extends PersistentObject implements PersistentCart{
     public void initializeOnInstantiation() 
 				throws PersistenceException{
     }
+    /**
+     * Creates an order with the chosen delivery method. Initiates payment and sending of order. 
+     * 
+     * @param deliveryMethod - the delivery method chosen
+     * 
+     * @throws FirstCheckOut if cart is not checked out
+     */
     public void order(final PersistentCustomerDelivery deliveryMethod) 
 				throws model.FirstCheckOut, model.InsufficientFunds, PersistenceException{
     	// Check if cart is checked out

@@ -238,14 +238,13 @@ public class RemovedFSale extends PersistentObject implements PersistentRemovedF
     }
     public void initializeOnCreation() 
 				throws PersistenceException{
-        //TODO: implement method: initializeOnCreation
-        
     }
     public void initializeOnInstantiation() 
-				throws PersistenceException{
-        //TODO: implement method: initializeOnInstantiation
-        
+				throws PersistenceException{        
     }
+    /**
+     * Changes state to OfferedFSale.
+     */
     public void startSellingAgain() 
 				throws PersistenceException{
         getThis().getMyArticle().setState(OfferedFSale.createOfferedFSale());

@@ -245,6 +245,9 @@ public class CustomerPresets extends PersistentObject implements PersistentCusto
 				throws PersistenceException{
         getThis().updatePresets();
     }
+    /**
+     * Updates the presets.
+     */
     public void updatePresets() 
 				throws PersistenceException{
         getThis().setLowerLimit(serverConstants.ConfigConstants.getPresetAccountLowerLimit());

@@ -340,6 +340,8 @@ public class CustomerOrder extends model.Delivery implements PersistentCustomerO
     }
     /**
      * Sends a retoure of the whole order.
+     * 
+     * @throws NotArrived if order has not arrived yet
      */
     public void retoure() 
 				throws model.NotArrived, PersistenceException{

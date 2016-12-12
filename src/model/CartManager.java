@@ -508,6 +508,9 @@ public class CartManager extends PersistentObject implements PersistentCartManag
 				throws PersistenceException{
         getThis().getMyCart().changeAmount(article, newAmount);
     }
+    /**
+     * Calls checkout in cart. If preorder was created, clears the cart and shows information message.
+     */
     public void checkOut() 
 				throws model.InsufficientStock, PersistenceException{
         getThis().getMyCart().checkOut();

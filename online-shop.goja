@@ -6,9 +6,11 @@ server Server {
 //Services
 abstract server Service {
 }
+//Service to Register
 server RegisterService extends Service {
 	void register@@Registrieren(String accountName, String password PASSWORD) throws DuplicateUsername;
 }
+//Service of Shopkeeper
 server ShopkeeperService extends Service {
 	skip-view one-to-one (server-only myServer) Shopkeeper manager;
 	//Preset account settings
@@ -35,61 +37,79 @@ server ShopkeeperService extends Service {
 	void createProductGroup@@Produktguppe_erstellen(ProductGroup parent, String description);
 	void createArticle@@Artikel_erstellen(ProductGroup parent, String description, String manufacturer, Integer price, Integer maxStock, Integer minStock, Integer manuDelivery) throws InvalidStockNumber;
 }
+// Main service of customer, handles communication between other services
 server CustomerService extends Service {
 	CustomerService ** services;
 	skip-view prior one-to-one (no-view myCustomerServer) CustomerManager manager;
+	// method to call signalChanged on all Services
 	server-only void signalChanged();
 }
+// Service for shop view
 server ShopService extends CustomerService {
 	skip-view one-to-one (no-view myShopServer) ShopManager shopMngr;
-	//Shopview
+	// shop methods
 	void findArticle@@Artikel_suchen(String description);
 	void addToCart@@Zum_Einkaufswagen_hinzufügen(Article article, Integer amount) throws InvalidOrderAmount;
 }
+// Service for account view
 server AccountService extends CustomerService {
 	skip-view one-to-one (no-view myAccServer) AccountManager accMngr;
-	//Kontoview
+	//account methods
 	void deposit@@Geld_einzahlen(Integer amount);
 	void withdraw@@Geld_abheben(Integer amount) throws InsufficientFunds;
 }
+// Service for cart view
 server CartService extends CustomerService {
 	skip-view one-to-one (no-view myCartServer) CartManager cartMngr;
-	//Einkaufswagenview
+	//cart methods
 	server-only void addToCart(Article article, Integer amount);
 	void changeAmount@@Anzahl_ändern(QuantifiedArticles article, Integer newAmount) throws InvalidOrderAmount;
 	void removeFCart@@Löschen(QuantifiedArticles article);
 	void checkOut@@Zur_Kasse_gehen();
 	void order@@Bestellen(Cart cart, CustomerDelivery deliveryMethod);
 }
+// Service for order view
 server OrderService extends CustomerService {
 	skip-view one-to-one (no-view myOrderServer) OrderManager orderMngr;
-	//Lieferungenview
+	//order methods
 	void acceptDelivery@@Lieferung_annehmen(CustomerOrder customerOrder);
 	void retoureDelivery@@Lieferung_zurückschicken(CustomerOrder customerOrder);
 	void retoureArticle@@Artikel_zurückschicken(QuantifiedArticles article, Integer amount);
+	// preorder methods
 	void cancel@@Bestellung_stornieren(PreOrder preOrder);
 	void preorder@@Bestellen(PreOrder preOrder, CustomerDelivery deliveryMethod);
 }
 //Manager classes
+// Main manager class, handles communication between other managers
 class CustomerManager {
 	server-only one-to-one (no-view customerManager) ShopManager shopMngr;
 	server-only one-to-one (no-view customerManager) AccountManager accMngr;
 	server-only one-to-one (no-view customerManager) CartManager cartMngr;
 	server-only one-to-one (no-view customerManager) OrderManager orderMngr;
+	//used to call signalChanged on all services
 	void signalChanged();
+	// adds article to the cart, called from shop, handed to cart
 	void addToCart(Article article, Integer amount);
+	// account changing methods
 	active void deposit(Integer amount);
 	active void withdraw(Integer amount) throws InsufficientFunds;
+	// returns payments, used when returning arrived order
 	void returnPayment(Integer sum);
+	// payment when ordering cart, handed to account
 	void pay(Integer sum) throws InsufficientFunds;
+	// used to add orders to order view
 	void addOrder(CustomerOrder order);
+	// used to add preorders to order view
 	void addPreOrder(PreOrder preOrder);
 }
+// shop manager, interface between shopkeeper and customer itemList
 class ShopManager {
 	Item ** itemRange;
+	// adds an article to the cart
 	event void addToCart(Article article, Integer amount);
 	active void findArticle(String description);
 }
+// account manager, handles all account changing methods
 class AccountManager {
 	one-to-one (no-view accMngr) Account myAccount;
 	void deposit(Integer amount);
@@ -97,27 +117,43 @@ class AccountManager {
 	void returnPayment(Integer sum);
 	void pay(Integer sum) throws InsufficientFunds;
 }
+// cart manager, creates orders and preorders
 class CartManager {
 	one-to-one (no-view cartMngr) Cart myCart;
+	// articles added through addToCart
 	observe QuantifiedArticles ** articleList;
+	// possible delivery methods
 	observe StandardDelivery standardDelivery;
 	observe OverNightDelivery onDelivery;
+	// switch to determine if preorder was created
 	no-view PreOrder preOrder;
+	// changes the amount of articles already in cart
 	active void changeAmount(QuantifiedArticles article, Integer newAmount);
+	// used to add quantified article to cart
 	void addToCart(Article article, Integer amount);
+	// completely removes the article from the cart
 	active void removeFCart(QuantifiedArticles article);
+	// used by addToCart, creates quantified article
 	active void addArticle(Article article, Integer amount);
+	// reduces the stock of all articles in articleList if sufficient, if not creates a preorder
 	active void checkOut() throws InsufficientStock;
+	// calls order on cart, clears the cart
 	active void order(CustomerDelivery deliveryMethod) throws InsufficientFunds, FirstCheckOut;
+	// methods to add orders and preorders to order view
 	void addOrder(CustomerOrder order);
 	void addPreOrder(PreOrder preOrder);
+	// method to call pay on account
 	void pay(Integer sum) throws InsufficientFunds;
 }
+// order manager, shows all orders and preorders, handles all methods concerning orders
 class OrderManager {
+	// all orders except accepted or retourned ones
 	CustomerOrder ** orders;
 	PreOrder ** preOrders;
 	Integer retourePrice;
+	// adds an order to orders
 	void addOrder(CustomerOrder order);
+	// adds an preorder to preOrders
 	void addPreOrder(PreOrder preOrder);
 	active void acceptDelivery(CustomerOrder arrivedOrder) throws NotArrived;
 	active void retoureDelivery(CustomerOrder arrivedOrder) throws InsufficientFunds, NotArrived;
@@ -125,6 +161,14 @@ class OrderManager {
 	active void cancel(PreOrder preOrder);
 	active void preorder(PreOrder preOrder, CustomerDelivery deliveryMethod) throws InsufficientFunds;
 }
+// the presets for customer users, used to allow shopkeeper overview over all presets
+singleton CustomerPresets {
+	Integer lowerLimit;
+	Integer presetAccountBalance##preset;
+	Integer retourePercentage;
+	void updatePresets();
+}
+// class for account, handles all account changing methods
 class Account {
 	Integer lowerLimit;
 	Integer balance;
@@ -133,12 +177,7 @@ class Account {
 	void returnPayment(Integer sum);
 	void pay(Integer sum) throws InsufficientFunds;
 }
-singleton CustomerPresets {
-	Integer lowerLimit;
-	Integer presetAccountBalance##preset;
-	Integer retourePercentage;
-	void updatePresets();
-}
+// class for cart, handles all cart changing methods
 class Cart {
 	Integer currentSum;
 	skip-view prior CartState state;
@@ -150,9 +189,10 @@ class Cart {
 	void order(CustomerDelivery deliveryMethod) throws InsufficientFunds, FirstCheckOut;
 	void checkOutReverse();
 }
+// states for cart, used to reserve articles before ordering
 abstract class CartState (OpenCart) {}
 class CheckedOut extends CartState{}
-//Shopkeeper classes
+//Shopkeeper class, handles all shopkeeper methods
 class Shopkeeper {
 	observe ProductGroup basicProductGroup;
 	CustomerPresets presets;
@@ -161,16 +201,18 @@ class Shopkeeper {
 	void createArticle(ProductGroup parent, String description, String manufacturer, Integer price, Integer maxStock, Integer minStock, Integer manuDelivery) throws InvalidStockNumber;
 	StandardDelivery standardDelivery;
 	OverNightDelivery onDelivery;
+	// data manipulating methods
 	active void changeTime(CustomerDelivery cd, Integer newTime);
 	active void changeCharge(CustomerDelivery cd, Integer newCharge);
-	active void presetLowerLimit(Integer amount);
-	active void presetBalance(Integer amount);
 	active event void changePrice(Article article, Integer newPrice);
 	active event void changeProductGroup##chngPG(Article article, ProductGroup newPG);
 	active event void changeDescription(Item item, String newDescription);
+	// preset changing methods
+	active void presetLowerLimit(Integer amount);
+	active void presetBalance(Integer amount);
 	active void changeRetourePercentage##chngRtPr(Integer newPercentage);
 }
-//Article classes
+//Article classes, compositum
 abstract class Item {
 	prior indexed String description;
 	void changeDescription(String newDescription);
@@ -180,6 +222,7 @@ class ProductGroup extends Item {
 	one-to-one (server-only parentItem) Item ** itemList;
 	event void addItem(Item item);
 }
+//Used as a main group which contains all other productGroups and articles
 singleton BasicProductGroup extends ProductGroup {}
 class Article extends Item{
 	//Attributes
@@ -197,9 +240,13 @@ class Article extends Item{
 	void changeProductGroup##chngePG(ProductGroup newPG);
 	active void changeMinStock(Integer minStock) throws InvalidStockNumber;
 	active void changeMaxStock(Integer maxStock) throws InvalidStockNumber;
+	// reserves amount of article from stock, called by checkOut
 	event void reserve(Integer amount) throws InsufficientStock;
+	// reverses the reservation of an article
 	event void deleteReserve(Integer amount);
+	// initiates a reorder of the article
 	void pack(Integer amount);
+	// called when delivery arrived, updates the stock
 	event void receiveDelivery(Integer amount);
 }
 // wrapper for display in customer view
@@ -207,6 +254,7 @@ class ArticleWrapper {
 	derived Integer price;
 	derived Integer stock;
 }
+// manufacturer class
 class Manufacturer {
 	prior String name;
 	prior Integer manuDelivery;
@@ -225,15 +273,18 @@ class OfferedFSale implements ArticleState {
 class RemovedFSale implements ArticleState {
 	void startSellingAgain();
 }
+// quantified articles, contains article and amount, used by cart and order
 class QuantifiedArticles {
 	observe skip-view prior Article article;
 	CustomerOrder myOrder;
 	prior Integer amount;
+	// returns the price of articleprice * amount
 	Integer fetchPrice();
 	void changeAmount(Integer newAmount);
 	void reserve() throws InsufficientStock;
 	void deleteReserve();
 	void pack();
+	// creates a retoure
 	void retoure(Integer amount) throws NotArrived;
 	event void fireArticleChanged(extern model.meta.ArticleMssgs evnt);
 }
@@ -244,21 +295,28 @@ abstract class Delivery {
 	void send();
 	abstract void deliver();
 }
+// shopkeeper order, created by reorder()
 class ShopKeeperOrder extends Delivery {
 	prior Article article;
 	prior Integer amount;
 }
+// retoure, created by retoure()
 class Retoure extends Delivery {
 	QuantifiedArticles ** articleList;
 }
+// customer order, created by order()
 class CustomerOrder extends Delivery {
 	observe QuantifiedArticles ** articleList;
 	no-view OrderManager ordermngr;
 	no-view CustomerOrderState myState;
+	// called when remainingTime is up
 	void arrived();
+	// called by acceptDelivery
 	void accepted();
+	// creates a retoure
 	void retoure() throws NotArrived;
 }
+// preorder, created by checkOut
 class PreOrder {
 	no-view prior CartManager cartManager;
 	no-view prior Integer sum;
@@ -266,6 +324,7 @@ class PreOrder {
 	StandardDelivery standardDelivery;
 	OverNightDelivery onDelivery;
 	void cancel();
+	// creates an order of the preorder
 	CustomerOrder preorder(CustomerDelivery deliveryMethod) throws InsufficientFunds;
 }
 // State classes for CustomerOrder

@@ -229,6 +229,14 @@ public class RegisterService extends model.Service implements PersistentRegister
 				throws PersistenceException{
         super.initializeOnInstantiation();
     }
+    /**
+     * Registers a user on the server.
+     * 
+     * @param accountName - accountName to use for registration on server
+     * @param password - password to use for registration on server
+     * 
+     * @throws DuplicateUsername if accountName is already in use
+     */
     public void register(final String accountName, final String password) 
 				throws model.DuplicateUsername, PersistenceException{
     	Iterator<PersistentServer> servers = Server.getServerByUser(accountName).iterator();

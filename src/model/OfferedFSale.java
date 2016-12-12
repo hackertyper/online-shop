@@ -247,6 +247,9 @@ public class OfferedFSale extends PersistentObject implements PersistentOfferedF
     public void initializeOnInstantiation() 
 				throws PersistenceException{
     }
+    /**
+     * Creates a shopkeeper order with difference between stock and maxStock.
+     */
     public void reorder() 
 				throws PersistenceException{
     	PersistentArticle a = getThis().getMyArticle();
@@ -256,6 +259,9 @@ public class OfferedFSale extends PersistentObject implements PersistentOfferedF
         	sko.send();
     	}
     }
+    /**
+     * Changes state to removedFSale
+     */
     public void stopSelling() 
 				throws PersistenceException{
         getThis().getMyArticle().setState(RemovedFSale.createRemovedFSale());
