@@ -505,6 +505,7 @@ public class Article extends model.Item implements PersistentArticle{
     
     
     // Start of section that contains overridden operations only.
+    
     /**
      * Changes the description of article
      * 

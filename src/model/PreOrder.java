@@ -353,6 +353,7 @@ public class PreOrder extends PersistentObject implements PersistentPreOrder{
     
     
     // Start of section that contains operations that must be implemented.
+    
     /**
      * Called if articleList changed.
      */
@@ -415,7 +416,7 @@ public class PreOrder extends PersistentObject implements PersistentPreOrder{
      * @throws InsufficientFunds if not enough money on account to pay 
      */
     public PersistentCustomerOrder preorder(final PersistentCustomerDelivery deliveryMethod) 
-			throws model.InsufficientFunds, PersistenceException{
+				throws model.InsufficientFunds, PersistenceException{
 	    // reserve articles
 		try {
 			getThis().getArticleList().applyToAllException(new ProcdureException<PersistentQuantifiedArticles, InsufficientStock>() {
