@@ -7,6 +7,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -49,9 +51,13 @@ public class TestCart {
 	PersistentShopService pss;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() throws PersistenceException {
 		TestSupport.prepareSingletons();
-		TestSupport.prepareDatabase();
+		try {
+			TestSupport.prepareDatabase();
+		} catch (PersistenceException | SQLException | IOException e) {
+			fail();
+		}
 		cm = CustomerManager.createCustomerManager();
 		cs = CustomerService.createCustomerService(cm);
 		m1 = Manufacturer.createManufacturer("M1", 1000);

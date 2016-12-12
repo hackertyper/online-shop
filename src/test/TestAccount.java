@@ -2,6 +2,9 @@ package test;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+import java.sql.SQLException;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,13 +22,16 @@ public class TestAccount {
 
 	/**
 	 * Set up all data including an account under test.
-	 * 
-	 * @throws Exception
+	 * @throws PersistenceException 
 	 */
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() throws PersistenceException {
 		TestSupport.prepareSingletons();
-		TestSupport.prepareDatabase();
+		try {
+			TestSupport.prepareDatabase();
+		} catch (PersistenceException | SQLException | IOException e) {
+			fail();
+		}
 		acc = Account.createAccount();
 	}
 
