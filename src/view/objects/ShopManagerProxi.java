@@ -13,8 +13,8 @@ public class ShopManagerProxi extends ViewProxi implements ShopManagerView{
     
     @SuppressWarnings("unchecked")
     public ShopManagerView getRemoteObject(java.util.HashMap<String,Object> resultTable, ExceptionAndEventHandler connectionKey) throws ModelException{
-        java.util.Vector<String> articleRange_string = (java.util.Vector<String>)resultTable.get("articleRange");
-        java.util.Vector<ArticleView> articleRange = ViewProxi.getProxiVector(articleRange_string, connectionKey);
+        java.util.Vector<String> itemRange_string = (java.util.Vector<String>)resultTable.get("itemRange");
+        java.util.Vector<ItemView> itemRange = ViewProxi.getProxiVector(itemRange_string, connectionKey);
         ViewProxi customerManager = null;
         String customerManager$String = (String)resultTable.get("customerManager");
         if (customerManager$String != null) {
@@ -29,7 +29,7 @@ public class ShopManagerProxi extends ViewProxi implements ShopManagerView{
             myShopServer = view.objects.ViewProxi.createProxi(myShopServer$Info,connectionKey);
             myShopServer.setToString(myShopServer$Info.getToString());
         }
-        ShopManagerView result$$ = new ShopManager(articleRange,(CustomerManagerView)customerManager,(ShopServiceView)myShopServer, this.getId(), this.getClassId());
+        ShopManagerView result$$ = new ShopManager(itemRange,(CustomerManagerView)customerManager,(ShopServiceView)myShopServer, this.getId(), this.getClassId());
         ((ViewRoot)result$$).setToString((String) resultTable.get(common.RPCConstantsAndServices.RPCToStringFieldName));
         return result$$;
     }
@@ -39,34 +39,34 @@ public class ShopManagerProxi extends ViewProxi implements ShopManagerView{
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
         int index = originalIndex;
-        if(index < this.getArticleRange().size()) return new ArticleRangeShopManagerWrapper(this, originalIndex, (ViewRoot)this.getArticleRange().get(index));
-        index = index - this.getArticleRange().size();
+        if(index < this.getItemRange().size()) return new ItemRangeShopManagerWrapper(this, originalIndex, (ViewRoot)this.getItemRange().get(index));
+        index = index - this.getItemRange().size();
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getArticleRange().size());
+            + (this.getItemRange().size());
     }
     public boolean isLeaf() throws ModelException {
         if (this.object == null) return this.getLeafInfo() == 0;
         return true 
-            && (this.getArticleRange().size() == 0);
+            && (this.getItemRange().size() == 0);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
-        java.util.Iterator<?> getArticleRangeIterator = this.getArticleRange().iterator();
-        while(getArticleRangeIterator.hasNext()){
-            if(getArticleRangeIterator.next().equals(child)) return result;
+        java.util.Iterator<?> getItemRangeIterator = this.getItemRange().iterator();
+        while(getItemRangeIterator.hasNext()){
+            if(getItemRangeIterator.next().equals(child)) return result;
             result = result + 1;
         }
         return -1;
     }
     
-    public java.util.Vector<ArticleView> getArticleRange()throws ModelException{
-        return ((ShopManager)this.getTheObject()).getArticleRange();
+    public java.util.Vector<ItemView> getItemRange()throws ModelException{
+        return ((ShopManager)this.getTheObject()).getItemRange();
     }
-    public void setArticleRange(java.util.Vector<ArticleView> newValue) throws ModelException {
-        ((ShopManager)this.getTheObject()).setArticleRange(newValue);
+    public void setItemRange(java.util.Vector<ItemView> newValue) throws ModelException {
+        ((ShopManager)this.getTheObject()).setItemRange(newValue);
     }
     public CustomerManagerView getCustomerManager()throws ModelException{
         return ((ShopManager)this.getTheObject()).getCustomerManager();

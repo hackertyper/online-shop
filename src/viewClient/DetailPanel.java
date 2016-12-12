@@ -1660,7 +1660,7 @@ class NewlyAddedDefaultDetailPanel extends DefaultDetailPanel{
 
 class ShopManagerDefaultDetailPanel extends DefaultDetailPanel{
     
-    protected static final String ShopManager$$articleRange = "ShopManager$$articleRange";
+    protected static final String ShopManager$$itemRange = "ShopManager$$itemRange";
     
     protected ShopManagerDefaultDetailPanel(ExceptionAndEventHandler exceptionHandler, Anything anything) {
         super(exceptionHandler, anything);

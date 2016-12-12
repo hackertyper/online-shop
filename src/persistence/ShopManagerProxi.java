@@ -18,8 +18,8 @@ public class ShopManagerProxi extends PersistentProxi implements PersistentShopM
         return 168;
     }
     
-    public ShopManager_ArticleRangeProxi getArticleRange() throws PersistenceException {
-        return ((PersistentShopManager)this.getTheObject()).getArticleRange();
+    public ShopManager_ItemRangeProxi getItemRange() throws PersistenceException {
+        return ((PersistentShopManager)this.getTheObject()).getItemRange();
     }
     public SubjInterface getSubService() throws PersistenceException {
         return ((PersistentShopManager)this.getTheObject()).getSubService();

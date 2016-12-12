@@ -86,7 +86,7 @@ class CustomerManager {
 	void addPreOrder(PreOrder preOrder);
 }
 class ShopManager {
-	Article ** articleRange;
+	Item ** itemRange;
 	event void addToCart(Article article, Integer amount);
 	active void findArticle(String description);
 }

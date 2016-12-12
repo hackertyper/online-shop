@@ -49,14 +49,14 @@ public class ShopManagerFacade{
         throw new PersistenceException("No such object: " + new Long(objectId).toString(), 0);
         
     }
-    public long articleRangeAdd(long ShopManagerId, PersistentArticle articleRangeVal) throws PersistenceException {
+    public long itemRangeAdd(long ShopManagerId, PersistentItem itemRangeVal) throws PersistenceException {
         return 0;
     }
-    public void articleRangeRem(long articleRangeId) throws PersistenceException {
+    public void itemRangeRem(long itemRangeId) throws PersistenceException {
         
     }
-    public ArticleList articleRangeGet(long ShopManagerId) throws PersistenceException {
-        return new ArticleList(); // remote access for initialization only!
+    public ItemList itemRangeGet(long ShopManagerId) throws PersistenceException {
+        return new ItemList(); // remote access for initialization only!
     }
     public void subServiceSet(long ShopManagerId, SubjInterface subServiceVal) throws PersistenceException {
         

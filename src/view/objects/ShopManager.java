@@ -9,14 +9,14 @@ import view.visitor.*;
 
 public class ShopManager extends ViewObject implements ShopManagerView{
     
-    protected java.util.Vector<ArticleView> articleRange;
+    protected java.util.Vector<ItemView> itemRange;
     protected CustomerManagerView customerManager;
     protected ShopServiceView myShopServer;
     
-    public ShopManager(java.util.Vector<ArticleView> articleRange,CustomerManagerView customerManager,ShopServiceView myShopServer,long id, long classId) {
+    public ShopManager(java.util.Vector<ItemView> itemRange,CustomerManagerView customerManager,ShopServiceView myShopServer,long id, long classId) {
         /* Shall not be used. Objects are created on the server only */
         super(id, classId);
-        this.articleRange = articleRange;
+        this.itemRange = itemRange;
         this.customerManager = customerManager;
         this.myShopServer = myShopServer;        
     }
@@ -29,11 +29,11 @@ public class ShopManager extends ViewObject implements ShopManagerView{
         return getTypeId();
     }
     
-    public java.util.Vector<ArticleView> getArticleRange()throws ModelException{
-        return this.articleRange;
+    public java.util.Vector<ItemView> getItemRange()throws ModelException{
+        return this.itemRange;
     }
-    public void setArticleRange(java.util.Vector<ArticleView> newValue) throws ModelException {
-        this.articleRange = newValue;
+    public void setItemRange(java.util.Vector<ItemView> newValue) throws ModelException {
+        this.itemRange = newValue;
     }
     public CustomerManagerView getCustomerManager()throws ModelException{
         return this.customerManager;
@@ -56,9 +56,9 @@ public class ShopManager extends ViewObject implements ShopManagerView{
     }
     
     public void resolveProxies(java.util.HashMap<String,Object> resultTable) throws ModelException {
-        java.util.Vector<?> articleRange = this.getArticleRange();
-        if (articleRange != null) {
-            ViewObject.resolveVectorProxies(articleRange, resultTable);
+        java.util.Vector<?> itemRange = this.getItemRange();
+        if (itemRange != null) {
+            ViewObject.resolveVectorProxies(itemRange, resultTable);
         }
         CustomerManagerView customerManager = this.getCustomerManager();
         if (customerManager != null) {
@@ -75,23 +75,23 @@ public class ShopManager extends ViewObject implements ShopManagerView{
     }
     public ViewObjectInTree getChild(int originalIndex) throws ModelException{
         int index = originalIndex;
-        if(index < this.getArticleRange().size()) return new ArticleRangeShopManagerWrapper(this, originalIndex, (ViewRoot)this.getArticleRange().get(index));
-        index = index - this.getArticleRange().size();
+        if(index < this.getItemRange().size()) return new ItemRangeShopManagerWrapper(this, originalIndex, (ViewRoot)this.getItemRange().get(index));
+        index = index - this.getItemRange().size();
         return null;
     }
     public int getChildCount() throws ModelException {
         return 0 
-            + (this.getArticleRange().size());
+            + (this.getItemRange().size());
     }
     public boolean isLeaf() throws ModelException {
         return true 
-            && (this.getArticleRange().size() == 0);
+            && (this.getItemRange().size() == 0);
     }
     public int getIndexOfChild(Object child) throws ModelException {
         int result = 0;
-        java.util.Iterator<?> getArticleRangeIterator = this.getArticleRange().iterator();
-        while(getArticleRangeIterator.hasNext()){
-            if(getArticleRangeIterator.next().equals(child)) return result;
+        java.util.Iterator<?> getItemRangeIterator = this.getItemRange().iterator();
+        while(getItemRangeIterator.hasNext()){
+            if(getItemRangeIterator.next().equals(child)) return result;
             result = result + 1;
         }
         return -1;
